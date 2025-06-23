@@ -148,30 +148,30 @@ ccprompts/
 
 ```mermaid
 graph LR
-    A[/bootstrap-project] --> B[/harden enterprise]
-    B --> C[/setup-ci github professional]
-    C --> D[/document auto-generated]
-    D --> E[/validate-environment]
+    A["bootstrap-project"] --> B["harden enterprise"]
+    B --> C["setup-ci github professional"]
+    C --> D["document auto-generated"]
+    D --> E["validate-environment"]
 ```
 
 ### **Security-First Development**
 
 ```mermaid
 graph TD
-    A[/audit-security full paranoid] --> B[/pre-commit strict]
-    B --> C[/code-review security thorough]
-    C --> D[/incident-response security high]
-    D --> E[/comply soc2 audit-ready]
+    A["audit-security full paranoid"] --> B["pre-commit strict"]
+    B --> C["code-review security thorough"]
+    C --> D["incident-response security high"]
+    D --> E["comply soc2 audit-ready"]
 ```
 
 ### **Learning-Driven Growth**
 
 ```mermaid
 graph LR
-    A[/analyze-project] --> B[/learn recommended intermediate]
-    B --> C[/best-practices domain technology]
-    C --> D[/troubleshoot guided practice]
-    D --> E[/knowledge-base contribute team]
+    A["analyze-project"] --> B["learn recommended intermediate"]
+    B --> C["best-practices domain technology"]
+    C --> D["troubleshoot guided practice"]
+    D --> E["knowledge-base contribute team"]
 ```
 
 ## 💡 Advanced Use Cases
