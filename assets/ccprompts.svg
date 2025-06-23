@@ -1,0 +1,133 @@
+<svg width="800" height="300" viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="800" height="300" fill="#0d1117"/>
+  
+  <!-- Gradient Definitions -->
+  <defs>
+    <radialGradient id="aiCore" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0.8" />
+    </radialGradient>
+    
+    <linearGradient id="dataFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#58a6ff;stop-opacity:0" />
+      <stop offset="50%" style="stop-color:#58a6ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#58a6ff;stop-opacity:0" />
+    </linearGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Central AI Core -->
+  <circle cx="400" cy="150" r="25" fill="url(#aiCore)" filter="url(#glow)">
+    <animate attributeName="r" values="25;30;25" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Command Phase Rings -->
+  <!-- Phase 1: Category Commands -->
+  <circle cx="400" cy="150" r="60" fill="none" stroke="#22c55e" stroke-width="2" opacity="0.6">
+    <animate attributeName="stroke-dasharray" values="0,377;188,189;377,0" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Phase 2: Workflow Commands -->
+  <circle cx="400" cy="150" r="90" fill="none" stroke="#f59e0b" stroke-width="2" opacity="0.6">
+    <animate attributeName="stroke-dasharray" values="0,565;282,283;565,0" dur="5s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Phase 3: Context-Aware Commands -->
+  <circle cx="400" cy="150" r="120" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.6">
+    <animate attributeName="stroke-dasharray" values="0,754;377,377;754,0" dur="6s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Command Nodes -->
+  <!-- Category Commands (8 nodes) -->
+  <g>
+    <circle cx="460" cy="150" r="4" fill="#22c55e">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" begin="0s"/>
+    </circle>
+    <circle cx="430" cy="190" r="4" fill="#22c55e">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" begin="0.25s"/>
+    </circle>
+    <circle cx="370" cy="190" r="4" fill="#22c55e">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+    </circle>
+    <circle cx="340" cy="150" r="4" fill="#22c55e">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" begin="0.75s"/>
+    </circle>
+    <circle cx="370" cy="110" r="4" fill="#22c55e">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" begin="1s"/>
+    </circle>
+    <circle cx="430" cy="110" r="4" fill="#22c55e">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" begin="1.25s"/>
+    </circle>
+    <circle cx="445" cy="177" r="4" fill="#22c55e">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+    </circle>
+    <circle cx="355" cy="123" r="4" fill="#22c55e">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" begin="1.75s"/>
+    </circle>
+  </g>
+  
+  <!-- Data Flow Lines -->
+  <line x1="100" y1="150" x2="300" y2="150" stroke="url(#dataFlow)" stroke-width="2">
+    <animate attributeName="x1" values="100;250;400" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="x2" values="200;350;500" dur="3s" repeatCount="indefinite"/>
+  </line>
+  
+  <line x1="500" y1="150" x2="700" y2="150" stroke="url(#dataFlow)" stroke-width="2">
+    <animate attributeName="x1" values="500;550;600" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="x2" values="600;650;700" dur="3s" repeatCount="indefinite"/>
+  </line>
+  
+  <!-- Command Labels -->
+  <text x="50" y="60" fill="#f0f6fc" font-family="JetBrains Mono, monospace" font-size="11" opacity="0.8">
+    Category Commands
+  </text>
+  <text x="50" y="80" fill="#22c55e" font-family="JetBrains Mono, monospace" font-size="9">
+    /bootstrap /audit /refactor /test
+  </text>
+  
+  <text x="550" y="60" fill="#f0f6fc" font-family="JetBrains Mono, monospace" font-size="11" opacity="0.8">
+    Developer Lifecycle
+  </text>
+  <text x="550" y="80" fill="#8b5cf6" font-family="JetBrains Mono, monospace" font-size="9">
+    /pre-commit /code-review /standup
+  </text>
+  
+  <text x="50" y="240" fill="#f0f6fc" font-family="JetBrains Mono, monospace" font-size="11" opacity="0.8">
+    Learning &amp; Knowledge
+  </text>
+  <text x="50" y="260" fill="#f59e0b" font-family="JetBrains Mono, monospace" font-size="9">
+    /learn /best-practices /troubleshoot
+  </text>
+  
+  <text x="550" y="240" fill="#f0f6fc" font-family="JetBrains Mono, monospace" font-size="11" opacity="0.8">
+    Utility &amp; Discovery
+  </text>
+  <text x="550" y="260" fill="#ef4444" font-family="JetBrains Mono, monospace" font-size="9">
+    /search-prompts /workflow-builder
+  </text>
+  
+  <!-- Central Label -->
+  <text x="400" y="135" fill="#f0f6fc" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle" font-weight="bold">
+    ccprompts
+  </text>
+  <text x="400" y="175" fill="#8b5cf6" font-family="JetBrains Mono, monospace" font-size="8" text-anchor="middle">
+    36 Commands
+  </text>
+  
+  <!-- Connecting Lines (subtle) -->
+  <line x1="400" y1="125" x2="400" y2="50" stroke="#58a6ff" stroke-width="1" opacity="0.3">
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="4s" repeatCount="indefinite"/>
+  </line>
+  <line x1="400" y1="175" x2="400" y2="250" stroke="#58a6ff" stroke-width="1" opacity="0.3">
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="4s" repeatCount="indefinite" begin="2s"/>
+  </line>
+</svg>
