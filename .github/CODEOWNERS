@@ -1,0 +1,26 @@
+# Code ownership for ccprompts repository
+# This file defines who should review changes to specific parts of the codebase
+
+# Global ownership - require review for all changes
+* @ursisterbtw
+
+# Critical configuration files require extra scrutiny
+.claude/config.json @ursisterbtw
+.claude/mcp.json @ursisterbtw
+.github/ @ursisterbtw
+
+# Command ecosystem - core functionality
+.claude/commands/ @ursisterbtw
+.claude/workflows/ @ursisterbtw
+
+# Prompt collection - ensure quality standards
+prompts/ @ursisterbtw
+
+# Documentation - maintain consistency and accuracy
+README.md @ursisterbtw
+CLAUDE.md @ursisterbtw
+CC-SDK-Guide.md @ursisterbtw
+
+# Security-sensitive files
+.env.example @ursisterbtw
+.gitignore @ursisterbtw

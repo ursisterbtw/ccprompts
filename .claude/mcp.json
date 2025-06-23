@@ -1,0 +1,42 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/github-mcp"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      }
+    },
+    "filesystem-enhanced": {
+      "command": "npx", 
+      "args": ["-y", "@modelcontextprotocol/server-filesystem"],
+      "env": {
+        "ALLOWED_DIRECTORIES": "/home/sistr/Projects/ccprompts"
+      }
+    },
+    "markdown-processor": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/markdown-mcp"]
+    },
+    "documentation-generator": {
+      "command": "npx",
+      "args": ["-y", "@smithery/docs-generator"]
+    },
+    "prompt-validator": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/prompt-validator"]
+    },
+    "code-quality": {
+      "command": "npx",
+      "args": ["-y", "@nekzus/mcp-server@latest"]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    }
+  }
+}

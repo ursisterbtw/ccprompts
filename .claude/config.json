@@ -9,7 +9,10 @@
     "permission_mode": "acceptEdits",
     "allowed_tools": ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"],
     "auto_commit": false,
-    "backup_enabled": true
+    "backup_enabled": true,
+    "mcp_enabled": true,
+    "mcp_timeout": 30000,
+    "mcp_retry": 3
   },
   "conventions": {
     "commit_format": "conventional",
@@ -20,6 +23,19 @@
     "prompts": "prompts/",
     "commands": ".claude/commands/",
     "workflows": ".claude/workflows/"
+  },
+  "mcp": {
+    "config_file": ".claude/mcp.json",
+    "test_script": ".claude/test-mcp.js",
+    "servers": {
+      "github": "Repository operations and PR management",
+      "markdown-processor": "Documentation processing",
+      "documentation-generator": "Auto-generated docs",
+      "prompt-validator": "Prompt quality validation",
+      "code-quality": "Code analysis and metrics",
+      "sequential-thinking": "Enhanced reasoning",
+      "memory": "Context persistence"
+    }
   },
   "prompt_categories": [
     "01-project-initialization",

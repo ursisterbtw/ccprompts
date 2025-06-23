@@ -1,0 +1,150 @@
+name: Validate Prompts and Commands
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'prompts/**/*.md'
+      - '.claude/commands/**/*.md'
+      - '.claude/workflows/**/*.yaml'
+      - '.claude/config.json'
+      - '.claude/mcp.json'
+
+jobs:
+  validate-markdown:
+    runs-on: ubuntu-latest
+    name: Validate Markdown Files
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: |
+        npm install -g markdownlint-cli
+        npm install -g markdown-link-check
+        
+    - name: Lint markdown files
+      run: |
+        markdownlint prompts/**/*.md .claude/commands/**/*.md README.md CLAUDE.md CC-SDK-Guide.md
+        
+    - name: Check markdown links
+      run: |
+        find . -name "*.md" -not -path "./node_modules/*" | xargs markdown-link-check --config .github/markdown-link-check.json
+        
+    - name: Validate prompt structure
+      run: |
+        # Check for required XML sections in prompts
+        for file in prompts/**/*.md; do
+          if ! grep -q "<role>" "$file" || ! grep -q "<instructions>" "$file"; then
+            echo "❌ $file missing required XML structure"
+            exit 1
+          fi
+        done
+        echo "✅ All prompts have valid XML structure"
+
+  validate-commands:
+    runs-on: ubuntu-latest
+    name: Validate Command Files
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Validate command completeness
+      run: |
+        # Check that all commands have proper headers and descriptions
+        for file in .claude/commands/*.md; do
+          if ! grep -q "^# " "$file" || ! grep -q "## Description" "$file"; then
+            echo "❌ $file missing required sections"
+            exit 1
+          fi
+        done
+        echo "✅ All commands have valid structure"
+        
+    - name: Count commands
+      run: |
+        command_count=$(ls -1 .claude/commands/*.md | wc -l)
+        echo "Found $command_count commands"
+        if [ "$command_count" -ne 38 ]; then
+          echo "❌ Expected 38 commands, found $command_count"
+          exit 1
+        fi
+        echo "✅ Command count matches documentation"
+
+  validate-config:
+    runs-on: ubuntu-latest
+    name: Validate Configuration
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Validate JSON configuration
+      run: |
+        # Validate JSON syntax
+        node -e "JSON.parse(require('fs').readFileSync('.claude/config.json', 'utf8'))"
+        node -e "JSON.parse(require('fs').readFileSync('.claude/mcp.json', 'utf8'))"
+        echo "✅ Configuration files are valid JSON"
+        
+    - name: Test MCP configuration
+      run: |
+        cd .claude
+        node test-mcp.js
+        
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Scan
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Check for secrets
+      run: |
+        # Basic secret scanning
+        if grep -r "GITHUB_TOKEN=" . --exclude-dir=.git --exclude="*.example" --exclude-dir=node_modules; then
+          echo "❌ Found hardcoded secrets"
+          exit 1
+        fi
+        
+        if grep -r "password\|secret\|key" . --exclude-dir=.git --exclude="*.md" --exclude="*.example" --exclude-dir=node_modules -i; then
+          echo "⚠️ Found potential secrets - manual review needed"
+        fi
+        
+        echo "✅ No obvious secrets found"
+        
+    - name: Validate file permissions
+      run: |
+        # Check for executable files that shouldn't be
+        find . -name "*.md" -executable -not -path "./.git/*" | while read file; do
+          echo "❌ Markdown file should not be executable: $file"
+          exit 1
+        done
+        echo "✅ File permissions are appropriate"
+
+  quality-gates:
+    runs-on: ubuntu-latest
+    name: Quality Gates
+    needs: [validate-markdown, validate-commands, validate-config, security-scan]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Generate quality report
+      run: |
+        echo "## Quality Report" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Markdown validation passed" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Command validation passed" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Configuration validation passed" >> $GITHUB_STEP_SUMMARY
+        echo "✅ Security scan passed" >> $GITHUB_STEP_SUMMARY
+        echo "🚀 Ready for public release!" >> $GITHUB_STEP_SUMMARY

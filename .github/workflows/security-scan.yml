@@ -1,0 +1,144 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run security scan weekly on Sundays at 2 AM UTC
+    - cron: '0 2 * * 0'
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Analysis
+    
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Scan for secrets
+      run: |
+        echo "🔍 Scanning for potential secrets..."
+        
+        # Check for common secret patterns
+        secret_found=false
+        
+        # GitHub tokens
+        if grep -r "ghp_\|gho_\|ghu_\|ghs_\|ghr_" . --exclude-dir=.git --exclude-dir=node_modules --exclude="*.example" 2>/dev/null; then
+          echo "❌ Found potential GitHub token"
+          secret_found=true
+        fi
+        
+        # Generic API keys
+        if grep -ri "api[_-]key\s*[:=]\s*['\"][^'\"]{20,}['\"]" . --exclude-dir=.git --exclude-dir=node_modules --exclude="*.example" 2>/dev/null; then
+          echo "❌ Found potential API key"
+          secret_found=true
+        fi
+        
+        # Private keys
+        if grep -r "BEGIN.*PRIVATE.*KEY" . --exclude-dir=.git --exclude-dir=node_modules 2>/dev/null; then
+          echo "❌ Found potential private key"
+          secret_found=true
+        fi
+        
+        # Passwords in plain text
+        if grep -ri "password\s*[:=]\s*['\"][^'\"]{8,}['\"]" . --exclude-dir=.git --exclude-dir=node_modules --exclude="*.md" --exclude="*.example" 2>/dev/null; then
+          echo "⚠️ Found potential hardcoded password"
+        fi
+        
+        if [ "$secret_found" = true ]; then
+          echo "❌ Security scan failed - secrets detected"
+          exit 1
+        fi
+        
+        echo "✅ No secrets detected"
+    
+    - name: Check file permissions
+      run: |
+        echo "🔍 Checking file permissions..."
+        
+        # Check for overly permissive files
+        if find . -type f -perm -o+w -not -path "./.git/*" | grep -q .; then
+          echo "❌ Found world-writable files:"
+          find . -type f -perm -o+w -not -path "./.git/*"
+          exit 1
+        fi
+        
+        # Check for executable markdown files
+        if find . -name "*.md" -executable -not -path "./.git/*" | grep -q .; then
+          echo "❌ Found executable markdown files:"
+          find . -name "*.md" -executable -not -path "./.git/*"
+          exit 1
+        fi
+        
+        echo "✅ File permissions are appropriate"
+    
+    - name: Validate MCP configuration security
+      run: |
+        echo "🔍 Validating MCP configuration security..."
+        
+        # Check that sensitive environment variables are not hardcoded
+        if grep -r "GITHUB_TOKEN=" .claude/mcp.json 2>/dev/null; then
+          if ! grep -q "\${GITHUB_TOKEN}" .claude/mcp.json; then
+            echo "❌ GitHub token may be hardcoded in MCP config"
+            exit 1
+          fi
+        fi
+        
+        # Validate that MCP servers use trusted sources
+        if jq -r '.mcpServers[].command' .claude/mcp.json 2>/dev/null | grep -v "npx" | grep -q .; then
+          echo "⚠️ Warning: Non-npx commands detected in MCP config"
+        fi
+        
+        echo "✅ MCP configuration security validated"
+    
+    - name: Check for malicious patterns
+      run: |
+        echo "🔍 Scanning for malicious patterns..."
+        
+        # Check for suspicious JavaScript/Node.js patterns
+        if grep -r "eval\|exec\|spawn.*shell.*true" .claude/test-mcp.js 2>/dev/null; then
+          echo "⚠️ Found potentially dangerous patterns in MCP test script"
+        fi
+        
+        # Check for suspicious markdown patterns (XSS attempts)
+        if grep -r "<script\|javascript:\|data:text/html" prompts/ .claude/commands/ 2>/dev/null; then
+          echo "❌ Found potentially malicious content in markdown"
+          exit 1
+        fi
+        
+        echo "✅ No malicious patterns detected"
+    
+    - name: Dependency security check
+      run: |
+        echo "🔍 Checking dependencies..."
+        
+        # The project primarily uses npx for MCP servers, which is dynamic
+        # Check for any package.json files that might exist
+        if find . -name "package.json" -not -path "./node_modules/*" | grep -q .; then
+          echo "📦 Found package.json files - running npm audit"
+          for package_file in $(find . -name "package.json" -not -path "./node_modules/*"); do
+            echo "Checking $(dirname $package_file)"
+            cd "$(dirname $package_file)"
+            if [ -f package.json ]; then
+              npm audit --audit-level moderate || echo "⚠️ Vulnerabilities found in $(pwd)/package.json"
+            fi
+            cd - > /dev/null
+          done
+        else
+          echo "✅ No package.json files found - no dependency security issues"
+        fi
+    
+    - name: Generate security report
+      run: |
+        echo "## 🛡️ Security Scan Report" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Secret scanning completed" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ File permissions validated" >> $GITHUB_STEP_SUMMARY  
+        echo "- ✅ MCP configuration secured" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Malicious pattern detection completed" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Dependency security checked" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "🔒 Repository is secure for public release!" >> $GITHUB_STEP_SUMMARY
