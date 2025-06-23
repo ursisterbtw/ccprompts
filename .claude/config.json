@@ -1,0 +1,36 @@
+{
+  "project": {
+    "name": "ccprompts",
+    "description": "Comprehensive Claude Code Developer Prompts Collection",
+    "version": "1.0.0"
+  },
+  "settings": {
+    "extended_thinking": "always",
+    "permission_mode": "acceptEdits",
+    "allowed_tools": ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"],
+    "auto_commit": false,
+    "backup_enabled": true
+  },
+  "conventions": {
+    "commit_format": "conventional",
+    "branch_naming": "feature/{category}-{description}",
+    "pr_template": true
+  },
+  "directories": {
+    "prompts": "prompts/",
+    "commands": ".claude/commands/",
+    "workflows": ".claude/workflows/"
+  },
+  "prompt_categories": [
+    "01-project-initialization",
+    "02-code-analysis", 
+    "03-refactoring",
+    "04-testing",
+    "05-documentation",
+    "06-git-workflows",
+    "07-multi-file-operations",
+    "08-mcp-integration",
+    "09-build-deployment",
+    "10-security-compliance"
+  ]
+}

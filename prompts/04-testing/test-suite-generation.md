@@ -107,7 +107,7 @@ Phase 6: Test Infrastructure
 
 <test_templates>
 ## Unit Test Template
-```[language]
+```javascript
 describe('[ComponentName]', () => {
   describe('[methodName]', () => {
     it('should [expected behavior] when [condition]', () => {
@@ -136,7 +136,7 @@ describe('[ComponentName]', () => {
 
 ## Integration Test Template
 
-```[language]
+```javascript
 describe('[Feature] Integration Tests', () => {
   let testDatabase;
   let testServer;

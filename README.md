@@ -6,11 +6,11 @@
 </div>
 <!-- markdownlint-enable MD033 -->
 
-A comprehensive collection of **36 production-ready Claude Code commands** that transform development workflows through AI-powered automation, intelligent analysis, and continuous learning integration.
+A comprehensive collection of **38 production-ready Claude Code commands** that transform development workflows through AI-powered automation, intelligent analysis, and continuous learning integration.
 
 ## 🚀 Complete Command Ecosystem
 
-### **36 Commands Across 6 Development Phases**
+### **38 Commands Across 6 Development Phases**
 
 | Phase | Commands | Focus Area |
 |-------|----------|------------|
@@ -130,9 +130,11 @@ ccprompts/
 │   ├── 07-multi-file-operations/     # Cross-codebase refactoring
 │   ├── 08-mcp-integration/           # MCP server configuration & testing
 │   ├── 09-build-deployment/          # CI/CD pipelines & Infrastructure as Code
-│   └── 10-security-compliance/       # Security hardening & compliance
-├── .claude/                          # 36 custom commands + workflows
-│   ├── commands/                     # All 36 slash commands for instant access
+│   ├── 10-security-compliance/       # Security hardening & compliance
+│   └── INDEX.md                      # Detailed prompt directory guide
+├── .claude/                          # 38 custom commands + workflows
+│   ├── README.md                     # Complete command ecosystem guide
+│   ├── commands/                     # All 38 slash commands for instant access
 │   ├── workflows/                    # Automated multi-command workflows
 │   └── config.json                   # Enterprise-grade configuration
 ├── assets/                           # Visual assets and diagrams
@@ -219,7 +221,7 @@ graph LR
 
 ```bash
 # Clone and explore the ecosystem
-git clone https://github.com/your-org/ccprompts.git
+git clone https://github.com/ursisterbtw/ccprompts.git
 cd ccprompts
 
 # Discover available commands
@@ -272,4 +274,11 @@ This project represents a new paradigm in AI-assisted development - where every 
 
 ---
 
-**Transform your development workflow with 36 AI-powered commands that don't just automate tasks—they elevate teams, accelerate learning, and ensure enterprise-grade quality at every step.**
+**Transform your development workflow with 38 AI-powered commands that don't just automate tasks—they elevate teams, accelerate learning, and ensure enterprise-grade quality at every step.**
+
+## 📚 Related Documentation
+
+- **[.claude/README.md](.claude/README.md)** - Complete command ecosystem guide with detailed usage examples
+- **[prompts/INDEX.md](prompts/INDEX.md)** - Comprehensive prompt directory and category descriptions  
+- **[CLAUDE.md](CLAUDE.md)** - Project-specific guidance and development principles
+- **[CC-SDK-Guide.md](CC-SDK-Guide.md)** - Advanced Claude Code SDK reference and integration guide

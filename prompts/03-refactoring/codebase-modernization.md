@@ -116,13 +116,13 @@ For each refactoring:
 - [List of affected files]
 
 ### Current State
-```[language]
+```typescript
 // Current implementation
 ```
 
 ### Refactored State
 
-```[language]
+```typescript
 // New implementation
 ```
 

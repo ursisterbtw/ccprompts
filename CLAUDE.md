@@ -4,11 +4,11 @@ This file provides comprehensive guidance to Claude Code (claude.ai/code) when w
 
 ## Project Overview
 
-This repository contains the **most comprehensive collection of Claude Code-specific developer commands and prompts** ever created. The project delivers **36 production-ready commands** across **6 development phases**, transforming how teams approach AI-assisted development through intelligent automation, continuous learning, and enterprise-grade quality assurance.
+This repository contains the **most comprehensive collection of Claude Code-specific developer commands and prompts** ever created. The project delivers **38 production-ready commands** across **6 development phases**, transforming how teams approach AI-assisted development through intelligent automation, continuous learning, and enterprise-grade quality assurance.
 
 ## Revolutionary Command Ecosystem
 
-### **36 Commands Across 6 Strategic Phases**
+### **38 Commands Across 6 Strategic Phases**
 
 ```
 📁 Phase 1: Category Commands (8 commands)
@@ -58,6 +58,10 @@ This repository contains the **most comprehensive collection of Claude Code-spec
    ├── /best-practices     # Technology-specific guidance
    ├── /troubleshoot       # Systematic debugging assistance
    └── /knowledge-base     # Organizational knowledge management
+
+🔧 Specialized Commands (2 commands)  
+   ├── /git                # Advanced Git operations and workflows
+   └── /mcp                # MCP server integration and testing
 ```
 
 ## Repository Architecture
@@ -97,7 +101,7 @@ ccprompts/
 │       └── compliance-automation.md  # Regulatory compliance
 
 ├── .claude/                          # Complete command ecosystem
-│   ├── commands/                     # All 36 slash commands
+│   ├── commands/                     # All 38 slash commands
 │   │   ├── [Phase 1: Category Commands]
 │   │   │   ├── bootstrap-project.md
 │   │   │   ├── audit-security.md
@@ -303,7 +307,7 @@ Commands intelligently adapt to project characteristics, technology stacks, and 
 
 ### **5. Comprehensive Ecosystem Thinking**
 
-The 36 commands form a cohesive ecosystem where discovery leads to implementation, implementation enables learning, and learning drives continuous improvement.
+The 38 commands form a cohesive ecosystem where discovery leads to implementation, implementation enables learning, and learning drives continuous improvement.
 
 ## Advanced Usage Patterns
 
@@ -385,4 +389,10 @@ The 36 commands form a cohesive ecosystem where discovery leads to implementatio
 
 ---
 
-**This repository represents the future of AI-assisted development: where automation teaches, workflows learn, and every interaction builds team capability. The 36-command ecosystem transforms Claude Code into a comprehensive development platform that elevates teams, accelerates learning, and ensures enterprise-grade quality at every step.**
+**This repository represents the future of AI-assisted development: where automation teaches, workflows learn, and every interaction builds team capability. The 38-command ecosystem transforms Claude Code into a comprehensive development platform that elevates teams, accelerates learning, and ensures enterprise-grade quality at every step.**
+
+## Related Documentation
+
+- **[.claude/README.md](.claude/README.md)** - Complete command ecosystem guide with usage examples
+- **[prompts/INDEX.md](prompts/INDEX.md)** - Detailed prompt directory and category descriptions
+- **[CC-SDK-Guide.md](CC-SDK-Guide.md)** - Advanced Claude Code SDK reference and integration guide

@@ -1,6 +1,6 @@
-# Claude Code Prompts Collection
+# Claude Code Prompts Collection - Directory Index
 
-This directory contains 20 comprehensive Claude Code prompts organized into 10 categories for maximum usability and maintainability.
+This directory contains 20 comprehensive Claude Code prompts organized into 10 categories for maximum usability and maintainability. This index provides detailed descriptions of each category and prompt.
 
 ## 📁 Categories
 

@@ -2,7 +2,6 @@
 secrets/
 .cursor/
 .windsurf/
-config.json
 
 # Claude Code specific
 .claude/cache/
