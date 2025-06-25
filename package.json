@@ -1,0 +1,37 @@
+{
+  "name": "ccprompts",
+  "version": "1.0.0",
+  "description": "Comprehensive Claude Code command ecosystem with 38+ production-ready commands",
+  "main": "index.js",
+  "scripts": {
+    "validate": "node scripts/validate-prompts.js",
+    "test": "npm run validate",
+    "lint": "markdownlint **/*.md --ignore node_modules",
+    "check-links": "markdown-link-check **/*.md --ignore node_modules",
+    "quality-check": "npm run lint && npm run check-links && npm run validate"
+  },
+  "keywords": [
+    "claude-code",
+    "ai-development",
+    "prompts",
+    "automation",
+    "developer-tools"
+  ],
+  "author": "ccprompts contributors",
+  "license": "MIT",
+  "devDependencies": {
+    "markdownlint-cli": "0.45.0",
+    "markdown-link-check": "3.13.7"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/ccprompts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/ccprompts/issues"
+  },
+  "homepage": "https://github.com/your-org/ccprompts#readme"
+}

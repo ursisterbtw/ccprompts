@@ -104,7 +104,7 @@ For each finding:
 1. Severity: Critical|High|Medium|Low|Info
 2. Category: Security|Performance|Maintainability|Compliance
 3. Location: [file:line]
-4. Evidence: <actual code snippet>
+4. Evidence: [actual code snippet]
 5. Impact: Detailed explanation of consequences
 6. Recommendation: Specific fix with code example
 7. References: Links to best practices/standards

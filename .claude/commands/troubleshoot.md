@@ -1,5 +1,8 @@
 # Troubleshoot Command
 
+## Description
+Provides systematic, intelligent debugging guidance that solves immediate problems while teaching debugging methodology and building team knowledge.
+
 ## Usage
 ```
 /troubleshoot [issue-type] [context] [urgency]

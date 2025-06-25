@@ -1,90 +1,121 @@
-## Pull Request Description
+# Pull Request
 
-### Type of Change
-- [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
-- [ ] ✨ New feature (non-breaking change which adds functionality)
-- [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] 📚 Documentation update
-- [ ] 🔧 Configuration change
-- [ ] 🧹 Code cleanup/refactoring
+## Summary
+<!-- Provide a brief description of the changes in this PR -->
 
-### Changes Made
+## Type of Change
+<!-- Mark the relevant option with an "x" -->
+- [ ] 🆕 New command
+- [ ] 📚 New prompt  
+- [ ] 🐛 Bug fix
+- [ ] ✨ Enhancement to existing command/prompt
+- [ ] 📖 Documentation update
+- [ ] 🧪 Testing improvement
+- [ ] 🔧 Infrastructure/tooling
+- [ ] 🎨 Code style/formatting
+- [ ] ♻️ Refactoring
 
-<!-- Describe the changes made in this PR -->
+## Changes Made
+<!-- Describe the specific changes made in this PR -->
 
-### Commands/Prompts Affected
+### New Commands/Prompts
+<!-- If adding new commands or prompts, list them here -->
+- **Command/Prompt Name**: `/command-name` or `prompt-category/prompt-name.md`
+- **Purpose**: Brief description of functionality
+- **Category**: Which phase/category it belongs to
 
-<!-- List any commands or prompts that were added, modified, or removed -->
+### Modified Files
+<!-- List the key files that were modified -->
+- `path/to/file.md` - Description of changes
+- `path/to/other/file.md` - Description of changes
 
-- [ ] Added new commands: 
-- [ ] Modified existing commands:
-- [ ] Added new prompts:
-- [ ] Modified existing prompts:
-- [ ] Updated workflows:
+## Testing
+<!-- Describe how you tested these changes -->
 
-### Quality Checklist
+### Validation Results
+- [ ] ✅ `npm run validate` passes
+- [ ] ✅ `npm run lint` passes  
+- [ ] ✅ `npm run check-links` passes
+- [ ] ✅ `npm run quality-check` passes
 
-#### Markdown & Documentation
-- [ ] All markdown files are properly formatted
-- [ ] Links have been tested and work correctly
-- [ ] Documentation has been updated to reflect changes
-- [ ] New commands include proper descriptions and usage examples
+### Functional Testing
+- [ ] ✅ Command tested in Claude Code
+- [ ] ✅ Examples verified working
+- [ ] ✅ Integration with existing commands confirmed
+- [ ] ✅ XML structure validated (for commands)
 
-#### Command Structure
-- [ ] All new commands follow the established XML structure
-- [ ] Commands include proper `<role>`, `<instructions>`, and output format sections
-- [ ] Usage examples are provided and tested
-- [ ] Commands integrate well with existing ecosystem
+### Manual Testing Performed
+<!-- Describe specific testing steps you performed -->
+1. Tested command with basic parameters
+2. Verified advanced usage scenarios
+3. Confirmed error handling and edge cases
+4. Validated integration with related commands
 
-#### Configuration & Testing
-- [ ] Configuration changes are documented
-- [ ] MCP integration is tested (if applicable)
-- [ ] No hardcoded secrets or sensitive information
-- [ ] All JSON configuration files are valid
+## Documentation
+<!-- Confirm documentation is complete -->
+- [ ] ✅ Command/prompt follows template structure
+- [ ] ✅ All required sections included
+- [ ] ✅ Examples are comprehensive and realistic
+- [ ] ✅ Parameters clearly documented
+- [ ] ✅ Integration points documented
+- [ ] ✅ Related files updated (if needed)
 
-#### Prompt Quality
-- [ ] Prompts follow safety-first principles
-- [ ] Include verification steps and rollback procedures
-- [ ] Educational value is integrated
-- [ ] Enterprise-grade security considerations included
+## Quality Checklist
+<!-- Ensure quality standards are met -->
+- [ ] ✅ Follows established naming conventions
+- [ ] ✅ Includes safety considerations
+- [ ] ✅ Provides educational value
+- [ ] ✅ Integrates well with ecosystem
+- [ ] ✅ Has proper error handling
+- [ ] ✅ Includes security considerations (where applicable)
 
-### Testing Performed
+## Impact Assessment
+<!-- Describe the impact of these changes -->
 
-<!-- Describe how you tested your changes -->
+### Benefits
+- **Time Savings**: How much time this saves users
+- **Quality Improvement**: How this improves code/process quality  
+- **Learning Value**: What users will learn from this
+- **Productivity Boost**: How this enhances developer productivity
 
-- [ ] Local markdown validation
-- [ ] MCP server testing (if applicable)
-- [ ] Command functionality testing
-- [ ] Link checking
-- [ ] Configuration validation
+### Risks
+- **Breaking Changes**: Any potential breaking changes
+- **Dependencies**: New dependencies or requirements
+- **Compatibility**: Any compatibility concerns
 
-### Breaking Changes
+## Related Issues
+<!-- Link to related issues -->
+- Closes #XXX
+- Related to #XXX
+- Addresses feedback in #XXX
 
-<!-- If this PR introduces breaking changes, describe them here -->
+## Screenshots/Examples
+<!-- If applicable, add screenshots or example outputs -->
 
-### Additional Context
-
-<!-- Add any other context about the pull request here -->
-
-### Screenshots (if applicable)
-
-<!-- Add screenshots to help explain your changes -->
+## Additional Notes
+<!-- Any additional information reviewers should know -->
 
 ---
 
-### Reviewer Guidelines
+## Reviewer Guidelines
 
-**For maintainers reviewing this PR:**
+### For Maintainers
+- [ ] Code review completed
+- [ ] Quality standards verified
+- [ ] Integration impact assessed
+- [ ] Documentation completeness confirmed
+- [ ] Examples tested and validated
 
-1. **Quality Standards**: Ensure all changes meet the project's high standards for documentation and command design
-2. **Safety First**: Verify that any new prompts include proper safety measures and rollback procedures
-3. **Educational Value**: Confirm that changes maintain or enhance the learning aspects of the project
-4. **Enterprise Readiness**: Check that additions are suitable for production environments
-5. **Ecosystem Integration**: Verify that changes work well with the existing 38-command ecosystem
+### Review Focus Areas
+1. **Template Compliance**: Does it follow the established templates?
+2. **Quality Standards**: Does it meet our quality requirements?
+3. **Integration**: Does it work well with existing commands?
+4. **Examples**: Are the examples realistic and helpful?
+5. **Documentation**: Is the documentation clear and complete?
 
-**Required Checks Before Approval:**
-- [ ] All automated checks are passing
-- [ ] Manual testing of affected commands/prompts
-- [ ] Documentation is clear and comprehensive
-- [ ] No security concerns identified
-- [ ] Change aligns with project vision and goals
+### Merge Criteria
+- All automated checks pass
+- Manual testing completed
+- Documentation is comprehensive
+- No breaking changes (or properly documented)
+- Maintains ecosystem consistency

@@ -16,6 +16,14 @@ Performs comprehensive validation of the development environment and tooling:
 5. Validates security configurations and access controls
 6. Provides remediation steps for any identified issues
 
+## Parameters
+No parameters required - performs comprehensive environment validation
+
+## Examples
+```bash
+/validate-environment
+```
+
 ## Validation Categories
 
 ### Claude Code Environment

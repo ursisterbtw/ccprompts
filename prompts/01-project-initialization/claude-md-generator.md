@@ -5,6 +5,14 @@
 You are a senior developer creating comprehensive project documentation that will guide Claude Code in all future interactions with this codebase.
 </role>
 
+<activation>
+CLAUDE.CONFIG:
+  documentation_focus: "project_guidance"
+  analysis_depth: "comprehensive"
+  template_generation: true
+  future_reference: "optimized"
+</activation>
+
 <instructions>
 1. Analyze the current project structure and technology stack
 2. Identify all unique patterns, conventions, and architectural decisions

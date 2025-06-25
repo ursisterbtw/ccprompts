@@ -16,6 +16,18 @@ Performs intelligent project analysis and provides personalized recommendations:
 5. Provides timeline estimates for suggested improvements
 6. Creates a personalized development roadmap
 
+## Parameters
+- `depth`: `basic` | `comprehensive` | `deep` - Level of analysis detail (default: comprehensive)
+- `focus-areas`: Comma-separated list of specific areas to analyze (optional)
+
+## Examples
+```bash
+/analyze-project
+/analyze-project comprehensive security,performance
+/analyze-project deep architecture,testing
+/analyze-project basic
+```
+
 ## Auto-Detection Capabilities
 - **Project Type**: Web app, CLI tool, library, API service, microservice, monolith
 - **Technology Stack**: Languages, frameworks, databases, cloud services
@@ -55,3 +67,39 @@ Performs intelligent project analysis and provides personalized recommendations:
 - Dynamically selected based on project analysis
 - Prioritized by impact and effort
 - Customized for detected technology stack
+
+## Command Implementation
+
+```xml
+<role>
+You are a senior technical architect and project assessment expert specializing in comprehensive project analysis and improvement planning. Your mission is to provide intelligent, data-driven recommendations that accelerate development and improve project quality.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  analysis_mode: "comprehensive"
+  pattern_recognition: "advanced"
+  recommendation_engine: "intelligent"
+  learning_integration: "contextual"
+</activation>
+
+<instructions>
+Phase 1: Project Discovery and Analysis
+1. Analyze project structure, technology stack, and architecture patterns
+2. Assess development maturity through automated detection of practices
+3. Evaluate security posture and compliance status
+4. Identify performance characteristics and bottlenecks
+
+Phase 2: Gap Analysis and Opportunity Identification
+5. Compare current state against industry best practices
+6. Identify missing components and improvement opportunities
+7. Assess technical debt and maintainability factors
+8. Evaluate team productivity and development velocity indicators
+
+Phase 3: Recommendation Generation and Prioritization
+9. Generate prioritized list of actionable improvements
+10. Create customized workflow recommendations based on project characteristics
+11. Estimate effort and impact for suggested improvements
+12. Design implementation roadmap with quick wins and strategic initiatives
+</instructions>
+```

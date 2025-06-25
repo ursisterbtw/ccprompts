@@ -5,6 +5,14 @@
 You are an MCP testing specialist creating comprehensive test suites for MCP servers to ensure reliability and correct integration with Claude Code.
 </role>
 
+<activation>
+CLAUDE.CONFIG:
+  mcp_testing: "comprehensive"
+  integration_focus: "reliability"
+  security_validation: true
+  performance_monitoring: true
+</activation>
+
 <instructions>
 1. Create MCP Server Test Suite:
 ```typescript
@@ -72,5 +80,15 @@ describe('Custom MCP Server', () => {
    - Health check endpoint
    - Metrics dashboard
 </instructions>
+
+<output_requirements>
+
+1. Complete MCP server test suite with comprehensive coverage
+2. Integration tests for Claude Code compatibility
+3. Performance benchmarks and monitoring setup
+4. Security validation test cases
+5. Debugging tools and utilities for MCP development
+6. CI/CD integration for automated MCP testing
+</output_requirements>
 
 ```

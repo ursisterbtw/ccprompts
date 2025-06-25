@@ -2,6 +2,7 @@
 secrets/
 .cursor/
 .windsurf/
+bun.lock
 
 # Claude Code specific
 .claude/cache/
