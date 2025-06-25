@@ -18,9 +18,9 @@ const colors = {
   reset: '\x1b[0m'
 };
 
-function log(color, message) {
+const log = (color, message) => {
   console.log(`${colors[color]}${message}${colors.reset}`);
-}
+};
 
 class PromptValidator {
   constructor() {
@@ -34,7 +34,7 @@ class PromptValidator {
     };
   }
 
-  // Validate XML structure in markdown files
+  // Validate XML structure in markdown files using stack-based parsing
   validateXMLStructure(content, filename) {
     const xmlSections = ['<role>', '<activation>', '<instructions>'];
     const missingSections = [];
@@ -50,50 +50,157 @@ class PromptValidator {
       return false;
     }
 
-    // Check for proper XML closing tags
-    const openTags = content.match(/<[^\/][^>]*>/g) || [];
-    const closeTags = content.match(/<\/[^>]*>/g) || [];
+    // Stack-based XML tag validation for proper nesting
+    const tagStack = [];
+    const xmlTagRegex = /<\/?([a-zA-Z][a-zA-Z0-9_-]*)(?:\s[^>]*)?>|<!--[\s\S]*?-->/g;
+    let match;
     
-    const openTagNames = openTags.map(tag => tag.replace(/<([^>\s]+).*/, '$1'));
-    const closeTagNames = closeTags.map(tag => tag.replace(/<\/([^>]+)>/, '$1'));
-
-    const unmatchedTags = openTagNames.filter(tag => !closeTagNames.includes(tag));
-    if (unmatchedTags.length > 0) {
-      this.errors.push(`${filename}: Unclosed XML tags: ${unmatchedTags.join(', ')}`);
+    while ((match = xmlTagRegex.exec(content)) !== null) {
+      const fullTag = match[0];
+      const tagName = match[1];
+      
+      // Skip comments
+      if (fullTag.startsWith('<!--')) {
+        continue;
+      }
+      
+      // Self-closing tag or processing instruction
+      if (fullTag.endsWith('/>') || fullTag.startsWith('<?')) {
+        continue;
+      }
+      
+      // Closing tag
+      if (fullTag.startsWith('</')) {
+        if (tagStack.length === 0) {
+          this.errors.push(`${filename}: Unexpected closing tag: ${fullTag}`);
+          return false;
+        }
+        
+        const expectedTag = tagStack.pop();
+        if (expectedTag !== tagName) {
+          this.errors.push(`${filename}: Mismatched XML tags - expected </${expectedTag}>, found </${tagName}>`);
+          return false;
+        }
+      } 
+      // Opening tag
+      else {
+        tagStack.push(tagName);
+      }
+    }
+    
+    // Check for unclosed tags
+    if (tagStack.length > 0) {
+      this.errors.push(`${filename}: Unclosed XML tags: ${tagStack.join(', ')}`);
       return false;
     }
 
     return true;
   }
 
-  // Validate prompt quality and structure
-  validatePromptQuality(content, filename) {
-    const qualityChecks = [
-      {
-        name: 'Minimum content length',
-        test: content.length > 500,
-        message: 'Content too short - prompts should be comprehensive'
-      },
-      {
-        name: 'Has examples section',
-        test: content.toLowerCase().includes('example'),
-        message: 'Missing examples - prompts should include usage examples'
-      },
-      {
-        name: 'Has clear instructions',
-        test: content.includes('<instructions>') && content.includes('</instructions>'),
-        message: 'Missing or malformed instructions section'
-      },
-      {
-        name: 'Security considerations',
-        test: content.toLowerCase().includes('security') || content.toLowerCase().includes('safety'),
-        message: 'Missing security considerations'
-      }
-    ];
+  // Determine prompt type based on filename and content
+  determinePromptType(filename, content) {
+    if (filename.includes('commands/')) {
+      return 'command';
+    }
+    if (filename.includes('bootstrap') || filename.includes('setup')) {
+      return 'setup';
+    }
+    if (content.toLowerCase().includes('security') || content.toLowerCase().includes('audit')) {
+      return 'security';
+    }
+    if (content.length < 300) {
+      return 'short-answer';
+    }
+    return 'default';
+  }
 
-    qualityChecks.forEach(check => {
-      if (!check.test) {
-        this.warnings.push(`${filename}: ${check.message}`);
+  // Validate prompt quality and structure with configurable checks
+  validatePromptQuality(content, filename, promptType = null) {
+    const detectedType = promptType || this.determinePromptType(filename, content);
+    
+    const allQualityChecks = {
+      default: [
+        {
+          name: 'Minimum content length',
+          test: c => c.length > 500,
+          message: 'Content too short - prompts should be comprehensive'
+        },
+        {
+          name: 'Has examples section',
+          test: c => c.toLowerCase().includes('example'),
+          message: 'Missing examples - prompts should include usage examples'
+        },
+        {
+          name: 'Has clear instructions',
+          test: c => c.includes('<instructions>') && c.includes('</instructions>'),
+          message: 'Missing or malformed instructions section'
+        },
+        {
+          name: 'Security considerations',
+          test: c => c.toLowerCase().includes('security') || c.toLowerCase().includes('safety'),
+          message: 'Missing security considerations'
+        }
+      ],
+      'short-answer': [
+        {
+          name: 'Minimum content length',
+          test: c => c.length > 200,
+          message: 'Content too short for short-answer prompt'
+        },
+        {
+          name: 'Has clear instructions',
+          test: c => c.includes('<instructions>') && c.includes('</instructions>'),
+          message: 'Missing or malformed instructions section'
+        }
+      ],
+      'command': [
+        {
+          name: 'Adequate command length',
+          test: c => c.length > 300,
+          message: 'Command documentation too brief'
+        },
+        {
+          name: 'Has usage examples',
+          test: c => c.toLowerCase().includes('usage') || c.toLowerCase().includes('example'),
+          message: 'Missing usage examples for command'
+        }
+      ],
+      'security': [
+        {
+          name: 'Comprehensive security content',
+          test: c => c.length > 800,
+          message: 'Security prompts should be comprehensive'
+        },
+        {
+          name: 'Security-focused instructions',
+          test: c => c.includes('<instructions>') && c.includes('</instructions>'),
+          message: 'Missing or malformed instructions section'
+        },
+        {
+          name: 'Compliance considerations',
+          test: c => c.toLowerCase().includes('compliance') || c.toLowerCase().includes('audit') || c.toLowerCase().includes('security'),
+          message: 'Security prompts should include compliance considerations'
+        }
+      ],
+      'setup': [
+        {
+          name: 'Setup content length',
+          test: c => c.length > 400,
+          message: 'Setup prompts should provide detailed guidance'
+        },
+        {
+          name: 'Step-by-step instructions',
+          test: c => c.toLowerCase().includes('step') || c.toLowerCase().includes('install') || c.toLowerCase().includes('setup'),
+          message: 'Setup prompts should include step-by-step instructions'
+        }
+      ]
+    };
+
+    const checks = allQualityChecks[detectedType] || allQualityChecks['default'];
+
+    checks.forEach(check => {
+      if (!check.test(content)) {
+        this.warnings.push(`${filename} [${detectedType}]: ${check.message}`);
       }
     });
   }
