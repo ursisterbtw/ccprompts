@@ -5,7 +5,6 @@
 
 const MCPTester = require('../test-mcp');
 const fs = require('fs');
-const path = require('path');
 
 // Mock child_process to avoid actual process spawning in tests
 jest.mock('child_process');
@@ -132,7 +131,8 @@ describe('MCPTester', () => {
         'server3': { status: 'error', message: 'Failed' }
       };
 
-      tester.generateReport();
+      const report = tester.generateReport();
+      tester.printReport(report);
 
       expect(mockConsoleLog).toHaveBeenCalledWith(
         expect.stringContaining('Success Rate: 2/3 (67%)')

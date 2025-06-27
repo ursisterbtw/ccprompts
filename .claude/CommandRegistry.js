@@ -5,6 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const yaml = require('js-yaml');
 const ConfigManager = require('./config/ConfigManager');
 
 class CommandRegistry {
@@ -222,11 +223,11 @@ class CommandRegistry {
 
     // Check required parameters
     Object.entries(paramSchema).forEach(([paramName, paramConfig]) => {
-      if (paramConfig.required && !parameters.hasOwnProperty(paramName)) {
+      if (paramConfig.required && !Object.prototype.hasOwnProperty.call(parameters, paramName)) {
         errors.push(`Required parameter '${paramName}' is missing`);
       }
 
-      if (parameters.hasOwnProperty(paramName)) {
+      if (Object.prototype.hasOwnProperty.call(parameters, paramName)) {
         const value = parameters[paramName];
         
         // Type validation
@@ -372,14 +373,22 @@ class CommandRegistry {
    */
   exportRegistry(format = 'json') {
     switch (format) {
-      case 'json':
-        return JSON.stringify(this.registry, null, 2);
+    case 'json':
+      return JSON.stringify(this.registry, null, 2);
       
-      case 'markdown':
-        return this.generateMarkdownDocs();
+    case 'yaml':
+      return yaml.dump(this.registry, {
+        indent: 2,
+        lineWidth: 120,
+        noRefs: true,
+        sortKeys: true
+      });
       
-      default:
-        throw new Error(`Unsupported export format: ${format}`);
+    case 'markdown':
+      return this.generateMarkdownDocs();
+      
+    default:
+      throw new Error(`Unsupported export format: ${format}. Supported formats: json, yaml, markdown`);
     }
   }
 
@@ -388,7 +397,7 @@ class CommandRegistry {
    * @returns {string} Markdown documentation
    */
   generateMarkdownDocs() {
-    let markdown = `# ccprompts Command Registry\\n\\n`;
+    let markdown = '# ccprompts Command Registry\\n\\n';
     markdown += `Total Commands: ${this.getRegistryStats().total_commands}\\n\\n`;
 
     Object.entries(this.registry.commands).forEach(([phase, phaseData]) => {
@@ -405,7 +414,7 @@ class CommandRegistry {
           if (data.dependencies && data.dependencies.length > 0) {
             markdown += `- **Dependencies**: ${data.dependencies.join(', ')}\\n`;
           }
-          markdown += `\\n`;
+          markdown += '\\n';
         });
       }
     });

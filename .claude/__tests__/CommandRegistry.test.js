@@ -90,21 +90,21 @@ describe('CommandRegistry', () => {
       const filename = path.basename(filePath);
       
       switch (filename) {
-        case 'commands.json':
-          return JSON.stringify(mockRegistryData);
-        case 'schema.json':
-          return JSON.stringify({
-            type: 'object',
-            properties: {
-              version: { type: 'string', default: '1.0.0' }
-            }
-          });
-        case 'config.json':
-          return JSON.stringify({ version: '1.0.0' });
-        case 'list-prompts.md':
-          return '# List Prompts Command\\nCommand implementation here';
-        default:
-          throw new Error(`ENOENT: ${filePath}`);
+      case 'commands.json':
+        return JSON.stringify(mockRegistryData);
+      case 'schema.json':
+        return JSON.stringify({
+          type: 'object',
+          properties: {
+            version: { type: 'string', default: '1.0.0' }
+          }
+        });
+      case 'config.json':
+        return JSON.stringify({ version: '1.0.0' });
+      case 'list-prompts.md':
+        return '# List Prompts Command\\nCommand implementation here';
+      default:
+        throw new Error(`ENOENT: ${filePath}`);
       }
     });
 
@@ -247,7 +247,7 @@ describe('CommandRegistry', () => {
       });
       
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain("Required parameter 'technology' is missing");
+      expect(result.errors).toContain('Required parameter \'technology\' is missing');
     });
 
     test('should validate parameter types', () => {
@@ -257,7 +257,7 @@ describe('CommandRegistry', () => {
       });
       
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain("Parameter 'type' must be a string");
+      expect(result.errors).toContain('Parameter \'type\' must be a string');
     });
 
     test('should validate enum values', () => {
@@ -267,7 +267,7 @@ describe('CommandRegistry', () => {
       });
       
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain("Parameter 'type' must be one of: web-app, api");
+      expect(result.errors).toContain('Parameter \'type\' must be one of: web-app, api');
     });
 
     test('should handle non-existent command', () => {

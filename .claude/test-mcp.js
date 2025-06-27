@@ -6,7 +6,6 @@
  */
 
 const { spawn } = require('child_process');
-const fs = require('fs');
 const path = require('path');
 const ConfigManager = require('./config/ConfigManager');
 
@@ -86,11 +85,14 @@ class MCPTester {
   }
 
   /**
-   * Spawn a server process with proper configuration
+   * Spawn a server process with proper configuration and security validation
    * @param {Object} serverConfig - Server configuration
    * @returns {Object} Child process object
    */
   spawnServerProcess(serverConfig) {
+    // Security: Validate and sanitize command input
+    this.validateServerCommand(serverConfig);
+    
     const child = spawn(serverConfig.command, serverConfig.args || [], {
       env: { ...process.env, ...(serverConfig.env || {}) },
       stdio: ['pipe', 'pipe', 'pipe']
@@ -109,6 +111,69 @@ class MCPTester {
     });
 
     return child;
+  }
+
+  /**
+   * Validate server command for security
+   * @param {Object} serverConfig - Server configuration to validate
+   * @throws {Error} If command is invalid or potentially dangerous
+   */
+  validateServerCommand(serverConfig) {
+    if (!serverConfig || typeof serverConfig !== 'object') {
+      throw new Error('Server configuration must be an object');
+    }
+
+    if (!serverConfig.command || typeof serverConfig.command !== 'string') {
+      throw new Error('Server command must be a non-empty string');
+    }
+
+    // Security: Prevent command injection by validating command format
+    const command = serverConfig.command.trim();
+    
+    // Check for shell metacharacters that could indicate injection
+    const dangerousChars = /[;&|`$(){}[\]<>'"\\]/;
+    if (dangerousChars.test(command)) {
+      throw new Error(`Command contains potentially dangerous characters: ${command}`);
+    }
+
+    // Ensure command is not attempting shell execution
+    if (command.includes('sh') || command.includes('bash') || command.includes('cmd')) {
+      // Allow specific known safe patterns
+      const safePaths = ['node', 'python', 'python3', '/usr/bin/', '/usr/local/bin/'];
+      const isSafe = safePaths.some(safe => command.startsWith(safe) || command.includes(`/${safe}`));
+      
+      if (!isSafe) {
+        throw new Error(`Potentially unsafe shell command detected: ${command}`);
+      }
+    }
+
+    // Validate arguments if present
+    if (serverConfig.args && Array.isArray(serverConfig.args)) {
+      serverConfig.args.forEach((arg, index) => {
+        if (typeof arg !== 'string') {
+          throw new Error(`Argument ${index} must be a string`);
+        }
+        
+        // Check for injection attempts in arguments
+        if (dangerousChars.test(arg)) {
+          throw new Error(`Argument ${index} contains potentially dangerous characters: ${arg}`);
+        }
+      });
+    }
+
+    // Validate environment variables if present
+    if (serverConfig.env && typeof serverConfig.env === 'object') {
+      Object.entries(serverConfig.env).forEach(([key, value]) => {
+        if (typeof key !== 'string' || typeof value !== 'string') {
+          throw new Error(`Environment variable ${key} must have string key and value`);
+        }
+        
+        // Prevent injection through environment variables
+        if (dangerousChars.test(key) || dangerousChars.test(value)) {
+          throw new Error(`Environment variable ${key} contains potentially dangerous characters`);
+        }
+      });
+    }
   }
 
   /**
@@ -215,11 +280,20 @@ class MCPTester {
     };
   }
 
-  async runTests() {
-    console.log('🚀 Starting MCP Server Tests for ccprompts\n');
+  /**
+   * Run tests for all configured MCP servers
+   * @param {boolean} silent - If true, suppress console output
+   * @returns {Object} Test results and summary
+   */
+  async runTests(silent = false) {
+    if (!silent) {
+      console.log('🚀 Starting MCP Server Tests for ccprompts\n');
+    }
     
     const mcpServers = this.getMCPServers();
-    console.log(`Testing ${Object.keys(mcpServers).length} enabled servers...\n`);
+    if (!silent) {
+      console.log(`Testing ${Object.keys(mcpServers).length} enabled servers...\n`);
+    }
 
     const servers = Object.entries(mcpServers);
     
@@ -227,43 +301,83 @@ class MCPTester {
       const result = await this.testServer(name, config);
       this.results[name] = result;
       
-      const status = result.status === 'success' ? '✅' : 
-        result.status === 'timeout' ? '⏰' : '❌';
-      
-      console.log(`${status} ${result.name}: ${result.message}`);
-      
-      if (result.stdout && result.status !== 'success') {
-        console.log(`   Output: ${result.stdout.substring(0, CONFIG.OUTPUT_PREVIEW_LENGTH)}...`);
+      if (!silent) {
+        this.logTestResult(result);
       }
     }
 
-    this.generateReport();
+    const report = this.generateReport();
+    if (!silent) {
+      this.printReport(report);
+    }
+    
+    return {
+      results: this.results,
+      summary: report
+    };
   }
 
+  /**
+   * Log individual test result to console
+   * @param {Object} result - Test result
+   */
+  logTestResult(result) {
+    const status = result.status === 'success' ? '✅' : 
+      result.status === 'timeout' ? '⏰' : '❌';
+    
+    console.log(`${status} ${result.name}: ${result.message}`);
+    
+    if (result.stdout && result.status !== 'success') {
+      console.log(`   Output: ${result.stdout.substring(0, CONFIG.OUTPUT_PREVIEW_LENGTH)}...`);
+    }
+  }
+
+  /**
+   * Generate structured test report
+   * @returns {Object} Test report data
+   */
   generateReport() {
+    const successful = Object.values(this.results).filter(r => r.status === 'success').length;
+    const total = Object.values(this.results).length;
+    const failed = Object.values(this.results).filter(r => r.status !== 'success');
+    
+    return {
+      total,
+      successful,
+      failed: failed.length,
+      successRate: total > 0 ? Math.round(successful/total*100) : 0,
+      results: this.results,
+      recommendations: failed.length === 0 ? 
+        ['All MCP servers are working correctly!', 'Ready for production use with Claude Code'] :
+        failed.map(result => `Fix ${result.name}: ${result.message}`),
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  /**
+   * Print formatted report to console
+   * @param {Object} report - Report data from generateReport
+   */
+  printReport(report) {
     console.log('\n📊 MCP Test Report');
     console.log('==================');
     
-    const successful = Object.values(this.results).filter(r => r.status === 'success').length;
-    const total = Object.values(this.results).length;
-    
-    console.log(`Success Rate: ${successful}/${total} (${Math.round(successful/total*100)}%)\n`);
+    console.log(`Success Rate: ${report.successful}/${report.total} (${report.successRate}%)\n`);
     
     console.log('Detailed Results:');
-    Object.entries(this.results).forEach(([name, result]) => {
+    Object.entries(report.results).forEach(([name, result]) => {
       console.log(`- ${name}: ${result.status.toUpperCase()} - ${result.message}`);
     });
 
     console.log('\n💡 Recommendations:');
     
-    const failed = Object.values(this.results).filter(r => r.status !== 'success');
-    if (failed.length === 0) {
+    if (report.failed === 0) {
       console.log('✅ All MCP servers are working correctly!');
       console.log('✅ Ready for production use with Claude Code');
     } else {
-      console.log(`⚠️  ${failed.length} server(s) need attention:`);
-      failed.forEach(result => {
-        console.log(`   - Fix ${result.name}: ${result.message}`);
+      console.log(`⚠️  ${report.failed} server(s) need attention:`);
+      report.recommendations.forEach(rec => {
+        console.log(`   - ${rec}`);
       });
     }
   }

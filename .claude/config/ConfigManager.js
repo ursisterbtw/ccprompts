@@ -97,6 +97,7 @@ class ConfigManager {
   /**
    * Load configuration from environment variables
    * Converts environment variables with CCPROMPTS_ prefix to config
+   * Supports nested paths using underscores (e.g., CCPROMPTS_MCP_SERVERS_TEST_PATH)
    * @returns {Object} Configuration from environment
    */
   loadEnvironmentConfig() {
@@ -105,20 +106,48 @@ class ConfigManager {
 
     Object.entries(process.env).forEach(([key, value]) => {
       if (key.startsWith(prefix)) {
-        const configKey = key.substring(prefix.length).toLowerCase();
+        const configPath = key.substring(prefix.length).toLowerCase();
         
         // Convert string values to appropriate types
+        let parsedValue;
         try {
           // Try to parse as JSON for complex values
-          envConfig[configKey] = JSON.parse(value);
+          parsedValue = JSON.parse(value);
         } catch {
           // Use as string if JSON parsing fails
-          envConfig[configKey] = value;
+          parsedValue = value;
         }
+
+        // Handle nested paths using underscores
+        this.setNestedValue(envConfig, configPath, parsedValue);
       }
     });
 
     return envConfig;
+  }
+
+  /**
+   * Set a nested value in an object using a dot or underscore-separated path
+   * @param {Object} obj - Target object
+   * @param {string} path - Path to the value (e.g., 'mcp_servers_test_path' or 'logging.level')
+   * @param {*} value - Value to set
+   */
+  setNestedValue(obj, path, value) {
+    // Convert underscores to dots for consistent path handling
+    const normalizedPath = path.replace(/_/g, '.');
+    const keys = normalizedPath.split('.');
+    
+    let current = obj;
+    for (let i = 0; i < keys.length - 1; i++) {
+      const key = keys[i];
+      if (!(key in current) || typeof current[key] !== 'object' || current[key] === null) {
+        current[key] = {};
+      }
+      current = current[key];
+    }
+    
+    const finalKey = keys[keys.length - 1];
+    current[finalKey] = value;
   }
 
   /**
@@ -181,7 +210,7 @@ class ConfigManager {
     if (schema.properties && typeof value === 'object' && value !== null) {
       // Validate object properties
       Object.entries(schema.properties).forEach(([key, propSchema]) => {
-        if (value.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(value, key)) {
           errors.push(...this.validateObject(value[key], propSchema, `${path}.${key}`));
         } else if (propSchema.required) {
           errors.push(`${path}.${key}: required property missing`);
@@ -191,7 +220,7 @@ class ConfigManager {
       // Check for additional properties
       if (schema.additionalProperties === false) {
         Object.keys(value).forEach(key => {
-          if (!schema.properties.hasOwnProperty(key)) {
+          if (!Object.prototype.hasOwnProperty.call(schema.properties, key)) {
             errors.push(`${path}.${key}: additional property not allowed`);
           }
         });
@@ -235,7 +264,7 @@ class ConfigManager {
     let current = this.config;
 
     for (const key of keys) {
-      if (current && typeof current === 'object' && current.hasOwnProperty(key)) {
+      if (current && typeof current === 'object' && Object.prototype.hasOwnProperty.call(current, key)) {
         current = current[key];
       } else {
         return defaultValue;

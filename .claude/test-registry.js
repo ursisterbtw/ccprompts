@@ -55,7 +55,7 @@ async function testRegistry() {
     console.log('\n📊 Registry Statistics:');
     const stats = registry.getRegistryStats();
     console.log(`  Total Commands: ${stats.total_commands}`);
-    console.log(`  Complexity Distribution:`);
+    console.log('  Complexity Distribution:');
     console.log(`    Low: ${stats.complexity_distribution.low}`);
     console.log(`    Medium: ${stats.complexity_distribution.medium}`);
     console.log(`    High: ${stats.complexity_distribution.high}`);

@@ -3,6 +3,9 @@
   "workspaces": {
     "": {
       "name": "ccprompts",
+      "dependencies": {
+        "js-yaml": "^4.1.0",
+      },
       "devDependencies": {
         "@jest/globals": "^29.7.0",
         "eslint": "^8.57.0",

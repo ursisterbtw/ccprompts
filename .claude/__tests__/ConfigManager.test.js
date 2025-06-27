@@ -69,27 +69,27 @@ describe('ConfigManager', () => {
       const filename = path.basename(filePath);
       
       switch (filename) {
-        case 'schema.json':
-          return JSON.stringify(mockSchema);
-        case 'config.json':
-          return JSON.stringify(mockBaseConfig);
-        case 'project.json':
-          return JSON.stringify({
-            mcpServers: {
-              'project-server': {
-                command: 'python',
-                args: ['project_server.py']
-              }
+      case 'schema.json':
+        return JSON.stringify(mockSchema);
+      case 'config.json':
+        return JSON.stringify(mockBaseConfig);
+      case 'project.json':
+        return JSON.stringify({
+          mcpServers: {
+            'project-server': {
+              command: 'python',
+              args: ['project_server.py']
             }
-          });
-        case 'local.json':
-          return JSON.stringify({
-            logging: {
-              level: 'warn'
-            }
-          });
-        default:
-          throw new Error(`ENOENT: no such file or directory: ${filePath}`);
+          }
+        });
+      case 'local.json':
+        return JSON.stringify({
+          logging: {
+            level: 'warn'
+          }
+        });
+      default:
+        throw new Error(`ENOENT: no such file or directory: ${filePath}`);
       }
     });
 
@@ -143,7 +143,7 @@ describe('ConfigManager', () => {
       configManager = new ConfigManager('/test/path');
       const config = configManager.getAll();
       
-      expect(config.logging_level).toBe('error');
+      expect(config.logging.level).toBe('error');
       expect(config.version).toBe('2.0.0'); // Env variables have highest precedence
     });
 
