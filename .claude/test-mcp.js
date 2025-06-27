@@ -8,6 +8,7 @@
 const { spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const ConfigManager = require('./config/ConfigManager');
 
 // Configuration constants
 const CONFIG = {
@@ -19,45 +20,26 @@ const CONFIG = {
 
 class MCPTester {
   constructor() {
-    this.mcpConfig = this.loadMCPConfig();
+    this.configManager = new ConfigManager(path.join(__dirname, 'config'));
     this.results = {};
   }
 
   /**
-   * Load and validate MCP configuration
-   * @returns {Object} Validated MCP configuration
-   * @throws {Error} If config is invalid or missing
+   * Get MCP servers configuration from config manager
+   * @returns {Object} MCP servers configuration
    */
-  loadMCPConfig() {
-    try {
-      const configPath = path.join(__dirname, 'mcp.json');
-      const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-      return this.validateMCPConfig(config);
-    } catch (error) {
-      throw new Error(`Failed to load MCP config: ${error.message}`);
-    }
-  }
-
-  /**
-   * Validate MCP configuration structure
-   * @param {Object} config - Configuration object to validate
-   * @returns {Object} Validated configuration
-   * @throws {Error} If configuration is invalid
-   */
-  validateMCPConfig(config) {
-    if (!config || typeof config !== 'object') {
-      throw new Error('Config must be a valid object');
-    }
-    if (!config.mcpServers || typeof config.mcpServers !== 'object') {
-      throw new Error('Config must contain mcpServers object');
-    }
+  getMCPServers() {
+    const servers = this.configManager.get('mcpServers', {});
     
-    // Validate each server configuration
-    Object.entries(config.mcpServers).forEach(([name, serverConfig]) => {
-      this.validateServerConfig(name, serverConfig);
+    // Filter only enabled servers
+    const enabledServers = {};
+    Object.entries(servers).forEach(([name, config]) => {
+      if (config.enabled !== false) {
+        enabledServers[name] = config;
+      }
     });
     
-    return config;
+    return enabledServers;
   }
 
   /**
@@ -135,16 +117,17 @@ class MCPTester {
    * @param {string} serverName - Server name for logging
    * @returns {Promise<Object>} Test result
    */
-  waitForServerResult(process, _serverName) {
+  waitForServerResult(process, serverName) {
     return new Promise((resolve) => {
-      // Setup timeout
+      // Setup timeout - use server-specific timeout or default
+      const timeoutMs = this.configManager.get(`mcpServers.${serverName}.timeout`, CONFIG.TIMEOUT_MS);
       const timeout = setTimeout(() => {
         process.kill();
         resolve({
           status: 'timeout',
-          message: `Server startup timeout (${CONFIG.TIMEOUT_MS / 1000}s)`
+          message: `Server startup timeout (${timeoutMs / 1000}s)`
         });
-      }, CONFIG.TIMEOUT_MS);
+      }, timeoutMs);
 
       process.on('close', (code) => {
         clearTimeout(timeout);
@@ -234,9 +217,11 @@ class MCPTester {
 
   async runTests() {
     console.log('🚀 Starting MCP Server Tests for ccprompts\n');
-    console.log(`Testing ${Object.keys(this.mcpConfig.mcpServers).length} servers...\n`);
+    
+    const mcpServers = this.getMCPServers();
+    console.log(`Testing ${Object.keys(mcpServers).length} enabled servers...\n`);
 
-    const servers = Object.entries(this.mcpConfig.mcpServers);
+    const servers = Object.entries(mcpServers);
     
     for (const [name, config] of servers) {
       const result = await this.testServer(name, config);

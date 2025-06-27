@@ -1,0 +1,111 @@
+{
+  "version": "1.0.0",
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/github-mcp"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "timeout": 15000,
+      "enabled": true
+    },
+    "filesystem": {
+      "command": "npx", 
+      "args": ["-y", "@modelcontextprotocol/server-filesystem"],
+      "env": {
+        "ALLOWED_DIRECTORIES": "/home/sistr/Projects/ccprompts"
+      },
+      "timeout": 10000,
+      "enabled": true
+    },
+    "markdown-processor": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/markdown-mcp"],
+      "timeout": 10000,
+      "enabled": true
+    },
+    "documentation-generator": {
+      "command": "npx",
+      "args": ["-y", "@smithery/docs-generator"],
+      "timeout": 15000,
+      "enabled": false
+    },
+    "prompt-validator": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/prompt-validator"],
+      "timeout": 10000,
+      "enabled": false
+    },
+    "code-quality": {
+      "command": "npx",
+      "args": ["-y", "@nekzus/mcp-server@latest"],
+      "timeout": 10000,
+      "enabled": false
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "timeout": 10000,
+      "enabled": true
+    },
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"],
+      "timeout": 10000,
+      "enabled": true
+    }
+  },
+  "commands": {
+    "defaultPhase": "category",
+    "parallelExecution": false,
+    "maxParallelCommands": 3,
+    "timeout": 60000
+  },
+  "logging": {
+    "level": "info",
+    "enableFile": true,
+    "maxFileSize": "10MB",
+    "maxFiles": 5
+  },
+  "security": {
+    "allowUnsafeCommands": false,
+    "trustedPaths": [
+      "/home/sistr/Projects/ccprompts",
+      "/tmp"
+    ],
+    "blockedCommands": []
+  },
+  "team": {
+    "name": "ccprompts-project",
+    "members": [],
+    "sharedKnowledge": true
+  },
+  "legacy": {
+    "project": {
+      "name": "ccprompts",
+      "description": "Comprehensive Claude Code Developer Prompts Collection",
+      "version": "1.0.0"
+    },
+    "settings": {
+      "extended_thinking": "always",
+      "permission_mode": "acceptEdits",
+      "allowed_tools": ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"],
+      "auto_commit": false,
+      "backup_enabled": true,
+      "mcp_enabled": true,
+      "mcp_timeout": 30000,
+      "mcp_retry": 3
+    },
+    "conventions": {
+      "commit_format": "conventional",
+      "branch_naming": "feature/{category}-{description}",
+      "pr_template": true
+    },
+    "directories": {
+      "prompts": "prompts/",
+      "commands": ".claude/commands/",
+      "workflows": ".claude/workflows/"
+    }
+  }
+}

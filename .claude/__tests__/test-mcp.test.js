@@ -41,24 +41,19 @@ describe('MCPTester', () => {
     jest.restoreAllMocks();
   });
 
-  describe('loadMCPConfig', () => {
-    test('should load configuration successfully', () => {
-      const config = tester.loadMCPConfig();
-      expect(config).toEqual(mockConfig);
-      expect(fs.readFileSync).toHaveBeenCalledWith(
-        path.join(__dirname, '..', 'mcp.json'),
-        'utf8'
-      );
+  describe('getMCPServers', () => {
+    test('should get enabled MCP servers from configuration', () => {
+      const servers = tester.getMCPServers();
+      expect(typeof servers).toBe('object');
+      // Should filter out disabled servers if any exist
     });
 
-    test('should handle missing config file', () => {
-      fs.readFileSync.mockImplementation(() => {
-        throw new Error('ENOENT: no such file or directory');
-      });
-
-      expect(() => {
-        tester.loadMCPConfig();
-      }).toThrow('Failed to load MCP config: ENOENT: no such file or directory');
+    test('should handle empty server configuration', () => {
+      // Mock empty configuration
+      jest.spyOn(tester.configManager, 'get').mockReturnValue({});
+      
+      const servers = tester.getMCPServers();
+      expect(servers).toEqual({});
     });
   });
 

@@ -1,0 +1,198 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ccprompts Configuration Schema",
+  "description": "Schema for validating ccprompts configuration files",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Configuration version for compatibility checking",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "mcpServers": {
+      "type": "object",
+      "description": "MCP server configurations",
+      "patternProperties": {
+        "^[a-zA-Z][a-zA-Z0-9_-]*$": {
+          "type": "object",
+          "properties": {
+            "command": {
+              "type": "string",
+              "description": "Command to start the MCP server",
+              "minLength": 1
+            },
+            "args": {
+              "type": "array",
+              "description": "Command line arguments for the server",
+              "items": {
+                "type": "string"
+              },
+              "default": []
+            },
+            "env": {
+              "type": "object",
+              "description": "Environment variables for the server",
+              "patternProperties": {
+                "^[A-Z_][A-Z0-9_]*$": {
+                  "type": "string"
+                }
+              },
+              "default": {}
+            },
+            "timeout": {
+              "type": "integer",
+              "description": "Server startup timeout in milliseconds",
+              "minimum": 1000,
+              "maximum": 60000,
+              "default": 10000
+            },
+            "enabled": {
+              "type": "boolean",
+              "description": "Whether this server is enabled",
+              "default": true
+            }
+          },
+          "required": ["command"],
+          "additionalProperties": false
+        }
+      },
+      "default": {}
+    },
+    "commands": {
+      "type": "object",
+      "description": "Command configuration and preferences",
+      "properties": {
+        "defaultPhase": {
+          "type": "string",
+          "enum": ["category", "workflow", "context-aware", "utility", "lifecycle", "learning", "specialized"],
+          "description": "Default phase for command discovery"
+        },
+        "parallelExecution": {
+          "type": "boolean",
+          "description": "Allow parallel command execution",
+          "default": false
+        },
+        "maxParallelCommands": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10,
+          "default": 3
+        },
+        "timeout": {
+          "type": "number",
+          "description": "Default command timeout in milliseconds",
+          "minimum": 1000,
+          "maximum": 300000,
+          "default": 60000
+        }
+      },
+      "additionalProperties": false,
+      "default": {}
+    },
+    "logging": {
+      "type": "object",
+      "description": "Logging configuration",
+      "properties": {
+        "level": {
+          "type": "string",
+          "enum": ["debug", "info", "warn", "error"],
+          "default": "info"
+        },
+        "enableFile": {
+          "type": "boolean",
+          "description": "Enable file logging",
+          "default": true
+        },
+        "maxFileSize": {
+          "type": "string",
+          "pattern": "^\\d+[KMG]B$",
+          "default": "10MB"
+        },
+        "maxFiles": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 5
+        }
+      },
+      "additionalProperties": false,
+      "default": {}
+    },
+    "security": {
+      "type": "object",
+      "description": "Security configuration",
+      "properties": {
+        "allowUnsafeCommands": {
+          "type": "boolean",
+          "description": "Allow execution of potentially unsafe commands",
+          "default": false
+        },
+        "trustedPaths": {
+          "type": "array",
+          "description": "Trusted file system paths",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "blockedCommands": {
+          "type": "array",
+          "description": "Commands that are explicitly blocked",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        }
+      },
+      "additionalProperties": false,
+      "default": {}
+    },
+    "team": {
+      "type": "object",
+      "description": "Team collaboration settings",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Team name"
+        },
+        "members": {
+          "type": "array",
+          "description": "Team member configurations",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string",
+                "enum": ["developer", "lead", "admin"]
+              },
+              "preferences": {
+                "type": "object"
+              }
+            },
+            "required": ["name", "role"]
+          },
+          "default": []
+        },
+        "sharedKnowledge": {
+          "type": "boolean",
+          "description": "Enable shared knowledge base",
+          "default": true
+        }
+      },
+      "additionalProperties": false,
+      "default": {}
+    }
+  },
+  "additionalProperties": true,
+  "default": {
+    "version": "1.0.0",
+    "mcpServers": {},
+    "commands": {},
+    "logging": {},
+    "security": {},
+    "team": {}
+  }
+}
