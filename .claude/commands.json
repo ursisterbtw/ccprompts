@@ -1,0 +1,230 @@
+{
+  "version": "1.0.0",
+  "description": "Command registry for ccprompts - maps all 38 commands to their implementations",
+  "commands": {
+    "_metadata": {
+      "total_commands": 38,
+      "phases": 6,
+      "specialized_commands": 2
+    },
+    "phase-1-category": {
+      "description": "Core development commands for project setup and maintenance",
+      "count": 8,
+      "commands": {
+        "bootstrap-project": {
+          "description": "Complete project initialization with technology stack setup",
+          "prompt_file": "prompts/01-project-initialization/comprehensive-bootstrap.md",
+          "parameters": {
+            "type": {
+              "type": "string",
+              "enum": ["web-app", "api", "cli", "library", "mobile"],
+              "required": true,
+              "description": "Type of project to bootstrap"
+            },
+            "technology": {
+              "type": "string", 
+              "enum": ["typescript", "javascript", "python", "go", "rust", "java"],
+              "required": true,
+              "description": "Primary technology stack"
+            },
+            "deployment": {
+              "type": "string",
+              "enum": ["cloud", "local", "hybrid"],
+              "default": "cloud",
+              "description": "Deployment target"
+            }
+          },
+          "dependencies": [],
+          "complexity": "high",
+          "estimated_time": "15-30 minutes"
+        },
+        "audit-security": {
+          "description": "OWASP-compliant security analysis and vulnerability assessment",
+          "prompt_file": "prompts/02-code-analysis/security-quality-audit.md",
+          "parameters": {
+            "scope": {
+              "type": "string",
+              "enum": ["full-codebase", "changed-files", "specific-module"],
+              "default": "changed-files",
+              "description": "Scope of security audit"
+            },
+            "severity": {
+              "type": "string",
+              "enum": ["all", "high", "critical"],
+              "default": "high",
+              "description": "Minimum severity level to report"
+            },
+            "compliance": {
+              "type": "string",
+              "enum": ["owasp", "soc2", "gdpr", "hipaa", "all"],
+              "default": "owasp",
+              "description": "Compliance framework to check against"
+            }
+          },
+          "dependencies": [],
+          "complexity": "high",
+          "estimated_time": "10-20 minutes"
+        },
+        "refactor": {
+          "description": "Safe multi-file transformations with automated validation",
+          "prompt_file": "prompts/03-refactoring/codebase-modernization.md",
+          "parameters": {
+            "target": {
+              "type": "string",
+              "enum": ["performance", "maintainability", "modernization", "patterns"],
+              "required": true,
+              "description": "Refactoring objective"
+            },
+            "scope": {
+              "type": "string",
+              "enum": ["file", "module", "package", "codebase"],
+              "default": "module",
+              "description": "Scope of refactoring"
+            },
+            "safety": {
+              "type": "string",
+              "enum": ["conservative", "moderate", "aggressive"],
+              "default": "moderate",
+              "description": "Safety level for transformations"
+            }
+          },
+          "dependencies": ["audit-security"],
+          "complexity": "high",
+          "estimated_time": "20-45 minutes"
+        },
+        "test": {
+          "description": "Comprehensive test automation and coverage analysis",
+          "prompt_file": "prompts/04-testing/test-suite-generation.md",
+          "parameters": {
+            "type": {
+              "type": "string",
+              "enum": ["unit", "integration", "e2e", "comprehensive"],
+              "default": "comprehensive",
+              "description": "Types of tests to generate"
+            },
+            "coverage": {
+              "type": "number",
+              "minimum": 50,
+              "maximum": 100,
+              "default": 80,
+              "description": "Target test coverage percentage"
+            },
+            "framework": {
+              "type": "string",
+              "enum": ["auto-detect", "jest", "mocha", "pytest", "go-test"],
+              "default": "auto-detect",
+              "description": "Testing framework to use"
+            }
+          },
+          "dependencies": [],
+          "complexity": "medium",
+          "estimated_time": "15-30 minutes"
+        },
+        "document": {
+          "description": "Auto-generated documentation with interactive examples",
+          "prompt_file": "prompts/05-documentation/documentation-generator.md",
+          "parameters": {
+            "type": {
+              "type": "string",
+              "enum": ["api", "user-guide", "developer", "comprehensive"],
+              "default": "comprehensive",
+              "description": "Type of documentation to generate"
+            },
+            "format": {
+              "type": "string",
+              "enum": ["markdown", "html", "pdf", "confluence"],
+              "default": "markdown",
+              "description": "Output format for documentation"
+            },
+            "interactive": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include interactive examples"
+            }
+          },
+          "dependencies": [],
+          "complexity": "medium",
+          "estimated_time": "10-25 minutes"
+        },
+        "setup-ci": {
+          "description": "CI/CD pipeline automation with quality gates",
+          "prompt_file": "prompts/09-build-deployment/comprehensive-cicd.md",
+          "parameters": {
+            "platform": {
+              "type": "string",
+              "enum": ["github", "gitlab", "azure", "jenkins"],
+              "required": true,
+              "description": "CI/CD platform to configure"
+            },
+            "quality": {
+              "type": "string",
+              "enum": ["basic", "standard", "strict", "enterprise"],
+              "default": "standard",
+              "description": "Quality gate strictness"
+            },
+            "deployment": {
+              "type": "string",
+              "enum": ["staging", "production", "both"],
+              "default": "both",
+              "description": "Deployment stages to configure"
+            }
+          },
+          "dependencies": ["test"],
+          "complexity": "high",
+          "estimated_time": "20-40 minutes"
+        },
+        "deploy": {
+          "description": "Production deployment workflows with rollback procedures",
+          "prompt_file": "prompts/09-build-deployment/infrastructure-as-code.md",
+          "parameters": {
+            "target": {
+              "type": "string",
+              "enum": ["aws", "gcp", "azure", "kubernetes", "docker"],
+              "required": true,
+              "description": "Deployment target platform"
+            },
+            "strategy": {
+              "type": "string",
+              "enum": ["blue-green", "rolling", "canary", "recreate"],
+              "default": "rolling",
+              "description": "Deployment strategy"
+            },
+            "monitoring": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include monitoring and alerting setup"
+            }
+          },
+          "dependencies": ["setup-ci"],
+          "complexity": "high",
+          "estimated_time": "25-50 minutes"
+        },
+        "optimize": {
+          "description": "Performance optimization with bottleneck analysis",
+          "prompt_file": "prompts/03-refactoring/performance-optimization.md",
+          "parameters": {
+            "target": {
+              "type": "string",
+              "enum": ["speed", "memory", "bundle-size", "database", "comprehensive"],
+              "default": "comprehensive",
+              "description": "Optimization target"
+            },
+            "profiling": {
+              "type": "boolean",
+              "default": true,
+              "description": "Include performance profiling"
+            },
+            "benchmark": {
+              "type": "boolean",
+              "default": true,
+              "description": "Create performance benchmarks"
+            }
+          },
+          "dependencies": ["test"],
+          "complexity": "high",
+          "estimated_time": "20-40 minutes"
+        }
+      }
+    }
+  }
+}
