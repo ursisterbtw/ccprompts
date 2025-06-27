@@ -1,0 +1,45 @@
+{
+  "name": "ccprompts",
+  "version": "1.0.0",
+  "description": "Comprehensive Claude Code command ecosystem with 38 production-ready commands",
+  "main": ".claude/test-mcp.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint .claude/ --ext .js",
+    "lint:fix": "eslint .claude/ --ext .js --fix",
+    "mcp:test": "node .claude/test-mcp.js"
+  },
+  "keywords": [
+    "claude-code",
+    "ai-development",
+    "automation",
+    "workflow",
+    "mcp",
+    "commands"
+  ],
+  "author": "ccprompts contributors",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "eslint": "^8.57.0",
+    "@jest/globals": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      ".claude/**/*.js",
+      "!.claude/cache/**",
+      "!.claude/logs/**",
+      "!.claude/temp/**"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.js",
+      "**/?(*.)+(spec|test).js"
+    ]
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
