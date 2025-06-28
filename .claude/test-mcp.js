@@ -8,6 +8,7 @@
 const { spawn } = require('child_process');
 const path = require('path');
 const ConfigManager = require('./config/ConfigManager');
+const SecurityUtils = require('../ci/utils/security');
 
 // Configuration constants
 const CONFIG = {
@@ -93,8 +94,16 @@ class MCPTester {
     // Security: Validate and sanitize command input
     this.validateServerCommand(serverConfig);
     
+    // Additional security validation
+    if (!SecurityUtils.validateServerCommand(serverConfig.command)) {
+      throw new Error(`Unsafe server command: ${serverConfig.command}`);
+    }
+    
+    // Sanitize environment variables
+    const sanitizedEnv = SecurityUtils.sanitizeEnvironment(serverConfig.env || {});
+    
     const child = spawn(serverConfig.command, serverConfig.args || [], {
-      env: { ...process.env, ...(serverConfig.env || {}) },
+      env: { ...process.env, ...sanitizedEnv },
       stdio: ['pipe', 'pipe', 'pipe']
     });
 

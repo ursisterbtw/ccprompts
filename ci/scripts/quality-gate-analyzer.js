@@ -160,10 +160,16 @@ class QualityGateAnalyzer {
     
     if (fs.existsSync(performancePath)) {
       const files = fs.readdirSync(performancePath);
-      const latestResult = files
-        .filter(f => f.endsWith('.json'))
-        .sort()
-        .pop();
+      const jsonFiles = files.filter(f => f.endsWith('.json'));
+      let latestResult = null;
+      if (jsonFiles.length > 0) {
+        latestResult = jsonFiles
+          .map(f => ({
+            file: f,
+            mtime: fs.statSync(path.join(performancePath, f)).mtime
+          }))
+          .sort((a, b) => b.mtime - a.mtime)[0].file;
+      }
       
       if (latestResult) {
         const perfData = JSON.parse(fs.readFileSync(path.join(performancePath, latestResult), 'utf8'));
@@ -281,6 +287,8 @@ class QualityGateAnalyzer {
    * Generate comprehensive recommendations
    */
   generateRecommendations() {
+    // Clear previous recommendations to prevent duplicates
+    this.results.recommendations = [];
     if (this.results.recommendations.length === 0) {
       this.results.recommendations.push('🎉 All quality checks passed! Ready for deployment.');
     }

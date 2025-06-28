@@ -7,6 +7,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const CommonUtils = require('../utils/common');
 
 class CoverageValidator {
   constructor() {
@@ -28,10 +29,7 @@ class CoverageValidator {
   }
 
   ensureReportsDir() {
-    const reportsDir = path.join(process.cwd(), 'ci', 'reports');
-    if (!fs.existsSync(reportsDir)) {
-      fs.mkdirSync(reportsDir, { recursive: true });
-    }
+    return CommonUtils.ensureReportsDir();
   }
 
   /**
@@ -44,7 +42,7 @@ class CoverageValidator {
       throw new Error('Coverage summary not found. Ensure tests run with --coverage flag.');
     }
     
-    const coverageData = JSON.parse(fs.readFileSync(coveragePath, 'utf8'));
+    const coverageData = CommonUtils.safeJSONParse(coveragePath);
     this.results.coverage = coverageData.total;
     
     return coverageData;

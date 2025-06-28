@@ -195,10 +195,10 @@ class SecurityScanner {
       const files = this.getAllFiles();
       files.forEach(file => {
         const stats = fs.statSync(file);
-        const mode = stats.mode.toString(8);
+        const mode = stats.mode;
         
-        // Check for world-writable files (dangerous)
-        if (mode.endsWith('2') || mode.endsWith('6') || mode.endsWith('7')) {
+        // Check for world-writable files (dangerous) using bitwise operations
+        if ((mode & 0o002) !== 0) {
           this.results.vulnerabilities.push({
             type: 'insecure-file-permissions',
             severity: 'medium',

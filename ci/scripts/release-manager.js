@@ -7,7 +7,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
+const SecurityUtils = require('../utils/security');
+const CommonUtils = require('../utils/common');
 
 class ReleaseManager {
   constructor() {
@@ -42,23 +43,20 @@ class ReleaseManager {
   }
 
   ensureReportsDir() {
-    const reportsDir = path.join(process.cwd(), 'ci', 'reports');
-    if (!fs.existsSync(reportsDir)) {
-      fs.mkdirSync(reportsDir, { recursive: true });
-    }
+    return CommonUtils.ensureReportsDir();
   }
 
   /**
    * Analyze commit history to determine version bump type
    */
-  analyzeCommitHistory() {
+  async analyzeCommitHistory() {
     console.log('📊 Analyzing commit history for version bump...');
     
     try {
       // Get commits since last tag
       let commitRange;
       try {
-        const lastTag = execSync('git describe --tags --abbrev=0', { encoding: 'utf8' }).trim();
+        const lastTag = await SecurityUtils.safeGitCommand(['describe', '--tags', '--abbrev=0']);
         commitRange = `${lastTag}..HEAD`;
         console.log(`  📌 Last tag: ${lastTag}`);
       } catch (error) {
@@ -67,7 +65,7 @@ class ReleaseManager {
         console.log('  📌 No previous tags found, analyzing all commits');
       }
       
-      const commits = execSync(`git log ${commitRange} --pretty=format:"%s"`, { encoding: 'utf8' });
+      const commits = await SecurityUtils.safeGitCommand(['log', commitRange, '--pretty=format:%s']);
       const commitLines = commits.split('\n').filter(line => line.trim());
       
       if (commitLines.length === 0) {
@@ -180,6 +178,7 @@ class ReleaseManager {
       case this.semanticVersions.PATCH:
         return `${major}.${minor}.${patch + 1}`;
       default:
+        console.warn(`Unknown bump type "${bumpType}" encountered in calculateNewVersion. Defaulting to patch bump.`);
         return `${major}.${minor}.${patch + 1}`;
     }
   }
@@ -317,13 +316,20 @@ class ReleaseManager {
   /**
    * Create git tag for release
    */
-  createGitTag(version, changelogEntry) {
+  async createGitTag(version, changelogEntry) {
     console.log(`🏷️  Creating git tag v${version}...`);
     
     try {
+      // Validate inputs
+      if (!SecurityUtils.isValidVersion(version)) {
+        throw new Error(`Invalid version format: ${version}`);
+      }
+      
       // Create annotated tag with changelog as message
-      const tagMessage = `Release v${version}\n\n${changelogEntry}`;
-      execSync(`git tag -a v${version} -m "${tagMessage.replace(/"/g, '\\"')}"`, { stdio: 'inherit' });
+      const sanitizedVersion = SecurityUtils.sanitizeShellInput(version);
+      const tagMessage = `Release v${sanitizedVersion}\n\n${changelogEntry.substring(0, 1000)}`; // Limit message length
+      
+      await SecurityUtils.safeGitCommand(['tag', '-a', `v${sanitizedVersion}`, '-m', tagMessage]);
       console.log('  ✅ Created git tag');
       
       return true;
@@ -402,7 +408,7 @@ class ReleaseManager {
   /**
    * Create release assets
    */
-  createReleaseAssets(version) {
+  async createReleaseAssets(version) {
     console.log('📦 Creating release assets...');
     
     const assets = [];
@@ -413,21 +419,28 @@ class ReleaseManager {
     }
     
     try {
+      // Validate version format
+      if (!SecurityUtils.isValidVersion(version)) {
+        throw new Error(`Invalid version format: ${version}`);
+      }
+      
+      const sanitizedVersion = SecurityUtils.sanitizeShellInput(version);
+      
       // Create command reference archive
-      const commandsArchive = path.join(assetsDir, `ccprompts-commands-v${version}.tar.gz`);
-      execSync(`tar -czf "${commandsArchive}" -C .claude commands/`, { stdio: 'inherit' });
+      const commandsArchive = path.join(assetsDir, `ccprompts-commands-v${sanitizedVersion}.tar.gz`);
+      await SecurityUtils.safeTarCommand(['-czf', commandsArchive, '-C', '.claude', 'commands/']);
       assets.push({
-        name: `ccprompts-commands-v${version}.tar.gz`,
+        name: `ccprompts-commands-v${sanitizedVersion}.tar.gz`,
         path: commandsArchive,
         type: 'application/gzip'
       });
       
       // Create documentation archive
-      const docsArchive = path.join(assetsDir, `ccprompts-docs-v${version}.tar.gz`);
+      const docsArchive = path.join(assetsDir, `ccprompts-docs-v${sanitizedVersion}.tar.gz`);
       if (fs.existsSync('docs')) {
-        execSync(`tar -czf "${docsArchive}" docs/`, { stdio: 'inherit' });
+        await SecurityUtils.safeTarCommand(['-czf', docsArchive, 'docs/']);
         assets.push({
-          name: `ccprompts-docs-v${version}.tar.gz`,
+          name: `ccprompts-docs-v${sanitizedVersion}.tar.gz`,
           path: docsArchive,
           type: 'application/gzip'
         });
@@ -547,11 +560,11 @@ class ReleaseManager {
       console.log(`🎯 Using forced version: ${forceVersion}`);
       
       // Still analyze commits for changelog
-      const analysis = this.analyzeCommitHistory();
+      const analysis = await this.analyzeCommitHistory();
       commitAnalysis = analysis ? analysis.commits : { breaking: [], features: [], fixes: [], other: [] };
     } else {
       // Analyze commits to determine version bump
-      const analysis = this.analyzeCommitHistory();
+      const analysis = await this.analyzeCommitHistory();
       
       if (!analysis) {
         console.log('ℹ️  No new commits found, skipping release');
@@ -582,7 +595,7 @@ class ReleaseManager {
       this.updatePackageVersion(newVersion);
       
       // Create git tag
-      if (!this.createGitTag(newVersion, changelogEntry)) {
+      if (!(await this.createGitTag(newVersion, changelogEntry))) {
         this.results.passed = false;
         return false;
       }
@@ -591,7 +604,7 @@ class ReleaseManager {
       const releaseNotes = this.generateReleaseNotes(newVersion, commitAnalysis);
       
       // Create release assets
-      const assets = this.createReleaseAssets(newVersion);
+      const assets = await this.createReleaseAssets(newVersion);
       
       // Create GitHub release
       if (!this.createGitHubRelease(newVersion, releaseNotes, assets)) {

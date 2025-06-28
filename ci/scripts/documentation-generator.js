@@ -279,7 +279,13 @@ class DocumentationGenerator {
    */
   async generateCategoryDocumentation(category, commands) {
     const categoryTitle = this.formatCategoryTitle(category);
-    const fileName = `${category.toUpperCase()}-COMMANDS.md`;
+    // Normalize category to kebab-case for portability
+    const normalizedCategory = category
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+    const fileName = `${normalizedCategory}-commands.md`;
     
     let content = `# ${categoryTitle} Commands\n\n`;
     content += `**Generated:** ${new Date().toISOString()}\n\n`;

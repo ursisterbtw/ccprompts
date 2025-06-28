@@ -381,11 +381,11 @@ jobs:
           
       - name: Generate Release
         id: release
+        env:
+          NEW_VERSION: ${{ needs.release-preparation.outputs.new_version }}
+          DRY_RUN: ${{ github.event.inputs.dry_run }}
         run: |
           echo "🚀 Generating release..."
-          
-          NEW_VERSION="${{ needs.release-preparation.outputs.new_version }}"
-          DRY_RUN="${{ github.event.inputs.dry_run }}"
           
           if [ "$DRY_RUN" = "true" ]; then
             echo "🔍 Running in dry-run mode"
@@ -481,34 +481,45 @@ jobs:
     
     steps:
       - name: Generate Release Summary
+        env:
+          WORKFLOW_NAME: ${{ github.workflow }}
+          EVENT_NAME: ${{ github.event_name }}
+          REF_NAME: ${{ github.ref_name }}
+          DOC_RESULT: ${{ needs.documentation-generation.result }}
+          PREP_RESULT: ${{ needs.release-preparation.result }}
+          PREP_SHOULD_RELEASE: ${{ needs.release-preparation.outputs.should_release }}
+          PREP_NEW_VERSION: ${{ needs.release-preparation.outputs.new_version }}
+          PREP_RELEASE_TYPE: ${{ needs.release-preparation.outputs.release_type }}
+          CREATE_RESULT: ${{ needs.release-creation.result }}
+          POST_RESULT: ${{ needs.post-release.result }}
         run: |
           echo "📊 Generating release summary..."
           
-          cat > release-summary.md << 'EOF'
+          cat > release-summary.md << EOF
           # Release Pipeline Summary
           
           **Timestamp:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
-          **Workflow:** ${{ github.workflow }}
-          **Trigger:** ${{ github.event_name }}
-          **Branch:** ${{ github.ref_name }}
+          **Workflow:** $WORKFLOW_NAME
+          **Trigger:** $EVENT_NAME
+          **Branch:** $REF_NAME
           
           ## Pipeline Results
           
           EOF
           
           # Documentation Generation
-          if [ "${{ needs.documentation-generation.result }}" = "success" ]; then
+          if [ "$DOC_RESULT" = "success" ]; then
             echo "✅ **Documentation Generation**: Completed successfully" >> release-summary.md
           else
             echo "❌ **Documentation Generation**: Failed" >> release-summary.md
           fi
           
           # Release Preparation  
-          if [ "${{ needs.release-preparation.result }}" = "success" ]; then
+          if [ "$PREP_RESULT" = "success" ]; then
             echo "✅ **Release Preparation**: Completed successfully" >> release-summary.md
-            if [ "${{ needs.release-preparation.outputs.should_release }}" = "true" ]; then
-              echo "  - **New Version**: ${{ needs.release-preparation.outputs.new_version }}" >> release-summary.md
-              echo "  - **Release Type**: ${{ needs.release-preparation.outputs.release_type }}" >> release-summary.md
+            if [ "$PREP_SHOULD_RELEASE" = "true" ]; then
+              echo "  - **New Version**: $PREP_NEW_VERSION" >> release-summary.md
+              echo "  - **Release Type**: $PREP_RELEASE_TYPE" >> release-summary.md
             else
               echo "  - **Status**: No release needed" >> release-summary.md
             fi
@@ -517,18 +528,18 @@ jobs:
           fi
           
           # Release Creation
-          if [ "${{ needs.release-creation.result }}" = "success" ]; then
+          if [ "$CREATE_RESULT" = "success" ]; then
             echo "✅ **Release Creation**: Completed successfully" >> release-summary.md
-          elif [ "${{ needs.release-creation.result }}" = "skipped" ]; then
+          elif [ "$CREATE_RESULT" = "skipped" ]; then
             echo "⏭️ **Release Creation**: Skipped (no release needed)" >> release-summary.md
           else
             echo "❌ **Release Creation**: Failed" >> release-summary.md
           fi
           
           # Post-Release
-          if [ "${{ needs.post-release.result }}" = "success" ]; then
+          if [ "$POST_RESULT" = "success" ]; then
             echo "✅ **Post-Release Tasks**: Completed successfully" >> release-summary.md
-          elif [ "${{ needs.post-release.result }}" = "skipped" ]; then
+          elif [ "$POST_RESULT" = "skipped" ]; then
             echo "⏭️ **Post-Release Tasks**: Skipped" >> release-summary.md
           else
             echo "❌ **Post-Release Tasks**: Failed" >> release-summary.md
