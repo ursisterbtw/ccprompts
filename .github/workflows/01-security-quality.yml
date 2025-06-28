@@ -1,0 +1,209 @@
+name: 'Tier 1: Security & Quality Gate'
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+# Security-first approach: all jobs have minimal permissions
+permissions:
+  contents: read
+  security-events: write
+  checks: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION_MATRIX: '[16, 18, 20, 22]'
+  COVERAGE_THRESHOLD: 90
+  
+jobs:
+  # Fast security and quality checks - designed for < 3 minutes
+  security-scan:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for better analysis
+          
+      - name: Setup Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: |
+          npm ci --audit=false  # Skip audit here, will do comprehensive scan below
+          
+      - name: CodeQL Analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+          config-file: ./.github/codeql/codeql-config.yml
+          
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        
+      - name: Dependency Vulnerability Scan
+        run: |
+          # Comprehensive security audit
+          npm audit --audit-level=moderate --json > ci/reports/npm-audit.json || true
+          
+          # Custom security checks for MCP servers and commands
+          node ci/scripts/security-scanner.js
+          
+      - name: License Compliance Check
+        run: |
+          npx license-checker --summary --excludePrivatePackages > ci/reports/licenses.txt
+          
+      - name: Upload Security Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-reports
+          path: ci/reports/
+          retention-days: 30
+
+  code-quality:
+    name: Code Quality & Standards
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: security-scan  # Only run if security passes
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: ESLint with Security Rules
+        run: |
+          # Use CI-specific ESLint configuration
+          npx eslint .claude/ --ext .js --config ci/configs/eslint-ci.config.js --format json --output-file ci/reports/eslint-results.json
+          npx eslint .claude/ --ext .js --config ci/configs/eslint-ci.config.js
+          
+      - name: Code Style Check
+        run: |
+          # Check for consistent formatting
+          npx prettier --check .claude/**/*.js --config ci/configs/prettier.config.js
+          
+      - name: Complexity Analysis
+        run: |
+          # Analyze code complexity and maintainability
+          npx complexity-report --output json .claude/ > ci/reports/complexity.json
+          node ci/scripts/complexity-validator.js
+          
+      - name: Upload Code Quality Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: code-quality-reports
+          path: ci/reports/
+          retention-days: 30
+
+  test-coverage:
+    name: Test Coverage & Quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    needs: code-quality
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run tests with coverage
+        run: |
+          # Use CI-specific Jest configuration for optimal performance
+          npx jest --config ci/configs/jest-ci.config.js --coverage --coverageReporters=json-summary,lcov,text --maxWorkers=2
+          
+      - name: Coverage Threshold Check
+        run: |
+          # Validate coverage meets our 90% threshold
+          node ci/scripts/coverage-validator.js
+          
+      - name: Test Quality Analysis
+        run: |
+          # Analyze test quality and suggest improvements
+          node ci/scripts/test-quality-analyzer.js
+          
+      - name: Upload Coverage Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: coverage/
+          retention-days: 30
+          
+      - name: Comment Coverage Report
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          recreate: true
+          path: ci/reports/coverage-summary.md
+
+  quality-gate:
+    name: Quality Gate Decision
+    runs-on: ubuntu-latest
+    needs: [security-scan, code-quality, test-coverage]
+    if: always()
+    
+    steps:
+      - name: Download all reports
+        uses: actions/download-artifact@v4
+        
+      - name: Quality Gate Analysis
+        run: |
+          # Comprehensive quality assessment
+          node ci/scripts/quality-gate-analyzer.js
+          
+      - name: Pass/Fail Decision
+        run: |
+          # Exit with appropriate code based on quality gate results
+          if [ -f "ci/reports/quality-gate-failed.flag" ]; then
+            echo "❌ Quality gate failed. See reports for details."
+            exit 1
+          else
+            echo "✅ Quality gate passed. Ready for next stage."
+          fi
+          
+      - name: Update Status Checks
+        uses: actions/github-script@v7
+        if: always()
+        with:
+          script: |
+            const fs = require('fs');
+            const qualityPassed = !fs.existsSync('ci/reports/quality-gate-failed.flag');
+            
+            await github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: qualityPassed ? 'success' : 'failure',
+              context: 'Quality Gate',
+              description: qualityPassed ? 'All quality checks passed' : 'Quality issues detected'
+            });
