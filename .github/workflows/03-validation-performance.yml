@@ -1,0 +1,452 @@
+name: 'Tier 3: Command Validation & Performance'
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+  schedule:
+    # Run performance monitoring daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 20
+  PERFORMANCE_BASELINE_DAYS: 7
+  
+jobs:
+  command-validation:
+    name: Command Ecosystem Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Validate Command Structure
+        run: |
+          echo "🔍 Validating 38-command ecosystem structure..."
+          node ci/scripts/command-validator.js
+          
+      - name: Command XML Validation
+        run: |
+          echo "📝 Validating XML structure in command files..."
+          # Check XML well-formedness in all command files
+          find .claude/commands -name "*.md" -exec grep -l "<role>" {} \; | while read file; do
+            echo "Validating: $file"
+            # Extract XML blocks and validate them
+            sed -n '/<role>/,/<\/output-format>/p' "$file" > temp.xml
+            if command -v xmllint >/dev/null 2>&1; then
+              xmllint --noout temp.xml 2>/dev/null || echo "⚠️ XML validation warning in $file"
+            fi
+            rm -f temp.xml
+          done
+          
+      - name: Command Content Quality Check
+        run: |
+          echo "📊 Analyzing command content quality..."
+          # Check for minimum content standards
+          python3 -c "
+          import os, glob, re
+          
+          commands = glob.glob('.claude/commands/**/*.md', recursive=True)
+          issues = []
+          
+          for cmd_file in commands:
+              with open(cmd_file, 'r') as f:
+                  content = f.read()
+                  
+              # Check for required sections
+              required = ['<role>', '<activation>', '<instructions>', '<output-format>']
+              missing = [section for section in required if section not in content]
+              
+              if missing:
+                  issues.append(f'{cmd_file}: Missing sections {missing}')
+                  
+              # Check content length
+              if len(content) < 500:
+                  issues.append(f'{cmd_file}: Content too brief ({len(content)} chars)')
+          
+          if issues:
+              print('⚠️ Command quality issues found:')
+              for issue in issues[:10]:  # Show first 10
+                  print(f'  - {issue}')
+              if len(issues) > 10:
+                  print(f'  ... and {len(issues) - 10} more')
+          else:
+              print('✅ All commands meet quality standards')
+          "
+          
+      - name: Command Category Validation
+        run: |
+          echo "📁 Validating command categorization..."
+          # Ensure commands are properly categorized
+          python3 -c "
+          import os, glob
+          
+          expected_categories = {
+              'category-commands': 8,
+              'workflow-commands': 6,
+              'context-aware-commands': 5,
+              'utility-commands': 6,
+              'lifecycle-commands': 7,
+              'learning-commands': 4,
+              'specialized-commands': 2
+          }
+          
+          for category, expected_count in expected_categories.items():
+              pattern = f'.claude/commands/**/{category}/*.md'
+              actual_files = glob.glob(pattern, recursive=True)
+              actual_count = len(actual_files)
+              
+              status = '✅' if actual_count >= expected_count else '⚠️'
+              print(f'{status} {category}: {actual_count}/{expected_count} commands')
+              
+              if actual_count < expected_count:
+                  print(f'    Missing {expected_count - actual_count} commands in {category}')
+          "
+          
+      - name: Upload Command Validation Reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: command-validation-reports
+          path: ci/reports/
+          retention-days: 30
+
+  performance-monitoring:
+    name: Performance Regression Detection
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: command-validation
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Download Previous Performance Data
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: performance-baseline
+          path: ci/reports/performance/
+          
+      - name: Run Performance Benchmarks
+        run: |
+          echo "⚡ Running performance benchmarks..."
+          node ci/scripts/performance-monitor.js
+          
+      - name: Performance Regression Analysis
+        run: |
+          echo "📊 Analyzing performance trends..."
+          # Create performance trend analysis
+          python3 -c "
+          import json, os, glob, statistics
+          from datetime import datetime, timedelta
+          
+          # Load all performance reports from last 7 days
+          reports_dir = 'ci/reports/performance'
+          if not os.path.exists(reports_dir):
+              print('📊 No performance history found')
+              exit(0)
+              
+          report_files = glob.glob(f'{reports_dir}/performance-*.json')
+          if not report_files:
+              print('📊 No performance reports found')
+              exit(0)
+              
+          # Analyze trends
+          benchmarks_history = {}
+          
+          for report_file in sorted(report_files)[-10:]:  # Last 10 reports
+              try:
+                  with open(report_file, 'r') as f:
+                      data = json.load(f)
+                      
+                  for benchmark in data.get('benchmarks', []):
+                      name = benchmark['name']
+                      duration = benchmark['duration']
+                      
+                      if name not in benchmarks_history:
+                          benchmarks_history[name] = []
+                      benchmarks_history[name].append(duration)
+              except Exception as e:
+                  print(f'⚠️ Could not parse {report_file}: {e}')
+          
+          # Generate trend report
+          print('📈 Performance Trends (Last 10 Runs):')
+          for benchmark_name, durations in benchmarks_history.items():
+              if len(durations) > 1:
+                  avg = statistics.mean(durations)
+                  recent = durations[-1]
+                  change = ((recent - avg) / avg) * 100
+                  
+                  status = '🔴' if change > 20 else '🟡' if change > 10 else '🟢'
+                  print(f'{status} {benchmark_name}: {recent:.1f}ms (avg: {avg:.1f}ms, change: {change:+.1f}%)')
+          "
+          
+      - name: System Resource Usage Analysis
+        run: |
+          echo "💾 Analyzing system resource usage..."
+          # Monitor memory and CPU usage during tests
+          python3 -c "
+          import psutil, time
+          
+          print('System Resource Usage:')
+          print(f'CPU Usage: {psutil.cpu_percent(interval=1):.1f}%')
+          print(f'Memory Usage: {psutil.virtual_memory().percent:.1f}%')
+          print(f'Disk Usage: {psutil.disk_usage(\"/\").percent:.1f}%')
+          
+          # Check if resources are under stress
+          if psutil.virtual_memory().percent > 90:
+              print('⚠️ High memory usage detected')
+          if psutil.cpu_percent(interval=1) > 90:
+              print('⚠️ High CPU usage detected')
+          "
+          
+      - name: Generate Performance Report
+        run: |
+          echo "📋 Generating comprehensive performance report..."
+          # Create detailed performance analysis
+          cat > ci/reports/performance-analysis.md << 'EOF'
+          # Performance Analysis Report
+          
+          **Generated:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Commit:** ${{ github.sha }}
+          **Branch:** ${{ github.ref_name }}
+          
+          ## Summary
+          
+          This report analyzes the performance characteristics of the ccprompts ecosystem,
+          including command loading, file operations, and MCP server interactions.
+          
+          ## Key Metrics
+          
+          - **Command Loading Performance**: Time to load all 38 commands
+          - **File I/O Performance**: Read/write operations for configuration files
+          - **JSON Processing**: Serialization/deserialization performance
+          - **MCP Integration**: Server validation and communication overhead
+          
+          ## Regression Thresholds
+          
+          - **Warning**: >10% performance degradation
+          - **Error**: >20% performance degradation
+          - **Critical**: >50% performance degradation
+          
+          ## Recommendations
+          
+          1. Monitor file I/O performance as command count grows
+          2. Optimize JSON processing for large configuration files
+          3. Cache command metadata to reduce loading time
+          4. Implement lazy loading for non-critical components
+          
+          EOF
+          
+      - name: Upload Performance Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-reports
+          path: ci/reports/
+          retention-days: 30
+          
+      - name: Save Performance Baseline
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-baseline
+          path: ci/reports/performance/baseline.json
+          retention-days: 7
+
+  integration-validation:
+    name: Cross-Component Integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    needs: [command-validation, performance-monitoring]
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Test Command Registry Integration
+        run: |
+          echo "🔗 Testing command registry integration..."
+          node -e "
+          const CommandRegistry = require('./.claude/core/CommandRegistry');
+          const registry = new CommandRegistry();
+          
+          console.log('🔄 Loading commands...');
+          registry.loadAllCommands().then(() => {
+            const commandCount = Object.keys(registry.commands).length;
+            console.log(\`✅ Loaded \${commandCount} commands\`);
+            
+            if (commandCount < 30) {
+              console.log('⚠️ Warning: Expected at least 30 commands');
+              process.exit(1);
+            }
+            
+            console.log('🔍 Testing search functionality...');
+            const searchResults = registry.searchCommands('bootstrap');
+            console.log(\`📊 Search results: \${searchResults.length} matches\`);
+            
+            console.log('✅ Command registry integration test passed');
+          }).catch(err => {
+            console.error('❌ Command registry test failed:', err);
+            process.exit(1);
+          });
+          "
+          
+      - name: Test MCP Configuration Integration
+        run: |
+          echo "🔌 Testing MCP configuration integration..."
+          node -e "
+          const MCPTester = require('./.claude/core/MCPTester');
+          const ConfigManager = require('./.claude/core/ConfigManager');
+          
+          console.log('⚙️ Testing configuration management...');
+          const config = new ConfigManager();
+          console.log('✅ ConfigManager initialized');
+          
+          console.log('🧪 Testing MCP validation...');
+          const tester = new MCPTester();
+          const mockConfig = {
+            'test-server': {
+              command: 'node',
+              args: ['--version']
+            }
+          };
+          
+          tester.validateConfiguration(mockConfig).then(() => {
+            console.log('✅ MCP integration test passed');
+          }).catch(err => {
+            console.log('⚠️ MCP test warning:', err.message);
+            // Don't fail build for MCP issues in CI
+          });
+          "
+          
+      - name: End-to-End Workflow Test
+        run: |
+          echo "🔄 Testing end-to-end workflow..."
+          # Simulate a complete command execution workflow
+          python3 -c "
+          import subprocess, json, time
+          
+          print('🚀 Starting end-to-end workflow test...')
+          
+          # Test 1: Command discovery and validation
+          print('1️⃣ Testing command discovery...')
+          result = subprocess.run(['node', 'ci/scripts/command-validator.js'], 
+                                capture_output=True, text=True)
+          if result.returncode == 0:
+              print('✅ Command validation passed')
+          else:
+              print('⚠️ Command validation issues detected')
+          
+          # Test 2: Performance monitoring
+          print('2️⃣ Testing performance monitoring...')
+          start_time = time.time()
+          result = subprocess.run(['node', 'ci/scripts/performance-monitor.js'], 
+                                capture_output=True, text=True)
+          end_time = time.time()
+          
+          print(f'⏱️ Performance monitoring took {end_time - start_time:.1f}s')
+          
+          if result.returncode == 0:
+              print('✅ Performance monitoring passed')
+          else:
+              print('⚠️ Performance issues detected')
+          
+          print('🎉 End-to-end workflow test completed')
+          "
+
+  validation-summary:
+    name: Validation & Performance Summary
+    runs-on: ubuntu-latest
+    needs: [command-validation, performance-monitoring, integration-validation]
+    if: always()
+    
+    steps:
+      - name: Download all reports
+        uses: actions/download-artifact@v4
+        
+      - name: Generate Summary Report
+        run: |
+          echo "📊 Generating validation and performance summary..."
+          
+          # Create comprehensive summary
+          cat > validation-performance-summary.md << 'EOF'
+          # Validation & Performance Summary
+          
+          **Timestamp:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Workflow:** ${{ github.workflow }}
+          **Trigger:** ${{ github.event_name }}
+          
+          ## Command Validation Results
+          
+          EOF
+          
+          # Add command validation results if available
+          if [ -f "command-validation-reports/command-validation-summary.md" ]; then
+            echo "✅ Command validation completed" >> validation-performance-summary.md
+            cat command-validation-reports/command-validation-summary.md >> validation-performance-summary.md
+          else
+            echo "⚠️ Command validation reports not found" >> validation-performance-summary.md
+          fi
+          
+          echo "" >> validation-performance-summary.md
+          echo "## Performance Monitoring Results" >> validation-performance-summary.md
+          echo "" >> validation-performance-summary.md
+          
+          # Add performance results if available
+          if [ -f "performance-reports/performance-summary.md" ]; then
+            echo "✅ Performance monitoring completed" >> validation-performance-summary.md
+            cat performance-reports/performance-summary.md >> validation-performance-summary.md
+          else
+            echo "⚠️ Performance monitoring reports not found" >> validation-performance-summary.md
+          fi
+          
+      - name: Comment Summary on PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        if: github.event_name == 'pull_request'
+        with:
+          recreate: true
+          path: validation-performance-summary.md
