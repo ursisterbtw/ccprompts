@@ -276,6 +276,8 @@ jobs:
         
       - name: Check Release Criteria
         id: check
+        env:
+          RELEASE_TYPE_INPUT: ${{ github.event.inputs.release_type }}
         run: |
           echo "🔍 Checking if release is needed..."
           
@@ -308,8 +310,8 @@ jobs:
           echo "should_release=true" >> $GITHUB_OUTPUT
           
           # Determine release type from input or auto-detect
-          if [ "${{ github.event.inputs.release_type }}" != "auto" ] && [ -n "${{ github.event.inputs.release_type }}" ]; then
-            RELEASE_TYPE="${{ github.event.inputs.release_type }}"
+          if [ "$RELEASE_TYPE_INPUT" != "auto" ] && [ -n "$RELEASE_TYPE_INPUT" ]; then
+            RELEASE_TYPE="$RELEASE_TYPE_INPUT"
             echo "🎯 Using manual release type: $RELEASE_TYPE"
           else
             # Auto-detect from commit messages

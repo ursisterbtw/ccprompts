@@ -69,60 +69,66 @@ class PerformanceMonitor {
     console.log('📁 Benchmarking file operations...');
     
     const tempDir = path.join('ci', 'reports', 'temp');
-    if (!fs.existsSync(tempDir)) {
-      fs.mkdirSync(tempDir, { recursive: true });
+    
+    try {
+      if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir, { recursive: true });
+      }
+      
+      const benchmarks = [];
+      
+      // File write performance
+      const writeStart = performance.now();
+      const testData = 'x'.repeat(10000); // 10KB test data
+      for (let i = 0; i < 100; i++) {
+        fs.writeFileSync(path.join(tempDir, `test-${i}.txt`), testData);
+      }
+      const writeEnd = performance.now();
+      
+      benchmarks.push({
+        name: 'file_write_100x10kb',
+        duration: writeEnd - writeStart,
+        unit: 'ms',
+        category: 'io'
+      });
+      
+      // File read performance
+      const readStart = performance.now();
+      for (let i = 0; i < 100; i++) {
+        fs.readFileSync(path.join(tempDir, `test-${i}.txt`), 'utf8');
+      }
+      const readEnd = performance.now();
+      
+      benchmarks.push({
+        name: 'file_read_100x10kb',
+        duration: readEnd - readStart,
+        unit: 'ms',
+        category: 'io'
+      });
+      
+      // Directory traversal performance
+      const traversalStart = performance.now();
+      this.traverseDirectory('.claude');
+      const traversalEnd = performance.now();
+      
+      benchmarks.push({
+        name: 'directory_traversal_claude',
+        duration: traversalEnd - traversalStart,
+        unit: 'ms',
+        category: 'io'
+      });
+      
+      return benchmarks;
+    } finally {
+      // Cleanup in finally block to ensure removal even on error
+      try {
+        if (fs.existsSync(tempDir)) {
+          fs.rmSync(tempDir, { recursive: true });
+        }
+      } catch (cleanupError) {
+        console.warn('Failed to cleanup temp directory:', cleanupError.message);
+      }
     }
-    
-    const benchmarks = [];
-    
-    // File write performance
-    const writeStart = performance.now();
-    const testData = 'x'.repeat(10000); // 10KB test data
-    for (let i = 0; i < 100; i++) {
-      fs.writeFileSync(path.join(tempDir, `test-${i}.txt`), testData);
-    }
-    const writeEnd = performance.now();
-    
-    benchmarks.push({
-      name: 'file_write_100x10kb',
-      duration: writeEnd - writeStart,
-      unit: 'ms',
-      category: 'io'
-    });
-    
-    // File read performance
-    const readStart = performance.now();
-    for (let i = 0; i < 100; i++) {
-      fs.readFileSync(path.join(tempDir, `test-${i}.txt`), 'utf8');
-    }
-    const readEnd = performance.now();
-    
-    benchmarks.push({
-      name: 'file_read_100x10kb',
-      duration: readEnd - readStart,
-      unit: 'ms',
-      category: 'io'
-    });
-    
-    // Directory traversal performance
-    const traversalStart = performance.now();
-    this.traverseDirectory('.claude');
-    const traversalEnd = performance.now();
-    
-    benchmarks.push({
-      name: 'directory_traversal_claude',
-      duration: traversalEnd - traversalStart,
-      unit: 'ms',
-      category: 'io'
-    });
-    
-    // Cleanup
-    for (let i = 0; i < 100; i++) {
-      fs.unlinkSync(path.join(tempDir, `test-${i}.txt`));
-    }
-    fs.rmdirSync(tempDir);
-    
-    return benchmarks;
   }
 
   /**

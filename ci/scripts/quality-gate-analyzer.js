@@ -287,19 +287,27 @@ class QualityGateAnalyzer {
    * Generate comprehensive recommendations
    */
   generateRecommendations() {
-    // Clear previous recommendations to prevent duplicates
-    this.results.recommendations = [];
-    if (this.results.recommendations.length === 0) {
-      this.results.recommendations.push('🎉 All quality checks passed! Ready for deployment.');
+    // Check if there are failures before adding success message
+    const hasFailures = !this.results.security.passed || 
+                       !this.results.testing.passed || 
+                       !this.results.performance.passed ||
+                       !this.results.quality.passed;
+    
+    // Only clear and add success message if there are no failures
+    if (!hasFailures && this.results.recommendations.length === 0) {
+      this.results.recommendations = ['🎉 All quality checks passed! Ready for deployment.'];
     }
     
-    // Add general recommendations
-    this.results.recommendations.push('');
-    this.results.recommendations.push('💡 **Continuous Improvement:**');
-    this.results.recommendations.push('- Review and enhance test coverage for edge cases');
-    this.results.recommendations.push('- Consider adding more integration tests');
-    this.results.recommendations.push('- Keep dependencies updated and secure');
-    this.results.recommendations.push('- Monitor performance trends over time');
+    // Add general recommendations only if they don't already exist
+    const improvementSection = '💡 **Continuous Improvement:**';
+    if (!this.results.recommendations.includes(improvementSection)) {
+      this.results.recommendations.push('');
+      this.results.recommendations.push(improvementSection);
+      this.results.recommendations.push('- Review and enhance test coverage for edge cases');
+      this.results.recommendations.push('- Consider adding more integration tests');
+      this.results.recommendations.push('- Keep dependencies updated and secure');
+      this.results.recommendations.push('- Monitor performance trends over time');
+    }
   }
 
   /**

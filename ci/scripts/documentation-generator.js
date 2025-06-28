@@ -478,18 +478,26 @@ class DocumentationGenerator {
    */
   discoverCoreFiles() {
     const coreDir = path.join('.claude', 'core');
-    const files = [];
     
-    if (fs.existsSync(coreDir)) {
+    try {
+      if (!fs.existsSync(coreDir)) {
+        console.error(`[DocumentationGenerator] Core directory not found: ${coreDir}`);
+        return [];
+      }
+      
+      const files = [];
       const entries = fs.readdirSync(coreDir);
       entries.forEach(entry => {
         if (entry.endsWith('.js')) {
           files.push(path.join(coreDir, entry));
         }
       });
+      
+      return files;
+    } catch (err) {
+      console.error(`[DocumentationGenerator] Error reading core directory: ${coreDir}`, err);
+      return [];
     }
-    
-    return files;
   }
 
   /**

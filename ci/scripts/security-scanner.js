@@ -173,7 +173,28 @@ class SecurityScanner {
       if (error.stdout) {
         try {
           const audit = JSON.parse(error.stdout);
-          // Process audit results as above
+          // Process audit results exactly as above - audit results found
+          if (audit.vulnerabilities) {
+            Object.entries(audit.vulnerabilities).forEach(([pkg, vuln]) => {
+              if (vuln.via && Array.isArray(vuln.via)) {
+                vuln.via.forEach(v => {
+                  if (typeof v === 'object') {
+                    this.results.vulnerabilities.push({
+                      type: 'dependency-vulnerability',
+                      package: pkg,
+                      severity: v.severity || 'unknown',
+                      description: v.title || 'Vulnerability detected',
+                      recommendation: 'Update to a secure version'
+                    });
+                    
+                    if (v.severity === 'critical') {
+                      this.results.passed = false;
+                    }
+                  }
+                });
+              }
+            });
+          }
         } catch (parseError) {
           this.results.warnings.push({
             type: 'audit-parse-error',

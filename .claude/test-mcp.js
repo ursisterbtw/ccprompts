@@ -102,8 +102,9 @@ class MCPTester {
     // Sanitize environment variables
     const sanitizedEnv = SecurityUtils.sanitizeEnvironment(serverConfig.env || {});
     
-    const child = spawn(serverConfig.command, serverConfig.args || [], {
-      env: { ...process.env, ...sanitizedEnv },
+    // Use SecurityUtils for safe command execution
+    const child = SecurityUtils.safeSpawn(serverConfig.command, serverConfig.args || [], {
+      env: sanitizedEnv,
       stdio: ['pipe', 'pipe', 'pipe']
     });
 

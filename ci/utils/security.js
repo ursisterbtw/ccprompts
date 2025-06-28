@@ -156,11 +156,68 @@ class SecurityUtils {
       '/usr/local/bin/python3'
     ];
 
-    // Extract the base command (first part)
-    const baseCommand = command.split(' ')[0];
+    // Extract the base command - handle quoted commands more robustly
+    const baseCommand = SecurityUtils.parseCommand(command);
     
     return allowedCommands.includes(baseCommand) || 
            allowedCommands.some(allowed => baseCommand.endsWith(allowed));
+  }
+
+  /**
+   * Parse command to extract base command safely
+   * @param {string} command - Command string to parse
+   * @returns {string} Base command
+   */
+  static parseCommand(command) {
+    if (typeof command !== 'string') {
+      throw new Error('Command must be a string');
+    }
+    
+    // Handle quoted commands: "my command" arg1 arg2
+    if (command.startsWith('"')) {
+      const endQuote = command.indexOf('"', 1);
+      if (endQuote !== -1) {
+        return command.substring(1, endQuote);
+      }
+    }
+    
+    // Handle single quoted commands: 'my command' arg1 arg2
+    if (command.startsWith("'")) {
+      const endQuote = command.indexOf("'", 1);
+      if (endQuote !== -1) {
+        return command.substring(1, endQuote);
+      }
+    }
+    
+    // Handle escaped spaces: my\ command arg1 arg2
+    const parts = [];
+    let current = '';
+    let escaped = false;
+    
+    for (let i = 0; i < command.length; i++) {
+      const char = command[i];
+      
+      if (escaped) {
+        current += char;
+        escaped = false;
+      } else if (char === '\\') {
+        escaped = true;
+      } else if (char === ' ') {
+        if (current) {
+          parts.push(current);
+          current = '';
+        }
+        break; // Stop at first unescaped space
+      } else {
+        current += char;
+      }
+    }
+    
+    if (current) {
+      parts.push(current);
+    }
+    
+    return parts[0] || command.split(' ')[0];
   }
 
   /**
@@ -186,6 +243,36 @@ class SecurityUtils {
     }
     
     return sanitized;
+  }
+
+  /**
+   * Safely spawn a child process with validation
+   * @param {string} command - Command to execute
+   * @param {string[]} args - Command arguments
+   * @param {Object} options - Spawn options
+   * @returns {ChildProcess} Child process instance
+   */
+  static safeSpawn(command, args = [], options = {}) {
+    // Validate command
+    if (!this.validateServerCommand(command)) {
+      throw new Error(`Unsafe command: ${command}`);
+    }
+
+    // Sanitize arguments
+    const safeArgs = args.map(arg => {
+      if (typeof arg !== 'string') {
+        throw new Error('All arguments must be strings');
+      }
+      return this.sanitizeShellInput(arg);
+    });
+
+    // Merge with process env but don't inherit directly - use sanitized env
+    const safeOptions = {
+      ...options,
+      env: { ...process.env, ...options.env }
+    };
+
+    return spawn(command, safeArgs, safeOptions);
   }
 }
 
