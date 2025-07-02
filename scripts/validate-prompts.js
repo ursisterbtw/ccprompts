@@ -40,7 +40,11 @@ class PromptValidator {
   // Enhanced security scanning
   validateSecurity(content, filename) {
     // Only scan actual code, not examples or placeholders
-    const codeBlocks = content.match(/```[\s\S]*?```/g) || [];
+    // Match fenced code blocks with optional language specifier
+    const fencedBlocks = content.match(/```[\w+-]*\n[\s\S]*?```/g) || [];
+    // Match indented code blocks (4 spaces or 1 tab at line start)
+    const indentedBlocks = (content.match(/^(?: {4}|\t).+(?:\n(?: {4}|\t).+)*/gm) || []);
+    const codeBlocks = [...fencedBlocks, ...indentedBlocks];
     const combinedCode = codeBlocks.join('\n');
     
     const securityPatterns = [
