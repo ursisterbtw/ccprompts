@@ -43,6 +43,7 @@ Thank you for your interest in contributing to the **ccprompts** ecosystem! This
 ### Local Setup
 
 1. **Fork the Repository**
+
    ```bash
    # Fork the repo on GitHub, then clone your fork
    git clone https://github.com/YOUR-USERNAME/ccprompts.git
@@ -50,11 +51,13 @@ Thank you for your interest in contributing to the **ccprompts** ecosystem! This
    ```
 
 2. **Install Dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Run Validation**
+
    ```bash
    npm run validate
    npm run lint
@@ -62,6 +65,7 @@ Thank you for your interest in contributing to the **ccprompts** ecosystem! This
    ```
 
 4. **Test MCP Configuration**
+
    ```bash
    cd .claude
    node test-mcp.js
@@ -118,7 +122,9 @@ Brief description of what this command does.
 
 ## Usage
 ```
+
 /my-command [parameter1] [parameter2]
+
 ```
 
 ## Description
@@ -140,11 +146,13 @@ Detailed functionality description:
 ```
 
 ## Command Implementation
+
 ```xml
 <role>Expert role definition</role>
 <activation>Configuration settings</activation>
 <instructions>Phase-based implementation steps</instructions>
 ```
+
 ```
 
 ## 📚 Prompt Development
@@ -260,6 +268,7 @@ npm run check-links      # Link validation
 ### Pull Request Guidelines
 
 #### PR Title Format
+
 ```
 type: brief description
 
@@ -270,6 +279,7 @@ docs: improve contributing guidelines and examples
 ```
 
 #### PR Description Template
+
 ```markdown
 ## Summary
 Brief description of changes and motivation.
@@ -357,6 +367,7 @@ We are committed to providing a welcoming and inclusive environment for all cont
 ### Impact Metrics
 
 We track contribution impact through:
+
 - **Usage Analytics**: How often contributed commands are used
 - **Community Feedback**: User satisfaction and feedback
 - **Quality Metrics**: Validation success rates and issue resolution
