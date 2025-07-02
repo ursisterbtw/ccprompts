@@ -345,7 +345,7 @@ class PromptValidator {
   // Process individual file with enhanced validation
   async validateFile(filePath) {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = await fs.promises.readFile(filePath, 'utf8');
       const filename = path.relative(process.cwd(), filePath);
       
       this.stats.totalFiles++;
@@ -390,8 +390,8 @@ class PromptValidator {
     }
   }
 
-  // Find all markdown files with exclusions
-  findMarkdownFiles(directory) {
+  // Find all markdown files with exclusions (async version for better performance)
+  async findMarkdownFiles(directory) {
     const files = [];
     const excludePatterns = ['.git', 'node_modules', '.vscode', '.idea', 'dist', 'build', 'coverage', 'tmp', 'temp'];
     
@@ -412,30 +412,35 @@ class PromptValidator {
       });
     };
     
-    function traverse(dir, relativePath = '') {
-      const items = fs.readdirSync(dir);
+    async function traverse(dir, relativePath = '') {
+      const items = await fs.promises.readdir(dir);
       
-      items.forEach(item => {
+      // Process items in parallel for better performance
+      const promises = items.map(async item => {
         const fullPath = path.join(dir, item);
         const itemRelativePath = path.join(relativePath, item);
         
         // Skip if path matches exclusion patterns
         if (shouldExclude(fullPath, itemRelativePath)) {
-          return;
+          return [];
         }
         
-        const stat = fs.statSync(fullPath);
+        const stat = await fs.promises.stat(fullPath);
         
         if (stat.isDirectory()) {
-          traverse(fullPath, itemRelativePath);
+          return await traverse(fullPath, itemRelativePath);
         } else if (item.endsWith('.md')) {
-          files.push(fullPath);
+          return [fullPath];
         }
+        return [];
       });
+      
+      const results = await Promise.all(promises);
+      return results.flat();
     }
     
-    traverse(directory, '');
-    return files;
+    const foundFiles = await traverse(directory, '');
+    return foundFiles;
   }
 
   // Enhanced validation with performance tracking
@@ -444,17 +449,19 @@ class PromptValidator {
     log('blue', '🧪 Starting comprehensive ccprompts validation...\n');
 
     const projectRoot = process.cwd();
-    const markdownFiles = this.findMarkdownFiles(projectRoot);
+    const markdownFiles = await this.findMarkdownFiles(projectRoot);
 
     log('blue', `Found ${markdownFiles.length} markdown files to validate\n`);
 
-    // Validate each file
-    for (const file of markdownFiles) {
-      await this.validateFile(file);
+    // Validate files in parallel for better performance (batch size to avoid overwhelming)
+    const batchSize = 10;
+    for (let i = 0; i < markdownFiles.length; i += batchSize) {
+      const batch = markdownFiles.slice(i, i + batchSize);
+      await Promise.all(batch.map(file => this.validateFile(file)));
     }
 
     // Additional system-level validations
-    this.validateSystemIntegrity();
+    await this.validateSystemIntegrity();
 
     // Report results
     const duration = Date.now() - startTime;
@@ -465,21 +472,27 @@ class PromptValidator {
   }
 
   // System integrity validation
-  validateSystemIntegrity() {
+  async validateSystemIntegrity() {
     try {
       // Check package.json structure
-      const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+      const packageJson = JSON.parse(await fs.promises.readFile('package.json', 'utf8'));
       if (!packageJson.scripts || !packageJson.scripts.validate) {
         this.warnings.push('package.json: Missing validate script');
       }
 
       // Check for required configuration files
       const requiredFiles = ['.gitignore', 'README.md', 'CONTRIBUTING.md'];
-      requiredFiles.forEach(file => {
-        if (!fs.existsSync(file)) {
-          this.warnings.push(`Missing required file: ${file}`);
+      const fileChecks = requiredFiles.map(async file => {
+        try {
+          await fs.promises.access(file);
+          return null;
+        } catch {
+          return `Missing required file: ${file}`;
         }
       });
+      
+      const missingFiles = (await Promise.all(fileChecks)).filter(Boolean);
+      missingFiles.forEach(warning => this.warnings.push(warning));
 
       // Validate command count matches documentation
       const commandDir = path.join(process.cwd(), '.claude', 'commands');
