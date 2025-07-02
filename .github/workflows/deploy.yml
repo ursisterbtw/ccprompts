@@ -365,7 +365,11 @@ jobs:
           # Copy files with production optimizations
           cp -r prompts prod-dist/
           cp -r .claude prod-dist/
-          cp -r assets prod-dist/
+          if [ -d assets ]; then
+            cp -r assets prod-dist/
+          else
+            echo "⚠️ Warning: 'assets' directory not found, skipping copy."
+          fi
           cp README.md prod-dist/
           cp CLAUDE.md prod-dist/
           cp CHANGELOG.md prod-dist/
