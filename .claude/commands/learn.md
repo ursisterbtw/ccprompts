@@ -1,8 +1,12 @@
 # Learn Command
 
-**Usage:** `/learn [topic] [level] [format]`
+## Usage
+```
+/learn [topic] [level] [format]
+```
 
-**Description:** Provides personalized learning paths and skill development for developers using Claude Code, with hands-on exercises and practical application integration.
+## Description
+Provides personalized learning paths and skill development for developers using Claude Code, with hands-on exercises and practical application integration. Creates customized learning experiences that adapt to individual skill levels, integrate with real project work, and provide measurable progress tracking with career development alignment.
 
 ## Parameters
 

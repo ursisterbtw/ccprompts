@@ -141,8 +141,12 @@ class PromptValidator {
 
     // Remove code blocks and inline code to avoid false positives with XML-like content in examples
     const contentWithoutCodeBlocks = content
-      .replace(/```[\s\S]*?```/g, '')  // Remove code blocks
-      .replace(/`[^`]*`/g, '');        // Remove inline code
+      .replace(/```[\s\S]*?```/gm, '')  // Remove fenced code blocks (multiline)
+      .replace(/`[^`]*`/g, '')          // Remove inline code
+      .replace(/^\s*```[\s\S]*?```\s*$/gm, '')  // Remove standalone code blocks
+      .replace(/^[\s]*<[^>]+>[\s]*$/gm, '')    // Remove lines that are just XML-like placeholders
+      .replace(/<(type|scope|subject|body|footer)>/g, '')  // Remove commit message template placeholders
+      .replace(/<\/(type|scope|subject|body|footer)>/g, '');  // Remove closing placeholders
     
     // Enhanced stack-based XML tag validation
     const tagStack = [];

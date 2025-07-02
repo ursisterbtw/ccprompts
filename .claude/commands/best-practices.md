@@ -1,13 +1,53 @@
 # /best-practices Command
 
-**Usage:** `/best-practices [domain] [technology] [scope]`
+## Usage
+```
+/best-practices [domain] [technology] [scope]
+```
 
-**Parameters:**
-- `domain`: security, performance, testing, architecture, documentation, git, accessibility, maintainability
-- `technology`: javascript, typescript, python, react, vue, angular, node, django, flask, fastapi, go, rust, java, kotlin, swift, csharp, php, ruby
-- `scope`: project, team, organization, industry
+## Description
+Provides comprehensive best practices analysis, recommendations, and enforcement for development workflows. Delivers authoritative, educational, and actionable guidance with automated detection and remediation capabilities. Combines industry standards with project-specific analysis to deliver personalized improvement recommendations.
 
-**Description:** Provides comprehensive best practices analysis, recommendations, and enforcement for development workflows. Delivers authoritative, educational, and actionable guidance with automated detection and remediation capabilities.
+## Parameters
+- **domain** (required): Focus area for best practices analysis
+  - `security` - Security best practices and vulnerability prevention
+  - `performance` - Performance optimization and monitoring
+  - `testing` - Testing strategies and quality assurance
+  - `architecture` - System design and architectural patterns
+  - `documentation` - Documentation standards and automation
+  - `git` - Version control workflows and collaboration
+  - `accessibility` - Web accessibility and inclusive design
+  - `maintainability` - Code quality and long-term maintenance
+
+- **technology** (optional): Technology stack for specific recommendations
+  - Languages: `javascript`, `typescript`, `python`, `go`, `rust`, `java`, `kotlin`, `swift`, `csharp`, `php`, `ruby`
+  - Frameworks: `react`, `vue`, `angular`, `node`, `django`, `flask`, `fastapi`
+  - Default: Auto-detected from project
+
+- **scope** (optional, default: `project`): Implementation scope
+  - `project` - Single project recommendations
+  - `team` - Team-wide standards and practices
+  - `organization` - Enterprise-level policies
+  - `industry` - Industry-specific compliance requirements
+
+## Examples
+
+```bash
+# Security best practices for current project
+/best-practices security
+
+# Performance optimization for React applications
+/best-practices performance react project
+
+# Team-wide testing standards for Python projects
+/best-practices testing python team
+
+# Enterprise architecture patterns
+/best-practices architecture organization
+
+# Git workflow optimization for development team
+/best-practices git team
+```
 
 ---
 

@@ -1,0 +1,42 @@
+{
+  "name": "ccprompts",
+  "version": "1.0.0",
+  "description": "Comprehensive collection of Claude Code-specific developer commands and prompts",
+  "main": "scripts/validate-prompts.js",
+  "scripts": {
+    "test": "node scripts/validate-prompts.js",
+    "validate": "node scripts/validate-prompts.js",
+    "lint": "markdownlint prompts/**/*.md .claude/commands/**/*.md README.md CLAUDE.md CC-SDK-Guide.md",
+    "lint:fix": "markdownlint prompts/**/*.md .claude/commands/**/*.md README.md CLAUDE.md CC-SDK-Guide.md --fix",
+    "check-links": "find . -name '*.md' -not -path './node_modules/*' | xargs markdown-link-check --config .github/markdown-link-check.json",
+    "security-scan": "node scripts/validate-prompts.js --security-only",
+    "ci": "npm run validate && npm run lint && npm run check-links",
+    "precommit": "npm run validate"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "ai",
+    "prompts",
+    "development",
+    "automation",
+    "commands"
+  ],
+  "author": "Claude Code Community",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "markdownlint-cli": "^0.37.0",
+    "markdown-link-check": "^3.11.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ursisterbtw/ccprompts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ursisterbtw/ccprompts/issues"
+  },
+  "homepage": "https://github.com/ursisterbtw/ccprompts#readme"
+}

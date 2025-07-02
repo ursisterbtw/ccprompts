@@ -51,6 +51,26 @@ Performs intelligent project analysis and provides personalized recommendations:
 - **Improvement Planning**: Data-driven development roadmap creation
 - **Team Guidance**: Context-aware recommendations for development teams
 
+## Parameters
+- No parameters required - analyzes current project automatically
+- Optional: Can be run from any directory within the project
+- Detects project characteristics through file system analysis and git history
+
+## Examples
+
+```bash
+# Basic project analysis
+/analyze-project
+
+# Run from project root for comprehensive analysis
+cd /path/to/project && /analyze-project
+
+# Analysis output will be customized based on detected:
+# - Project type (web-app, CLI, library, etc.)
+# - Technology stack (languages, frameworks, databases)
+# - Development maturity (testing, CI/CD, documentation)
+```
+
 ## Related Prompts
 - Dynamically selected based on project analysis
 - Prioritized by impact and effort

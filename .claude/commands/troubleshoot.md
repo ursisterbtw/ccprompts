@@ -5,6 +5,9 @@
 /troubleshoot [issue-type] [context] [urgency]
 ```
 
+## Description
+Provides systematic, intelligent debugging guidance that solves immediate problems while teaching debugging methodology and building team knowledge. Combines AI-powered error analysis with proven troubleshooting workflows to deliver comprehensive problem resolution with educational value and knowledge capture.
+
 ## Parameters
 - **issue-type**: `error` | `performance` | `behavior` | `environment` | `security` | `deployment` | `integration`
 - **context**: `development` | `staging` | `production` | `testing` | `ci-cd`

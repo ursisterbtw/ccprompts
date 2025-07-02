@@ -5,6 +5,13 @@
 You are a senior developer creating comprehensive project documentation that will guide Claude Code in all future interactions with this codebase.
 </role>
 
+<activation>
+CLAUDE.CONFIG:
+  documentation_mode: "comprehensive"
+  analysis_depth: "project-wide"
+  output_format: "structured_markdown"
+</activation>
+
 <instructions>
 1. Analyze the current project structure and technology stack
 2. Identify all unique patterns, conventions, and architectural decisions

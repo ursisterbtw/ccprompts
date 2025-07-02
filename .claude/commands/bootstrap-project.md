@@ -20,12 +20,26 @@ Initializes a new production-grade project with:
 - `language`: rust, python, typescript, go, java
 - `deployment-target`: cloud, on-premise, hybrid
 
-## Example
-```
+## Examples
+
+```bash
+# TypeScript web application for cloud deployment
 /bootstrap-project web-app typescript cloud
+
+# Rust CLI tool for on-premise deployment
+/bootstrap-project cli-tool rust on-premise
+
+# Python library for hybrid deployment
+/bootstrap-project library python hybrid
+
+# Go API service for cloud deployment
+/bootstrap-project api-service go cloud
+
+# Java web application with enterprise features
+/bootstrap-project web-app java cloud
 ```
 
-This will load the comprehensive bootstrap prompt with the specified context and guide you through setting up a TypeScript web application for cloud deployment.
+The first example will load the comprehensive bootstrap prompt with TypeScript web application context, setting up a modern development environment with React/Next.js, testing framework, CI/CD pipeline, and cloud deployment configuration.
 
 ## Related Prompts
 - `prompts/01-project-initialization/comprehensive-bootstrap.md`

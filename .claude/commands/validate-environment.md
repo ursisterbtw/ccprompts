@@ -134,6 +134,35 @@ Estimated Setup Time: 30 minutes
 - **Progress tracking**: Monitors environment health improvements over time
 - **Command prerequisites**: Validates requirements before specific prompt execution
 
+## Parameters
+- No parameters required - performs automatic environment validation
+- Runs comprehensive checks across all configured systems and tools
+- Analyzes current project context and detects technology-specific requirements
+- Optional: Can be run with specific focus areas through environment variables
+
+## Examples
+
+```bash
+# Basic environment validation
+/validate-environment
+
+# Example output for healthy environment:
+# Overall Health Score: 95/100 (Excellent)
+# ✅ Claude Code: v1.2.3 (Latest)
+# ✅ Git: Configured and authenticated
+# ✅ MCP Servers: All responding normally
+# ✅ Dependencies: All satisfied
+# Ready for all prompt operations!
+
+# Example output with issues:
+# Overall Health Score: 72/100 (Fair) 
+# ✅ Claude Code: v1.2.3 (Latest)
+# ⚠️  Git: No global user configuration
+# ❌ MCP Servers: GitHub server authentication expired
+# ✅ Dependencies: All satisfied
+# Priority Actions: Configure Git user, renew GitHub token
+```
+
 ## Continuous Monitoring
 - **Daily health checks**: Automated environment status monitoring
 - **Proactive alerts**: Notifications for expiring tokens or failing services

@@ -19,12 +19,20 @@ Performs comprehensive security and quality analysis:
 - `scope`: full-codebase, specific-module, new-features
 - `depth`: surface, thorough, paranoid
 
-## Example
-```
+## Examples
+
+```bash
+# Comprehensive security audit for entire codebase
 /audit-security full-codebase paranoid
+
+# Quick security check for new features
+/audit-security new-features surface
+
+# Thorough audit of specific module
+/audit-security specific-module thorough
 ```
 
-This will load the deep security audit prompt with paranoid security focus for the entire codebase.
+The first example will load the deep security audit prompt with paranoid security focus for the entire codebase, providing comprehensive OWASP Top 10 analysis, dependency vulnerability scanning, and compliance gap assessment.
 
 ## Related Prompts
 - `prompts/02-code-analysis/security-quality-audit.md`

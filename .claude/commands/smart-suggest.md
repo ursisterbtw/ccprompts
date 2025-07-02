@@ -111,6 +111,30 @@ Recommendations consider dependencies and optimal ordering:
 5. **Risk Mitigation**: Security, performance, and reliability considerations
 6. **Success Metrics**: How to measure improvement from suggested actions
 
+## Parameters
+- No parameters required - performs automatic analysis
+- Analyzes current project state, git history, and team patterns
+- Optionally accepts context hints through environment or project metadata
+- Suggestions adapt based on detected project characteristics and constraints
+
+## Examples
+
+```bash
+# Basic intelligent suggestions for current project
+/smart-suggest
+
+# Example output for active development project:
+# Priority 1: /test unit comprehensive - Low test coverage detected
+# Priority 2: /document api interactive - Missing API documentation  
+# Priority 3: /setup-ci github professional - No CI/CD pipeline found
+# Learning: /learn testing intermediate - Team skill gap identified
+
+# Example output for pre-production project:
+# Priority 1: /harden enterprise - Security review recommended
+# Priority 2: /optimize performance - Performance validation needed
+# Strategic: /comply soc2 audit-ready - Future compliance planning
+```
+
 ## Continuous Learning
 The suggestion engine improves over time by:
 - Tracking prompt usage and outcomes
