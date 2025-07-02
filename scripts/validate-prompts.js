@@ -272,9 +272,19 @@ class PromptValidator {
     }
 
     // Validate examples are comprehensive
-    if (content.includes('## Examples')) {
-      const examplesSection = content.split('## Examples')[1];
-      if (examplesSection && examplesSection.length < 200) {
+    // Use a markdown section parser to accurately extract the Examples section
+    function extractMarkdownSection(content, sectionTitle) {
+      const sectionRegex = new RegExp(`^##\\s+${sectionTitle}\\s*\\n([\\s\\S]*?)(^##\\s+|\\Z)`, 'im');
+      const match = content.match(sectionRegex);
+      if (match) {
+        return match[1].trim();
+      }
+      return null;
+    }
+
+    const examplesSectionContent = extractMarkdownSection(content, 'Examples');
+    if (examplesSectionContent !== null) {
+      if (examplesSectionContent.length < 200) {
         this.warnings.push(`${filename}: Examples section appears too brief`);
       }
     }
