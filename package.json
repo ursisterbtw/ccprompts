@@ -20,8 +20,8 @@
   "author": "ccprompts contributors",
   "license": "MIT",
   "devDependencies": {
-    "markdownlint-cli": "0.45.0",
-    "markdown-link-check": "3.13.7"
+    "markdown-link-check": "^3.13.7",
+    "markdownlint-cli": "^0.45.0"
   },
   "engines": {
     "node": ">=16.0.0"
