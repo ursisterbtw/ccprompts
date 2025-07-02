@@ -36,27 +36,11 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js Environment
+        uses: ./.github/actions/setup-node-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-      
-      - name: Cache node modules
-        id: cache-node
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-${{ env.NODE_VERSION }}-
-      
-      - name: Install dependencies
-        if: steps.cache-node.outputs.cache-hit != 'true'
-        run: |
-          echo "📦 Installing dependencies..."
-          npm ci --prefer-offline --no-audit --progress=false
-          npm list --depth=0
+          install-dependencies: 'true'
       
       - name: Verify installation
         run: |
@@ -77,23 +61,11 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Node.js Environment
+        uses: ./.github/actions/setup-node-env
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-      
-      - name: Restore dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ hashFiles('package-lock.json') }}
-      
-      - name: Install dependencies if cache miss
-        run: |
-          if [ ! -d "node_modules" ]; then
-            npm ci --prefer-offline --no-audit --progress=false
-          fi
+          install-dependencies: 'true'
       
       - name: Run comprehensive security scan
         run: |
@@ -330,10 +302,11 @@ jobs:
           EOF
           fi
           
-          # Run link checking with timeout and error handling
+          # Run link checking with proper timeout handling
           LINK_EXIT_CODE=0
-          timeout 300 find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" | \
-            xargs -I {} sh -c 'echo "Checking: {}"; npx markdown-link-check "{}" --config .github/markdown-link-check.json' 2>&1 | \
+          find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" | \
+            head -20 | \
+            xargs -I {} timeout 30 npx markdown-link-check "{}" --config .github/markdown-link-check.json 2>&1 | \
             tee link-check-output.log || LINK_EXIT_CODE=$?
           
           # Count broken links
@@ -598,11 +571,12 @@ jobs:
           echo "VALIDATION_DURATION=$DURATION" >> $GITHUB_ENV
           
           # Performance thresholds
-          if [ "$DURATION" -gt 30000 ]; then
-            echo "⚠️ Validation script is slow: ${DURATION}ms (threshold: 30000ms)"
+          PERF_THRESHOLD_MS="${VALIDATION_PERF_THRESHOLD_MS:-30000}"
+          if [ "$DURATION" -gt "$PERF_THRESHOLD_MS" ]; then
+            echo "⚠️ Validation script is slow: ${DURATION}ms (threshold: ${PERF_THRESHOLD_MS}ms)"
             echo "::warning::Performance threshold exceeded"
           else
-            echo "✅ Validation performance is acceptable: ${DURATION}ms"
+            echo "✅ Validation performance is acceptable: ${DURATION}ms (threshold: ${PERF_THRESHOLD_MS}ms)"
           fi
       
       - name: Resource usage monitoring

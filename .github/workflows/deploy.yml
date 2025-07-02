@@ -40,31 +40,38 @@ jobs:
         with:
           fetch-depth: 0
       
-      - name: Determine target environment
-        id: determine-env
-        run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            ENVIRONMENT="${{ github.event.inputs.environment }}"
-          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-            ENVIRONMENT="production"
-          else
-            ENVIRONMENT="staging"
-          fi
-          
-          echo "environment=$ENVIRONMENT" >> $GITHUB_OUTPUT
-          echo "🎯 Target environment: $ENVIRONMENT"
+             - name: Determine target environment
+         id: determine-env
+         env:
+           EVENT_NAME: ${{ github.event_name }}
+           INPUT_ENVIRONMENT: ${{ github.event.inputs.environment }}
+           GITHUB_REF: ${{ github.ref }}
+         run: |
+           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+             ENVIRONMENT="$INPUT_ENVIRONMENT"
+           elif [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+             ENVIRONMENT="production"
+           else
+             ENVIRONMENT="staging"
+           fi
+           
+           echo "environment=$ENVIRONMENT" >> $GITHUB_OUTPUT
+           echo "🎯 Target environment: $ENVIRONMENT"
       
-      - name: Determine version
-        id: determine-version
-        run: |
-          if [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-            VERSION="${{ github.ref_name }}"
-          else
-            VERSION="v$(date +'%Y%m%d')-$(git rev-parse --short HEAD)"
-          fi
-          
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "📦 Deployment version: $VERSION"
+             - name: Determine version
+         id: determine-version
+         env:
+           GITHUB_REF: ${{ github.ref }}
+           GITHUB_REF_NAME: ${{ github.ref_name }}
+         run: |
+           if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+             VERSION="$GITHUB_REF_NAME"
+           else
+             VERSION="v$(date +'%Y%m%d')-$(git rev-parse --short HEAD)"
+           fi
+           
+           echo "version=$VERSION" >> $GITHUB_OUTPUT
+           echo "📦 Deployment version: $VERSION"
       
       - name: Quality gate check
         id: quality-gate

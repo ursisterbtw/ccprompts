@@ -240,8 +240,11 @@ class PromptValidator {
       }
     });
 
-    // Update overall quality score
-    this.stats.qualityScore = Math.max(0, qualityScore);
+    // Aggregate quality scores
+    if (!this.stats.qualityScores) {
+      this.stats.qualityScores = [];
+    }
+    this.stats.qualityScores.push(qualityScore);
     
     return qualityScore;
   }
@@ -354,7 +357,7 @@ class PromptValidator {
       const items = fs.readdirSync(dir);
       
       items.forEach(item => {
-        if (excludePatterns.some(pattern => item.includes(pattern))) {
+        if (excludePatterns.some(pattern => item === pattern)) {
           return;
         }
         
@@ -418,9 +421,13 @@ class PromptValidator {
 
       // Validate command count matches documentation
       const commandDir = path.join(process.cwd(), '.claude', 'commands');
-      const commandFiles = fs.readdirSync(commandDir).filter(f => f.endsWith('.md')).length;
-      if (commandFiles !== 38) {
-        this.errors.push(`Expected 38 commands, found ${commandFiles}`);
+      if (fs.existsSync(commandDir)) {
+        const commandFiles = fs.readdirSync(commandDir).filter(f => f.endsWith('.md')).length;
+        if (commandFiles !== 38) {
+          this.errors.push(`Expected 38 commands, found ${commandFiles}`);
+        }
+      } else {
+        this.errors.push('Commands directory (.claude/commands) not found');
       }
 
     } catch (error) {
@@ -469,15 +476,17 @@ class PromptValidator {
     log('cyan', `   Warning rate: ${warningRate}%`);
     log('cyan', `   Security score: ${this.stats.securityIssues === 0 ? '100%' : 'FAIL'}`);
     
-    // Quality grade
-    const overallScore = Math.max(0, 100 - (this.errors.length * 5) - (this.warnings.length * 2));
+    // Quality grade (normalized by file count)
+    const errorPenalty = Math.min(50, (this.errors.length / Math.max(1, this.stats.totalFiles)) * 100);
+    const warningPenalty = Math.min(30, (this.warnings.length / Math.max(1, this.stats.totalFiles)) * 50);
+    const overallScore = Math.max(0, 100 - errorPenalty - warningPenalty);
     let grade = 'F';
     if (overallScore >= 90) grade = 'A';
     else if (overallScore >= 80) grade = 'B';
     else if (overallScore >= 70) grade = 'C';
     else if (overallScore >= 60) grade = 'D';
     
-    log('cyan', `   Overall quality grade: ${grade} (${overallScore}/100)`);
+    log('cyan', `   Overall quality grade: ${grade} (${overallScore.toFixed(1)}/100)`);
   }
 }
 

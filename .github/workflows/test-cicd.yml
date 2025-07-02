@@ -106,6 +106,11 @@ jobs:
           npm ci --prefer-offline --no-audit --progress=false
       
       - name: Test deployment package creation
+        env:
+          TEST_ENVIRONMENT: ${{ github.event.inputs.test_environment }}
+          GIT_COMMIT: ${{ github.sha }}
+          GIT_REF_NAME: ${{ github.ref_name }}
+          BUILD_NUMBER: ${{ github.run_number }}
         run: |
           echo "📦 Testing deployment package creation..."
           
@@ -119,15 +124,16 @@ jobs:
           cp CLAUDE.md test-dist/
           cp package.json test-dist/
           
-          # Create deployment metadata
+          # Create deployment metadata with safe variable handling
+          TEST_ENV="${TEST_ENVIRONMENT:-test}"
           cat > test-dist/deployment-info.json << EOF
           {
             "version": "test-$(date +'%Y%m%d')",
-            "environment": "${{ github.event.inputs.test_environment }}",
+            "environment": "$TEST_ENV",
             "deployedAt": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
-            "gitCommit": "${{ github.sha }}",
-            "gitBranch": "${{ github.ref_name }}",
-            "buildNumber": "${{ github.run_number }}"
+            "gitCommit": "$GIT_COMMIT",
+            "gitBranch": "$GIT_REF_NAME",
+            "buildNumber": "$BUILD_NUMBER"
           }
           EOF
           
