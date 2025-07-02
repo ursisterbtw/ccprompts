@@ -8,7 +8,9 @@
     "test": "npm run validate",
     "lint": "markdownlint **/*.md --ignore node_modules",
     "check-links": "markdown-link-check **/*.md --ignore node_modules",
-    "quality-check": "npm run lint && npm run check-links && npm run validate"
+    "quality-check": "npm run lint && npm run check-links && npm run validate",
+    "security-check": "npm audit --audit-level=moderate",
+    "format": "markdownlint **/*.md --fix --ignore node_modules"
   },
   "keywords": [
     "claude-code",
@@ -20,11 +22,13 @@
   "author": "ccprompts contributors",
   "license": "MIT",
   "devDependencies": {
+    "markdownlint-cli": "^0.45.0",
     "markdown-link-check": "^3.13.7",
-    "markdownlint-cli": "^0.45.0"
+    "alex": "^11.0.1",
+    "cspell": "^8.0.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",

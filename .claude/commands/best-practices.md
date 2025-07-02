@@ -1,13 +1,68 @@
-# /best-practices Command
+# /best-practices
 
-**Usage:** `/best-practices [domain] [technology] [scope]`
+**Comprehensive best practices analysis and enforcement**
 
-**Parameters:**
-- `domain`: security, performance, testing, architecture, documentation, git, accessibility, maintainability
-- `technology`: javascript, typescript, python, react, vue, angular, node, django, flask, fastapi, go, rust, java, kotlin, swift, csharp, php, ruby
-- `scope`: project, team, organization, industry
+## Usage
 
-**Description:** Provides comprehensive best practices analysis, recommendations, and enforcement for development workflows. Delivers authoritative, educational, and actionable guidance with automated detection and remediation capabilities.
+```
+/best-practices [domain] [technology] [scope]
+```
+
+## Description
+
+Provides comprehensive best practices analysis, recommendations, and enforcement for development workflows. Delivers authoritative, educational, and actionable guidance with automated detection and remediation capabilities across security, performance, testing, architecture, and maintainability domains.
+
+## Parameters
+
+- `domain`: `security` | `performance` | `testing` | `architecture` | `documentation` | `git` | `accessibility` | `maintainability`
+- `technology`: `javascript` | `typescript` | `python` | `react` | `vue` | `angular` | `node` | `django` | `flask` | `fastapi` | `go` | `rust` | `java` | `kotlin` | `swift` | `csharp` | `php` | `ruby`
+- `scope`: `project` | `team` | `organization` | `industry`
+
+## Examples
+
+### Example 1: Security Best Practices for React
+```
+/best-practices security react project
+```
+**Output**: Security-focused React development guidance:
+- XSS prevention techniques
+- Secure authentication patterns
+- Safe state management practices
+- Content Security Policy implementation
+- Dependency vulnerability management
+
+### Example 2: Performance Best Practices for Python APIs
+```
+/best-practices performance python organization
+```
+**Output**: Python API performance optimization:
+- Async/await patterns for concurrency
+- Database query optimization
+- Caching strategies (Redis, Memcached)
+- Memory management and profiling
+- Load balancing and scaling patterns
+
+### Example 3: Testing Best Practices Team Standards
+```
+/best-practices testing typescript team
+```
+**Output**: TypeScript testing methodology:
+- Test pyramid implementation
+- Unit testing with Jest/Vitest
+- Integration testing strategies
+- E2E testing with Playwright
+- Test coverage and quality metrics
+
+### Example 4: Architecture Best Practices Enterprise
+```
+/best-practices architecture microservices industry
+```
+**Output**: Enterprise microservices architecture:
+- Domain-driven design principles
+- API design and versioning
+- Service communication patterns
+- Data consistency strategies
+- Monitoring and observability
 
 ---
 

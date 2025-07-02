@@ -1,121 +1,137 @@
 # Pull Request
 
-## Summary
+## Description
+
 <!-- Provide a brief description of the changes in this PR -->
 
 ## Type of Change
-<!-- Mark the relevant option with an "x" -->
-- [ ] 🆕 New command
-- [ ] 📚 New prompt  
-- [ ] 🐛 Bug fix
-- [ ] ✨ Enhancement to existing command/prompt
-- [ ] 📖 Documentation update
-- [ ] 🧪 Testing improvement
-- [ ] 🔧 Infrastructure/tooling
-- [ ] 🎨 Code style/formatting
-- [ ] ♻️ Refactoring
 
-## Changes Made
-<!-- Describe the specific changes made in this PR -->
-
-### New Commands/Prompts
-<!-- If adding new commands or prompts, list them here -->
-- **Command/Prompt Name**: `/command-name` or `prompt-category/prompt-name.md`
-- **Purpose**: Brief description of functionality
-- **Category**: Which phase/category it belongs to
-
-### Modified Files
-<!-- List the key files that were modified -->
-- `path/to/file.md` - Description of changes
-- `path/to/other/file.md` - Description of changes
-
-## Testing
-<!-- Describe how you tested these changes -->
-
-### Validation Results
-- [ ] ✅ `npm run validate` passes
-- [ ] ✅ `npm run lint` passes  
-- [ ] ✅ `npm run check-links` passes
-- [ ] ✅ `npm run quality-check` passes
-
-### Functional Testing
-- [ ] ✅ Command tested in Claude Code
-- [ ] ✅ Examples verified working
-- [ ] ✅ Integration with existing commands confirmed
-- [ ] ✅ XML structure validated (for commands)
-
-### Manual Testing Performed
-<!-- Describe specific testing steps you performed -->
-1. Tested command with basic parameters
-2. Verified advanced usage scenarios
-3. Confirmed error handling and edge cases
-4. Validated integration with related commands
-
-## Documentation
-<!-- Confirm documentation is complete -->
-- [ ] ✅ Command/prompt follows template structure
-- [ ] ✅ All required sections included
-- [ ] ✅ Examples are comprehensive and realistic
-- [ ] ✅ Parameters clearly documented
-- [ ] ✅ Integration points documented
-- [ ] ✅ Related files updated (if needed)
-
-## Quality Checklist
-<!-- Ensure quality standards are met -->
-- [ ] ✅ Follows established naming conventions
-- [ ] ✅ Includes safety considerations
-- [ ] ✅ Provides educational value
-- [ ] ✅ Integrates well with ecosystem
-- [ ] ✅ Has proper error handling
-- [ ] ✅ Includes security considerations (where applicable)
-
-## Impact Assessment
-<!-- Describe the impact of these changes -->
-
-### Benefits
-- **Time Savings**: How much time this saves users
-- **Quality Improvement**: How this improves code/process quality  
-- **Learning Value**: What users will learn from this
-- **Productivity Boost**: How this enhances developer productivity
-
-### Risks
-- **Breaking Changes**: Any potential breaking changes
-- **Dependencies**: New dependencies or requirements
-- **Compatibility**: Any compatibility concerns
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality) 
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+- [ ] Refactoring (no functional changes)
+- [ ] Performance improvement
+- [ ] Security enhancement
 
 ## Related Issues
-<!-- Link to related issues -->
-- Closes #XXX
-- Related to #XXX
-- Addresses feedback in #XXX
 
-## Screenshots/Examples
-<!-- If applicable, add screenshots or example outputs -->
+<!-- Link to related issues using "Closes #123" or "Fixes #123" -->
 
-## Additional Notes
-<!-- Any additional information reviewers should know -->
+## Changes Made
+
+<!-- Detailed list of changes made in this PR -->
+- 
+- 
+- 
+
+## Testing
+
+<!-- Describe the tests that you ran to verify your changes -->
+
+### Test Configuration
+
+- **Node Version**: 
+- **Operating System**: 
+- **Browser** (if applicable): 
+
+### Test Results
+
+- [ ] All existing tests pass
+- [ ] New tests added and passing
+- [ ] Manual testing completed
+- [ ] Performance impact assessed
+
+## Screenshots
+
+<!-- Add screenshots if applicable -->
+
+## Security Considerations
+
+<!-- Address any security implications of your changes -->
+- [ ] No security vulnerabilities introduced
+- [ ] Security best practices followed
+- [ ] Sensitive data handling reviewed
+- [ ] Authentication/authorization changes reviewed
+
+## Breaking Changes
+
+<!-- List any breaking changes and migration guide -->
+
+## Documentation
+
+- [ ] Documentation updated (if applicable)
+- [ ] API documentation updated (if applicable)
+- [ ] Changelog updated
+- [ ] Comments added to complex code
+
+## Deployment Notes
+
+<!-- Any special deployment considerations -->
+
+## Checklist
+
+### Code Quality
+- [ ] Code follows the project's coding standards
+- [ ] Self-review of code completed
+- [ ] Code is self-documenting or well-commented
+- [ ] No console.log or debug statements left in code
+- [ ] Error handling implemented appropriately
+
+### Testing
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated (if applicable)
+- [ ] End-to-end tests added/updated (if applicable)
+- [ ] Test coverage maintained or improved
+
+### Security
+- [ ] Input validation implemented
+- [ ] Output sanitization implemented
+- [ ] No hardcoded secrets or credentials
+- [ ] Security headers configured (if applicable)
+- [ ] Dependencies reviewed for vulnerabilities
+
+### Performance
+- [ ] Performance impact assessed
+- [ ] No significant performance regression
+- [ ] Appropriate caching implemented (if applicable)
+- [ ] Database queries optimized (if applicable)
+
+### Accessibility
+- [ ] Accessibility considerations addressed (if UI changes)
+- [ ] WCAG guidelines followed (if applicable)
+- [ ] Keyboard navigation tested (if applicable)
+
+### Dependencies
+- [ ] Dependencies updated appropriately
+- [ ] No unnecessary dependencies added
+- [ ] License compatibility verified
+- [ ] Security audit of new dependencies completed
+
+## Review Requests
+
+<!-- Tag specific reviewers or teams for specialized review -->
+
+### Required Reviewers
+- [ ] Code review by team lead
+- [ ] Security review (if security-related changes)
+- [ ] Performance review (if performance-related changes)
+- [ ] UI/UX review (if frontend changes)
+
+## Post-Merge Actions
+
+<!-- Actions to be taken after merge -->
+- [ ] Deploy to staging environment
+- [ ] Monitor application logs
+- [ ] Verify functionality in production
+- [ ] Update team documentation
+- [ ] Notify stakeholders of changes
 
 ---
 
-## Reviewer Guidelines
-
-### For Maintainers
-- [ ] Code review completed
-- [ ] Quality standards verified
-- [ ] Integration impact assessed
-- [ ] Documentation completeness confirmed
-- [ ] Examples tested and validated
-
-### Review Focus Areas
-1. **Template Compliance**: Does it follow the established templates?
-2. **Quality Standards**: Does it meet our quality requirements?
-3. **Integration**: Does it work well with existing commands?
-4. **Examples**: Are the examples realistic and helpful?
-5. **Documentation**: Is the documentation clear and complete?
-
-### Merge Criteria
-- All automated checks pass
-- Manual testing completed
-- Documentation is comprehensive
-- No breaking changes (or properly documented)
-- Maintains ecosystem consistency
+**By submitting this pull request, I confirm that:**
+- [ ] I have read and understood the contributing guidelines
+- [ ] My changes are covered by tests
+- [ ] I have verified that no breaking changes are introduced
+- [ ] I have updated documentation as necessary
+- [ ] I am authorized to submit this contribution

@@ -1,101 +1,81 @@
-# Claude Code Prompts Collection - Directory Index
+# ccprompts - Comprehensive Prompt Directory
 
-This directory contains 20 comprehensive Claude Code prompts organized into 10 categories for maximum usability and maintainability. This index provides detailed descriptions of each category and prompt.
+Welcome to the complete collection of 21 production-ready prompts organized across 
+10 specialized categories. Each prompt is designed for enterprise-grade 
+development workflows with Claude Code integration.
 
-## 📁 Categories
+## 01-project-initialization (2 prompts)
 
-### 01-project-initialization/
+### Bootstrap new projects and generate comprehensive CLAUDE.md configurations
+- `comprehensive-bootstrap.md` - Complete project setup with modern practices
+- `claude-md-generator.md` - Automated CLAUDE.md generation for projects
 
-**Bootstrap new projects and generate CLAUDE.md files**
+## 02-code-analysis (2 prompts)
 
-- `comprehensive-bootstrap.md` - Complete project setup with CI/CD foundation
-- `claude-md-generator.md` - Generate comprehensive CLAUDE.md documentation
+### Security audits and dependency analysis for production readiness
+- `security-quality-audit.md` - Deep security and quality analysis
+- `dependency-analysis.md` - Comprehensive dependency management
 
-### 02-code-analysis/
+## 03-refactoring (2 prompts)
 
-**Security audits and dependency analysis**
+### Code modernization and performance optimization workflows
+- `codebase-modernization.md` - Legacy code transformation
+- `performance-optimization.md` - Performance bottleneck elimination
 
-- `security-quality-audit.md` - OWASP Top 10 and comprehensive quality assessment
-- `dependency-analysis.md` - Vulnerability scanning and license compliance
+## 04-testing (2 prompts)
 
-### 03-refactoring/
-
-**Code modernization and performance optimization**
-
-- `codebase-modernization.md` - Safe legacy code transformation
-- `performance-optimization.md` - Full-stack performance improvements
-
-### 04-testing/
-
-**Comprehensive test implementation**
-
-- `test-suite-generation.md` - Complete test pyramid with E2E automation
+### Comprehensive test implementation and validation frameworks
+- `test-suite-generation.md` - Complete test pyramid implementation
 - `mutation-testing.md` - Test effectiveness verification
 
-### 05-documentation/
+## 05-documentation (2 prompts)
 
-**Auto-documentation and knowledge management**
+### Auto-documentation and knowledge management systems
+- `documentation-generator.md` - Automated documentation creation
+- `knowledge-base-creation.md` - Team knowledge management
 
-- `documentation-generator.md` - API docs, user guides, and technical writing
-- `knowledge-base-creation.md` - Searchable knowledge systems and runbooks
+## 06-git-workflows (2 prompts)
 
-### 06-git-workflows/
+### Advanced Git operations and repository management automation
+- `advanced-git-automation.md` - Sophisticated Git workflow implementation
+- `repository-migration.md` - Repository migration and cleanup
 
-**Advanced Git operations and repository management**
+## 07-multi-file-operations (2 prompts)
 
-- `advanced-git-automation.md` - Sophisticated Git workflows and hooks
-- `repository-migration.md` - History cleanup and VCS migrations
+### Cross-codebase transformations and consistency validation
+- `codebase-refactoring-engine.md` - Large-scale refactoring automation
+- `consistency-validator.md` - Codebase consistency enforcement
 
-### 07-multi-file-operations/
+## 08-mcp-integration (2 prompts)
 
-**Cross-codebase transformations**
+### MCP server configuration and testing automation
+- `advanced-mcp-configuration.md` - Production MCP server setup
+- `mcp-testing-framework.md` - MCP server testing automation
 
-- `codebase-refactoring-engine.md` - Safe multi-file refactoring automation
-- `consistency-validator.md` - Code standards enforcement across files
+## 09-build-deployment (2 prompts)
 
-### 08-mcp-integration/
+### CI/CD pipelines and Infrastructure as Code implementation
+- `comprehensive-cicd.md` - Complete CI/CD pipeline automation
+- `infrastructure-as-code.md` - Infrastructure automation and management
 
-**MCP server configuration and testing**
+## 10-security-compliance (3 prompts)
 
-- `advanced-mcp-configuration.md` - Custom MCP servers and tool chains
-- `mcp-testing-framework.md` - Comprehensive MCP testing strategies
+### Security hardening and compliance automation
+- `security-hardening.md` - Production security implementation
+- `compliance-automation.md` - Automated compliance checking
+- `vulnerability-assessment.md` - Security vulnerability analysis
 
-### 09-build-deployment/
+## Usage Guidelines
 
-**CI/CD pipelines and Infrastructure as Code**
+Each prompt follows enterprise standards with:
+- **Comprehensive Instructions**: Detailed implementation guidance
+- **Security Considerations**: Built-in security best practices
+- **Examples**: Practical usage examples and code samples
+- **Integration**: Seamless Claude Code command integration
+- **Validation**: Automated quality and consistency checking
 
-- `comprehensive-cicd.md` - Multi-stage pipelines with quality gates
-- `infrastructure-as-code.md` - Terraform, Kubernetes, and Docker automation
+## Related Documentation
 
-### 10-security-compliance/
-
-**Security hardening and compliance automation**
-
-- `security-hardening.md` - OWASP guidelines and defense-in-depth
-- `compliance-automation.md` - SOC2, GDPR, HIPAA automation frameworks
-
-## 🚀 Quick Usage
-
-Each prompt follows the structured XML format:
-
-```xml
-<role>Expert role definition</role>
-<activation>Claude Code configuration</activation>
-<instructions>Phased implementation steps</instructions>
-<output_requirements>Specific deliverables</output_requirements>
-```
-
-All prompts emphasize:
-
-- ✅ Safety-first approach with rollback procedures
-- ✅ Comprehensive testing and verification
-- ✅ CLAUDE.md integration for knowledge persistence
-- ✅ Enterprise-grade security and compliance
-- ✅ Multi-file operation capabilities
-
-## 🔗 Related Files
-
-- **/.claude/commands/** - Custom slash commands for quick access
-- **/.claude/workflows/** - Automated workflow combinations
-- **/CC-SDK-Guide.md** - Comprehensive Claude Code SDK reference
-- **/CLAUDE.md** - Project-specific guidance for Claude Code
+- **[.claude/README.md]** - Complete command ecosystem guide
+- **[CLAUDE.md]** - Project-specific guidance and principles
+- **[CONTRIBUTING.md]** - Contribution guidelines and standards

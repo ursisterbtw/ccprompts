@@ -99,7 +99,122 @@ Phase 6: Git Metrics and Analytics
     - Branch lifetime metrics
     - Merge conflict patterns
     - Review turnaround time
+
+Security Considerations:
+- Implement commit signing verification
+- Enforce branch protection rules
+- Validate commit message compliance
+- Monitor for sensitive data in commits
+- Implement automated secret scanning
 </instructions>
+
+<examples>
+## Example 1: Complete Git Flow Setup
+
+### Initialize Git Flow with Security
+```bash
+# Install and configure Git Flow
+git flow init
+
+# Set up commit signing
+git config --global commit.gpgsign true
+git config --global user.signingkey [YOUR_GPG_KEY]
+
+# Configure branch protection
+gh api repos/:owner/:repo/branches/main/protection \
+  --method PUT \
+  --field required_status_checks='{"strict":true,"contexts":["ci/tests","security/scan"]}' \
+  --field enforce_admins=true \
+  --field required_pull_request_reviews='{"required_approving_review_count":2,"dismiss_stale_reviews":true}'
+```
+
+### Advanced Hook Configuration
+```bash
+# Pre-commit hook for security and quality
+#!/bin/sh
+# .git/hooks/pre-commit
+
+# Run security scanning
+if command -v semgrep >/dev/null; then
+    semgrep --config=auto --error --quiet
+fi
+
+# Check for secrets
+if command -v gitleaks >/dev/null; then
+    gitleaks detect --no-git --verbose
+fi
+
+# Run linting and formatting
+npm run lint:fix
+npm run format
+npm test
+```
+
+## Example 2: Automated Release Management
+
+### GitHub Actions Workflow
+```yaml
+name: Automated Release
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Conventional Changelog
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          output-file: 'CHANGELOG.md'
+          tag-prefix: 'v'
+          release-count: '10'
+```
+
+## Example 3: Interactive Rebase Workflow
+
+### Squash and Clean History
+```bash
+# Interactive rebase to clean up feature branch
+git rebase -i HEAD~5
+
+# Squash commits with helpful messages
+pick a1b2c3d feat: add user authentication
+squash d4e5f6g fix: handle edge case in auth
+squash g7h8i9j test: add auth tests
+squash j1k2l3m docs: update auth documentation
+
+# Force push cleaned branch (only on feature branches)
+git push --force-with-lease origin feature/user-auth
+```
+
+## Example 4: Automated Branch Cleanup
+
+### Cleanup Script
+```bash
+#!/bin/bash
+# cleanup-branches.sh
+
+# Delete merged local branches
+git branch --merged main | grep -v '\*\|main\|develop' | xargs -n 1 git branch -d
+
+# Delete remote tracking branches for deleted remotes
+git remote prune origin
+
+# Notify about stale branches (older than 30 days)
+git for-each-ref --format='%(refname:short) %(committerdate)' refs/heads/ | \
+  awk '$2 <= "'$(date -d '30 days ago' +'%Y-%m-%d')'"' | \
+  while read branch date; do
+    echo "Stale branch: $branch (last commit: $date)"
+  done
+```
+</examples>
 
 <git_aliases>
 Create useful Git aliases:

@@ -2,7 +2,7 @@
 
 /**
  * Comprehensive validation script for ccprompts ecosystem
- * Validates XML structure, prompt quality, and command consistency
+ * Validates XML structure, prompt quality, command consistency, and security
  */
 
 const fs = require('fs');
@@ -15,6 +15,7 @@ const colors = {
   red: '\x1b[31m',
   yellow: '\x1b[33m',
   blue: '\x1b[34m',
+  cyan: '\x1b[36m',
   reset: '\x1b[0m'
 };
 
@@ -30,16 +31,38 @@ class PromptValidator {
       totalFiles: 0,
       validFiles: 0,
       commandFiles: 0,
-      promptFiles: 0
+      promptFiles: 0,
+      securityIssues: 0,
+      qualityScore: 0
     };
   }
 
-  // Validate XML structure in markdown files using stack-based parsing
+  // Enhanced security scanning
+  validateSecurity(content, filename) {
+    const securityPatterns = [
+      { pattern: /password\s*=\s*["'][^"']+["']/gi, message: 'Hardcoded password detected' },
+      { pattern: /api[_-]?key\s*=\s*["'][^"']+["']/gi, message: 'Hardcoded API key detected' },
+      { pattern: /secret\s*=\s*["'][^"']+["']/gi, message: 'Hardcoded secret detected' },
+      { pattern: /token\s*=\s*["'][^"']+["']/gi, message: 'Hardcoded token detected' },
+      { pattern: /eval\s*\(/gi, message: 'Dangerous eval() usage detected' },
+      { pattern: /innerHTML\s*=/gi, message: 'Potential XSS via innerHTML' },
+      { pattern: /\$\{[^}]*user[^}]*\}/gi, message: 'Potential template injection' }
+    ];
+
+    securityPatterns.forEach(({ pattern, message }) => {
+      if (pattern.test(content)) {
+        this.errors.push(`${filename}: SECURITY - ${message}`);
+        this.stats.securityIssues++;
+      }
+    });
+  }
+
+  // Enhanced XML structure validation with better error reporting
   validateXMLStructure(content, filename) {
-    const xmlSections = ['<role>', '<activation>', '<instructions>'];
+    const requiredSections = ['<role>', '<activation>', '<instructions>'];
     const missingSections = [];
 
-    xmlSections.forEach(section => {
+    requiredSections.forEach(section => {
       if (!content.includes(section)) {
         missingSections.push(section);
       }
@@ -50,35 +73,36 @@ class PromptValidator {
       return false;
     }
 
-    // Stack-based XML tag validation for proper nesting
+    // Enhanced stack-based XML tag validation
     const tagStack = [];
     const xmlTagRegex = /<\/?([a-zA-Z][a-zA-Z0-9_-]*)(?:\s[^>]*)?>|<!--[\s\S]*?-->/g;
     let match;
+    let lineNumber = 1;
+    let lastIndex = 0;
     
     while ((match = xmlTagRegex.exec(content)) !== null) {
+      // Calculate line number for better error reporting
+      const currentLineNum = content.substring(lastIndex, match.index).split('\n').length - 1 + lineNumber;
+      lastIndex = match.index;
+      
       const fullTag = match[0];
       const tagName = match[1];
       
-      // Skip comments
-      if (fullTag.startsWith('<!--')) {
-        continue;
-      }
-      
-      // Self-closing tag or processing instruction
-      if (fullTag.endsWith('/>') || fullTag.startsWith('<?')) {
+      // Skip comments and self-closing tags
+      if (fullTag.startsWith('<!--') || fullTag.endsWith('/>') || fullTag.startsWith('<?')) {
         continue;
       }
       
       // Closing tag
       if (fullTag.startsWith('</')) {
         if (tagStack.length === 0) {
-          this.errors.push(`${filename}: Unexpected closing tag: ${fullTag}`);
+          this.errors.push(`${filename}:${currentLineNum}: Unexpected closing tag: ${fullTag}`);
           return false;
         }
         
         const expectedTag = tagStack.pop();
         if (expectedTag !== tagName) {
-          this.errors.push(`${filename}: Mismatched XML tags - expected </${expectedTag}>, found </${tagName}>`);
+          this.errors.push(`${filename}:${currentLineNum}: Mismatched XML tags - expected </${expectedTag}>, found </${tagName}>`);
           return false;
         }
       } 
@@ -97,119 +121,104 @@ class PromptValidator {
     return true;
   }
 
-  // Determine prompt type based on filename and content
-  determinePromptType(filename, content) {
-    if (filename.includes('commands/')) {
-      return 'command';
-    }
-    if (filename.includes('bootstrap') || filename.includes('setup')) {
-      return 'setup';
-    }
-    if (content.toLowerCase().includes('security') || content.toLowerCase().includes('audit')) {
-      return 'security';
-    }
-    if (content.length < 300) {
-      return 'short-answer';
-    }
-    return 'default';
-  }
-
-  // Validate prompt quality and structure with configurable checks
+  // Enhanced prompt quality validation with scoring
   validatePromptQuality(content, filename, promptType = null) {
     const detectedType = promptType || this.determinePromptType(filename, content);
+    let qualityScore = 100;
     
-    const allQualityChecks = {
+    const qualityChecks = {
       default: [
         {
           name: 'Minimum content length',
           test: c => c.length > 500,
+          weight: 15,
           message: 'Content too short - prompts should be comprehensive'
         },
         {
           name: 'Has examples section',
           test: c => c.toLowerCase().includes('example'),
+          weight: 20,
           message: 'Missing examples - prompts should include usage examples'
         },
         {
           name: 'Has clear instructions',
           test: c => c.includes('<instructions>') && c.includes('</instructions>'),
+          weight: 25,
           message: 'Missing or malformed instructions section'
         },
         {
           name: 'Security considerations',
           test: c => c.toLowerCase().includes('security') || c.toLowerCase().includes('safety'),
+          weight: 15,
           message: 'Missing security considerations'
-        }
-      ],
-      'short-answer': [
-        {
-          name: 'Minimum content length',
-          test: c => c.length > 200,
-          message: 'Content too short for short-answer prompt'
         },
         {
-          name: 'Has clear instructions',
-          test: c => c.includes('<instructions>') && c.includes('</instructions>'),
-          message: 'Missing or malformed instructions section'
+          name: 'Has output requirements',
+          test: c => c.includes('output_requirements') || c.includes('deliverables'),
+          weight: 10,
+          message: 'Missing output requirements'
+        },
+        {
+          name: 'Professional language',
+          test: c => !/(TODO|FIXME|XXX|HACK)/i.test(c),
+          weight: 10,
+          message: 'Contains TODO/FIXME markers'
         }
       ],
       'command': [
         {
-          name: 'Adequate command length',
-          test: c => c.length > 300,
-          message: 'Command documentation too brief'
+          name: 'Has usage section',
+          test: c => c.includes('## Usage'),
+          weight: 25,
+          message: 'Missing Usage section'
         },
         {
-          name: 'Has usage examples',
-          test: c => c.toLowerCase().includes('usage') || c.toLowerCase().includes('example'),
-          message: 'Missing usage examples for command'
-        }
-      ],
-      'security': [
-        {
-          name: 'Comprehensive security content',
-          test: c => c.length > 800,
-          message: 'Security prompts should be comprehensive'
+          name: 'Has description section',
+          test: c => c.includes('## Description'),
+          weight: 20,
+          message: 'Missing Description section'
         },
         {
-          name: 'Security-focused instructions',
-          test: c => c.includes('<instructions>') && c.includes('</instructions>'),
-          message: 'Missing or malformed instructions section'
+          name: 'Has parameters section',
+          test: c => c.includes('## Parameters'),
+          weight: 20,
+          message: 'Missing Parameters section'
         },
         {
-          name: 'Compliance considerations',
-          test: c => c.toLowerCase().includes('compliance') || c.toLowerCase().includes('audit') || c.toLowerCase().includes('security'),
-          message: 'Security prompts should include compliance considerations'
-        }
-      ],
-      'setup': [
-        {
-          name: 'Setup content length',
-          test: c => c.length > 400,
-          message: 'Setup prompts should provide detailed guidance'
+          name: 'Has examples section',
+          test: c => c.includes('## Examples'),
+          weight: 25,
+          message: 'Missing Examples section'
         },
         {
-          name: 'Step-by-step instructions',
-          test: c => c.toLowerCase().includes('step') || c.toLowerCase().includes('install') || c.toLowerCase().includes('setup'),
-          message: 'Setup prompts should include step-by-step instructions'
+          name: 'Professional formatting',
+          test: c => !/(TODO|FIXME|XXX|HACK)/i.test(c),
+          weight: 10,
+          message: 'Contains TODO/FIXME markers'
         }
       ]
     };
 
-    const checks = allQualityChecks[detectedType] || allQualityChecks['default'];
+    const checks = qualityChecks[detectedType] || qualityChecks['default'];
 
     checks.forEach(check => {
       if (!check.test(content)) {
-        this.warnings.push(`${filename} [${detectedType}]: ${check.message}`);
+        qualityScore -= check.weight;
+        this.warnings.push(`${filename} [${detectedType}]: ${check.message} (-${check.weight} points)`);
       }
     });
+
+    // Update overall quality score
+    this.stats.qualityScore = Math.max(0, qualityScore);
+    
+    return qualityScore;
   }
 
-  // Validate command consistency
+  // Enhanced command structure validation
   validateCommandStructure(content, filename) {
     const requiredSections = [
       '## Usage',
-      '## Description',
+      '## Description', 
       '## Parameters',
       '## Examples'
     ];
@@ -223,12 +232,40 @@ class PromptValidator {
     }
 
     // Validate usage format
-    if (content.includes('## Usage') && !content.includes('```\n/')) {
+    if (content.includes('## Usage') && !content.includes('```')) {
       this.warnings.push(`${filename}: Usage section should include command format example`);
+    }
+
+    // Validate examples are comprehensive
+    if (content.includes('## Examples')) {
+      const examplesSection = content.split('## Examples')[1];
+      if (examplesSection && examplesSection.length < 200) {
+        this.warnings.push(`${filename}: Examples section appears too brief`);
+      }
     }
   }
 
-  // Process individual file
+  // Determine prompt type with better heuristics
+  determinePromptType(filename, content) {
+    if (filename.includes('commands/')) {
+      return 'command';
+    }
+    if (filename.includes('bootstrap') || filename.includes('setup')) {
+      return 'setup';
+    }
+    if (content.toLowerCase().includes('security') || content.toLowerCase().includes('audit')) {
+      return 'security';
+    }
+    if (content.toLowerCase().includes('test') || content.toLowerCase().includes('testing')) {
+      return 'testing';
+    }
+    if (content.length < 300) {
+      return 'short-answer';
+    }
+    return 'default';
+  }
+
+  // Process individual file with enhanced validation
   async validateFile(filePath) {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
@@ -239,6 +276,9 @@ class PromptValidator {
       // Determine file type
       const isCommand = filePath.includes('.claude/commands/');
       const isPrompt = filePath.includes('prompts/');
+
+      // Security validation for all files
+      this.validateSecurity(content, filename);
 
       if (isCommand) {
         this.stats.commandFiles++;
@@ -261,6 +301,11 @@ class PromptValidator {
         this.warnings.push(`${filename}: No main heading found`);
       }
 
+      // Check for consistent line endings
+      if (content.includes('\r\n')) {
+        this.warnings.push(`${filename}: Uses CRLF line endings (should be LF)`);
+      }
+
       this.stats.validFiles++;
       
     } catch (error) {
@@ -268,18 +313,23 @@ class PromptValidator {
     }
   }
 
-  // Find all markdown files
+  // Find all markdown files with exclusions
   findMarkdownFiles(directory) {
     const files = [];
+    const excludePatterns = ['.git', 'node_modules', '.vscode', '.idea', 'dist', 'build'];
     
     function traverse(dir) {
       const items = fs.readdirSync(dir);
       
       items.forEach(item => {
+        if (excludePatterns.some(pattern => item.includes(pattern))) {
+          return;
+        }
+        
         const fullPath = path.join(dir, item);
         const stat = fs.statSync(fullPath);
         
-        if (stat.isDirectory() && !item.startsWith('.git') && item !== 'node_modules') {
+        if (stat.isDirectory()) {
           traverse(fullPath);
         } else if (item.endsWith('.md')) {
           files.push(fullPath);
@@ -291,9 +341,10 @@ class PromptValidator {
     return files;
   }
 
-  // Run all validations
+  // Enhanced validation with performance tracking
   async validate() {
-    log('blue', '🧪 Starting ccprompts validation...\n');
+    const startTime = Date.now();
+    log('blue', '🧪 Starting comprehensive ccprompts validation...\n');
 
     const projectRoot = process.cwd();
     const markdownFiles = this.findMarkdownFiles(projectRoot);
@@ -305,15 +356,47 @@ class PromptValidator {
       await this.validateFile(file);
     }
 
+    // Additional system-level validations
+    this.validateSystemIntegrity();
+
     // Report results
-    this.reportResults();
+    const duration = Date.now() - startTime;
+    this.reportResults(duration);
     
-    // Return exit code
+    // Return exit code based on errors
     return this.errors.length === 0 ? 0 : 1;
   }
 
-  // Generate validation report
-  reportResults() {
+  // System integrity validation
+  validateSystemIntegrity() {
+    try {
+      // Check package.json structure
+      const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+      if (!packageJson.scripts || !packageJson.scripts.validate) {
+        this.warnings.push('package.json: Missing validate script');
+      }
+
+      // Check for required configuration files
+      const requiredFiles = ['.gitignore', 'README.md', 'CONTRIBUTING.md'];
+      requiredFiles.forEach(file => {
+        if (!fs.existsSync(file)) {
+          this.warnings.push(`Missing required file: ${file}`);
+        }
+      });
+
+      // Validate command count matches documentation
+      const commandFiles = this.findMarkdownFiles('.claude/commands').length;
+      if (commandFiles !== 38) {
+        this.errors.push(`Expected 38 commands, found ${commandFiles}`);
+      }
+
+    } catch (error) {
+      this.warnings.push(`System integrity check failed: ${error.message}`);
+    }
+  }
+
+  // Enhanced reporting with metrics
+  reportResults(duration) {
     log('blue', '\n📊 Validation Results');
     log('blue', '==================');
     
@@ -321,6 +404,13 @@ class PromptValidator {
     log('green', `✅ Command files: ${this.stats.commandFiles}`);
     log('green', `✅ Prompt files: ${this.stats.promptFiles}`);
     log('green', `✅ Valid files: ${this.stats.validFiles}`);
+    log('cyan', `⏱️  Validation completed in ${duration}ms`);
+
+    if (this.stats.securityIssues > 0) {
+      log('red', `🛡️  Security issues found: ${this.stats.securityIssues}`);
+    } else {
+      log('green', '🛡️  No security issues detected');
+    }
 
     if (this.warnings.length > 0) {
       log('yellow', `\n⚠️  Warnings (${this.warnings.length}):`);
@@ -335,12 +425,26 @@ class PromptValidator {
       log('green', '\n🎉 All validations passed!');
     }
 
-    // Generate metrics
+    // Generate enhanced metrics
     log('blue', '\n📈 Quality Metrics:');
     const successRate = ((this.stats.validFiles / this.stats.totalFiles) * 100).toFixed(1);
-    log('blue', `   Success rate: ${successRate}%`);
-    log('blue', `   Error rate: ${((this.errors.length / this.stats.totalFiles) * 100).toFixed(1)}%`);
-    log('blue', `   Warning rate: ${((this.warnings.length / this.stats.totalFiles) * 100).toFixed(1)}%`);
+    const errorRate = ((this.errors.length / this.stats.totalFiles) * 100).toFixed(1);
+    const warningRate = ((this.warnings.length / this.stats.totalFiles) * 100).toFixed(1);
+    
+    log('cyan', `   Success rate: ${successRate}%`);
+    log('cyan', `   Error rate: ${errorRate}%`);
+    log('cyan', `   Warning rate: ${warningRate}%`);
+    log('cyan', `   Security score: ${this.stats.securityIssues === 0 ? '100%' : 'FAIL'}`);
+    
+    // Quality grade
+    const overallScore = Math.max(0, 100 - (this.errors.length * 5) - (this.warnings.length * 2));
+    let grade = 'F';
+    if (overallScore >= 90) grade = 'A';
+    else if (overallScore >= 80) grade = 'B';
+    else if (overallScore >= 70) grade = 'C';
+    else if (overallScore >= 60) grade = 'D';
+    
+    log('cyan', `   Overall quality grade: ${grade} (${overallScore}/100)`);
   }
 }
 
@@ -349,6 +453,9 @@ if (require.main === module) {
   const validator = new PromptValidator();
   validator.validate().then(exitCode => {
     process.exit(exitCode);
+  }).catch(error => {
+    console.error('Validation failed:', error);
+    process.exit(1);
   });
 }
 

@@ -1,3 +1,73 @@
+# /learn
+
+**Interactive skill development and mentorship**
+
+## Usage
+
+```
+/learn [technology] [level] [format]
+```
+
+## Description
+
+Provides personalized, interactive learning experiences with hands-on tutorials, skill assessments, and mentorship guidance. Delivers structured learning paths with practical exercises, real-world projects, and progress tracking across multiple technology domains.
+
+## Parameters
+
+- `technology`: `python` | `javascript` | `typescript` | `react` | `vue` | `angular` | `node` | `django` | `flask` | `fastapi` | `go` | `rust` | `java` | `kubernetes` | `docker` | `aws` | `terraform` | `claude-code`
+- `level`: `beginner` | `intermediate` | `advanced` | `expert`
+- `format`: `tutorial` | `workshop` | `project` | `mentorship` | `assessment`
+
+## Examples
+
+### Example 1: Beginner Python Tutorial
+```
+/learn python beginner tutorial
+```
+**Output**: Step-by-step Python learning experience:
+- Interactive coding exercises
+- Fundamental concept explanations
+- Best practice demonstrations
+- Progressive skill building
+- Real-time feedback and guidance
+
+### Example 2: Advanced Kubernetes Workshop
+```
+/learn kubernetes advanced workshop
+```
+**Output**: Hands-on Kubernetes mastery:
+- Production deployment scenarios
+- Advanced networking concepts
+- Security and compliance patterns
+- Troubleshooting methodologies
+- Enterprise-grade configurations
+
+### Example 3: React Project-Based Learning
+```
+/learn react intermediate project
+```
+**Output**: Complete React application development:
+- Modern React patterns and hooks
+- State management with Redux/Zustand
+- Testing strategies and implementation
+- Performance optimization techniques
+- Production deployment considerations
+
+### Example 4: AI-Assisted Mentorship
+```
+/learn claude-code expert mentorship
+```
+**Output**: Personalized Claude Code mastery:
+- Advanced prompt engineering
+- Custom command development
+- MCP server integration
+- Workflow optimization strategies
+- Team collaboration best practices
+
+---
+
+# Interactive Learning and Skill Development System
+
 # Learn Command
 
 **Usage:** `/learn [topic] [level] [format]`
@@ -422,7 +492,6 @@
     - Long-term skill application success
   </learning_analytics_dashboard>
 </learn_command>
-```
 
 ## Command Integration
 
