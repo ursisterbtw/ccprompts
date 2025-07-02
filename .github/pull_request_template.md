@@ -1,137 +1,274 @@
-# Pull Request
+# Pull Request - Enterprise CI/CD Standards
 
-## Description
+## 📋 Change Summary
 
-<!-- Provide a brief description of the changes in this PR -->
+<!-- Provide a clear, concise description of the changes -->
 
-## Type of Change
+### Change Type
+- [ ] 🐛 **Bug Fix** - Non-breaking change that fixes an issue
+- [ ] ✨ **New Feature** - Non-breaking change that adds functionality
+- [ ] 💥 **Breaking Change** - Change that causes existing functionality to break
+- [ ] 📚 **Documentation** - Documentation updates or improvements
+- [ ] ♻️ **Refactoring** - Code restructuring without functional changes
+- [ ] ⚡ **Performance** - Performance improvements or optimizations
+- [ ] 🛡️ **Security** - Security enhancements or vulnerability fixes
+- [ ] 🏗️ **Infrastructure** - CI/CD, deployment, or infrastructure changes
+- [ ] 🎨 **Style** - Code style, formatting, or UI improvements
 
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality) 
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Documentation update
-- [ ] Refactoring (no functional changes)
-- [ ] Performance improvement
-- [ ] Security enhancement
+### Impact Level
+- [ ] 🟢 **Low** - Minor changes with minimal impact
+- [ ] 🟡 **Medium** - Moderate changes requiring standard review
+- [ ] 🔴 **High** - Significant changes requiring comprehensive review
+- [ ] 🚨 **Critical** - Emergency fixes requiring immediate attention
 
-## Related Issues
+## 🔗 Related Issues
 
-<!-- Link to related issues using "Closes #123" or "Fixes #123" -->
+<!-- Link related issues using keywords: "Closes #123", "Fixes #123", "Relates to #123" -->
 
-## Changes Made
+## 📝 Detailed Changes
 
-<!-- Detailed list of changes made in this PR -->
-- 
-- 
-- 
+<!-- Provide a comprehensive list of changes made -->
 
-## Testing
+### Modified Components
+- [ ] Prompts (`prompts/`)
+- [ ] Commands (`.claude/commands/`)
+- [ ] Workflows (`.claude/workflows/`)
+- [ ] Configuration (`.claude/config.json`, `.claude/mcp.json`)
+- [ ] CI/CD Pipelines (`.github/workflows/`)
+- [ ] Scripts (`scripts/`)
+- [ ] Documentation (`*.md`)
+- [ ] Dependencies (`package.json`)
 
-<!-- Describe the tests that you ran to verify your changes -->
+### Changes Made
+<!-- List specific changes with file paths and descriptions -->
+1. 
+2. 
+3. 
 
-### Test Configuration
+## 🧪 Testing & Validation
 
+### Automated Validation
+- [ ] ✅ **Validation Pipeline** - `npm run validate` passes
+- [ ] ✅ **Quality Checks** - `npm run quality-check` passes  
+- [ ] ✅ **Security Scan** - `npm run security-check` passes
+- [ ] ✅ **Markdown Linting** - No linting errors
+- [ ] ✅ **Link Validation** - All links working
+
+### Manual Testing
+- [ ] Local development testing completed
+- [ ] Cross-platform compatibility verified
+- [ ] Browser compatibility tested (if applicable)
+- [ ] Mobile responsiveness verified (if applicable)
+
+### Test Environment
 - **Node Version**: 
 - **Operating System**: 
-- **Browser** (if applicable): 
+- **Test Environment**: 
+- **Additional Tools**: 
 
-### Test Results
+### Performance Impact
+- [ ] No performance regression detected
+- [ ] Performance improvements measured
+- [ ] Resource usage optimized
+- [ ] Benchmark results documented
 
-- [ ] All existing tests pass
-- [ ] New tests added and passing
-- [ ] Manual testing completed
-- [ ] Performance impact assessed
+## 🛡️ Security Assessment
 
-## Screenshots
+### Security Validation
+- [ ] ✅ **No Security Issues** - Zero security vulnerabilities detected
+- [ ] ✅ **Secret Scanning** - No hardcoded credentials or API keys
+- [ ] ✅ **Dependency Audit** - All dependencies scanned for vulnerabilities
+- [ ] ✅ **File Permissions** - Secure file permissions maintained
+- [ ] ✅ **Input Validation** - Proper input sanitization implemented
+- [ ] ✅ **Output Sanitization** - XSS prevention measures in place
 
-<!-- Add screenshots if applicable -->
-
-## Security Considerations
-
-<!-- Address any security implications of your changes -->
-- [ ] No security vulnerabilities introduced
-- [ ] Security best practices followed
-- [ ] Sensitive data handling reviewed
+### Security Considerations
+<!-- Address security implications -->
 - [ ] Authentication/authorization changes reviewed
+- [ ] Data handling procedures follow security guidelines
+- [ ] Encryption requirements met (if applicable)
+- [ ] Compliance requirements addressed (if applicable)
 
-## Breaking Changes
+### Vulnerability Assessment
+- **Critical Vulnerabilities**: 0 (Required: 0)
+- **High Severity Issues**: [Number] (Max allowed: 3 for staging, 0 for production)
+- **Security Score**: [Percentage] (Target: 100%)
 
-<!-- List any breaking changes and migration guide -->
+## 🚀 CI/CD Pipeline Validation
 
-## Documentation
+### Pipeline Execution
+- [ ] ✅ **Validation Pipeline** - All quality gates passed
+- [ ] ✅ **Security Analysis** - Comprehensive security validation completed
+- [ ] ✅ **Structural Validation** - XML structure and command consistency verified
+- [ ] ✅ **Integration Tests** - End-to-end functionality validated
 
-- [ ] Documentation updated (if applicable)
+### Deployment Readiness
+- [ ] **Staging Deployment** - Ready for staging environment
+- [ ] **Production Deployment** - Meets zero-tolerance quality gates
+- [ ] **Rollback Plan** - Emergency rollback procedures documented
+- [ ] **Health Checks** - Post-deployment validation procedures defined
+
+### Quality Metrics
+- **Overall Quality Grade**: [A-F] (Target: A for production)
+- **Validation Success Rate**: [Percentage] (Target: 95%+)
+- **Command Count**: [Number]/38 (Expected: 38)
+- **Error Count**: [Number] (Target: 0 for production)
+- **Warning Count**: [Number] (Target: <5 for production)
+
+## 📊 Quality Assurance
+
+### Code Quality Standards
+- [ ] ✅ **Coding Standards** - Follows project coding conventions
+- [ ] ✅ **Self-Review** - Thorough self-review completed
+- [ ] ✅ **Documentation** - Code is well-documented and self-explanatory
+- [ ] ✅ **Error Handling** - Comprehensive error handling implemented
+- [ ] ✅ **Best Practices** - Industry best practices followed
+
+### Content Quality (for prompts/commands)
+- [ ] ✅ **XML Structure** - Valid XML structure with required sections
+- [ ] ✅ **Usage Examples** - Comprehensive examples provided
+- [ ] ✅ **Security Considerations** - Security best practices included
+- [ ] ✅ **Output Requirements** - Clear deliverables defined
+- [ ] ✅ **Professional Language** - No TODO/FIXME markers
+
+### Documentation Updates
 - [ ] API documentation updated (if applicable)
-- [ ] Changelog updated
-- [ ] Comments added to complex code
+- [ ] README.md updated (if applicable)
+- [ ] CHANGELOG.md updated
+- [ ] Configuration documentation updated (if applicable)
+- [ ] Deployment guide updated (if applicable)
 
-## Deployment Notes
+## 🔄 Breaking Changes & Migration
 
-<!-- Any special deployment considerations -->
+### Breaking Changes
+<!-- List any breaking changes -->
+- [ ] No breaking changes introduced
+- [ ] Breaking changes documented with migration guide
+- [ ] Backward compatibility maintained where possible
+- [ ] Deprecation notices added for future breaking changes
 
-## Checklist
+### Migration Guide
+<!-- Provide migration instructions for breaking changes -->
 
-### Code Quality
-- [ ] Code follows the project's coding standards
-- [ ] Self-review of code completed
-- [ ] Code is self-documenting or well-commented
-- [ ] No console.log or debug statements left in code
-- [ ] Error handling implemented appropriately
+## 📸 Visual Changes
 
-### Testing
-- [ ] Unit tests added/updated
-- [ ] Integration tests added/updated (if applicable)
-- [ ] End-to-end tests added/updated (if applicable)
-- [ ] Test coverage maintained or improved
+<!-- Add screenshots, GIFs, or videos for UI/UX changes -->
 
-### Security
-- [ ] Input validation implemented
-- [ ] Output sanitization implemented
-- [ ] No hardcoded secrets or credentials
-- [ ] Security headers configured (if applicable)
-- [ ] Dependencies reviewed for vulnerabilities
+## 🚀 Deployment & Monitoring
 
-### Performance
-- [ ] Performance impact assessed
-- [ ] No significant performance regression
-- [ ] Appropriate caching implemented (if applicable)
-- [ ] Database queries optimized (if applicable)
+### Deployment Strategy
+- [ ] **Blue-Green Deployment** - Suitable for blue-green deployment
+- [ ] **Canary Deployment** - Gradual rollout strategy defined
+- [ ] **Feature Flags** - Feature toggles implemented (if applicable)
+- [ ] **Database Migration** - Database changes documented (if applicable)
 
-### Accessibility
-- [ ] Accessibility considerations addressed (if UI changes)
-- [ ] WCAG guidelines followed (if applicable)
-- [ ] Keyboard navigation tested (if applicable)
+### Monitoring & Observability
+- [ ] Logging implementation reviewed
+- [ ] Metrics collection configured
+- [ ] Alerting rules updated (if applicable)
+- [ ] Dashboard updates required (if applicable)
 
-### Dependencies
-- [ ] Dependencies updated appropriately
-- [ ] No unnecessary dependencies added
-- [ ] License compatibility verified
-- [ ] Security audit of new dependencies completed
+### Post-Deployment Validation
+- [ ] Health check endpoints verified
+- [ ] Performance baseline established
+- [ ] Error rate monitoring configured
+- [ ] User experience impact assessed
 
-## Review Requests
+## 👥 Review Requirements
 
-<!-- Tag specific reviewers or teams for specialized review -->
+### Required Approvals
+- [ ] **Technical Lead** - Architecture and implementation review
+- [ ] **Security Team** - Security assessment (for security-related changes)
+- [ ] **DevOps Team** - Infrastructure and deployment review (for CI/CD changes)
+- [ ] **Product Owner** - Feature acceptance (for new features)
 
-### Required Reviewers
-- [ ] Code review by team lead
-- [ ] Security review (if security-related changes)
-- [ ] Performance review (if performance-related changes)
-- [ ] UI/UX review (if frontend changes)
+### Specialized Reviews
+- [ ] **Performance Review** - Required for performance-critical changes
+- [ ] **Accessibility Review** - Required for UI/UX changes
+- [ ] **Compliance Review** - Required for regulatory compliance changes
+- [ ] **Database Review** - Required for database schema changes
 
-## Post-Merge Actions
+## 📋 Pre-Merge Checklist
 
-<!-- Actions to be taken after merge -->
-- [ ] Deploy to staging environment
-- [ ] Monitor application logs
-- [ ] Verify functionality in production
-- [ ] Update team documentation
-- [ ] Notify stakeholders of changes
+### Code Readiness
+- [ ] All CI/CD checks passing
+- [ ] Code review feedback addressed
+- [ ] Merge conflicts resolved
+- [ ] Commit messages follow conventional commit format
+- [ ] Branch is up-to-date with target branch
+
+### Release Readiness
+- [ ] Version number updated (if applicable)
+- [ ] Release notes prepared
+- [ ] Stakeholder communication plan ready
+- [ ] Rollback procedures documented and tested
+
+### Compliance & Governance
+- [ ] Change management process followed
+- [ ] Security approval obtained (for security changes)
+- [ ] Compliance requirements met
+- [ ] Legal review completed (if applicable)
+
+## 🎯 Success Criteria
+
+### Definition of Done
+- [ ] All acceptance criteria met
+- [ ] Quality gates passed (minimum Grade B for staging, Grade A for production)
+- [ ] Security score: 100%
+- [ ] Performance impact: <5% regression
+- [ ] Documentation complete and accurate
+
+### Monitoring KPIs
+- **Build Success Rate**: Target 98%+
+- **Deployment Success Rate**: Target 99%+
+- **Mean Time to Recovery (MTTR)**: Target <30 minutes
+- **Change Failure Rate**: Target <10%
+
+## 🚨 Emergency Procedures
+
+### Emergency Review Process
+- [ ] **Critical Bug Fix** - Expedited review process required
+- [ ] **Security Hotfix** - Security team emergency approval required
+- [ ] **Production Incident** - Incident response team notified
+- [ ] **Rollback Required** - Rollback procedures documented and ready
+
+## 📞 Contact & Escalation
+
+### Primary Contacts
+- **Technical Lead**: [Name/Handle]
+- **Security Contact**: [Name/Handle]
+- **DevOps Lead**: [Name/Handle]
+- **Product Owner**: [Name/Handle]
+
+### Escalation Path
+1. **Level 1**: Standard peer review
+2. **Level 2**: Technical lead review
+3. **Level 3**: Architecture review board
+4. **Level 4**: Executive approval (for critical changes)
 
 ---
 
-**By submitting this pull request, I confirm that:**
-- [ ] I have read and understood the contributing guidelines
-- [ ] My changes are covered by tests
-- [ ] I have verified that no breaking changes are introduced
-- [ ] I have updated documentation as necessary
-- [ ] I am authorized to submit this contribution
+## ✅ Final Certification
+
+**By submitting this pull request, I certify that:**
+
+- [ ] ✅ I have read and understand the contributing guidelines
+- [ ] ✅ All changes are covered by comprehensive testing
+- [ ] ✅ Security best practices have been followed
+- [ ] ✅ Performance impact has been assessed and is acceptable
+- [ ] ✅ Documentation is complete and accurate
+- [ ] ✅ Breaking changes are properly documented with migration guides
+- [ ] ✅ I am authorized to submit this contribution
+- [ ] ✅ All CI/CD quality gates are passing
+- [ ] ✅ Emergency rollback procedures are documented (for production changes)
+
+### Quality Commitment
+This pull request maintains the enterprise-grade standards of the ccprompts repository with:
+- 🛡️ **100% Security Compliance**
+- 📊 **Comprehensive Quality Validation**
+- 🚀 **Production-Ready CI/CD Integration**
+- 📚 **Complete Documentation Standards**
+
+---
+
+*This PR template reflects the modern CI/CD pipeline implementation with enterprise-grade security standards and comprehensive quality assurance frameworks.*
