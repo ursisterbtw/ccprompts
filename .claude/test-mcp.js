@@ -230,7 +230,7 @@ class MCPTester {
       return;
     }
     
-    for (const [serverName, serverConfig] of testableServers.slice(0, 2)) { // Test max 2 servers to avoid long delays
+    for (const [serverName, serverConfig] of testableServers) { // Test all testable servers
       try {
         log('blue', `  Testing startup for ${serverName}...`);
         
