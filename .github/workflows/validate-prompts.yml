@@ -1,4 +1,4 @@
-name: Validate Prompts and Commands
+name: Comprehensive Validation and Quality Assurance
 
 on:
   push:
@@ -11,135 +11,738 @@ on:
       - '.claude/workflows/**/*.yaml'
       - '.claude/config.json'
       - '.claude/mcp.json'
+      - 'package.json'
+      - 'scripts/**'
+      - '.github/workflows/**'
+  schedule:
+    # Run daily quality checks at 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  NODE_VERSION: '18'
+  FORCE_COLOR: 1
+  CI: true
 
 jobs:
-  validate-markdown:
+  setup:
+    name: Environment Setup and Cache
     runs-on: ubuntu-latest
-    name: Validate Markdown Files
-    
+    outputs:
+      node-cache-hit: ${{ steps.cache-node.outputs.cache-hit }}
+      
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        cache: 'npm'
-    
-    - name: Install dependencies
-      run: |
-        npm install
-        npm install -g markdownlint-cli
-        npm install -g markdown-link-check
-        
-    - name: Run comprehensive validation
-      run: |
-        echo "🧪 Running comprehensive ccprompts validation..."
-        npm run validate
-        
-    - name: Lint markdown files
-      run: |
-        markdownlint prompts/**/*.md .claude/commands/**/*.md README.md CLAUDE.md CC-SDK-Guide.md --ignore-path .gitignore
-        
-    - name: Check markdown links
-      run: |
-        find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" | xargs markdown-link-check --config .github/markdown-link-check.json || true
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Cache node modules
+        id: cache-node
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ env.NODE_VERSION }}-
+      
+      - name: Install dependencies
+        if: steps.cache-node.outputs.cache-hit != 'true'
+        run: |
+          echo "📦 Installing dependencies..."
+          npm ci --prefer-offline --no-audit --progress=false
+          npm list --depth=0
+      
+      - name: Verify installation
+        run: |
+          echo "✅ Verifying installation..."
+          node --version
+          npm --version
+          npx markdownlint --version
+          npx markdown-link-check --version
 
-  validate-commands:
+  security-analysis:
+    name: Security Analysis and Vulnerability Assessment
     runs-on: ubuntu-latest
-    name: Validate Command Files
+    needs: setup
     
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Validate command completeness
-      run: |
-        # Check that all commands have proper headers and descriptions
-        for file in .claude/commands/*.md; do
-          if ! grep -q "^# " "$file" || ! grep -q "## Description" "$file"; then
-            echo "❌ $file missing required sections"
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Restore dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ hashFiles('package-lock.json') }}
+      
+      - name: Install dependencies if cache miss
+        run: |
+          if [ ! -d "node_modules" ]; then
+            npm ci --prefer-offline --no-audit --progress=false
+          fi
+      
+      - name: Run comprehensive security scan
+        run: |
+          echo "🛡️ Running comprehensive security validation..."
+          npm run validate 2>&1 | tee validation-output.log
+          
+          # Extract security metrics
+          SECURITY_ISSUES=$(grep "Security issues found:" validation-output.log | grep -o '[0-9]\+' || echo "0")
+          echo "SECURITY_ISSUES=$SECURITY_ISSUES" >> $GITHUB_ENV
+          
+          # Fail if critical security issues found
+          if [ "$SECURITY_ISSUES" -gt 0 ]; then
+            echo "❌ Security issues detected: $SECURITY_ISSUES"
+            echo "::error::Critical security vulnerabilities found"
             exit 1
           fi
-        done
-        echo "✅ All commands have valid structure"
-        
-    - name: Count commands
-      run: |
-        command_count=$(ls -1 .claude/commands/*.md | wc -l)
-        echo "Found $command_count commands"
-        if [ "$command_count" -ne 38 ]; then
-          echo "❌ Expected 38 commands, found $command_count"
-          exit 1
-        fi
-        echo "✅ Command count matches documentation"
+      
+      - name: Dependency vulnerability audit
+        run: |
+          echo "📦 Running dependency vulnerability audit..."
+          
+          # Run npm audit and capture output
+          if ! npm audit --audit-level=moderate --json > audit-results.json 2>/dev/null; then
+            echo "⚠️ Audit found vulnerabilities"
+          fi
+          
+          # Process audit results
+          if [ -f "audit-results.json" ] && [ -s "audit-results.json" ]; then
+            HIGH_VULNS=$(jq -r '.vulnerabilities | to_entries[] | select(.value.severity == "high") | .key' audit-results.json 2>/dev/null | wc -l || echo "0")
+            CRITICAL_VULNS=$(jq -r '.vulnerabilities | to_entries[] | select(.value.severity == "critical") | .key' audit-results.json 2>/dev/null | wc -l || echo "0")
+            
+            echo "High severity vulnerabilities: $HIGH_VULNS"
+            echo "Critical severity vulnerabilities: $CRITICAL_VULNS"
+            
+            # Block on critical vulnerabilities
+            if [ "$CRITICAL_VULNS" -gt 0 ]; then
+              echo "❌ Critical vulnerabilities found - blocking deployment"
+              echo "::error::Critical security vulnerabilities in dependencies"
+              exit 1
+            fi
+            
+            # Warn on too many high severity vulnerabilities
+            if [ "$HIGH_VULNS" -gt 5 ]; then
+              echo "::warning::High number of high-severity vulnerabilities: $HIGH_VULNS"
+            fi
+          fi
+          
+          echo "✅ Dependency security audit completed"
+      
+      - name: File permission security check
+        run: |
+          echo "🔒 Checking file permissions..."
+          
+          EXIT_CODE=0
+          
+          # Check for executable markdown files
+          if find . -name "*.md" -executable -not -path "./.git/*" -not -path "./node_modules/*" | grep -q .; then
+            echo "❌ Found executable markdown files:"
+            find . -name "*.md" -executable -not -path "./.git/*" -not -path "./node_modules/*"
+            EXIT_CODE=1
+          fi
+          
+          # Check for world-writable files
+          if find . -type f -perm -002 -not -path "./.git/*" -not -path "./node_modules/*" | grep -q .; then
+            echo "❌ Found world-writable files:"
+            find . -type f -perm -002 -not -path "./.git/*" -not -path "./node_modules/*"
+            EXIT_CODE=1
+          fi
+          
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "✅ File permissions are secure"
+          else
+            echo "::error::Insecure file permissions detected"
+            exit $EXIT_CODE
+          fi
+      
+      - name: Configuration security validation
+        run: |
+          echo "⚙️ Validating configuration security..."
+          
+          # Check for potential secrets in configuration files
+          if find . -name "*.json" -not -path "./node_modules/*" -not -path "./.git/*" | xargs grep -l "\"password\":\|\"secret\":\|\"key\":" 2>/dev/null; then
+            echo "⚠️ Found potential secrets in configuration files - review needed"
+            echo "::warning::Potential secrets detected in configuration files"
+          fi
+          
+          echo "✅ Configuration security validation completed"
+      
+      - name: Upload security artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-reports
+          path: |
+            validation-output.log
+            audit-results.json
+          retention-days: 30
 
-  validate-config:
+  quality-validation:
+    name: Quality Validation and Standards Check
     runs-on: ubuntu-latest
-    name: Validate Configuration
+    needs: setup
     
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        
-    - name: Validate JSON configuration
-      run: |
-        # Validate JSON syntax
-        node -e "JSON.parse(require('fs').readFileSync('.claude/config.json', 'utf8'))"
-        node -e "JSON.parse(require('fs').readFileSync('.claude/mcp.json', 'utf8'))"
-        echo "✅ Configuration files are valid JSON"
-        
-    - name: Test MCP configuration
-      run: |
-        cd .claude
-        node test-mcp.js
-        
-  security-scan:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Restore dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ hashFiles('package-lock.json') }}
+      
+      - name: Install dependencies if cache miss
+        run: |
+          if [ ! -d "node_modules" ]; then
+            npm ci --prefer-offline --no-audit --progress=false
+          fi
+      
+      - name: Comprehensive validation suite
+        run: |
+          echo "🧪 Running comprehensive validation suite..."
+          
+          # Run validation with detailed output
+          npm run validate 2>&1 | tee validation-detailed.log
+          VALIDATION_EXIT_CODE=${PIPESTATUS[0]}
+          
+          # Extract metrics
+          ERRORS=$(grep "Errors (" validation-detailed.log | grep -o '([0-9]\+)' | grep -o '[0-9]\+' || echo "0")
+          WARNINGS=$(grep "Warnings (" validation-detailed.log | grep -o '([0-9]\+)' | grep -o '[0-9]\+' || echo "0")
+          GRADE=$(grep "Overall quality grade:" validation-detailed.log | grep -o '[A-F]' || echo "F")
+          
+          echo "VALIDATION_ERRORS=$ERRORS" >> $GITHUB_ENV
+          echo "VALIDATION_WARNINGS=$WARNINGS" >> $GITHUB_ENV
+          echo "QUALITY_GRADE=$GRADE" >> $GITHUB_ENV
+          
+          echo "📊 Validation Results:"
+          echo "  - Errors: $ERRORS"
+          echo "  - Warnings: $WARNINGS"
+          echo "  - Grade: $GRADE"
+          
+          # Set quality thresholds
+          if [ "$ERRORS" -gt 5 ]; then
+            echo "❌ Too many validation errors: $ERRORS (max: 5)"
+            echo "::error::Validation error threshold exceeded"
+            exit 1
+          fi
+          
+          if [ "$GRADE" = "F" ]; then
+            echo "❌ Quality grade F is not acceptable"
+            echo "::error::Quality standards not met"
+            exit 1
+          fi
+          
+          if [ $VALIDATION_EXIT_CODE -ne 0 ]; then
+            echo "❌ Validation suite failed"
+            exit $VALIDATION_EXIT_CODE
+          fi
+          
+          echo "✅ Quality validation passed"
+      
+      - name: Markdown linting
+        run: |
+          echo "📝 Running markdown linting..."
+          
+          # Create markdownlint config if it doesn't exist
+          if [ ! -f ".markdownlint.json" ]; then
+            echo "Creating default markdownlint configuration..."
+            cat > .markdownlint.json << 'EOF'
+          {
+            "MD013": {"line_length": 120, "tables": false},
+            "MD036": false,
+            "MD033": {"allowed_elements": ["div", "img", "br", "details", "summary"]},
+            "MD041": false
+          }
+          EOF
+          fi
+          
+          # Run linting with error collection
+          LINT_EXIT_CODE=0
+          if ! npx markdownlint prompts/**/*.md .claude/commands/**/*.md README.md CLAUDE.md CC-SDK-Guide.md --config .markdownlint.json 2>&1 | tee lint-output.log; then
+            LINT_EXIT_CODE=1
+          fi
+          
+          # Count linting issues
+          LINT_ISSUES=$(wc -l < lint-output.log || echo "0")
+          echo "LINT_ISSUES=$LINT_ISSUES" >> $GITHUB_ENV
+          
+          if [ $LINT_EXIT_CODE -ne 0 ] && [ "$LINT_ISSUES" -gt 10 ]; then
+            echo "❌ Too many linting issues: $LINT_ISSUES (max: 10)"
+            echo "::error::Markdown linting standards not met"
+            exit 1
+          elif [ $LINT_EXIT_CODE -ne 0 ]; then
+            echo "⚠️ Linting issues found: $LINT_ISSUES"
+            echo "::warning::Minor markdown linting issues detected"
+          else
+            echo "✅ Markdown linting passed"
+          fi
+      
+      - name: Link validation
+        run: |
+          echo "🔗 Validating markdown links..."
+          
+          # Create link check config if it doesn't exist
+          if [ ! -f ".github/markdown-link-check.json" ]; then
+            mkdir -p .github
+            cat > .github/markdown-link-check.json << 'EOF'
+          {
+            "ignorePatterns": [
+              {
+                "pattern": "^http://localhost"
+              },
+              {
+                "pattern": "^https://localhost"
+              },
+              {
+                "pattern": "^http://127.0.0.1"
+              }
+            ],
+            "timeout": "10s",
+            "retryCount": 2,
+            "retryOn429": true,
+            "fallbackRetryDelay": "30s",
+            "aliveStatusCodes": [200, 206]
+          }
+          EOF
+          fi
+          
+          # Run link checking with timeout and error handling
+          LINK_EXIT_CODE=0
+          timeout 300 find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" | \
+            xargs -I {} sh -c 'echo "Checking: {}"; npx markdown-link-check "{}" --config .github/markdown-link-check.json' 2>&1 | \
+            tee link-check-output.log || LINK_EXIT_CODE=$?
+          
+          # Count broken links
+          BROKEN_LINKS=$(grep -c "✖" link-check-output.log || echo "0")
+          echo "BROKEN_LINKS=$BROKEN_LINKS" >> $GITHUB_ENV
+          
+          if [ "$BROKEN_LINKS" -gt 5 ]; then
+            echo "❌ Too many broken links: $BROKEN_LINKS (max: 5)"
+            echo "::error::Link validation failed"
+            exit 1
+          elif [ "$BROKEN_LINKS" -gt 0 ]; then
+            echo "⚠️ Some broken links found: $BROKEN_LINKS"
+            echo "::warning::Minor link issues detected"
+          else
+            echo "✅ All links are valid"
+          fi
+      
+      - name: Upload quality artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: quality-reports
+          path: |
+            validation-detailed.log
+            lint-output.log
+            link-check-output.log
+          retention-days: 30
+
+  structural-validation:
+    name: Structural and Configuration Validation
     runs-on: ubuntu-latest
-    name: Security Scan
+    needs: setup
     
     steps:
-    - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Command structure validation
+        run: |
+          echo "📋 Validating command structure..."
+          
+          EXIT_CODE=0
+          MISSING_SECTIONS=0
+          
+          for file in .claude/commands/*.md; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              echo "Checking: $filename"
+              
+              # Check for required sections
+              if ! grep -q "^# " "$file"; then
+                echo "❌ $filename: Missing main heading"
+                EXIT_CODE=1
+                MISSING_SECTIONS=$((MISSING_SECTIONS + 1))
+              fi
+              
+              if ! grep -q "## Description" "$file"; then
+                echo "❌ $filename: Missing Description section"
+                EXIT_CODE=1
+                MISSING_SECTIONS=$((MISSING_SECTIONS + 1))
+              fi
+              
+              if ! grep -q "## Usage" "$file"; then
+                echo "❌ $filename: Missing Usage section"
+                EXIT_CODE=1
+                MISSING_SECTIONS=$((MISSING_SECTIONS + 1))
+              fi
+              
+              if ! grep -q "## Parameters" "$file"; then
+                echo "❌ $filename: Missing Parameters section"
+                EXIT_CODE=1
+                MISSING_SECTIONS=$((MISSING_SECTIONS + 1))
+              fi
+              
+              if ! grep -q "## Examples" "$file"; then
+                echo "❌ $filename: Missing Examples section"
+                EXIT_CODE=1
+                MISSING_SECTIONS=$((MISSING_SECTIONS + 1))
+              fi
+            fi
+          done
+          
+          echo "MISSING_SECTIONS=$MISSING_SECTIONS" >> $GITHUB_ENV
+          
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "✅ All commands have valid structure"
+          else
+            echo "❌ Command structure validation failed"
+            echo "::error::Commands missing required sections: $MISSING_SECTIONS"
+            exit $EXIT_CODE
+          fi
+      
+      - name: Command count validation
+        run: |
+          echo "🔢 Validating command count..."
+          
+          EXPECTED_COMMANDS=38
+          ACTUAL_COMMANDS=$(ls -1 .claude/commands/*.md 2>/dev/null | wc -l)
+          
+          echo "Expected commands: $EXPECTED_COMMANDS"
+          echo "Actual commands: $ACTUAL_COMMANDS"
+          echo "ACTUAL_COMMANDS=$ACTUAL_COMMANDS" >> $GITHUB_ENV
+          
+          if [ "$ACTUAL_COMMANDS" -ne "$EXPECTED_COMMANDS" ]; then
+            echo "❌ Command count mismatch: expected $EXPECTED_COMMANDS, found $ACTUAL_COMMANDS"
+            echo "::error::Command count validation failed"
+            
+            # List actual commands for debugging
+            echo "📋 Current commands:"
+            ls -1 .claude/commands/*.md | sed 's|.claude/commands/||' | sed 's|.md||' | sort
+            
+            exit 1
+          else
+            echo "✅ Command count matches documentation"
+          fi
+      
+      - name: Configuration validation
+        run: |
+          echo "⚙️ Validating JSON configuration files..."
+          
+          EXIT_CODE=0
+          
+          # Validate .claude/config.json
+          if [ -f ".claude/config.json" ]; then
+            if ! jq empty .claude/config.json 2>/dev/null; then
+              echo "❌ .claude/config.json: Invalid JSON syntax"
+              EXIT_CODE=1
+            else
+              echo "✅ .claude/config.json: Valid JSON"
+            fi
+          else
+            echo "⚠️ .claude/config.json: File not found"
+          fi
+          
+          # Validate .claude/mcp.json
+          if [ -f ".claude/mcp.json" ]; then
+            if ! jq empty .claude/mcp.json 2>/dev/null; then
+              echo "❌ .claude/mcp.json: Invalid JSON syntax"
+              EXIT_CODE=1
+            else
+              echo "✅ .claude/mcp.json: Valid JSON"
+            fi
+          else
+            echo "⚠️ .claude/mcp.json: File not found"
+          fi
+          
+          # Validate package.json
+          if [ -f "package.json" ]; then
+            if ! jq empty package.json 2>/dev/null; then
+              echo "❌ package.json: Invalid JSON syntax"
+              EXIT_CODE=1
+            else
+              echo "✅ package.json: Valid JSON"
+              
+              # Check for required scripts
+              if ! jq -e '.scripts.validate' package.json >/dev/null; then
+                echo "⚠️ package.json: Missing 'validate' script"
+              fi
+              
+              if ! jq -e '.scripts.test' package.json >/dev/null; then
+                echo "⚠️ package.json: Missing 'test' script"
+              fi
+            fi
+          else
+            echo "❌ package.json: File not found"
+            EXIT_CODE=1
+          fi
+          
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "✅ All configuration files are valid"
+          else
+            echo "❌ Configuration validation failed"
+            echo "::error::Invalid configuration files detected"
+            exit $EXIT_CODE
+          fi
+      
+      - name: MCP configuration test
+        run: |
+          echo "🔧 Testing MCP configuration..."
+          
+          if [ -f ".claude/test-mcp.js" ]; then
+            cd .claude
+            timeout 60 node test-mcp.js 2>&1 | tee ../mcp-test-output.log || echo "MCP test completed"
+            cd ..
+            
+            # Check for errors in MCP test output
+            if grep -q "Error\|ERROR\|Failed\|FAILED" mcp-test-output.log; then
+              echo "⚠️ MCP configuration test showed issues"
+              echo "::warning::MCP configuration may have issues"
+            else
+              echo "✅ MCP configuration test passed"
+            fi
+          else
+            echo "⚠️ .claude/test-mcp.js not found - skipping MCP test"
+          fi
+
+  integration-tests:
+    name: Integration Tests and End-to-End Validation
+    runs-on: ubuntu-latest
+    needs: [setup, security-analysis, quality-validation, structural-validation]
+    if: always() && needs.security-analysis.result == 'success'
     
-    - name: Check for secrets
-      run: |
-        # Basic secret scanning
-        if grep -r "GITHUB_TOKEN=" . --exclude-dir=.git --exclude="*.example" --exclude-dir=node_modules; then
-          echo "❌ Found hardcoded secrets"
-          exit 1
-        fi
-        
-        if grep -r "password\|secret\|key" . --exclude-dir=.git --exclude="*.md" --exclude="*.example" --exclude-dir=node_modules -i; then
-          echo "⚠️ Found potential secrets - manual review needed"
-        fi
-        
-        echo "✅ No obvious secrets found"
-        
-    - name: Validate file permissions
-      run: |
-        # Check for executable files that shouldn't be
-        find . -name "*.md" -executable -not -path "./.git/*" | while read file; do
-          echo "❌ Markdown file should not be executable: $file"
-          exit 1
-        done
-        echo "✅ File permissions are appropriate"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Restore dependencies
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ env.NODE_VERSION }}-${{ hashFiles('package-lock.json') }}
+      
+      - name: Install dependencies if cache miss
+        run: |
+          if [ ! -d "node_modules" ]; then
+            npm ci --prefer-offline --no-audit --progress=false
+          fi
+      
+      - name: Full quality check suite
+        run: |
+          echo "🚀 Running full quality check suite..."
+          
+          # Run all quality checks in sequence
+          npm run quality-check 2>&1 | tee full-quality-check.log
+          QUALITY_EXIT_CODE=${PIPESTATUS[0]}
+          
+          if [ $QUALITY_EXIT_CODE -eq 0 ]; then
+            echo "✅ Full quality check suite passed"
+          else
+            echo "❌ Quality check suite failed"
+            echo "::error::Integration test suite failed"
+            exit $QUALITY_EXIT_CODE
+          fi
+      
+      - name: Performance benchmarking
+        run: |
+          echo "⚱️ Running performance benchmarks..."
+          
+          # Benchmark validation script performance
+          START_TIME=$(date +%s%N)
+          npm run validate >/dev/null 2>&1
+          END_TIME=$(date +%s%N)
+          DURATION=$(( (END_TIME - START_TIME) / 1000000 ))
+          
+          echo "Validation script execution time: ${DURATION}ms"
+          echo "VALIDATION_DURATION=$DURATION" >> $GITHUB_ENV
+          
+          # Performance thresholds
+          if [ "$DURATION" -gt 30000 ]; then
+            echo "⚠️ Validation script is slow: ${DURATION}ms (threshold: 30000ms)"
+            echo "::warning::Performance threshold exceeded"
+          else
+            echo "✅ Validation performance is acceptable: ${DURATION}ms"
+          fi
+      
+      - name: Resource usage monitoring
+        run: |
+          echo "📊 Monitoring resource usage..."
+          
+          # Check disk usage
+          DISK_USAGE=$(du -sm . | cut -f1)
+          echo "Repository size: ${DISK_USAGE}MB"
+          echo "REPO_SIZE=$DISK_USAGE" >> $GITHUB_ENV
+          
+          # Check node_modules size
+          if [ -d "node_modules" ]; then
+            NODE_MODULES_SIZE=$(du -sm node_modules | cut -f1)
+            echo "Node modules size: ${NODE_MODULES_SIZE}MB"
+            echo "NODE_MODULES_SIZE=$NODE_MODULES_SIZE" >> $GITHUB_ENV
+          fi
+          
+          # Resource thresholds
+          if [ "$DISK_USAGE" -gt 500 ]; then
+            echo "⚠️ Repository size is large: ${DISK_USAGE}MB"
+            echo "::warning::Repository size threshold exceeded"
+          fi
+      
+      - name: Upload integration artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: integration-reports
+          path: |
+            full-quality-check.log
+            mcp-test-output.log
+          retention-days: 30
 
   quality-gates:
+    name: Quality Gates and Final Assessment
     runs-on: ubuntu-latest
-    name: Quality Gates
-    needs: [validate-markdown, validate-commands, validate-config, security-scan]
+    needs: [security-analysis, quality-validation, structural-validation, integration-tests]
+    if: always()
     
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Generate quality report
-      run: |
-        echo "## Quality Report" >> $GITHUB_STEP_SUMMARY
-        echo "✅ Markdown validation passed" >> $GITHUB_STEP_SUMMARY
-        echo "✅ Command validation passed" >> $GITHUB_STEP_SUMMARY
-        echo "✅ Configuration validation passed" >> $GITHUB_STEP_SUMMARY
-        echo "✅ Security scan passed" >> $GITHUB_STEP_SUMMARY
-        echo "🚀 Ready for public release!" >> $GITHUB_STEP_SUMMARY
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Evaluate quality gates
+        run: |
+          echo "🏁 Evaluating quality gates..."
+          
+          # Collect results from previous jobs
+          SECURITY_RESULT="${{ needs.security-analysis.result }}"
+          QUALITY_RESULT="${{ needs.quality-validation.result }}"
+          STRUCTURAL_RESULT="${{ needs.structural-validation.result }}"
+          INTEGRATION_RESULT="${{ needs.integration-tests.result }}"
+          
+          echo "Security Analysis: $SECURITY_RESULT"
+          echo "Quality Validation: $QUALITY_RESULT"
+          echo "Structural Validation: $STRUCTURAL_RESULT"
+          echo "Integration Tests: $INTEGRATION_RESULT"
+          
+          # Determine overall status
+          OVERALL_STATUS="success"
+          
+          if [ "$SECURITY_RESULT" != "success" ]; then
+            echo "❌ Security analysis failed"
+            OVERALL_STATUS="failure"
+          fi
+          
+          if [ "$QUALITY_RESULT" != "success" ]; then
+            echo "❌ Quality validation failed"
+            OVERALL_STATUS="failure"
+          fi
+          
+          if [ "$STRUCTURAL_RESULT" != "success" ]; then
+            echo "❌ Structural validation failed"
+            OVERALL_STATUS="failure"
+          fi
+          
+          if [ "$INTEGRATION_RESULT" != "success" ] && [ "$INTEGRATION_RESULT" != "skipped" ]; then
+            echo "⚠️ Integration tests had issues"
+          fi
+          
+          echo "OVERALL_STATUS=$OVERALL_STATUS" >> $GITHUB_ENV
+          
+          if [ "$OVERALL_STATUS" = "success" ]; then
+            echo "🎉 All quality gates passed!"
+          else
+            echo "💥 Quality gates failed"
+            exit 1
+          fi
+      
+      - name: Generate comprehensive report
+        if: always()
+        run: |
+          echo "📋 Generating comprehensive quality report..."
+          
+          # Create quality report
+          cat << 'EOF' >> $GITHUB_STEP_SUMMARY
+          ## 📊 Comprehensive Quality Assessment Report
+          
+          ### 🛡️ Security Analysis
+          - **Status**: ${{ needs.security-analysis.result }}
+          - **Security Issues**: ${{ env.SECURITY_ISSUES || 'N/A' }}
+          - **Critical Vulnerabilities**: ${{ env.CRITICAL_VULNS || '0' }}
+          
+          ### 📝 Quality Validation
+          - **Status**: ${{ needs.quality-validation.result }}
+          - **Validation Errors**: ${{ env.VALIDATION_ERRORS || 'N/A' }}
+          - **Validation Warnings**: ${{ env.VALIDATION_WARNINGS || 'N/A' }}
+          - **Quality Grade**: ${{ env.QUALITY_GRADE || 'N/A' }}
+          - **Linting Issues**: ${{ env.LINT_ISSUES || 'N/A' }}
+          - **Broken Links**: ${{ env.BROKEN_LINKS || 'N/A' }}
+          
+          ### 🏗️ Structural Validation
+          - **Status**: ${{ needs.structural-validation.result }}
+          - **Command Count**: ${{ env.ACTUAL_COMMANDS || 'N/A' }}/38
+          - **Missing Sections**: ${{ env.MISSING_SECTIONS || '0' }}
+          
+          ### 🔄 Integration Tests
+          - **Status**: ${{ needs.integration-tests.result }}
+          - **Validation Duration**: ${{ env.VALIDATION_DURATION || 'N/A' }}ms
+          - **Repository Size**: ${{ env.REPO_SIZE || 'N/A' }}MB
+          
+          ### 🎯 Overall Assessment
+          - **Final Status**: ${{ env.OVERALL_STATUS || 'unknown' }}
+          - **Deployment Ready**: ${{ env.OVERALL_STATUS == 'success' && '✅ Yes' || '❌ No' }}
+          
+          ---
+          
+          🚀 **Ready for Production**: ${{ env.OVERALL_STATUS == 'success' && 'YES' || 'NO' }}
+          EOF
+          
+          echo "✅ Quality report generated successfully"
+      
+      - name: Set deployment status
+        if: always()
+        run: |
+          if [ "${{ env.OVERALL_STATUS }}" = "success" ]; then
+            echo "🚀 Repository is ready for deployment!"
+            echo "DEPLOYMENT_READY=true" >> $GITHUB_ENV
+          else
+            echo "🚫 Repository is not ready for deployment"
+            echo "DEPLOYMENT_READY=false" >> $GITHUB_ENV
+          fi

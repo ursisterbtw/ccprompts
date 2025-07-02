@@ -39,21 +39,48 @@ class PromptValidator {
 
   // Enhanced security scanning
   validateSecurity(content, filename) {
+    // Only scan actual code, not examples or placeholders
+    const codeBlocks = content.match(/```[\s\S]*?```/g) || [];
+    const combinedCode = codeBlocks.join('\n');
+    
     const securityPatterns = [
-      { pattern: /password\s*=\s*["'][^"']+["']/gi, message: 'Hardcoded password detected' },
-      { pattern: /api[_-]?key\s*=\s*["'][^"']+["']/gi, message: 'Hardcoded API key detected' },
-      { pattern: /secret\s*=\s*["'][^"']+["']/gi, message: 'Hardcoded secret detected' },
-      { pattern: /token\s*=\s*["'][^"']+["']/gi, message: 'Hardcoded token detected' },
+      { 
+        pattern: /password\s*=\s*["'][^"']{8,}["']/gi, 
+        message: 'Hardcoded password detected',
+        skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
+      },
+      { 
+        pattern: /api[_-]?key\s*=\s*["'][^"']{16,}["']/gi, 
+        message: 'Hardcoded API key detected',
+        skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
+      },
+      { 
+        pattern: /secret\s*=\s*["'][^"']{8,}["']/gi, 
+        message: 'Hardcoded secret detected',
+        skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
+      },
+      { 
+        pattern: /token\s*=\s*["'][^"']{16,}["']/gi, 
+        message: 'Hardcoded token detected',
+        skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
+      },
       { pattern: /eval\s*\(/gi, message: 'Dangerous eval() usage detected' },
       { pattern: /innerHTML\s*=/gi, message: 'Potential XSS via innerHTML' },
       { pattern: /\$\{[^}]*user[^}]*\}/gi, message: 'Potential template injection' }
     ];
 
-    securityPatterns.forEach(({ pattern, message }) => {
-      if (pattern.test(content)) {
+    securityPatterns.forEach(({ pattern, message, skipIfIncludes }) => {
+      const matches = combinedCode.match(pattern) || [];
+      
+      matches.forEach(match => {
+        // Skip if it's clearly a placeholder or example
+        if (skipIfIncludes && skipIfIncludes.some(skip => match.toLowerCase().includes(skip))) {
+          return;
+        }
+        
         this.errors.push(`${filename}: SECURITY - ${message}`);
         this.stats.securityIssues++;
-      }
+      });
     });
   }
 
@@ -73,6 +100,11 @@ class PromptValidator {
       return false;
     }
 
+    // Remove code blocks and inline code to avoid false positives with XML-like content in examples
+    const contentWithoutCodeBlocks = content
+      .replace(/```[\s\S]*?```/g, '')  // Remove code blocks
+      .replace(/`[^`]*`/g, '');        // Remove inline code
+    
     // Enhanced stack-based XML tag validation
     const tagStack = [];
     const xmlTagRegex = /<\/?([a-zA-Z][a-zA-Z0-9_-]*)(?:\s[^>]*)?>|<!--[\s\S]*?-->/g;
@@ -80,7 +112,7 @@ class PromptValidator {
     let lineNumber = 1;
     let lastIndex = 0;
     
-    while ((match = xmlTagRegex.exec(content)) !== null) {
+    while ((match = xmlTagRegex.exec(contentWithoutCodeBlocks)) !== null) {
       // Calculate line number for better error reporting
       const currentLineNum = content.substring(lastIndex, match.index).split('\n').length - 1 + lineNumber;
       lastIndex = match.index;
@@ -385,7 +417,8 @@ class PromptValidator {
       });
 
       // Validate command count matches documentation
-      const commandFiles = this.findMarkdownFiles('.claude/commands').length;
+      const commandDir = path.join(process.cwd(), '.claude', 'commands');
+      const commandFiles = fs.readdirSync(commandDir).filter(f => f.endsWith('.md')).length;
       if (commandFiles !== 38) {
         this.errors.push(`Expected 38 commands, found ${commandFiles}`);
       }

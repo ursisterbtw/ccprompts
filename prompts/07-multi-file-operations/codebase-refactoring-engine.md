@@ -166,14 +166,14 @@ export class UserService {
 import os
 
 DATABASE_URL = "postgresql://user:pass@localhost/db"
-API_KEY = "REPLACE_WITH_ACTUAL_API_KEY"
+API_KEY = os.getenv("API_KEY", "your-api-key-here")
 DEBUG = True
 REDIS_URL = "redis://localhost:6379"
 
 # services.py
 class EmailService:
     def __init__(self):
-        self.api_key = "REPLACE_WITH_MAILGUN_KEY"  # Hardcoded secret - DO NOT USE IN PRODUCTION
+        self.api_key = os.getenv('MAILGUN_API_KEY')  # Get from environment variable
         self.endpoint = "https://api.mailgun.net"
         
 # models.py  

@@ -197,7 +197,7 @@ git filter-repo --strip-blobs-bigger-than 50M
 
 # Rewrite commit messages to remove sensitive info
 git filter-repo --message-callback '
-  return message.replace(b"password=secret123", b"password=<redacted>")
+  return message.replace(b"password=secret123", b"password=[REDACTED]")
 '
 
 # Verify cleanup

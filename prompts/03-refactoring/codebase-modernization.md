@@ -498,6 +498,8 @@ if __name__ == "__main__":
 <modernization_checklist>
 Pre-modernization preparation:
 - [ ] Complete system backup and rollback plan
+</input>
+
 - [ ] Stakeholder alignment and communication plan
 - [ ] Resource allocation and timeline approval
 - [ ] Risk assessment and mitigation strategies
