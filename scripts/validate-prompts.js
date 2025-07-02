@@ -33,7 +33,7 @@ class PromptValidator {
       commandFiles: 0,
       promptFiles: 0,
       securityIssues: 0,
-      qualityScores: 0
+      qualityScores: []
     };
   }
 
@@ -59,20 +59,16 @@ class PromptValidator {
     return match ? match[1].trim() : null;
   }
 
-  // Enhanced security scanning
-  validateSecurity(content, filename) {
-    // Only scan actual code, not examples or placeholders
-    // Match all code block formats:
-    // - ```language\ncode\n```
-    // - ```\ncode\n```
-    // - Indented code blocks (4+ spaces)
-    const fencedBlocks = content.match(/```(?:[a-zA-Z0-9_+-]*\n)?[\s\S]*?```/g) || [];
+  // Helper method to extract code blocks from markdown
+  extractCodeBlocks(content) {
+    const fencedBlocks = content.match(/```[\s\S]*?```/g) || [];
     const indentedBlocks = content.match(/(?:^|\n)((?:    |\t).*(?:\n(?:    |\t).*)*)/gm) || [];
-    
-    const codeBlocks = [...fencedBlocks, ...indentedBlocks];
-    const combinedCode = codeBlocks.join('\n');
-    
-    const securityPatterns = [
+    return [...fencedBlocks, ...indentedBlocks].join('\n');
+  }
+
+  // Helper method to define security patterns
+  getSecurityPatterns() {
+    return [
       { 
         pattern: /password\s*=\s*["'][^"']{8,}["']/gi, 
         message: 'Hardcoded password detected',
@@ -97,6 +93,11 @@ class PromptValidator {
       { pattern: /innerHTML\s*=/gi, message: 'Potential XSS via innerHTML' },
       { pattern: /\$\{[^}]*user[^}]*\}/gi, message: 'Potential template injection' }
     ];
+  }
+
+  // Helper method to check if content matches security patterns
+  checkSecurityPatterns(combinedCode, filename) {
+    const securityPatterns = this.getSecurityPatterns();
 
     securityPatterns.forEach(({ pattern, message, skipIfIncludes }) => {
       const matches = combinedCode.match(pattern) || [];
@@ -111,6 +112,15 @@ class PromptValidator {
         this.stats.securityIssues++;
       });
     });
+  }
+
+  // Enhanced security scanning
+  validateSecurity(content, filename) {
+    // Extract code blocks from markdown content
+    const combinedCode = this.extractCodeBlocks(content);
+    
+    // Check for security patterns in the extracted code
+    this.checkSecurityPatterns(combinedCode, filename);
   }
 
   // Enhanced XML structure validation with better error reporting
@@ -136,7 +146,7 @@ class PromptValidator {
     
     // Enhanced stack-based XML tag validation
     const tagStack = [];
-    const xmlTagRegex = /<\/?([a-zA-Z][a-zA-Z0-9_-]*)(?:\s[^>]*)?>|<!--[\s\S]*?-->/g;
+    const xmlTagRegex = /<\/?([a-zA-Z][a-zA-Z0-9_-]*)(?:\s[^>]*)?\/?>|<!--[\s\S]*?-->/g;
     let match;
     let lineNumber = 1;
     let lastIndex = 0;
@@ -149,8 +159,12 @@ class PromptValidator {
       const fullTag = match[0];
       const tagName = match[1];
       
+      // Detect if the tag is self-closing (e.g., <br />, <img ... />, etc.)
+      const isSelfClosing = /^<([a-zA-Z][a-zA-Z0-9_-]*)(?:\s[^>]*)?\/\s*>$/.test(fullTag) ||
+                            /\/\s*>$/.test(fullTag);
+      
       // Skip comments and self-closing tags
-      if (fullTag.startsWith('<!--') || fullTag.endsWith('/>') || fullTag.startsWith('<?')) {
+      if (fullTag.startsWith('<!--') || isSelfClosing || fullTag.startsWith('<?')) {
         continue;
       }
       
@@ -270,9 +284,6 @@ class PromptValidator {
     });
 
     // Aggregate quality scores
-    if (!this.stats.qualityScores) {
-      this.stats.qualityScores = [];
-    }
     this.stats.qualityScores.push(qualityScore);
     
     return qualityScore;
@@ -359,8 +370,8 @@ class PromptValidator {
         return;
       }
 
-      if (!content.includes('# ')) {
-        this.warnings.push(`${filename}: No main heading found`);
+      if (!/^#+\s/m.test(content)) {
+        this.warnings.push(`${filename}: No markdown heading found`);
       }
 
       // Check for consistent line endings
@@ -378,28 +389,48 @@ class PromptValidator {
   // Find all markdown files with exclusions
   findMarkdownFiles(directory) {
     const files = [];
-    const excludePatterns = ['.git', 'node_modules', '.vscode', '.idea', 'dist', 'build'];
+    const excludePatterns = ['.git', 'node_modules', '.vscode', '.idea', 'dist', 'build', 'coverage', 'tmp', 'temp'];
     
-    function traverse(dir) {
+    // Check if a path should be excluded based on patterns
+    const shouldExclude = (fullPath, relativePath = '') => {
+      const pathParts = relativePath.split(path.sep);
+      
+      // Check if any part of the path matches exclusion patterns
+      return excludePatterns.some(pattern => {
+        // Match exact directory names
+        if (pathParts.includes(pattern)) return true;
+        
+        // Match hidden directories (starting with .)
+        if (pattern.startsWith('.') && pathParts.some(part => part.startsWith(pattern))) return true;
+        
+        // Match anywhere in the path
+        return relativePath.includes(pattern);
+      });
+    };
+    
+    function traverse(dir, relativePath = '') {
       const items = fs.readdirSync(dir);
       
       items.forEach(item => {
-        if (excludePatterns.some(pattern => item === pattern)) {
+        const fullPath = path.join(dir, item);
+        const itemRelativePath = path.join(relativePath, item);
+        
+        // Skip if path matches exclusion patterns
+        if (shouldExclude(fullPath, itemRelativePath)) {
           return;
         }
         
-        const fullPath = path.join(dir, item);
         const stat = fs.statSync(fullPath);
         
         if (stat.isDirectory()) {
-          traverse(fullPath);
+          traverse(fullPath, itemRelativePath);
         } else if (item.endsWith('.md')) {
           files.push(fullPath);
         }
       });
     }
     
-    traverse(directory);
+    traverse(directory, '');
     return files;
   }
 
