@@ -22,6 +22,7 @@ env:
   NODE_VERSION: '18'
   FORCE_COLOR: 1
   CI: true
+  EXPECTED_COMMAND_COUNT: 38
 
 jobs:
   setup:
@@ -239,17 +240,10 @@ jobs:
         run: |
           echo "📝 Running markdown linting..."
           
-          # Create markdownlint config if it doesn't exist
+          # Fail if markdownlint config does not exist to avoid overwriting user customizations
           if [ ! -f ".markdownlint.json" ]; then
-            echo "Creating default markdownlint configuration..."
-            cat > .markdownlint.json << 'EOF'
-          {
-            "MD013": {"line_length": 120, "tables": false},
-            "MD036": false,
-            "MD033": {"allowed_elements": ["div", "img", "br", "details", "summary"]},
-            "MD041": false
-          }
-          EOF
+            echo "❌ No .markdownlint.json found! Please create a markdownlint config file in the repository root to proceed."
+            exit 1
           fi
           
           # Run linting with error collection
@@ -302,10 +296,11 @@ jobs:
           EOF
           fi
           
-          # Run link checking with proper timeout handling
+          # Run link checking with proper timeout handling (configurable limit)
           LINK_EXIT_CODE=0
+          LINK_CHECK_LIMIT="${LINK_CHECK_FILE_LIMIT:-50}"
           find . -name "*.md" -not -path "./node_modules/*" -not -path "./.git/*" | \
-            head -20 | \
+            head -"$LINK_CHECK_LIMIT" | \
             xargs -I {} timeout 30 npx markdown-link-check "{}" --config .github/markdown-link-check.json 2>&1 | \
             tee link-check-output.log || LINK_EXIT_CODE=$?
           
@@ -497,18 +492,22 @@ jobs:
           
           if [ -f ".claude/test-mcp.js" ]; then
             cd .claude
-            timeout 60 node test-mcp.js 2>&1 | tee ../mcp-test-output.log || echo "MCP test completed"
+            timeout 60 node test-mcp.js 2>&1 | tee ../mcp-test-output.log
+            MCP_EXIT_CODE=${PIPESTATUS[0]}
             cd ..
             
-            # Check for errors in MCP test output
-            if grep -q "Error\|ERROR\|Failed\|FAILED" mcp-test-output.log; then
-              echo "⚠️ MCP configuration test showed issues"
-              echo "::warning::MCP configuration may have issues"
+            # Check for errors in MCP test output or exit code
+            if [ $MCP_EXIT_CODE -ne 0 ] || grep -q "Error\|ERROR\|Failed\|FAILED" mcp-test-output.log; then
+              echo "❌ MCP configuration test failed"
+              echo "::error::MCP configuration is invalid or has critical issues"
+              exit 1
             else
               echo "✅ MCP configuration test passed"
             fi
           else
-            echo "⚠️ .claude/test-mcp.js not found - skipping MCP test"
+            echo "❌ .claude/test-mcp.js not found - MCP test is required for validation"
+            echo "::error::Missing essential MCP test script"
+            exit 1
           fi
 
   integration-tests:

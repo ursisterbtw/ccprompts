@@ -125,11 +125,10 @@ jobs:
           cp package.json test-dist/
           
           # Create deployment metadata with safe variable handling
-          TEST_ENV="${TEST_ENVIRONMENT:-test}"
           cat > test-dist/deployment-info.json << EOF
           {
             "version": "test-$(date +'%Y%m%d')",
-            "environment": "$TEST_ENV",
+            "environment": "$TEST_ENVIRONMENT",
             "deployedAt": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
             "gitCommit": "$GIT_COMMIT",
             "gitBranch": "$GIT_REF_NAME",

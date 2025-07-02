@@ -421,10 +421,20 @@ class PromptValidator {
 
       // Validate command count matches documentation
       const commandDir = path.join(process.cwd(), '.claude', 'commands');
+      const expectedCommandCount = process.env.EXPECTED_COMMAND_COUNT
+        ? parseInt(process.env.EXPECTED_COMMAND_COUNT, 10)
+        : null;
+
       if (fs.existsSync(commandDir)) {
         const commandFiles = fs.readdirSync(commandDir).filter(f => f.endsWith('.md')).length;
-        if (commandFiles !== 38) {
-          this.errors.push(`Expected 38 commands, found ${commandFiles}`);
+        if (expectedCommandCount !== null) {
+          if (commandFiles !== expectedCommandCount) {
+            this.errors.push(`Expected ${expectedCommandCount} commands, found ${commandFiles}`);
+          }
+        } else {
+          this.warnings.push(
+            `EXPECTED_COMMAND_COUNT not set; skipping strict command count validation (found ${commandFiles} commands)`
+          );
         }
       } else {
         this.errors.push('Commands directory (.claude/commands) not found');
