@@ -1,0 +1,250 @@
+# CCPrompts Development Environment Alert Rules
+# Prometheus alerting rules for monitoring the development environment
+
+groups:
+  - name: ccprompts.development
+    interval: 30s
+    rules:
+      # System Resource Alerts
+      - alert: HighCPUUsage
+        expr: (100 - (avg(irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 80
+        for: 2m
+        labels:
+          severity: warning
+          service: system
+          environment: development
+        annotations:
+          summary: "High CPU usage detected"
+          description: "CPU usage is above 80% for more than 2 minutes"
+
+      - alert: HighMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 85
+        for: 2m
+        labels:
+          severity: warning
+          service: system
+          environment: development
+        annotations:
+          summary: "High memory usage detected"
+          description: "Memory usage is above 85% for more than 2 minutes"
+
+      - alert: LowDiskSpace
+        expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 15
+        for: 1m
+        labels:
+          severity: critical
+          service: system
+          environment: development
+        annotations:
+          summary: "Low disk space on root filesystem"
+          description: "Root filesystem has less than 15% available space"
+
+      # Service Health Alerts
+      - alert: ServiceDown
+        expr: up == 0
+        for: 30s
+        labels:
+          severity: critical
+          environment: development
+        annotations:
+          summary: "Service {{ $labels.job }} is down"
+          description: "Service {{ $labels.job }} on {{ $labels.instance }} has been down for more than 30 seconds"
+
+      - alert: PostgreSQLDown
+        expr: up{job="postgres"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          service: database
+          environment: development
+        annotations:
+          summary: "PostgreSQL database is down"
+          description: "PostgreSQL database has been unreachable for more than 30 seconds"
+
+      - alert: RedisDown
+        expr: up{job="redis"} == 0
+        for: 30s
+        labels:
+          severity: warning
+          service: cache
+          environment: development
+        annotations:
+          summary: "Redis cache is down"
+          description: "Redis cache has been unreachable for more than 30 seconds"
+
+      - alert: GrafanaDown
+        expr: up{job="grafana"} == 0
+        for: 1m
+        labels:
+          severity: warning
+          service: monitoring
+          environment: development
+        annotations:
+          summary: "Grafana is down"
+          description: "Grafana monitoring dashboard has been unreachable for more than 1 minute"
+
+      # Application Performance Alerts
+      - alert: HighAPIResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="ccprompts-api"}[5m])) > 1
+        for: 3m
+        labels:
+          severity: warning
+          service: api
+          environment: development
+        annotations:
+          summary: "High API response time"
+          description: "95th percentile API response time is above 1 second for more than 3 minutes"
+
+      - alert: HighAPIErrorRate
+        expr: rate(http_requests_total{job="ccprompts-api",status=~"5.."}[5m]) / rate(http_requests_total{job="ccprompts-api"}[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          service: api
+          environment: development
+        annotations:
+          summary: "High API error rate"
+          description: "API error rate is above 5% for more than 2 minutes"
+
+      # Database Performance Alerts
+      - alert: PostgreSQLSlowQueries
+        expr: rate(postgresql_slow_queries_total[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+          service: database
+          environment: development
+        annotations:
+          summary: "PostgreSQL slow queries detected"
+          description: "PostgreSQL is experiencing slow queries above threshold"
+
+      - alert: PostgreSQLHighConnections
+        expr: postgresql_connections{state="active"} / postgresql_max_connections > 0.8
+        for: 2m
+        labels:
+          severity: warning
+          service: database
+          environment: development
+        annotations:
+          summary: "PostgreSQL high connection usage"
+          description: "PostgreSQL is using more than 80% of available connections"
+
+      # Container Alerts
+      - alert: ContainerHighCPU
+        expr: rate(container_cpu_usage_seconds_total{name!=""}[5m]) > 0.8
+        for: 3m
+        labels:
+          severity: warning
+          service: container
+          environment: development
+        annotations:
+          summary: "Container {{ $labels.name }} high CPU usage"
+          description: "Container {{ $labels.name }} is using more than 80% CPU for more than 3 minutes"
+
+      - alert: ContainerHighMemory
+        expr: container_memory_usage_bytes{name!=""} / container_spec_memory_limit_bytes > 0.9
+        for: 2m
+        labels:
+          severity: warning
+          service: container
+          environment: development
+        annotations:
+          summary: "Container {{ $labels.name }} high memory usage"
+          description: "Container {{ $labels.name }} is using more than 90% of allocated memory"
+
+      - alert: ContainerRestarting
+        expr: increase(container_start_time_seconds{name!=""}[10m]) > 1
+        for: 0s
+        labels:
+          severity: warning
+          service: container
+          environment: development
+        annotations:
+          summary: "Container {{ $labels.name }} restarting"
+          description: "Container {{ $labels.name }} has restarted more than once in the last 10 minutes"
+
+      # Development-specific Alerts
+      - alert: DaggerPipelineFailure
+        expr: dagger_pipeline_failures_total > 0
+        for: 0s
+        labels:
+          severity: warning
+          service: ci-cd
+          environment: development
+        annotations:
+          summary: "Dagger pipeline failure detected"
+          description: "A Dagger CI/CD pipeline has failed"
+
+      - alert: SecurityScanFailure
+        expr: security_scan_failures_total > 0
+        for: 0s
+        labels:
+          severity: critical
+          service: security
+          environment: development
+        annotations:
+          summary: "Security scan failure detected"
+          description: "A security scan has failed or detected critical vulnerabilities"
+
+      - alert: PromptValidationFailure
+        expr: prompt_validation_failures_total > 0
+        for: 0s
+        labels:
+          severity: warning
+          service: validation
+          environment: development
+        annotations:
+          summary: "Prompt validation failure"
+          description: "Prompt structure validation has detected issues"
+
+  - name: ccprompts.storage
+    interval: 60s
+    rules:
+      # Storage Alerts
+      - alert: MinIOHighStorage
+        expr: minio_disk_storage_used_percent > 85
+        for: 5m
+        labels:
+          severity: warning
+          service: storage
+          environment: development
+        annotations:
+          summary: "MinIO storage usage high"
+          description: "MinIO storage usage is above 85%"
+
+      - alert: ElasticsearchHighStorage
+        expr: elasticsearch_filesystem_data_used_percent > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: search
+          environment: development
+        annotations:
+          summary: "Elasticsearch storage usage high"
+          description: "Elasticsearch storage usage is above 80%"
+
+  - name: ccprompts.network
+    interval: 30s
+    rules:
+      # Network Alerts
+      - alert: HighNetworkTraffic
+        expr: rate(node_network_receive_bytes_total{device!="lo"}[5m]) > 100*1024*1024
+        for: 5m
+        labels:
+          severity: warning
+          service: network
+          environment: development
+        annotations:
+          summary: "High network traffic detected"
+          description: "Network interface {{ $labels.device }} is receiving more than 100MB/s"
+
+      - alert: NetworkInterfaceDown
+        expr: node_network_up{device!="lo"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: network
+          environment: development
+        annotations:
+          summary: "Network interface down"
+          description: "Network interface {{ $labels.device }} is down"

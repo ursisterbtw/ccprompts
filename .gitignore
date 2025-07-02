@@ -10,6 +10,7 @@ secrets/
 .claude/sessions/
 .claude/learning/progress.json
 .claude/learning/team-progress.json
+.claude/settings.local.json
 
 # Local development
 *.local

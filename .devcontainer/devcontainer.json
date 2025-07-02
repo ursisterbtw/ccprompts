@@ -1,11 +1,190 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "name": "CCPrompts Optimized Development Environment",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  
+  // Container configuration
+  "runArgs": [
+    "--init",
+    "--privileged",
+    "--network=host"
+  ],
+  
+  // Mount Docker socket for Docker-in-Docker
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+    "source=${localWorkspaceFolder}/.devcontainer/scripts,target=/workspace/.devcontainer/scripts,type=bind"
+  ],
+  
+  // Environment variables
+  "containerEnv": {
+    "SHELL": "/usr/bin/fish",
+    "TERM": "xterm-256color",
+    "WORKSPACE": "/workspace",
+    "DAGGER_CLOUD_TOKEN": "${localEnv:DAGGER_CLOUD_TOKEN}",
+    "GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}",
+    "FISH_CONFIG_DIR": "/home/vscode/.config/fish"
+  },
+  
+  // VSCode customizations
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "fish",
+        "terminal.integrated.profiles.linux": {
+          "fish": {
+            "path": "/usr/bin/fish"
+          },
+          "zsh": {
+            "path": "/bin/zsh"
+          },
+          "bash": {
+            "path": "/bin/bash"
+          }
+        },
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll": true,
+          "source.organizeImports": true
+        },
+        "files.eol": "\n",
+        "files.insertFinalNewline": true,
+        "files.trimTrailingWhitespace": true,
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "python.formatting.provider": "black",
+        "python.linting.enabled": true,
+        "python.linting.ruffEnabled": true,
+        "typescript.preferences.includePackageJsonAutoImports": "auto",
+        "markdown.extension.toc.updateOnSave": true,
+        "git.autofetch": true,
+        "git.enableCommitSigning": true,
+        "docker.attachShellCommand.linuxContainer": "/usr/bin/fish"
+      },
+      
+      "extensions": [
+        // Core development
+        "ms-vscode.vscode-typescript-next",
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "charliermarsh.ruff",
+        "rust-lang.rust-analyzer",
+        "golang.Go",
+        
+        // Git and GitHub
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+        "github.copilot",
+        "github.copilot-chat",
+        
+        // Docker and Kubernetes
+        "ms-azuretools.vscode-docker",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        
+        // Infrastructure as Code
+        "hashicorp.terraform",
+        "redhat.vscode-yaml",
+        
+        // Markdown and documentation
+        "yzhang.markdown-all-in-one",
+        "davidanson.vscode-markdownlint",
+        "shd101wyy.markdown-preview-enhanced",
+        
+        // JSON and data formats
+        "ms-vscode.vscode-json",
+        "redhat.vscode-xml",
+        "tamasfe.even-better-toml",
+        
+        // Quality and testing
+        "ms-vscode.test-adapter-converter",
+        "hbenl.vscode-test-explorer",
+        "ryanluker.vscode-coverage-gutters",
+        
+        // Productivity
+        "ms-vscode.vscode-todo-highlight",
+        "gruntfuggly.todo-tree",
+        "aaron-bond.better-comments",
+        "formulahendry.code-runner",
+        
+        // Themes and UI
+        "github.github-vscode-theme",
+        "pkief.material-icon-theme",
+        "zhuangtongfa.material-theme",
+        
+        // Dagger
+        "dagger.dagger",
+        
+        // Shell scripting
+        "timonwong.shellcheck",
+        "foxundermoon.shell-format",
+        "skyapps.fish-vscode",
+        
+        // Additional productivity
+        "bmalehorn.vscode-fish",
+        "ms-vscode.fish"
+      ]
+    }
+  },
+  
+  // Lifecycle scripts
+  "onCreateCommand": "/workspace/.devcontainer/scripts/on-create.sh",
+  "updateContentCommand": "/workspace/.devcontainer/scripts/update-content.sh",
+  "postCreateCommand": "/workspace/.devcontainer/scripts/post-create.sh",
+  "postStartCommand": "/workspace/.devcontainer/scripts/post-start.sh",
+  
+  // Port forwarding for common development services
+  "forwardPorts": [3000, 8000, 8080, 5000, 9000, 3001, 5173, 4200],
+  "portsAttributes": {
+    "3000": {
+      "label": "Frontend Dev Server",
+      "onAutoForward": "notify"
+    },
+    "8000": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "Alt HTTP Server",
+      "onAutoForward": "silent"
+    },
+    "5000": {
+      "label": "Flask/FastAPI",
+      "onAutoForward": "notify"
+    },
+    "9000": {
+      "label": "Monitoring/Metrics",
+      "onAutoForward": "silent"
+    }
+  },
+  
+  // Features for additional capabilities
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {},
-    "ghcr.io/prulloac/devcontainer-features/bun:1": {},
-    "ghcr.io/devcontainers/features/rust:1": {},
-    "ghcr.io/devcontainers/features/python:1": {"version": 3.12, "optimize": true, "enableShared": true},
-    "ghcr.io/va-h/devcontainers-features/uv:1": {"shellautocompletion": true},
-    "ghcr.io/devcontainers-extra/features/ruff:1": {}
-  }
+    "ghcr.io/devcontainers/features/git:1": {
+      "ppa": true,
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {
+      "installDirectlyFromGitHubRelease": true,
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": true,
+      "azureDnsAutoDetection": true,
+      "installDockerBuildx": true,
+      "version": "latest"
+    }
+  },
+  
+  // User settings
+  "remoteUser": "vscode",
+  "workspaceFolder": "/workspace",
+  
+  // Security settings
+  "capAdd": ["SYS_PTRACE"],
+  "securityOpt": ["seccomp=unconfined"],
+  
+  // Development mode optimizations
+  "shutdownAction": "stopContainer",
+  "updateRemoteUserUID": true
 }

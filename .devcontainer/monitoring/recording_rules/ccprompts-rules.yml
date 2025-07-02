@@ -1,0 +1,191 @@
+# CCPrompts Development Environment Recording Rules
+# Pre-computed metrics for better performance and complex queries
+
+groups:
+  - name: ccprompts.performance
+    interval: 30s
+    rules:
+      # System Performance Rules
+      - record: ccprompts:cpu_usage_percent
+        expr: 100 - (avg(irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+      - record: ccprompts:memory_usage_percent
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100
+
+      - record: ccprompts:disk_usage_percent
+        expr: (node_filesystem_size_bytes{mountpoint="/"} - node_filesystem_avail_bytes{mountpoint="/"}) / node_filesystem_size_bytes{mountpoint="/"} * 100
+
+      - record: ccprompts:network_receive_rate_mbps
+        expr: rate(node_network_receive_bytes_total{device!="lo"}[5m]) / 1024 / 1024
+
+      - record: ccprompts:network_transmit_rate_mbps
+        expr: rate(node_network_transmit_bytes_total{device!="lo"}[5m]) / 1024 / 1024
+
+  - name: ccprompts.application
+    interval: 30s
+    rules:
+      # Application Performance Rules
+      - record: ccprompts:api_request_rate
+        expr: rate(http_requests_total{job="ccprompts-api"}[5m])
+
+      - record: ccprompts:api_error_rate
+        expr: rate(http_requests_total{job="ccprompts-api",status=~"5.."}[5m]) / rate(http_requests_total{job="ccprompts-api"}[5m])
+
+      - record: ccprompts:api_response_time_p95
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="ccprompts-api"}[5m]))
+
+      - record: ccprompts:api_response_time_p99
+        expr: histogram_quantile(0.99, rate(http_request_duration_seconds_bucket{job="ccprompts-api"}[5m]))
+
+      - record: ccprompts:api_response_time_avg
+        expr: rate(http_request_duration_seconds_sum{job="ccprompts-api"}[5m]) / rate(http_request_duration_seconds_count{job="ccprompts-api"}[5m])
+
+      # Frontend Performance Rules
+      - record: ccprompts:frontend_load_time_p95
+        expr: histogram_quantile(0.95, rate(frontend_page_load_duration_seconds_bucket[5m]))
+
+      - record: ccprompts:frontend_js_error_rate
+        expr: rate(frontend_js_errors_total[5m]) / rate(frontend_page_views_total[5m])
+
+  - name: ccprompts.database
+    interval: 60s
+    rules:
+      # Database Performance Rules
+      - record: ccprompts:postgres_active_connections
+        expr: postgresql_connections{state="active"}
+
+      - record: ccprompts:postgres_connection_utilization
+        expr: postgresql_connections{state="active"} / postgresql_max_connections
+
+      - record: ccprompts:postgres_query_duration_p95
+        expr: histogram_quantile(0.95, rate(postgresql_query_duration_seconds_bucket[5m]))
+
+      - record: ccprompts:postgres_slow_queries_rate
+        expr: rate(postgresql_slow_queries_total[5m])
+
+      - record: ccprompts:postgres_cache_hit_ratio
+        expr: postgresql_cache_hit_ratio
+
+      - record: ccprompts:redis_memory_usage_percent
+        expr: redis_memory_used_bytes / redis_memory_max_bytes * 100
+
+      - record: ccprompts:redis_keyspace_hit_ratio
+        expr: rate(redis_keyspace_hits_total[5m]) / (rate(redis_keyspace_hits_total[5m]) + rate(redis_keyspace_misses_total[5m]))
+
+  - name: ccprompts.containers
+    interval: 30s
+    rules:
+      # Container Performance Rules
+      - record: ccprompts:container_cpu_usage_percent
+        expr: rate(container_cpu_usage_seconds_total{name!=""}[5m]) * 100
+
+      - record: ccprompts:container_memory_usage_percent
+        expr: container_memory_usage_bytes{name!=""} / container_spec_memory_limit_bytes * 100
+
+      - record: ccprompts:container_network_receive_rate
+        expr: rate(container_network_receive_bytes_total{name!=""}[5m])
+
+      - record: ccprompts:container_network_transmit_rate
+        expr: rate(container_network_transmit_bytes_total{name!=""}[5m])
+
+      - record: ccprompts:container_filesystem_usage_percent
+        expr: container_fs_usage_bytes{name!=""} / container_fs_limit_bytes{name!=""} * 100
+
+  - name: ccprompts.services
+    interval: 30s
+    rules:
+      # Service Health Rules
+      - record: ccprompts:service_availability
+        expr: up
+
+      - record: ccprompts:service_uptime_hours
+        expr: (time() - process_start_time_seconds) / 3600
+
+      - record: ccprompts:grafana_dashboard_views_rate
+        expr: rate(grafana_dashboard_views_total[5m])
+
+      - record: ccprompts:prometheus_rule_evaluation_duration
+        expr: prometheus_rule_evaluation_duration_seconds
+
+      - record: ccprompts:nginx_requests_rate
+        expr: rate(nginx_http_requests_total[5m])
+
+      - record: ccprompts:nginx_response_time_avg
+        expr: rate(nginx_http_request_duration_seconds_sum[5m]) / rate(nginx_http_request_duration_seconds_count[5m])
+
+  - name: ccprompts.development
+    interval: 60s
+    rules:
+      # Development-specific Rules
+      - record: ccprompts:dagger_pipeline_success_rate
+        expr: rate(dagger_pipeline_successes_total[1h]) / (rate(dagger_pipeline_successes_total[1h]) + rate(dagger_pipeline_failures_total[1h]))
+
+      - record: ccprompts:security_scan_success_rate
+        expr: rate(security_scan_successes_total[1h]) / (rate(security_scan_successes_total[1h]) + rate(security_scan_failures_total[1h]))
+
+      - record: ccprompts:prompt_validation_success_rate
+        expr: rate(prompt_validation_successes_total[1h]) / (rate(prompt_validation_successes_total[1h]) + rate(prompt_validation_failures_total[1h]))
+
+      - record: ccprompts:test_suite_pass_rate
+        expr: rate(test_suite_passes_total[1h]) / (rate(test_suite_passes_total[1h]) + rate(test_suite_failures_total[1h]))
+
+      - record: ccprompts:code_coverage_percent
+        expr: code_coverage_lines_covered / code_coverage_lines_total * 100
+
+      # Command Usage Analytics
+      - record: ccprompts:command_usage_rate
+        expr: rate(ccprompts_command_executions_total[1h])
+
+      - record: ccprompts:most_used_commands
+        expr: topk(10, sum by (command) (rate(ccprompts_command_executions_total[24h])))
+
+      - record: ccprompts:prompt_category_usage
+        expr: sum by (category) (rate(ccprompts_prompt_usage_total[1h]))
+
+  - name: ccprompts.storage
+    interval: 60s
+    rules:
+      # Storage Performance Rules
+      - record: ccprompts:minio_storage_usage_percent
+        expr: minio_disk_storage_used_bytes / minio_disk_storage_total_bytes * 100
+
+      - record: ccprompts:minio_request_rate
+        expr: rate(minio_http_requests_total[5m])
+
+      - record: ccprompts:elasticsearch_query_rate
+        expr: rate(elasticsearch_indices_search_query_total[5m])
+
+      - record: ccprompts:elasticsearch_indexing_rate
+        expr: rate(elasticsearch_indices_indexing_index_total[5m])
+
+      - record: ccprompts:elasticsearch_storage_usage_percent
+        expr: elasticsearch_filesystem_data_used_bytes / elasticsearch_filesystem_data_size_bytes * 100
+
+  - name: ccprompts.business_metrics
+    interval: 300s
+    rules:
+      # Business/Usage Metrics (5-minute intervals)
+      - record: ccprompts:daily_active_users
+        expr: count(count by (user_id) (increase(user_activity_total[24h])))
+
+      - record: ccprompts:prompts_created_daily
+        expr: increase(ccprompts_prompts_created_total[24h])
+
+      - record: ccprompts:commands_executed_daily
+        expr: increase(ccprompts_command_executions_total[24h])
+
+      - record: ccprompts:average_session_duration_minutes
+        expr: avg(session_duration_seconds) / 60
+
+      - record: ccprompts:error_budget_consumption
+        expr: (1 - ccprompts:api_error_rate) * 100
+
+      # Development Productivity Metrics
+      - record: ccprompts:development_velocity
+        expr: rate(development_commits_total[24h])
+
+      - record: ccprompts:deployment_frequency
+        expr: rate(deployment_total[24h])
+
+      - record: ccprompts:mean_time_to_recovery_minutes
+        expr: avg(incident_resolution_duration_seconds) / 60
