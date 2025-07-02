@@ -74,7 +74,7 @@ class PromptValidator {
       
       matches.forEach(match => {
         // Skip if it's clearly a placeholder or example
-        if (skipIfIncludes && skipIfIncludes.some(skip => match.toLowerCase().includes(skip))) {
+        if (skipIfIncludes && skipIfIncludes.some(skip => match.toLowerCase().includes(skip.toLowerCase()))) {
           return;
         }
         
