@@ -58,7 +58,7 @@ class MCPTester {
       }
       
       // Test 2: Check if command exists (basic check)
-      const command = serverConfig.command;
+      const {command} = serverConfig;
       if (command === 'npx') {
         log('green', `  ✅ Command validation passed: ${command}`);
       } else {
