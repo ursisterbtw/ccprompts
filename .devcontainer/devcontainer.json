@@ -1,0 +1,11 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {},
+    "ghcr.io/prulloac/devcontainer-features/bun:1": {},
+    "ghcr.io/devcontainers/features/rust:1": {},
+    "ghcr.io/devcontainers/features/python:1": {"version": 3.12, "optimize": true, "enableShared": true},
+    "ghcr.io/va-h/devcontainers-features/uv:1": {"shellautocompletion": true},
+    "ghcr.io/devcontainers-extra/features/ruff:1": {}
+  }
+}
