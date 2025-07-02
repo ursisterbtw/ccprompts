@@ -1,0 +1,155 @@
+name: Security Scanning
+
+on:
+  workflow_call:
+    inputs:
+      enable-dependency-scan:
+        description: 'Enable dependency vulnerability scanning'
+        required: false
+        type: boolean
+        default: true
+      enable-secret-scan:
+        description: 'Enable secret scanning'
+        required: false
+        type: boolean
+        default: true
+      enable-file-permission-check:
+        description: 'Enable file permission security check'
+        required: false
+        type: boolean
+        default: true
+    outputs:
+      vulnerabilities-found:
+        description: 'Whether vulnerabilities were found'
+        value: ${{ jobs.scan.outputs.vulnerabilities }}
+      security-status:
+        description: 'Overall security scan status'
+        value: ${{ jobs.scan.outputs.status }}
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    outputs:
+      vulnerabilities: ${{ steps.summary.outputs.vulnerabilities }}
+      status: ${{ steps.summary.outputs.status }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        if: inputs.enable-dependency-scan
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Dependency vulnerability scan
+        if: inputs.enable-dependency-scan
+        id: dep-scan
+        run: |
+          echo "🔍 Scanning for dependency vulnerabilities..."
+          
+          # Check for npm audit
+          set +e
+          npm audit --production --audit-level=high > audit-report.txt 2>&1
+          AUDIT_EXIT_CODE=$?
+          set -e
+          
+          if [ $AUDIT_EXIT_CODE -eq 0 ]; then
+            echo "✅ No high or critical vulnerabilities found"
+            echo "dep_vulnerabilities=false" >> $GITHUB_ENV
+          else
+            echo "❌ Vulnerabilities detected in dependencies"
+            cat audit-report.txt
+            echo "dep_vulnerabilities=true" >> $GITHUB_ENV
+          fi
+
+      - name: Secret scanning
+        if: inputs.enable-secret-scan
+        id: secret-scan
+        run: |
+          echo "🔍 Scanning for hardcoded secrets..."
+          
+          # Simple pattern-based secret detection
+          SECRET_PATTERNS=(
+            "password.*=.*['\"][^'\"]{8,}['\"]"
+            "api[_-]?key.*=.*['\"][^'\"]{16,}['\"]"
+            "secret.*=.*['\"][^'\"]{8,}['\"]"
+            "token.*=.*['\"][^'\"]{16,}['\"]"
+            "-----BEGIN.*PRIVATE KEY-----"
+          )
+          
+          SECRETS_FOUND=false
+          for pattern in "${SECRET_PATTERNS[@]}"; do
+            if grep -r -E "$pattern" --include="*.js" --include="*.json" --include="*.yml" --include="*.yaml" --include="*.md" --exclude-dir=node_modules --exclude-dir=.git .; then
+              SECRETS_FOUND=true
+              echo "⚠️ Potential secret found matching pattern: $pattern"
+            fi
+          done
+          
+          if [ "$SECRETS_FOUND" = "true" ]; then
+            echo "❌ Potential secrets detected"
+            echo "secrets_found=true" >> $GITHUB_ENV
+          else
+            echo "✅ No secrets detected"
+            echo "secrets_found=false" >> $GITHUB_ENV
+          fi
+
+      - name: File permission security check
+        if: inputs.enable-file-permission-check
+        id: permission-check
+        run: |
+          echo "🔍 Checking file permissions..."
+          
+          # Find files with overly permissive permissions
+          PERMISSION_ISSUES=false
+          
+          # Check for world-writable files
+          if find . -type f -perm -002 -not -path "./node_modules/*" -not -path "./.git/*" | grep .; then
+            echo "❌ World-writable files detected"
+            PERMISSION_ISSUES=true
+          fi
+          
+          # Check for executable files that shouldn't be
+          if find . -name "*.md" -o -name "*.json" -o -name "*.yml" -o -name "*.yaml" | xargs -I {} test -x {} && echo "{}"; then
+            echo "⚠️ Unexpected executable files detected"
+            PERMISSION_ISSUES=true
+          fi
+          
+          if [ "$PERMISSION_ISSUES" = "true" ]; then
+            echo "permission_issues=true" >> $GITHUB_ENV
+          else
+            echo "✅ File permissions look secure"
+            echo "permission_issues=false" >> $GITHUB_ENV
+          fi
+
+      - name: Generate security summary
+        id: summary
+        if: always()
+        run: |
+          # Determine overall status
+          VULNERABILITIES_FOUND=false
+          SECURITY_STATUS="passed"
+          
+          if [ "${{ env.dep_vulnerabilities }}" = "true" ] || \
+             [ "${{ env.secrets_found }}" = "true" ] || \
+             [ "${{ env.permission_issues }}" = "true" ]; then
+            VULNERABILITIES_FOUND=true
+            SECURITY_STATUS="failed"
+          fi
+          
+          echo "vulnerabilities=$VULNERABILITIES_FOUND" >> $GITHUB_OUTPUT
+          echo "status=$SECURITY_STATUS" >> $GITHUB_OUTPUT
+          
+          # Generate report
+          cat << EOF >> $GITHUB_STEP_SUMMARY
+          ## 🔒 Security Scan Report
+          
+          ### Scan Results:
+          - **Dependency Vulnerabilities**: ${{ env.dep_vulnerabilities == 'true' && '❌ Found' || '✅ None' }}
+          - **Hardcoded Secrets**: ${{ env.secrets_found == 'true' && '❌ Found' || '✅ None' }}
+          - **File Permissions**: ${{ env.permission_issues == 'true' && '⚠️ Issues' || '✅ Secure' }}
+          
+          ### Overall Status: ${{ steps.summary.outputs.status == 'passed' && '✅ PASSED' || '❌ FAILED' }}
+          EOF

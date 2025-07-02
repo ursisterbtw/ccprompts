@@ -1,0 +1,114 @@
+name: Comprehensive Validation and Quality Assurance (v2)
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'prompts/**/*.md'
+      - '.claude/commands/**/*.md'
+      - '.claude/workflows/**/*.yaml'
+      - '.claude/config.json'
+      - '.claude/mcp.json'
+      - 'package.json'
+      - 'scripts/**'
+      - '.github/workflows/**'
+  schedule:
+    # Run daily quality checks at 2 AM UTC
+    - cron: '0 2 * * *'
+
+env:
+  NODE_VERSION: '20'
+  FORCE_COLOR: 1
+  CI: true
+  EXPECTED_COMMAND_COUNT: 38
+
+jobs:
+  # Use reusable workflow for validation
+  validate-prompts:
+    name: Validate Prompts
+    uses: ./.github/workflows/reusable/validate-prompts.yml
+    with:
+      validation-script: 'scripts/validate-prompts.js'
+      fail-on-warnings: false
+      max-errors: 5
+
+  # Use reusable workflow for security scanning
+  security-scan:
+    name: Security Scanning
+    uses: ./.github/workflows/reusable/security-scan.yml
+    with:
+      enable-dependency-scan: true
+      enable-secret-scan: true
+      enable-file-permission-check: true
+
+  # Additional quality checks specific to this repo
+  quality-checks:
+    name: Additional Quality Checks
+    runs-on: ubuntu-latest
+    needs: [validate-prompts]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --prefer-offline --no-audit
+
+      - name: Markdown linting
+        run: |
+          echo "📝 Running markdown linting..."
+          npm install -g markdownlint-cli
+          markdownlint '**/*.md' --ignore node_modules --ignore .git || true
+
+      - name: Command count verification
+        run: |
+          echo "📊 Verifying command count..."
+          ACTUAL_COUNT=$(find .claude/commands -name "*.md" -type f | wc -l)
+          echo "Expected: ${{ env.EXPECTED_COMMAND_COUNT }}, Actual: $ACTUAL_COUNT"
+          
+          if [ "$ACTUAL_COUNT" -ne "${{ env.EXPECTED_COMMAND_COUNT }}" ]; then
+            echo "❌ Command count mismatch!"
+            exit 1
+          fi
+          echo "✅ Command count verified"
+
+      - name: Prompt type analysis
+        run: |
+          echo "🔍 Analyzing prompt types..."
+          node scripts/analyze-prompt-types.js || true
+
+  # Final status check
+  validation-status:
+    name: Overall Validation Status
+    runs-on: ubuntu-latest
+    needs: [validate-prompts, security-scan, quality-checks]
+    if: always()
+    
+    steps:
+      - name: Check overall status
+        env:
+          VALIDATION_STATUS: ${{ needs.validate-prompts.outputs.validation-status }}
+          SECURITY_STATUS: ${{ needs.security-scan.outputs.security-status }}
+          QUALITY_STATUS: ${{ needs.quality-checks.result }}
+        run: |
+          echo "📊 Validation Summary:"
+          echo "  - Prompt Validation: $VALIDATION_STATUS"
+          echo "  - Security Scan: $SECURITY_STATUS"
+          echo "  - Quality Checks: $QUALITY_STATUS"
+          
+          if [ "$VALIDATION_STATUS" != "passed" ] || \
+             [ "$SECURITY_STATUS" != "passed" ] || \
+             [ "$QUALITY_STATUS" != "success" ]; then
+            echo "❌ Overall validation failed"
+            exit 1
+          fi
+          
+          echo "✅ All validation checks passed!"

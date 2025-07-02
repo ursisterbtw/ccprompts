@@ -1,0 +1,61 @@
+name: Setup Node.js Environment
+
+on:
+  workflow_call:
+    inputs:
+      node-version:
+        description: 'Node.js version to use'
+        required: false
+        type: string
+        default: '20'
+      cache-dependency-path:
+        description: 'Path to dependency file for caching'
+        required: false
+        type: string
+        default: 'package-lock.json'
+      install-dependencies:
+        description: 'Whether to install dependencies'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ${{ inputs.cache-dependency-path }}
+
+      - name: Cache node modules
+        id: cache-node-modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ inputs.node-version }}-${{ hashFiles(inputs.cache-dependency-path) }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ inputs.node-version }}-
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        if: inputs.install-dependencies && steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: |
+          echo "📦 Installing dependencies..."
+          npm ci --prefer-offline --no-audit
+          echo "✅ Dependencies installed successfully"
+
+      - name: Verify Node.js setup
+        run: |
+          echo "🔍 Node.js setup verification:"
+          echo "  Node version: $(node --version)"
+          echo "  NPM version: $(npm --version)"
+          echo "  Working directory: $(pwd)"
+          echo "✅ Node.js environment ready"
