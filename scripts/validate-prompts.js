@@ -33,7 +33,7 @@ class PromptValidator {
       commandFiles: 0,
       promptFiles: 0,
       securityIssues: 0,
-      qualityScore: 0
+      qualityScores: 0
     };
   }
 
