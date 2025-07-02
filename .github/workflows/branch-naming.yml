@@ -12,8 +12,10 @@ jobs:
     
     steps:
     - name: Check branch name
+      env:
+        BRANCH_NAME: ${{ github.head_ref }}
       run: |
-        branch_name="${{ github.head_ref }}"
+        branch_name="$BRANCH_NAME"
         echo "Checking branch name: $branch_name"
         
         # Define allowed patterns

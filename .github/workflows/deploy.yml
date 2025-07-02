@@ -75,18 +75,22 @@ jobs:
       
       - name: Quality gate check
         id: quality-gate
+        env:
+          FORCE_DEPLOY: ${{ github.event.inputs.force_deploy }}
+          ENVIRONMENT: ${{ steps.determine-env.outputs.environment }}
+          GIT_REF: ${{ github.ref }}
         run: |
           SHOULD_DEPLOY="true"
           
           # Skip quality gates if force deployment is requested
-          if [ "${{ github.event.inputs.force_deploy }}" = "true" ]; then
+          if [ "$FORCE_DEPLOY" = "true" ]; then
             echo "⚠️ Force deployment requested - skipping quality gates"
             echo "should-deploy=true" >> $GITHUB_OUTPUT
             exit 0
           fi
           
           # For production deployments, require tagged releases
-          if [ "${{ steps.determine-env.outputs.environment }}" = "production" ] && [[ ! "${{ github.ref }}" == refs/tags/v* ]]; then
+          if [ "$ENVIRONMENT" = "production" ] && [[ ! "$GIT_REF" == refs/tags/v* ]]; then
             echo "❌ Production deployments require tagged releases"
             SHOULD_DEPLOY="false"
           fi
@@ -343,11 +347,13 @@ jobs:
           echo "✅ Final validation passed"
       
       - name: Create production backup
+        env:
+          GIT_SHA: ${{ github.sha }}
         run: |
           echo "💾 Creating production backup..."
           
           # Simulate backup creation
-          BACKUP_ID="backup-$(date +'%Y%m%d-%H%M%S')-${{ github.sha }}"
+          BACKUP_ID="backup-$(date +'%Y%m%d-%H%M%S')-$GIT_SHA"
           echo "  - Creating backup: $BACKUP_ID"
           echo "  - Backing up configuration..."
           echo "  - Backing up current deployment..."
@@ -365,11 +371,14 @@ jobs:
           # Copy files with production optimizations
           cp -r prompts prod-dist/
           cp -r .claude prod-dist/
-          if [ -d assets ]; then
+          
+          # Copy assets directory if it exists
+          if [ -d "assets" ]; then
             cp -r assets prod-dist/
           else
-            echo "⚠️ Warning: 'assets' directory not found, skipping copy."
+            echo "⚠️ No assets directory found, skipping..."
           fi
+          
           cp README.md prod-dist/
           cp CLAUDE.md prod-dist/
           cp CHANGELOG.md prod-dist/
@@ -423,21 +432,29 @@ jobs:
           echo "✅ All production health checks passed"
       
       - name: Create deployment record
+        env:
+          DEPLOYMENT_ID: ${{ github.run_id }}
+          DEPLOY_VERSION: ${{ needs.prepare.outputs.deploy-version }}
+          DEPLOYED_BY: ${{ github.actor }}
+          GIT_COMMIT: ${{ github.sha }}
+          GIT_TAG: ${{ github.ref_name }}
+          SERVER_URL: ${{ github.server_url }}
+          REPOSITORY: ${{ github.repository }}
         run: |
           echo "📝 Creating deployment record..."
           
           cat > deployment-record.json << EOF
           {
-            "deploymentId": "${{ github.run_id }}",
-            "version": "${{ needs.prepare.outputs.deploy-version }}",
+            "deploymentId": "$DEPLOYMENT_ID",
+            "version": "$DEPLOY_VERSION",
             "environment": "production",
             "status": "success",
             "deployedAt": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
-            "deployedBy": "${{ github.actor }}",
-            "gitCommit": "${{ github.sha }}",
-            "gitTag": "${{ github.ref_name }}",
-            "backupId": "${{ env.BACKUP_ID }}",
-            "buildUrl": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            "deployedBy": "$DEPLOYED_BY",
+            "gitCommit": "$GIT_COMMIT",
+            "gitTag": "$GIT_TAG",
+            "backupId": "$BACKUP_ID",
+            "buildUrl": "$SERVER_URL/$REPOSITORY/actions/runs/$DEPLOYMENT_ID"
           }
           EOF
           

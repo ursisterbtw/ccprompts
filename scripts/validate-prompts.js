@@ -37,13 +37,38 @@ class PromptValidator {
     };
   }
 
+  // Extract markdown section by heading
+  extractMarkdownSection(content, heading) {
+    // Try to match section with content until next heading of same or higher level
+    const headingLevel = heading.match(/^#+/)?.[0].length || 2;
+    const escapedHeading = heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    
+    // Build regex to match content until next heading at same or higher level
+    let nextHeadingPattern = '';
+    for (let i = 1; i <= headingLevel; i++) {
+      if (i > 1) nextHeadingPattern += '|';
+      nextHeadingPattern += `^#{${i}}\\s`;
+    }
+    
+    const regex = new RegExp(
+      `${escapedHeading}\\s*\\n([\\s\\S]*?)(?=(${nextHeadingPattern})|\\s*$)`,
+      'gm'
+    );
+    
+    const match = regex.exec(content);
+    return match ? match[1].trim() : null;
+  }
+
   // Enhanced security scanning
   validateSecurity(content, filename) {
     // Only scan actual code, not examples or placeholders
-    // Match fenced code blocks with optional language specifier
-    const fencedBlocks = content.match(/```[\w+-]*\n[\s\S]*?```/g) || [];
-    // Match indented code blocks (4 spaces or 1 tab at line start)
-    const indentedBlocks = (content.match(/^(?: {4}|\t).+(?:\n(?: {4}|\t).+)*/gm) || []);
+    // Match all code block formats:
+    // - ```language\ncode\n```
+    // - ```\ncode\n```
+    // - Indented code blocks (4+ spaces)
+    const fencedBlocks = content.match(/```(?:[a-zA-Z0-9_+-]*\n)?[\s\S]*?```/g) || [];
+    const indentedBlocks = content.match(/(?:^|\n)((?:    |\t).*(?:\n(?:    |\t).*)*)/gm) || [];
+    
     const codeBlocks = [...fencedBlocks, ...indentedBlocks];
     const combinedCode = codeBlocks.join('\n');
     
@@ -276,21 +301,9 @@ class PromptValidator {
     }
 
     // Validate examples are comprehensive
-    // Use a markdown section parser to accurately extract the Examples section
-    function extractMarkdownSection(content, sectionTitle) {
-      const sectionRegex = new RegExp(`^##\\s+${sectionTitle}\\s*\\n([\\s\\S]*?)(^##\\s+|\\Z)`, 'im');
-      const match = content.match(sectionRegex);
-      if (match) {
-        return match[1].trim();
-      }
-      return null;
-    }
-
-    const examplesSectionContent = extractMarkdownSection(content, 'Examples');
-    if (examplesSectionContent !== null) {
-      if (examplesSectionContent.length < 200) {
-        this.warnings.push(`${filename}: Examples section appears too brief`);
-      }
+    const examplesSection = this.extractMarkdownSection(content, '## Examples');
+    if (examplesSection !== null && examplesSection.length < 200) {
+      this.warnings.push(`${filename}: Examples section appears too brief`);
     }
   }
 

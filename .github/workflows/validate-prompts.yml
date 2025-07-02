@@ -711,8 +711,10 @@ jobs:
       
       - name: Set deployment status
         if: always()
+        env:
+          STATUS: ${{ env.OVERALL_STATUS }}
         run: |
-          if [ "${{ env.OVERALL_STATUS }}" = "success" ]; then
+          if [ "$STATUS" = "success" ]; then
             echo "🚀 Repository is ready for deployment!"
             echo "DEPLOYMENT_READY=true" >> $GITHUB_ENV
           else

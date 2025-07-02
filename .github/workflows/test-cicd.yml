@@ -303,19 +303,35 @@ jobs:
       
       - name: Generate test report
         if: always()
+        env:
+          VALIDATION_RESULT: ${{ needs.test-validation.result }}
+          DEPLOYMENT_RESULT: ${{ needs.test-deployment-pipeline.result }}
+          SECURITY_RESULT: ${{ needs.test-security-integration.result }}
+          TEST_ENVIRONMENT: ${{ github.event.inputs.test_environment }}
+          RUN_FULL_SUITE: ${{ github.event.inputs.run_full_suite }}
+          NODE_VERSION: ${{ env.NODE_VERSION }}
         run: |
-          cat << 'EOF' >> $GITHUB_STEP_SUMMARY
+          # Determine overall result
+          if [ "$VALIDATION_RESULT" = "success" ] && \
+             ([ "$DEPLOYMENT_RESULT" = "success" ] || [ "$DEPLOYMENT_RESULT" = "skipped" ]) && \
+             [ "$SECURITY_RESULT" = "success" ]; then
+            OVERALL_RESULT="✅ PASSED"
+          else
+            OVERALL_RESULT="❌ FAILED"
+          fi
+          
+          cat << EOF >> $GITHUB_STEP_SUMMARY
           ## 🧪 CI/CD Pipeline Test Report
           
           ### 📋 Test Results Summary
-          - **Validation Pipeline**: ${{ needs.test-validation.result }}
-          - **Deployment Pipeline**: ${{ needs.test-deployment-pipeline.result }}
-          - **Security Integration**: ${{ needs.test-security-integration.result }}
+          - **Validation Pipeline**: $VALIDATION_RESULT
+          - **Deployment Pipeline**: $DEPLOYMENT_RESULT
+          - **Security Integration**: $SECURITY_RESULT
           
           ### 🎯 Test Environment
-          - **Environment**: ${{ github.event.inputs.test_environment }}
-          - **Full Suite**: ${{ github.event.inputs.run_full_suite }}
-          - **Node Version**: ${{ env.NODE_VERSION }}
+          - **Environment**: $TEST_ENVIRONMENT
+          - **Full Suite**: $RUN_FULL_SUITE
+          - **Node Version**: $NODE_VERSION
           
           ### 📊 Test Coverage
           - ✅ Validation script functionality
@@ -328,7 +344,7 @@ jobs:
           - ✅ File permission security
           
           ### 🚀 CI/CD Status
-          **Overall Result**: ${{ (needs.test-validation.result == 'success' && (needs.test-deployment-pipeline.result == 'success' || needs.test-deployment-pipeline.result == 'skipped') && needs.test-security-integration.result == 'success') && '✅ PASSED' || '❌ FAILED' }}
+          **Overall Result**: $OVERALL_RESULT
           
           ---
           

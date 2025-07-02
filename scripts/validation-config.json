@@ -1,0 +1,26 @@
+{
+  "excludePatterns": [
+    "node_modules",
+    ".git",
+    "test",
+    "__pycache__",
+    "coverage",
+    "dist",
+    "build",
+    ".vscode",
+    ".idea",
+    "*.log",
+    "*.tmp"
+  ],
+  "thresholds": {
+    "maxErrors": 5,
+    "minQualityScore": 70,
+    "maxSecurityIssues": 0
+  },
+  "customRules": {
+    "requireExamples": true,
+    "requireSafetyNotes": true,
+    "minContentLength": 500,
+    "requireStructuredInstructions": true
+  }
+}

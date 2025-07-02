@@ -90,8 +90,11 @@ class MCPTester {
         }
       }
       
-      this.testResults.passed++;
-      this.passedTests.push(`${serverName} configuration validation`);
+      this.recordPassedTest(`${serverName} configuration validation`, {
+        command,
+        envVarsCount: serverConfig.env ? Object.keys(serverConfig.env).length : 0,
+        validatedAspects: ['command', 'args', 'env', 'package']
+      });
       log('green', `✅ ${serverName} configuration tests passed`);
       return true;
       
@@ -110,14 +113,20 @@ class MCPTester {
       // Test basic MCP functionality by checking if we can parse the configuration
       const serverCount = Object.keys(this.mcpConfig.mcpServers).length;
       log('green', `✅ Found ${serverCount} MCP servers configured`);
-      this.passedTests.push('MCP configuration parsing');
+      this.recordPassedTest('MCP configuration parsing', {
+        serverCount,
+        serverNames: Object.keys(this.mcpConfig.mcpServers)
+      });
       
       // Test critical servers
       const criticalServers = ['filesystem-enhanced', 'sequential-thinking'];
       for (const serverName of criticalServers) {
         if (this.mcpConfig.mcpServers[serverName]) {
           log('green', `✅ Critical server ${serverName} is configured`);
-          this.passedTests.push(`Critical server ${serverName} configuration`);
+          this.recordPassedTest(`Critical server ${serverName} configuration`, {
+            serverType: 'critical',
+            configKeys: Object.keys(this.mcpConfig.mcpServers[serverName])
+          });
         } else {
           log('yellow', `⚠️  Critical server ${serverName} is not configured`);
           this.recordSkippedTest(`Critical server ${serverName} configuration`, 'Server not found in configuration');
@@ -217,6 +226,20 @@ class MCPTester {
   }
 
   /**
+   * Records a passed test with optional validation details.
+   * @param {string} testName
+   * @param {object} details - Optional validation details
+   */
+  recordPassedTest(testName, details = {}) {
+    this.testResults.passed++;
+    this.passedTests.push({
+      testName,
+      details,
+      timestamp: new Date().toISOString()
+    });
+  }
+
+  /**
    * Test actual server startup and response validation
    */
   async testServerStartup() {
@@ -274,7 +297,11 @@ class MCPTester {
         
         if (result.code === 'TIMEOUT' || result.output.length > 0) {
           log('green', `  ✅ ${serverName} startup successful`);
-          this.passedTests.push(`${serverName} server startup`);
+          this.recordPassedTest(`${serverName} server startup`, {
+            responseTime: result.code === 'TIMEOUT' ? '5000ms (timeout)' : 'immediate',
+            outputReceived: result.output.length > 0,
+            errorOutput: result.errorOutput.length > 0
+          });
         } else {
           throw new Error(`No output received from ${serverName}`);
         }
