@@ -1,0 +1,130 @@
+name: Artifact Handling
+
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        description: 'Name of the artifact'
+        required: true
+        type: string
+      artifact-path:
+        description: 'Path to artifacts'
+        required: true
+        type: string
+      retention-days:
+        description: 'Number of days to retain artifacts'
+        required: false
+        type: number
+        default: 7
+      create-release-asset:
+        description: 'Whether to create a release asset'
+        required: false
+        type: boolean
+        default: false
+      compression-level:
+        description: 'Compression level (0-9)'
+        required: false
+        type: number
+        default: 6
+
+jobs:
+  handle-artifacts:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare artifacts
+        run: |
+          echo "📦 Preparing artifacts..."
+          
+          # Create artifacts directory
+          mkdir -p artifacts-temp
+          
+          # Copy specified paths to artifacts directory
+          IFS=',' read -ra PATHS <<< "${{ inputs.artifact-path }}"
+          for path in "${PATHS[@]}"; do
+            if [ -e "$path" ]; then
+              echo "  - Adding: $path"
+              cp -r "$path" artifacts-temp/
+            else
+              echo "  ⚠️ Path not found: $path"
+            fi
+          done
+          
+          # Create metadata file
+          cat > artifacts-temp/metadata.json << EOF
+          {
+            "name": "${{ inputs.artifact-name }}",
+            "created": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+            "commit": "${{ github.sha }}",
+            "ref": "${{ github.ref }}",
+            "workflow": "${{ github.workflow }}",
+            "run_id": "${{ github.run_id }}"
+          }
+          EOF
+          
+          echo "✅ Artifacts prepared"
+
+      - name: Create archive
+        run: |
+          echo "🗜️ Creating archive..."
+          
+          cd artifacts-temp
+          tar -czf "../${{ inputs.artifact-name }}.tar.gz" \
+            --options "gzip:compression-level=${{ inputs.compression-level }}" \
+            .
+          cd ..
+          
+          # Generate checksum
+          sha256sum "${{ inputs.artifact-name }}.tar.gz" > "${{ inputs.artifact-name }}.tar.gz.sha256"
+          
+          echo "✅ Archive created"
+          ls -lh "${{ inputs.artifact-name }}.tar.gz"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+          path: |
+            ${{ inputs.artifact-name }}.tar.gz
+            ${{ inputs.artifact-name }}.tar.gz.sha256
+          retention-days: ${{ inputs.retention-days }}
+          compression-level: 0  # Already compressed
+
+      - name: Generate artifact report
+        run: |
+          cat << EOF >> $GITHUB_STEP_SUMMARY
+          ## 📦 Artifact Summary
+          
+          - **Name**: ${{ inputs.artifact-name }}
+          - **Size**: $(du -h "${{ inputs.artifact-name }}.tar.gz" | cut -f1)
+          - **SHA256**: $(cat "${{ inputs.artifact-name }}.tar.gz.sha256" | cut -d' ' -f1)
+          - **Retention**: ${{ inputs.retention-days }} days
+          
+          ### Contents:
+          \`\`\`
+          $(tar -tzf "${{ inputs.artifact-name }}.tar.gz" | head -20)
+          \`\`\`
+          EOF
+
+      - name: Create release asset
+        if: inputs.create-release-asset && startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "📤 Uploading release asset..."
+          
+          # Get release ID for the tag
+          RELEASE_ID=$(gh api repos/${{ github.repository }}/releases/tags/${{ github.ref_name }} --jq .id || echo "")
+          
+          if [ -n "$RELEASE_ID" ]; then
+            gh release upload ${{ github.ref_name }} \
+              "${{ inputs.artifact-name }}.tar.gz" \
+              "${{ inputs.artifact-name }}.tar.gz.sha256" \
+              --clobber
+            echo "✅ Release asset uploaded"
+          else
+            echo "⚠️ No release found for tag ${{ github.ref_name }}"
+          fi

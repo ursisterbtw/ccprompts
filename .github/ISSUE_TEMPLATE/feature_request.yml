@@ -1,0 +1,176 @@
+name: ✨ Feature Request
+description: Suggest a new command, prompt, or improvement
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! We appreciate your ideas for improving the ccprompts ecosystem.
+
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature Type
+      description: What type of feature are you requesting?
+      options:
+        - New Command
+        - New Prompt
+        - Command Enhancement
+        - Prompt Enhancement
+        - Documentation Improvement
+        - Workflow Improvement
+        - Integration Feature
+        - Quality/Testing Feature
+    validations:
+      required: true
+
+  - type: input
+    id: feature-name
+    attributes:
+      label: Proposed Name
+      description: Suggested name for the new command/prompt (if applicable)
+      placeholder: "e.g., docker-optimize, api-versioning, load-testing"
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: Which category would this fit into?
+      options:
+        - "01-project-initialization"
+        - "02-code-analysis" 
+        - "03-refactoring"
+        - "04-testing"
+        - "05-documentation"
+        - "06-git-workflows"
+        - "07-multi-file-operations"
+        - "08-mcp-integration"
+        - "09-build-deployment"
+        - "10-security-compliance"
+        - "New Category"
+        - "Not Applicable"
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: What problem does this feature solve? What pain point does it address?
+      placeholder: "Describe the current challenge or limitation that this feature would solve"
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the feature you'd like to see implemented
+      placeholder: "Detailed description of how this feature would work"
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: Use Cases
+      description: Describe specific scenarios where this feature would be useful
+      placeholder: |
+        1. Scenario 1: When developers are...
+        2. Scenario 2: During project...
+        3. Scenario 3: For teams that...
+    validations:
+      required: true
+
+  - type: textarea
+    id: example-usage
+    attributes:
+      label: Example Usage
+      description: Show how this feature would be used (command syntax, parameters, etc.)
+      placeholder: |
+        ```bash
+        /proposed-command parameter1 parameter2
+        ```
+        
+        Expected output or behavior:
+        - Does X
+        - Provides Y
+        - Integrates with Z
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How important is this feature to you and your team?
+      options:
+        - "Low - Nice to have"
+        - "Medium - Would improve workflow"
+        - "High - Significant productivity impact"
+        - "Critical - Blocking current work"
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or workarounds you've considered
+      placeholder: "What other approaches have you tried? Why don't they work as well?"
+
+  - type: input
+    id: target-audience
+    attributes:
+      label: Target Audience
+      description: Who would primarily use this feature?
+      placeholder: "e.g., Frontend developers, DevOps engineers, Security teams, All developers"
+
+  - type: dropdown
+    id: complexity
+    attributes:
+      label: Estimated Complexity
+      description: How complex do you think this feature would be to implement?
+      options:
+        - "Low - Simple addition or modification"
+        - "Medium - Moderate development effort"
+        - "High - Significant implementation work"
+        - "Unknown - Need more analysis"
+
+  - type: textarea
+    id: integration-requirements
+    attributes:
+      label: Integration Requirements
+      description: What other commands, prompts, or systems should this integrate with?
+      placeholder: "e.g., Should work with /setup-ci, integrate with GitHub Actions, connect to monitoring tools"
+
+  - type: textarea
+    id: success-criteria
+    attributes:
+      label: Success Criteria
+      description: How would you measure the success of this feature?
+      placeholder: |
+        - Reduces time for X task by Y%
+        - Eliminates need for manual Z process
+        - Improves code quality metric A
+
+  - type: checkboxes
+    id: contribution-willingness
+    attributes:
+      label: Contribution
+      description: Are you willing to help implement this feature?
+      options:
+        - label: I'm willing to contribute to the implementation
+        - label: I can help with testing and feedback
+        - label: I can provide domain expertise and guidance
+        - label: I can help with documentation
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Please confirm the following
+      options:
+        - label: I have searched existing issues to ensure this feature hasn't been requested
+          required: true
+        - label: I have reviewed the existing commands and prompts to avoid duplication
+          required: true
+        - label: I have provided clear use cases and examples
+          required: true
