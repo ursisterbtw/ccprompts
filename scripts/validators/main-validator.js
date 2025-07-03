@@ -33,7 +33,37 @@ class MainValidator {
     };
     
     // Table-driven validator registry
-    this.validators = [
+Rather than having each validator split into `run` + `collect`, you can simplify by having a single `validate` fn that returns a unified result shape. Then one merge helper handles updating `this.stats`. This removes indirection and makes it easier to add/remove validators.
+
+1) Define validators like so:
+```js
+this.validators = [
+  {
+    name: 'xmlStructure',
+    when: (file, content) => /<(role|activation)>/.test(content),
+    validate: (file, content) => {
+      const valid = this.structureValidator.validateXMLStructure(content, file);
+      return {
+        valid,
+        errors: valid ? [] : this.structureValidator.getErrors(),
+        warnings: []
+      };
+    }
+  },
+  {
+    name: 'security',
+    when: () => true,
+    validate: (file, content) => {
+      const issues = this.securityValidator.validateSecurity(content, file);
+      return {
+        valid: issues.length === 0,
+        securityReport: issues,
+        securityCount: issues.length
+      };
+    }
+  },
+  // …quality, cmdStructure, etc.
+];
       {
         name: 'xmlStructure',
         when: (f, c) => c.includes('<role>') || c.includes('<activation>'),
