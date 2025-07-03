@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/banner.svg" width="720" height="120" alt="ccprompts banner: practical Claude code commands and prompts" />
+  <img src="docs/assets/banner.svg" width="720" height="120" alt="ccprompts banner: practical Claude code commands and prompts" />
 </p>
 
 <div align="center">
@@ -93,5 +93,3 @@ Pull requests are welcome! Please:
 MIT. See [LICENSE](LICENSE) for details.
 
 ---
-
-*Thanks for helping build the definitive resource for Claude-powered code automation!*

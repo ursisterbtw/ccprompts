@@ -138,5 +138,5 @@ For each refactoring:
 
 [Any special considerations for deployment]
 </output_format>
-
+</xml>
 ```

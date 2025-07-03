@@ -39,7 +39,7 @@ module.exports = {
 };
 ```
 
-3. Input validation and sanitization:
+1. Input validation and sanitization:
    - Implement input validation schemas
    - SQL injection prevention
    - XSS prevention
@@ -48,7 +48,7 @@ module.exports = {
    - XXE prevention
    - SSRF prevention
 
-4. Authentication hardening:
+2. Authentication hardening:
    - Multi-factor authentication
    - Secure session management
    - Password policy enforcement
@@ -56,7 +56,7 @@ module.exports = {
    - Secure password reset
    - OAuth2/SAML implementation
 
-5. Authorization implementation:
+3. Authorization implementation:
    - Role-based access control (RBAC)
    - Attribute-based access control (ABAC)
    - Principle of least privilege

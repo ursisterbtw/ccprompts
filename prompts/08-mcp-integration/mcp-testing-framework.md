@@ -20,26 +20,26 @@ import { MCPTestClient } from '@mcp/test-utils';
 
 describe('Custom MCP Server', () => {
   let client: MCPTestClient;
-  
+
   beforeAll(async () => {
     client = await MCPTestClient.connect('./mcp-servers/custom-tools.ts');
   });
-  
+
   afterAll(async () => {
     await client.disconnect();
   });
-  
+
   describe('Deploy Tool', () => {
     it('should deploy to development environment', async () => {
       const result = await client.invokeTool('deploy', {
         environment: 'dev',
         version: '1.0.0'
       });
-      
+
       expect(result.success).toBe(true);
       expect(result.url).toMatch(/dev\.example\.com/);
     });
-    
+
     it('should validate environment parameter', async () => {
       await expect(client.invokeTool('deploy', {
         environment: 'invalid',
@@ -50,7 +50,7 @@ describe('Custom MCP Server', () => {
 });
 ```
 
-2. Integration Testing:
+1. Integration Testing:
    - Test MCP server startup/shutdown
    - Verify tool discovery
    - Test parameter validation
@@ -58,21 +58,21 @@ describe('Custom MCP Server', () => {
    - Validate resource access
    - Test timeout behavior
 
-3. Performance Testing:
+2. Performance Testing:
    - Measure tool execution time
    - Test concurrent requests
    - Check memory usage
    - Monitor connection stability
    - Test large payload handling
 
-4. Security Testing:
+3. Security Testing:
    - Test input sanitization
    - Verify authentication
    - Check authorization
    - Test rate limiting
    - Validate data isolation
 
-5. Create MCP debugging tools:
+4. Create MCP debugging tools:
    - Request/response logger
    - Performance profiler
    - Error tracker

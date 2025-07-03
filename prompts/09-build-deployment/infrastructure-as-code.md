@@ -60,7 +60,7 @@ module "database" {
 }
 ```
 
-2. Kubernetes Manifests:
+1. Kubernetes Manifests:
 
 ```yaml
 # k8s/deployment.yaml

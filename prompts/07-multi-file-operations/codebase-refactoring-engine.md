@@ -150,7 +150,6 @@ for (const file of affectedFiles) {
   });
 }
 ```
-
 </operation_patterns>
-
+</xml>
 ```

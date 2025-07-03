@@ -21,7 +21,6 @@ CLAUDE.CONFIG:
    - Document security incident responses
 
 2. Create Knowledge Structure:
-   ```
 
    knowledge-base/
    ├── architecture/
@@ -41,7 +40,6 @@ CLAUDE.CONFIG:
        ├── debugging-guides/
        └── performance/
 
-   ```
 
 3. Runbook Creation:
    - Service startup/shutdown procedures

@@ -612,22 +612,10 @@ Key strengths of this implementation:
 8. Follow-up and monitoring procedures
 
 The command balances immediate problem-solving with long-term capability building, making it valuable for both crisis response and continuous improvement.
-</thinking>
+</instructions>
 </xml>
 
-```
-
-I've created a comprehensive troubleshooting command file at `/home/sistrlls/Projects/ccprompts/.claude/commands/troubleshoot.md`. This command provides intelligent debugging assistance with the following key features:
-
-## Core Capabilities
-
-**Systematic Approach**: The command follows a structured 6-phase methodology:
-1. **Problem Assessment & Triage** - Immediate information gathering and urgency-based response
-2. **Intelligent Error Analysis** - AI-powered pattern recognition and symptom analysis
-3. **Systematic Debugging Workflow** - Step-by-step debugging process with proven techniques
-4. **Solution Implementation & Validation** - Comprehensive fix implementation and testing
-5. **Knowledge Management & Learning** - Documentation and team learning emphasis
-6. **Monitoring & Follow-up** - Post-resolution monitoring and escalation procedures
+```6. **Monitoring & Follow-up** - Post-resolution monitoring and escalation procedures
 
 ## Key Features
 

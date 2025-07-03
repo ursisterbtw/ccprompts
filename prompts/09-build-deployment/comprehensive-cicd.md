@@ -83,7 +83,7 @@ jobs:
       - name: Deploy to staging
         run: |
           # Deployment logic here
-          
+
   deploy-production:
     needs: build
     if: github.ref == 'refs/heads/main'

@@ -1,4 +1,4 @@
-# Knowledge Base Management Command
+# Knowledge-Base Command
 
 ## Usage
 

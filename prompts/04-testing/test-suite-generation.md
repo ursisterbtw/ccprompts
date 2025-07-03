@@ -114,18 +114,18 @@ describe('[ComponentName]', () => {
       // Arrange
       const input = ...;
       const expected = ...;
-      
+
       // Act
       const result = methodName(input);
-      
+
       // Assert
       expect(result).toBe(expected);
     });
-    
+
     it('should throw [ErrorType] when [invalid condition]', () => {
       // Arrange
       const invalidInput = ...;
-      
+
       // Act & Assert
       expect(() => methodName(invalidInput))
         .toThrow(ErrorType);
@@ -140,42 +140,41 @@ describe('[ComponentName]', () => {
 describe('[Feature] Integration Tests', () => {
   let testDatabase;
   let testServer;
-  
+
   beforeAll(async () => {
     testDatabase = await createTestDatabase();
     testServer = await startTestServer(testDatabase);
   });
-  
+
   afterAll(async () => {
     await testDatabase.cleanup();
     await testServer.close();
   });
-  
+
   beforeEach(async () => {
     await testDatabase.reset();
   });
-  
+
   it('should [complete workflow] successfully', async () => {
     // Arrange
     const testData = await seedTestData();
-    
+
     // Act
     const response = await request(testServer)
       .post('/api/endpoint')
       .send(testData);
-    
+
     // Assert
     expect(response.status).toBe(200);
     expect(response.body).toMatchObject({...});
-    
+
     // Verify side effects
     const dbRecord = await testDatabase.findOne(...);
     expect(dbRecord).toBeDefined();
   });
 });
-```
-
 </test_templates>
+```
 
 <coverage_requirements>
 
@@ -184,5 +183,5 @@ describe('[Feature] Integration Tests', () => {
 - Function coverage: minimum 90%
 - Critical paths: 100% coverage required
 </coverage_requirements>
-
+</xml>
 ```

@@ -49,7 +49,7 @@ controls:
         frequency: "monthly"
 ```
 
-3. GDPR Compliance:
+1. GDPR Compliance:
    - Privacy by design implementation
    - Data processing records
    - Consent management system
@@ -57,7 +57,7 @@ controls:
    - Breach notification system
    - Privacy impact assessments
 
-4. HIPAA Compliance:
+2. HIPAA Compliance:
    - PHI encryption verification
    - Access control testing
    - Audit log monitoring
@@ -65,7 +65,7 @@ controls:
    - Risk assessments
    - Incident response testing
 
-5. Continuous Compliance:
+3. Continuous Compliance:
    - Automated control testing
    - Evidence collection pipelines
    - Compliance drift detection

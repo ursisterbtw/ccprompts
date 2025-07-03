@@ -16,13 +16,16 @@ CLAUDE.CONFIG:
 1. Analyze the current project structure and technology stack
 2. Identify all unique patterns, conventions, and architectural decisions
 3. Create or update CLAUDE.md with the following sections:
+<instructions>
 
 ## Project Overview
+
 - Brief description and purpose
 - Key technical decisions and rationale
 - Performance and scalability considerations
 
 ## Code Style and Conventions
+
 - Language-specific formatting rules beyond standard linters
 - Naming conventions for files, functions, variables
 - Comment style and documentation requirements
@@ -30,6 +33,7 @@ CLAUDE.CONFIG:
 - Logging conventions
 
 ## Architecture
+
 - High-level system design
 - Module boundaries and responsibilities
 - Data flow patterns
@@ -37,6 +41,7 @@ CLAUDE.CONFIG:
 - API design principles
 
 ## Common Commands
+
 ```bash
 # Development
 [command] - [description]
@@ -110,5 +115,4 @@ project-root/
 <output_requirements>
 Generate a comprehensive CLAUDE.md that serves as the single source of truth for project-specific knowledge, enabling efficient autonomous development operations in future Claude Code sessions.
 </output_requirements>
-
 ```

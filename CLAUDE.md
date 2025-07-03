@@ -10,7 +10,7 @@ This repository contains the **most comprehensive collection of Claude Code-spec
 
 ### **38 Commands Across 6 Strategic Phases**
 
-```
+```tree
 📁 Phase 1: Category Commands (8 commands)
    ├── /bootstrap-project    # Complete project initialization
    ├── /audit-security      # OWASP-compliant security analysis

@@ -1,4 +1,4 @@
-# Security Audit Command
+# Audit-Security Command
 
 This command provides quick access to comprehensive security and quality audit prompts.
 

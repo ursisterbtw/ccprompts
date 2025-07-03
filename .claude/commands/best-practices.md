@@ -1,4 +1,4 @@
-# /best-practices Command
+# Best-Practices Command
 
 ## Usage
 
