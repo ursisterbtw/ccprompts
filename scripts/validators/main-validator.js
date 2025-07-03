@@ -172,25 +172,24 @@ class MainValidator {
 
   // Generate summary report
   generateSummary() {
-    const summary = {
-      totalFiles: this.stats.totalFiles,
-      validFiles: this.stats.validFiles,
-      commandFiles: this.stats.commandFiles,
-      promptFiles: this.stats.promptFiles,
-      errorCount: this.stats.errors.length,
-      warningCount: this.stats.warnings.length,
-      securityIssues: this.stats.securityIssues,
-      averageQualityScore: this.stats.qualityScore,
-      fileTypeBreakdown: Object.fromEntries(
-        Array.from(this.stats.fileTypes.entries())
-          .reduce((acc, [file, type]) => {
-            acc.set(type, (acc.get(type) || 0) + 1);
-            return acc;
-          }, new Map())
-      )
-    };
-    
-    return summary;
+    return {
+          totalFiles: this.stats.totalFiles,
+          validFiles: this.stats.validFiles,
+          commandFiles: this.stats.commandFiles,
+          promptFiles: this.stats.promptFiles,
+          errorCount: this.stats.errors.length,
+          warningCount: this.stats.warnings.length,
+          securityIssues: this.stats.securityIssues,
+          averageQualityScore: this.stats.qualityScore,
+          fileTypeBreakdown: Object.fromEntries(
+            Array.from(this.stats.fileTypes.entries())
+              .reduce((acc, [file, type]) => {
+                acc.set(type, (acc.get(type) || 0) + 1);
+                return acc;
+              }, new Map())
+          )
+        };
+
   }
 }
 
