@@ -88,6 +88,8 @@ class StructureValidator {
 
   // Validate command structure
   validateCommandStructure(content, filename) {
+    this.errors = [];
+    this.warnings = [];
     // Command files should have specific sections
     const requiredCommandSections = [
       '## Description',
