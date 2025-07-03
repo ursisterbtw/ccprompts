@@ -92,8 +92,8 @@ class QualityScorer {
     
     // Check by directory structure
     if (filepath.includes('commands/')) return 'command';
-    if (filepath.includes('test')) return 'testing';
     if (filepath.includes('security')) return 'security';
+    if (filepath.includes('test')) return 'testing';
     if (filepath.includes('git')) return 'git';
     if (filepath.includes('mcp')) return 'mcp';
     if (filepath.includes('doc')) return 'documentation';
