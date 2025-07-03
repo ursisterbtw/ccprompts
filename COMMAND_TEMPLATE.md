@@ -20,12 +20,9 @@ Every command file in `.claude/commands/` must follow this exact structure:
 
 ```markdown
 ## Usage
-```
 
+```bash
 /[command-name] [parameter1] [parameter2] [optional-parameter]
-
-```
-```
 
 #### **Description Section**
 
