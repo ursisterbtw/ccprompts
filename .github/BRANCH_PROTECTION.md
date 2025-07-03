@@ -82,7 +82,7 @@ Enforce branch naming patterns through GitHub Actions:
 
 ```bash
 # Protect main branch
-gh api repos/:owner/:repo/branches/main/protection \
+gh api repos/:ursisterbtw/:repo/branches/main/protection \
   --method PUT \
   --field required_status_checks='{"strict":true,"contexts":["validate-markdown","validate-commands","validate-config","security-scan","quality-gates"]}' \
   --field enforce_admins=true \
@@ -112,12 +112,12 @@ Create `.github/CODEOWNERS` to specify code ownership:
 
 ```
 # Global ownership
-* @your-username
+* @ursisterbtw
 
 # Specific areas
-.claude/commands/ @your-username
-prompts/ @your-username
-.github/ @your-username
+.claude/commands/ @ursisterbtw
+prompts/ @ursisterbtw
+.github/ @ursisterbtw
 ```
 
 ### 2. Issue Templates

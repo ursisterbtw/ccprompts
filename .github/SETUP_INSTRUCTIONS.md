@@ -64,7 +64,7 @@ If you prefer command-line setup:
 gh auth login
 
 # Set up main branch protection
-gh api repos/:owner/:repo/branches/main/protection \
+gh api repos/:ursisterbtw/:repo/branches/main/protection \
   --method PUT \
   --input - <<EOF
 {

@@ -30,7 +30,7 @@ on:
 jobs:
   handle-artifacts:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -38,10 +38,10 @@ jobs:
       - name: Prepare artifacts
         run: |
           echo "📦 Preparing artifacts..."
-          
+
           # Create artifacts directory
           mkdir -p artifacts-temp
-          
+
           # Copy specified paths to artifacts directory
           IFS=',' read -ra PATHS <<< "${{ inputs.artifact-path }}"
           for path in "${PATHS[@]}"; do
@@ -52,7 +52,7 @@ jobs:
               echo "  ⚠️ Path not found: $path"
             fi
           done
-          
+
           # Create metadata file
           cat > artifacts-temp/metadata.json << EOF
           {
@@ -64,22 +64,22 @@ jobs:
             "run_id": "${{ github.run_id }}"
           }
           EOF
-          
+
           echo "✅ Artifacts prepared"
 
       - name: Create archive
         run: |
           echo "🗜️ Creating archive..."
-          
+
           cd artifacts-temp
           tar -czf "../${{ inputs.artifact-name }}.tar.gz" \
             --options "gzip:compression-level=${{ inputs.compression-level }}" \
             .
           cd ..
-          
+
           # Generate checksum
           sha256sum "${{ inputs.artifact-name }}.tar.gz" > "${{ inputs.artifact-name }}.tar.gz.sha256"
-          
+
           echo "✅ Archive created"
           ls -lh "${{ inputs.artifact-name }}.tar.gz"
 
@@ -97,12 +97,12 @@ jobs:
         run: |
           cat << EOF >> $GITHUB_STEP_SUMMARY
           ## 📦 Artifact Summary
-          
+
           - **Name**: ${{ inputs.artifact-name }}
           - **Size**: $(du -h "${{ inputs.artifact-name }}.tar.gz" | cut -f1)
           - **SHA256**: $(cat "${{ inputs.artifact-name }}.tar.gz.sha256" | cut -d' ' -f1)
           - **Retention**: ${{ inputs.retention-days }} days
-          
+
           ### Contents:
           \`\`\`
           $(tar -tzf "${{ inputs.artifact-name }}.tar.gz" | head -20)
@@ -115,10 +115,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           echo "📤 Uploading release asset..."
-          
+
           # Get release ID for the tag
-          RELEASE_ID=$(gh api repos/${{ github.repository }}/releases/tags/${{ github.ref_name }} --jq .id || echo "")
-          
+          RELEASE_ID=$(gh api ursisterbtw${{ github.repository }}/releases/tags/${{ github.ref_name }} --jq .id || echo "")
+
           if [ -n "$RELEASE_ID" ]; then
             gh release upload ${{ github.ref_name }} \
               "${{ inputs.artifact-name }}.tar.gz" \
