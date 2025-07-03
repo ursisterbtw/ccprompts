@@ -92,6 +92,7 @@ class StructureValidator {
     const requiredCommandSections = [
       '## Description',
       '## Usage',
+      '## Parameters',
       '## Examples'
     ];
 
