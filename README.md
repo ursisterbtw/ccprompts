@@ -1,24 +1,8 @@
 <p align="center">
-  <svg width="720" height="120" viewBox="0 0 720 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" stop-color="#7F5AF0">
-          <animate attributeName="stop-color" values="#7F5AF0;#2CB67D;#7F5AF0" dur="8s" repeatCount="indefinite" />
-        </stop>
-        <stop offset="100%" stop-color="#2CB67D">
-          <animate attributeName="stop-color" values="#2CB67D;#7F5AF0;#2CB67D" dur="8s" repeatCount="indefinite" />
-        </stop>
-      </linearGradient>
-    </defs>
-    <text id="title" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="'Fira Code', monospace" font-size="48" fill="url(#grad)" stroke="#FFFFFF" stroke-width="1" stroke-dasharray="500" stroke-dashoffset="500">
-      ccprompts
-      <animate attributeName="stroke-dashoffset" from="500" to="0" dur="3s" fill="freeze" />
-      <animate attributeName="fill-opacity" values="0;1" dur="3s" fill="freeze" />
-    </text>
-  </svg>
+  <img src="docs/banner.svg" width="720" height="120" alt="ccprompts banner" />
 </p>
 
-# ccprompts – Practical Claude Command Library
+# ccprompts – practical claude code commands and prompts
 
 **ccprompts** is a curated set of prompt templates and supporting tooling for developers who want to extend Claude-powered automation into their own projects.  Each prompt is production-ready, peer-reviewed and versioned so you can drop it into an existing workflow—or use it as a starting point for your own commands.
 
