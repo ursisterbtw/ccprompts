@@ -1,10 +1,13 @@
-[![Build Status](https://img.shields.io/github/actions/workflow/status/ursisterbtw/ccprompts/validate.yml?branch=main)](https://github.com/ursisterbtw/ccprompts/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-
 <p align="center">
   <img src="docs/banner.svg" width="720" height="120" alt="ccprompts banner: practical Claude code commands and prompts" />
 </p>
+
+<div align="center">
+
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+
+</div>
 
 # ccprompts – practical claude code commands and prompts
 
