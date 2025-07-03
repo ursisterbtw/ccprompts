@@ -1,0 +1,31 @@
+name: 'Setup Node.js Environment'
+description: 'Sets up Node.js with caching and installs dependencies'
+
+inputs:
+  node-version:
+    description: 'Node.js version to use'
+    required: false
+    default: '18'
+  install-dependencies:
+    description: 'Whether to install dependencies'
+    required: false
+    default: 'true'
+
+outputs:
+  cache-hit:
+    description: 'Whether dependencies were restored from cache'
+    value: ${{ steps.cache.outputs.cache-hit }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      if: inputs.install-dependencies == 'true'
+      shell: bash
+      run: npm ci --prefer-offline --no-audit --progress=false
