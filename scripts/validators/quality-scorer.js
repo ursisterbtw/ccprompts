@@ -46,7 +46,9 @@ class QualityScorer {
     }
 
     // Check for proper formatting
-    if (!content.includes('```') && promptType !== 'documentation') {
+    const hasTripleBacktick = content.includes('```');
+    const hasIndentedCodeBlock = /^([ \t]{4,}|\t).+/m.test(content);
+    if (!hasTripleBacktick && !hasIndentedCodeBlock && promptType !== 'documentation') {
       this.qualityIssues.push(`${filename}: No code blocks found`);
       this.qualityScore -= 5;
     }
