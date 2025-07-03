@@ -104,8 +104,12 @@ class StructureValidator {
     }
 
     // Validate usage format
-    if (content.includes('## Usage') && !content.includes('```')) {
-      this.warnings.push(`${filename}: Usage section should include command format example`);
+    const usageSectionMatch = content.match(/## Usage([\s\S]*?)(^##\s|\Z)/m);
+    if (usageSectionMatch) {
+      const usageSection = usageSectionMatch[1];
+      if (!usageSection.includes('```')) {
+        this.warnings.push(`${filename}: Usage section should include command format example`);
+      }
     }
 
     return missingSections.length === 0;
@@ -113,9 +117,16 @@ class StructureValidator {
 
   // Extract markdown section by heading
   extractMarkdownSection(content, heading) {
-    // Try to match section with content until next heading of same or higher level
+    // Normalize heading by trimming whitespace and converting to lowercase for comparison
+    const normalizedHeading = heading.trim().toLowerCase();
     const headingLevel = heading.match(/^#+/)?.[0].length || 2;
-    const escapedHeading = heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    
+    // Create a regex that handles variations in whitespace and casing
+    const headingPattern = normalizedHeading
+      .replace(/^#+\s*/, '') // Remove leading hashes
+      .replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special characters
+      .split(/\s+/) // Split by whitespace
+      .join('\\s+'); // Join with flexible whitespace pattern
     
     // Build regex to match content until next heading at same or higher level
     let nextHeadingPattern = '';
@@ -124,9 +135,10 @@ class StructureValidator {
       nextHeadingPattern += `^#{${i}}\\s`;
     }
     
+    // Create regex that's case-insensitive and handles flexible whitespace
     const regex = new RegExp(
-      `${escapedHeading}\\s*\\n([\\s\\S]*?)(?=(${nextHeadingPattern})|\\s*$)`,
-      'gm'
+      `^#{${headingLevel}}\\s+${headingPattern}\\s*\\n([\\s\\S]*?)(?=(${nextHeadingPattern})|\\s*$)`,
+      'gmi'
     );
     
     const match = regex.exec(content);

@@ -31,11 +31,57 @@ class MainValidator {
       securityReport: [],
       fileTypes: new Map()
     };
+    
+    // Table-driven validator registry
+    this.validators = [
+      {
+        name: 'xmlStructure',
+        when: (f, c) => c.includes('<role>') || c.includes('<activation>'),
+        run: (f, c) => this.structureValidator.validateXMLStructure(c, f),
+        collect: (result) => ({
+          errors: result ? [] : this.structureValidator.getErrors(),
+          valid: result
+        })
+      },
+      {
+        name: 'cmdStructure',
+        when: (f, c) => f.includes('.claude/commands/'),
+        run: (f, c) => {
+          this.structureValidator.validateCommandStructure(c, f);
+          return { errors: this.structureValidator.getErrors(), warnings: this.structureValidator.getWarnings() };
+        },
+        collect: (result) => ({
+          errors: result.errors,
+          warnings: result.warnings
+        })
+      },
+      {
+        name: 'security',
+        when: () => true,
+        run: (f, c) => this.securityValidator.validateSecurity(c, f),
+        collect: (issues) => ({
+          securityReport: issues,
+          securityCount: issues.length,
+          valid: issues.length === 0
+        })
+      },
+      {
+        name: 'quality',
+        when: () => true,
+        run: (f, c, t) => this.qualityScorer.validatePromptQuality(c, f, t),
+        collect: (result) => ({
+          warnings: result.issues,
+          qualityScore: result.score
+        })
+      }
+    ];
   }
 
   // Validate a single file
   async validateFile(filepath) {
     const filename = this.fileUtils.getRelativePath(filepath, process.cwd());
+    let isValid = true;
+    let lastQualityScore = 0;
     
     try {
       const content = this.fileUtils.readFileContent(filepath);
@@ -52,37 +98,31 @@ class MainValidator {
         this.stats.promptFiles++;
       }
       
-      let isValid = true;
-      
-      // Structure validation
-      if (content.includes('<role>') || content.includes('<activation>')) {
-        isValid = this.structureValidator.validateXMLStructure(content, filename);
-        if (!isValid) {
-          this.stats.errors.push(...this.structureValidator.getErrors());
+      // Run all validators using table-driven approach
+      for (const validator of this.validators) {
+        if (!validator.when(filename, content)) continue;
+        
+        const result = validator.run(filename, content, fileType);
+        const collected = validator.collect(result);
+        
+        // Process collected results
+        if (collected.errors) {
+          this.stats.errors.push(...collected.errors);
         }
-      }
-      
-      // Command structure validation
-      if (filename.includes('.claude/commands/')) {
-        this.structureValidator.validateCommandStructure(content, filename);
-        this.stats.errors.push(...this.structureValidator.getErrors());
-        this.stats.warnings.push(...this.structureValidator.getWarnings());
-      }
-      
-      // Security validation
-      const securityIssues = this.securityValidator.validateSecurity(content, filename);
-      if (securityIssues.length > 0) {
-        this.stats.securityIssues += securityIssues.length;
-        this.stats.securityReport.push(...securityIssues);
-        isValid = false;
-      }
-      
-      // Quality scoring
-      const qualityResult = this.qualityScorer.validatePromptQuality(content, filename, fileType);
-      this.stats.qualityScore += qualityResult.score;
-      
-      if (qualityResult.issues.length > 0) {
-        this.stats.warnings.push(...qualityResult.issues);
+        if (collected.warnings) {
+          this.stats.warnings.push(...collected.warnings);
+        }
+        if (collected.securityReport) {
+          this.stats.securityReport.push(...collected.securityReport);
+          this.stats.securityIssues += collected.securityCount || 0;
+        }
+        if (collected.qualityScore !== undefined) {
+          this.stats.qualityScore += collected.qualityScore;
+          lastQualityScore = collected.qualityScore;
+        }
+        if (collected.valid === false) {
+          isValid = false;
+        }
       }
       
       if (isValid) {
@@ -92,7 +132,7 @@ class MainValidator {
       return {
         valid: isValid,
         fileType,
-        qualityScore: qualityResult.score
+        qualityScore: lastQualityScore
       };
       
     } catch (error) {

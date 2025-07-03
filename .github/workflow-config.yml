@@ -1,0 +1,59 @@
+# Shared configuration for CI/CD workflows
+# This file centralizes threshold values and other configuration settings
+# to reduce maintenance overhead and ensure consistency across workflows
+
+# Validation thresholds
+validation:
+  max_errors: 0
+  max_warnings: 50
+  min_quality_score: 80
+  command_count:
+    expected: 38
+    min: 35
+    max: 45
+
+# Security scanning thresholds
+security:
+  max_vulnerabilities: 0
+  max_high_severity: 0
+  max_medium_severity: 5
+  max_low_severity: 10
+  scan_timeout: 600  # seconds
+
+# Performance thresholds
+performance:
+  max_build_time: 300  # seconds
+  max_test_time: 180   # seconds
+  max_workflow_time: 900  # seconds
+
+# Artifact settings
+artifacts:
+  retention_days: 30
+  max_size_mb: 100
+
+# Node.js settings
+node:
+  default_version: '18'
+  supported_versions:
+    - '16'
+    - '18'
+    - '20'
+  cache_dependency_path: 'package-lock.json'
+
+# Deployment settings
+deployment:
+  environments:
+    - development
+    - staging
+    - production
+  required_reviewers: 2
+  auto_merge_delay: 300  # seconds
+
+# Notification settings
+notifications:
+  failure_mentions:
+    - '@security-team'
+    - '@devops-team'
+  channels:
+    - security-alerts
+    - ci-cd-status

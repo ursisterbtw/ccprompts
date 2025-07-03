@@ -26,6 +26,6 @@ runs:
         cache: 'npm'
 
     - name: Install dependencies
-      if: inputs.install-dependencies == 'true'
+      if: ${{ inputs.install-dependencies == 'true' }}
       shell: bash
       run: npm ci --prefer-offline --no-audit --progress=false
