@@ -38,9 +38,8 @@ Thank you for your interest in contributing to the most comprehensive collection
   Brief description
   
   ## Usage
-  ```
+  ```bash
   /command-name [parameters]
-  ```
   
   ## Description
   Detailed explanation
