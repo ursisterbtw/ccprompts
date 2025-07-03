@@ -107,13 +107,6 @@ class StructureValidator {
     }
 
     // Validate usage format
-    const usageSectionMatch = content.match(/## Usage([\s\S]*?)(^##\s|\Z)/m);
-    if (usageSectionMatch) {
-      const usageSection = usageSectionMatch[1];
-      if (!usageSection.includes('```')) {
-        this.warnings.push(`${filename}: Usage section should include command format example`);
-      }
-    }
     const usageSectionMatch = content.match(/^\s*##\s*Usage\s*([\s\S]*?)(^\s*##\s|\Z)/im);
     if (usageSectionMatch) {
       const usageSection = usageSectionMatch[1];
