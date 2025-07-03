@@ -1,1 +1,15 @@
- 
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="720" height="120" viewBox="0 0 720 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>ccprompts banner: practical Claude code commands and prompts</title>
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7F5AF0"/>
+      <stop offset="100%" stop-color="#2CB67D"/>
+    </linearGradient>
+  </defs>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle"
+        font-family="'Fira Code', monospace" font-size="48" fill="url(#grad)"
+        stroke="#ffffff" stroke-width="1" stroke-dasharray="500" stroke-dashoffset="0">
+    ccprompts
+  </text>
+</svg>
