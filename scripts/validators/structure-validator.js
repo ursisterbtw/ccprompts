@@ -104,7 +104,7 @@ class StructureValidator {
     }
 
     // Validate usage format
-    const usageSectionMatch = content.match(/## Usage([\s\S]*?)(^##\s|\Z)/m);
+    const usageSectionMatch = content.match(/^\s*##\s*Usage\s*([\s\S]*?)(^\s*##\s|\Z)/im);
     if (usageSectionMatch) {
       const usageSection = usageSectionMatch[1];
       if (!usageSection.includes('```')) {
