@@ -58,9 +58,16 @@ class FileUtils {
     return path.relative(rootDir, filepath);
   }
 
-  // Check if path matches any exclude pattern
+  // Check if path matches any exclude pattern (by segment or RegExp)
   shouldExclude(filepath) {
-    return this.excludePatterns.some(pattern => filepath.includes(pattern));
+    const segments = filepath.split(path.sep);
+    return this.excludePatterns.some(pattern => {
+      if (pattern instanceof RegExp) {
+        return pattern.test(filepath);
+      }
+      // Match full path segments only
+      return segments.includes(pattern);
+    });
   }
 
   // Update exclude patterns
