@@ -141,8 +141,22 @@ class StructureValidator {
       'gmi'
     );
     
-    const match = regex.exec(content);
-    return match ? match[1].trim() : null;
+    // Find all matches for the section
+    const matches = [];
+    let match;
+    while ((match = regex.exec(content)) !== null) {
+      matches.push(match[1].trim());
+    }
+    if (matches.length > 1) {
+      // Add a warning for duplicate sections
+      if (this && this.errors) {
+        this.errors.push(`Warning: Multiple sections found for heading "${heading}". Only the first will be used.`);
+      } else {
+        // fallback: log to console if errors array is not available
+        console.warn(`Warning: Multiple sections found for heading "${heading}". Only the first will be used.`);
+      }
+    }
+    return matches.length > 0 ? matches[0] : null;
   }
 
   getErrors() {
