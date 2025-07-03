@@ -59,7 +59,7 @@ This repository contains the **most comprehensive collection of Claude Code-spec
    ├── /troubleshoot       # Systematic debugging assistance
    └── /knowledge-base     # Organizational knowledge management
 
-🔧 Specialized Commands (2 commands)  
+🔧 Specialized Commands (2 commands)
    ├── /git                # Advanced Git operations and workflows
    └── /mcp                # MCP server integration and testing
 ```
@@ -228,7 +228,7 @@ ccprompts/
 ```bash
 /bootstrap-project web-app typescript cloud
 → /harden enterprise
-→ /setup-ci github professional  
+→ /setup-ci github professional
 → /document auto-generated
 → /validate-environment
 ```

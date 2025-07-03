@@ -16,7 +16,7 @@ This document outlines the recommended branch protection rules for the ccprompts
    - Require branches to be up to date before merging: **✅**
    - Required status checks:
      - `validate-markdown`
-     - `validate-commands` 
+     - `validate-commands`
      - `validate-config`
      - `security-scan`
      - `quality-gates`
@@ -35,7 +35,7 @@ This document outlines the recommended branch protection rules for the ccprompts
 ### Administrative Settings
 
 1. **Include administrators**: **✅** (admins must follow rules too)
-2. **Allow force pushes**: **❌** 
+2. **Allow force pushes**: **❌**
 3. **Allow deletions**: **❌**
 
 ## Develop Branch Protection (develop)
@@ -93,7 +93,7 @@ gh api repos/:owner/:repo/branches/main/protection \
   --field required_linear_history=true \
   --field required_conversation_resolution=true
 
-# Protect develop branch  
+# Protect develop branch
 gh api repos/:owner/:repo/branches/develop/protection \
   --method PUT \
   --field required_status_checks='{"strict":true,"contexts":["validate-markdown","validate-commands","validate-config","security-scan"]}' \
@@ -123,6 +123,7 @@ prompts/ @your-username
 ### 2. Issue Templates
 
 Create issue templates in `.github/ISSUE_TEMPLATE/` for:
+
 - Bug reports
 - Feature requests
 - Command improvements
@@ -131,6 +132,7 @@ Create issue templates in `.github/ISSUE_TEMPLATE/` for:
 ### 3. Pull Request Template
 
 Create `.github/pull_request_template.md` with:
+
 - Checklist for prompt validation
 - Command testing requirements
 - Documentation updates

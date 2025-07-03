@@ -72,7 +72,6 @@ const sections = [
 
 // Extract header content (before first section)
 const headerMatch = content.match(/^([\s\S]*?)(?=^## Getting Started Examples)/m);
-const headerContent = headerMatch ? headerMatch[1].trim() : '';
 
 // Function to extract section content
 function extractSection(content, sectionTitle, nextSectionTitle = null) {
@@ -137,8 +136,8 @@ Welcome to the comprehensive examples repository for the ccprompts command ecosy
 
 ${sections.map(section => {
   return `### [${section.title}](${section.filename})
-${section.description}
-`;
+  ${section.description}
+  `;
 }).join('\n')}
 
 ## 🚀 Quick Start

@@ -574,12 +574,12 @@ class PromptValidator {
     if (overallScore >= 90) {
       grade = 'A';
     } else if (overallScore >= 80) {
-             grade = 'B';
-           } else if (overallScore >= 70) {
-                    grade = 'C';
-                  } else if (overallScore >= 60) {
-                           grade = 'D';
-                         }
+      grade = 'B';
+    } else if (overallScore >= 70) {
+      grade = 'C';
+    } else if (overallScore >= 60) {
+      grade = 'D';
+    }
     
     log('cyan', `   Overall quality grade: ${grade} (${overallScore.toFixed(1)}/100)`);
   }

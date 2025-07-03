@@ -5,14 +5,17 @@ This directory contains reusable workflow components that can be called from oth
 ## Available Reusable Workflows
 
 ### 1. `setup-node.yml`
+
 **Purpose**: Standardized Node.js environment setup with caching
 
 **Inputs**:
+
 - `node-version` (optional): Node.js version to use (default: '20')
 - `cache-dependency-path` (optional): Path to dependency file for caching (default: 'package-lock.json')
 - `install-dependencies` (optional): Whether to install dependencies (default: true)
 
 **Usage Example**:
+
 ```yaml
 jobs:
   setup:
@@ -23,19 +26,23 @@ jobs:
 ```
 
 ### 2. `validate-prompts.yml`
+
 **Purpose**: Run prompt validation with configurable thresholds
 
 **Inputs**:
+
 - `validation-script` (optional): Path to validation script (default: 'scripts/validate-prompts.js')
 - `fail-on-warnings` (optional): Whether to fail on warnings (default: false)
 - `max-errors` (optional): Maximum allowed errors (default: 5)
 
 **Outputs**:
+
 - `validation-status`: Overall validation status ('passed' or 'failed')
 - `error-count`: Number of validation errors
 - `warning-count`: Number of validation warnings
 
 **Usage Example**:
+
 ```yaml
 jobs:
   validate:
@@ -46,18 +53,22 @@ jobs:
 ```
 
 ### 3. `security-scan.yml`
+
 **Purpose**: Comprehensive security scanning for vulnerabilities
 
 **Inputs**:
+
 - `enable-dependency-scan` (optional): Enable dependency vulnerability scanning (default: true)
 - `enable-secret-scan` (optional): Enable secret scanning (default: true)
 - `enable-file-permission-check` (optional): Enable file permission security check (default: true)
 
 **Outputs**:
+
 - `vulnerabilities-found`: Whether vulnerabilities were found (boolean)
 - `security-status`: Overall security scan status ('passed' or 'failed')
 
 **Usage Example**:
+
 ```yaml
 jobs:
   security:
@@ -68,9 +79,11 @@ jobs:
 ```
 
 ### 4. `artifact-handling.yml`
+
 **Purpose**: Standardized artifact creation, compression, and upload
 
 **Inputs**:
+
 - `artifact-name` (required): Name of the artifact
 - `artifact-path` (required): Path to artifacts (comma-separated for multiple)
 - `retention-days` (optional): Number of days to retain artifacts (default: 7)
@@ -78,6 +91,7 @@ jobs:
 - `compression-level` (optional): Compression level 0-9 (default: 6)
 
 **Usage Example**:
+
 ```yaml
 jobs:
   artifacts:

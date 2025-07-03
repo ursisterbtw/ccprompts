@@ -33,6 +33,7 @@ class MainValidator {
     };
     
     // Table-driven validator registry
+    this.validators = [
       {
         name: 'xmlStructure',
         when: (f, c) => c.includes('<role>') || c.includes('<activation>'),

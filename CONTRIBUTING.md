@@ -7,7 +7,7 @@ Thank you for your interest in contributing to the most comprehensive collection
 1. **Fork and Clone**
 
    ```bash
-   git clone https://github.com/yourusername/ccprompts.git
+   git clone https://github.com/ursisterbtw/ccprompts.git
    cd ccprompts
    ```
 
@@ -40,19 +40,19 @@ Thank you for your interest in contributing to the most comprehensive collection
 
   ```markdown
   # Command Name
-  
+
   Brief description
-  
+
   ## Usage
   ```bash
   /command-name [parameters]
-  
+
   ## Description
   Detailed explanation
-  
+
   ## Parameters
   - `param1`: Description (type, default)
-  
+
   ## Examples
   ```bash
   /command-name example1
@@ -70,12 +70,12 @@ Thank you for your interest in contributing to the most comprehensive collection
   <role>
   Your role description
   </role>
-  
+
   <activation>
   CLAUDE.CONFIG:
     setting: "value"
   </activation>
-  
+
   <instructions>
   Step-by-step instructions
   </instructions>
@@ -144,18 +144,18 @@ grep -l "## Examples" .claude/commands/*.md
    ```markdown
    ## Summary
    Brief description of changes
-   
+
    ## Type of Change
    - [ ] New command
    - [ ] New prompt
    - [ ] Bug fix
    - [ ] Documentation improvement
    - [ ] Validation enhancement
-   
+
    ## Testing
    - [ ] `npm test` passes
    - [ ] Manual testing completed
-   
+
    ## Validation Results
    - Errors: X → Y
    - Quality grade: A/B/C/D/F
@@ -233,7 +233,7 @@ ccprompts/
    ```bash
    # Check specific error types
    npm run validate | grep "❌ Errors"
-   
+
    # Fix common issues
    grep -l "Missing XML sections" prompts/**/*.md
    ```
@@ -243,7 +243,7 @@ ccprompts/
    ```bash
    # Test specific files
    markdown-link-check README.md
-   
+
    # Update broken links
    npm run check-links 2>&1 | grep "✖"
    ```
