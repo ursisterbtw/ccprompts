@@ -3,16 +3,19 @@
 This command provides comprehensive automated code review capabilities with intelligent analysis and feedback.
 
 ## Usage
+
 ```
 /code-review [scope] [focus] [depth]
 ```
 
 ## Parameters
+
 - `scope`: pr, branch, commit, file, directory
 - `focus`: security, performance, maintainability, style, architecture, all
 - `depth`: quick, thorough, comprehensive, expert
 
 ## Examples
+
 ```
 /code-review pr security thorough
 /code-review branch all comprehensive
@@ -21,7 +24,9 @@ This command provides comprehensive automated code review capabilities with inte
 ```
 
 ## Description
+
 AI-powered code review system with multi-dimensional analysis:
+
 1. Automated code quality assessment and improvement suggestions
 2. Security vulnerability detection and remediation guidance
 3. Performance optimization opportunities identification
@@ -32,6 +37,7 @@ AI-powered code review system with multi-dimensional analysis:
 ## Review Categories
 
 ### Code Quality Assessment
+
 - **Complexity Analysis**: Cyclomatic complexity and cognitive load evaluation
 - **Maintainability**: Code readability, structure, and long-term maintainability
 - **DRY Principle**: Identification of code duplication and refactoring opportunities
@@ -40,6 +46,7 @@ AI-powered code review system with multi-dimensional analysis:
 - **Testing**: Test coverage, quality, and maintainability
 
 ### Security Analysis
+
 - **Vulnerability Detection**: OWASP Top 10 and common security issues
 - **Input Validation**: Data sanitization and injection prevention
 - **Authentication**: Access control and permission validation
@@ -48,6 +55,7 @@ AI-powered code review system with multi-dimensional analysis:
 - **Dependencies**: Third-party library security vulnerabilities
 
 ### Performance Optimization
+
 - **Algorithmic Efficiency**: Big O complexity analysis and optimization
 - **Resource Usage**: Memory leaks, CPU usage, and resource management
 - **Database Queries**: Query optimization and N+1 problem detection
@@ -56,6 +64,7 @@ AI-powered code review system with multi-dimensional analysis:
 - **Scalability**: Horizontal and vertical scaling considerations
 
 ### Architecture Review
+
 - **Design Patterns**: Appropriate pattern usage and implementation
 - **Separation of Concerns**: Proper layering and responsibility distribution
 - **API Design**: RESTful principles and interface consistency
@@ -66,6 +75,7 @@ AI-powered code review system with multi-dimensional analysis:
 ## Review Depth Levels
 
 ### Quick Review (5-15 minutes)
+
 ```
 Quick Code Review Summary
 ========================
@@ -90,6 +100,7 @@ Quick Code Review Summary
 ```
 
 ### Thorough Review (30-60 minutes)
+
 ```
 Thorough Code Review Analysis
 ============================
@@ -130,6 +141,7 @@ Thorough Code Review Analysis
 ```
 
 ### Comprehensive Review (2-4 hours)
+
 ```
 Comprehensive Code Review Report
 ===============================
@@ -216,6 +228,7 @@ Areas for Improvement:
 ```
 
 ### Expert Review (1-2 days)
+
 ```
 Expert Code Review & Architectural Analysis
 ==========================================
@@ -254,6 +267,7 @@ Performance Engineering:
 ## Automated Analysis Features
 
 ### Static Code Analysis
+
 ```python
 # Automated Code Quality Metrics
 quality_metrics = {
@@ -282,6 +296,7 @@ quality_metrics = {
 ```
 
 ### Pattern Recognition
+
 - **Anti-patterns**: Detection of common code smells and anti-patterns
 - **Best Practices**: Identification of industry best practice violations
 - **Framework Compliance**: Framework-specific pattern validation
@@ -289,6 +304,7 @@ quality_metrics = {
 - **Security Patterns**: Security best practice implementation verification
 
 ### Intelligent Suggestions
+
 ```
 AI-Powered Improvement Suggestions
 =================================
@@ -328,6 +344,7 @@ AI-Powered Improvement Suggestions
 ## Integration Features
 
 ### Version Control Integration
+
 ```yaml
 # GitHub Integration Example
 github:
@@ -354,6 +371,7 @@ github:
 ```
 
 ### IDE Integration
+
 - **Real-time Analysis**: Live code analysis while typing
 - **Inline Suggestions**: Contextual improvement recommendations
 - **Quick Fixes**: One-click resolution for common issues
@@ -361,6 +379,7 @@ github:
 - **Learning Mode**: Educational explanations for suggestions
 
 ### CI/CD Integration
+
 - **Automated Review Gates**: Block deployments on critical issues
 - **Quality Metrics Tracking**: Trend analysis over time
 - **Review Report Generation**: Automated documentation
@@ -370,6 +389,7 @@ github:
 ## Collaborative Features
 
 ### Team Review Workflows
+
 ```
 Team Code Review Workflow
 =========================
@@ -400,6 +420,7 @@ Team Code Review Workflow
 ```
 
 ### Knowledge Transfer
+
 - **Learning Opportunities**: Identify teaching moments during review
 - **Best Practice Sharing**: Highlight exemplary code patterns
 - **Skill Development**: Suggest learning resources for improvement areas
@@ -409,6 +430,7 @@ Team Code Review Workflow
 ## Customization and Configuration
 
 ### Team Standards Configuration
+
 ```yaml
 # Team Code Review Standards
 review_standards:
@@ -436,6 +458,7 @@ review_standards:
 ```
 
 ### Custom Review Checklists
+
 - **Project-Specific Rules**: Tailored analysis for specific projects
 - **Industry Compliance**: Healthcare, finance, or other industry standards
 - **Technology Standards**: Framework-specific best practices
@@ -445,6 +468,7 @@ review_standards:
 ## Reporting and Analytics
 
 ### Review Metrics Dashboard
+
 ```
 Code Review Analytics Dashboard
 ==============================
@@ -476,6 +500,7 @@ Code Review Analytics Dashboard
 ```
 
 ### ROI Analysis
+
 - **Time Saved**: Automated review vs manual review comparison
 - **Quality Improvement**: Defect reduction and customer satisfaction
 - **Knowledge Transfer**: Skill development and team capabilities
@@ -483,8 +508,54 @@ Code Review Analytics Dashboard
 - **Technical Debt**: Debt reduction and maintenance cost savings
 
 ## Related Commands
+
 - `/pre-commit` - Automated pre-commit quality checks
 - `/test` - Comprehensive testing and coverage analysis
 - `/audit-security` - Deep security analysis and vulnerability assessment
 - `/optimize` - Performance optimization recommendations
 - `/document` - Documentation generation and maintenance
+
+```xml
+<role>
+You are an expert code review specialist with deep knowledge of software engineering best practices, security patterns, and quality assurance. You provide comprehensive, educational code analysis with actionable recommendations.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Perform comprehensive code analysis:
+   - Review code quality, architecture patterns, and maintainability
+   - Analyze security vulnerabilities and compliance issues
+   - Assess performance implications and optimization opportunities
+   - Evaluate testing coverage and quality
+
+2. Provide educational feedback:
+   - Explain the reasoning behind each recommendation
+   - Offer specific examples and code improvements
+   - Share best practices and industry standards
+   - Suggest learning resources and references
+
+3. Generate actionable recommendations:
+   - Prioritize issues by severity and impact
+   - Provide specific remediation steps
+   - Include code examples demonstrating improvements
+   - Suggest tools and automation opportunities
+
+4. Facilitate team learning:
+   - Create knowledge sharing opportunities
+   - Document patterns and anti-patterns
+   - Establish review guidelines and standards
+   - Build team capability through guided feedback
+
+5. Integrate with development workflows:
+   - Support multiple review depths and scopes
+   - Provide automated analysis and suggestions
+   - Generate comprehensive reports and metrics
+   - Enable continuous improvement tracking
+</instructions>
+```

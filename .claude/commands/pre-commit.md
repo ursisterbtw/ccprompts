@@ -3,15 +3,18 @@
 This command automates comprehensive pre-commit checks and quality gates to ensure code quality before commits.
 
 ## Usage
+
 ```
 /pre-commit [scope] [strictness]
 ```
 
 ## Parameters
+
 - `scope`: staged, all-changes, full-project, affected-files
 - `strictness`: basic, standard, strict, enterprise
 
 ## Examples
+
 ```
 /pre-commit
 /pre-commit staged strict
@@ -20,7 +23,9 @@ This command automates comprehensive pre-commit checks and quality gates to ensu
 ```
 
 ## Description
+
 Comprehensive pre-commit automation system:
+
 1. Automated code quality checks and linting
 2. Security vulnerability scanning and validation
 3. Test execution and coverage verification
@@ -31,6 +36,7 @@ Comprehensive pre-commit automation system:
 ## Quality Gates
 
 ### Code Quality Checks
+
 - **Linting**: ESLint, Pylint, RuboCop, Clippy based on project type
 - **Formatting**: Prettier, Black, rustfmt, gofmt automatic formatting
 - **Type Checking**: TypeScript, mypy, Flow static analysis
@@ -39,6 +45,7 @@ Comprehensive pre-commit automation system:
 - **Naming Conventions**: Enforce consistent naming standards
 
 ### Security Validation
+
 - **Dependency Scanning**: Known vulnerabilities in packages and libraries
 - **Secret Detection**: Hardcoded passwords, API keys, and sensitive data
 - **SAST Analysis**: Static application security testing
@@ -47,6 +54,7 @@ Comprehensive pre-commit automation system:
 - **Input Validation**: Identify potential injection vulnerabilities
 
 ### Testing Requirements
+
 - **Unit Tests**: Execute affected unit tests with coverage requirements
 - **Integration Tests**: Run integration tests for modified components
 - **Coverage Thresholds**: Enforce minimum code coverage percentages
@@ -55,6 +63,7 @@ Comprehensive pre-commit automation system:
 - **Contract Tests**: Validate API contracts and schemas
 
 ### Documentation Standards
+
 - **API Documentation**: Ensure public APIs are properly documented
 - **Code Comments**: Verify complex logic has explanatory comments
 - **README Updates**: Check if README reflects recent changes
@@ -65,6 +74,7 @@ Comprehensive pre-commit automation system:
 ## Strictness Levels
 
 ### Basic Level
+
 ```
 Basic Pre-Commit Checks
 ======================
@@ -81,6 +91,7 @@ Gate Policy: Block on critical errors only
 ```
 
 ### Standard Level
+
 ```
 Standard Pre-Commit Checks
 =========================
@@ -99,6 +110,7 @@ Gate Policy: Block on standard quality thresholds
 ```
 
 ### Strict Level
+
 ```
 Strict Pre-Commit Checks
 =======================
@@ -117,6 +129,7 @@ Gate Policy: Block on any quality threshold violations
 ```
 
 ### Enterprise Level
+
 ```
 Enterprise Pre-Commit Checks
 ===========================
@@ -137,6 +150,7 @@ Gate Policy: Block on any enterprise standard violations
 ## Automated Fixes
 
 ### Auto-Fixable Issues
+
 ```
 Auto-Fix Report
 ===============
@@ -159,6 +173,7 @@ Auto-Fix Report
 ```
 
 ### Smart Suggestions
+
 - **Refactoring Opportunities**: Identify code that could be improved
 - **Performance Optimizations**: Suggest optimizations for slow operations
 - **Security Enhancements**: Recommend security best practices
@@ -168,6 +183,7 @@ Auto-Fix Report
 ## Integration Features
 
 ### Git Integration
+
 ```bash
 # .git/hooks/pre-commit (automatically generated)
 #!/bin/bash
@@ -191,6 +207,7 @@ exit 0
 ```
 
 ### CI/CD Integration
+
 - Generate GitHub Actions workflows for pre-commit checks
 - Create GitLab CI/CD pipeline definitions
 - Configure Jenkins build steps
@@ -198,6 +215,7 @@ exit 0
 - Support custom CI/CD systems
 
 ### IDE Integration
+
 - Real-time feedback in code editors
 - Inline suggestions and quick fixes
 - Progress indicators for long-running checks
@@ -207,6 +225,7 @@ exit 0
 ## Customization Options
 
 ### Project-Specific Rules
+
 ```yaml
 # .claude/pre-commit-config.yaml
 pre_commit:
@@ -241,6 +260,7 @@ pre_commit:
 ```
 
 ### Team Standards
+
 - Shared configuration across team members
 - Organization-wide policy enforcement
 - Role-based check requirements
@@ -250,6 +270,7 @@ pre_commit:
 ## Performance Optimization
 
 ### Incremental Checks
+
 - Only check files modified since last commit
 - Cache results for unchanged dependencies
 - Parallel execution of independent checks
@@ -257,6 +278,7 @@ pre_commit:
 - Incremental type checking and linting
 
 ### Resource Management
+
 - CPU and memory usage monitoring
 - Timeout handling for long-running checks
 - Graceful degradation for resource constraints
@@ -266,6 +288,7 @@ pre_commit:
 ## Reporting and Analytics
 
 ### Check Results Summary
+
 ```
 Pre-Commit Summary Report
 ========================
@@ -290,6 +313,7 @@ Pre-Commit Summary Report
 ```
 
 ### Trend Analysis
+
 - Track quality metrics over time
 - Identify patterns in check failures
 - Monitor team compliance rates
@@ -299,6 +323,7 @@ Pre-Commit Summary Report
 ## Error Handling and Recovery
 
 ### Failure Recovery
+
 - Detailed error messages with fix suggestions
 - Automatic retry for transient failures
 - Rollback capabilities for auto-applied fixes
@@ -306,6 +331,7 @@ Pre-Commit Summary Report
 - Emergency bypass procedures with audit trail
 
 ### Common Issues Resolution
+
 ```
 Common Pre-Commit Issues and Solutions
 =====================================
@@ -328,8 +354,54 @@ Command: /optimize performance [changed-files]
 ```
 
 ## Related Commands
+
 - `/test` - Run comprehensive test suites
 - `/audit-security` - Detailed security analysis
 - `/optimize` - Performance optimization workflows
 - `/document` - Documentation generation and updates
 - `/deploy` - Deployment readiness validation
+
+```xml
+<role>
+You are an expert code quality specialist with deep knowledge of pre-commit hooks, quality gates, and automated validation. You specialize in comprehensive pre-commit quality assurance and automation.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Analyze and assess current state:
+   - Evaluate existing configuration and implementation
+   - Identify gaps and improvement opportunities
+   - Assess compliance and best practice adherence
+   - Review current workflows and processes
+
+2. Implement comprehensive solutions:
+   - Design and implement optimized workflows
+   - Create automation and integration solutions
+   - Establish best practices and standards
+   - Set up monitoring and validation systems
+
+3. Provide actionable recommendations:
+   - Generate specific improvement suggestions
+   - Create prioritized action plans with timelines
+   - Provide implementation guides and documentation
+   - Establish success metrics and validation criteria
+
+4. Facilitate continuous improvement:
+   - Create feedback loops and monitoring systems
+   - Implement learning and adaptation mechanisms
+   - Establish maintenance and evolution processes
+   - Build team capability and knowledge sharing
+
+5. Ensure quality and compliance:
+   - Validate implementations against requirements
+   - Ensure security and compliance standards
+   - Create comprehensive documentation and reporting
+   - Establish audit trails and accountability measures
+</instructions>
+```

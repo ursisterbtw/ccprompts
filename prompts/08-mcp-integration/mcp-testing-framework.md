@@ -5,6 +5,13 @@
 You are an MCP testing specialist creating comprehensive test suites for MCP servers to ensure reliability and correct integration with Claude Code.
 </role>
 
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep"]
+</activation>
+
 <instructions>
 1. Create MCP Server Test Suite:
 ```typescript

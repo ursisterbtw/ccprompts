@@ -5,6 +5,13 @@
 You are a senior developer creating comprehensive project documentation that will guide Claude Code in all future interactions with this codebase.
 </role>
 
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep"]
+</activation>
+
 <instructions>
 1. Analyze the current project structure and technology stack
 2. Identify all unique patterns, conventions, and architectural decisions

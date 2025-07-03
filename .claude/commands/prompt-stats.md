@@ -3,16 +3,19 @@
 This command provides comprehensive usage analytics and effectiveness metrics for prompts and workflows.
 
 ## Usage
+
 ```
 /prompt-stats [scope] [timeframe] [format]
 ```
 
 ## Parameters
+
 - `scope`: personal, team, project, global, prompt-name
 - `timeframe`: today, week, month, quarter, year, all-time
 - `format`: summary, detailed, export, dashboard
 
 ## Examples
+
 ```
 /prompt-stats
 /prompt-stats team month
@@ -22,7 +25,9 @@ This command provides comprehensive usage analytics and effectiveness metrics fo
 ```
 
 ## Description
+
 Advanced analytics system for prompt usage and effectiveness:
+
 1. Comprehensive usage statistics and trends
 2. Success rate analysis and performance metrics
 3. Comparative analysis across prompts and timeframes
@@ -33,6 +38,7 @@ Advanced analytics system for prompt usage and effectiveness:
 ## Analytics Categories
 
 ### Usage Statistics
+
 - **Execution Frequency**: How often prompts are used
 - **Completion Rates**: Percentage of successful executions
 - **Duration Metrics**: Average time to completion
@@ -41,6 +47,7 @@ Advanced analytics system for prompt usage and effectiveness:
 - **Geographic Distribution**: Usage patterns across locations
 
 ### Effectiveness Metrics
+
 - **Success Rate**: Percentage of prompts achieving intended outcomes
 - **Quality Scores**: User satisfaction and output quality ratings
 - **Time to Value**: Speed of achieving business objectives
@@ -49,6 +56,7 @@ Advanced analytics system for prompt usage and effectiveness:
 - **Cost Savings**: Resource optimization and efficiency gains
 
 ### Performance Analysis
+
 - **Execution Time**: Prompt completion time distributions
 - **Resource Usage**: CPU, memory, and network utilization
 - **Scalability Metrics**: Performance under different loads
@@ -59,6 +67,7 @@ Advanced analytics system for prompt usage and effectiveness:
 ## Report Formats
 
 ### Summary Dashboard
+
 ```
 Claude Code Prompt Analytics Dashboard
 =====================================
@@ -88,6 +97,7 @@ Claude Code Prompt Analytics Dashboard
 ```
 
 ### Detailed Analytics
+
 ```
 Detailed Analysis: security-audit.md
 ===================================
@@ -131,6 +141,7 @@ Detailed Analysis: security-audit.md
 ```
 
 ### Comparative Analysis
+
 ```
 Prompt Comparison: Security Category (Last Month)
 ================================================
@@ -153,18 +164,21 @@ access-control.md    │     34     │  94.1%  │  1.8h    │    4.5/5
 ## Predictive Analytics
 
 ### Usage Forecasting
+
 - Predict future prompt usage based on historical trends
 - Identify seasonal patterns and capacity planning needs
 - Forecast user adoption rates for new prompts
 - Estimate resource requirements for different growth scenarios
 
 ### Success Optimization
+
 - Identify factors contributing to prompt success
 - Recommend optimal timing for prompt execution
 - Suggest personalized prompt sequences for better outcomes
 - Predict likelihood of success before execution
 
 ### Trend Analysis
+
 - Identify emerging usage patterns and requirements
 - Predict which prompts will become popular
 - Analyze technology adoption impact on prompt usage
@@ -173,6 +187,7 @@ access-control.md    │     34     │  94.1%  │  1.8h    │    4.5/5
 ## User Behavior Analysis
 
 ### Adoption Patterns
+
 ```
 User Adoption Analysis
 =====================
@@ -199,6 +214,7 @@ User Adoption Analysis
 ```
 
 ### Expertise Development
+
 - Track user skill progression over time
 - Identify learning paths and successful patterns
 - Measure time to proficiency for different prompts
@@ -207,18 +223,21 @@ User Adoption Analysis
 ## Business Impact Metrics
 
 ### Productivity Measurements
+
 - Developer velocity improvements
 - Time saved through automation
 - Reduction in manual processes
 - Quality improvements and defect reduction
 
 ### Cost-Benefit Analysis
+
 - Time investment vs. value generated
 - Resource optimization savings
 - Incident prevention value
 - Training and onboarding cost reduction
 
 ### ROI Calculations
+
 ```
 Return on Investment Analysis
 ============================
@@ -247,6 +266,7 @@ Return on Investment Analysis
 ## Export and Integration
 
 ### Data Export Formats
+
 - CSV for spreadsheet analysis
 - JSON for API integration
 - PDF for executive reporting
@@ -254,6 +274,7 @@ Return on Investment Analysis
 - Interactive dashboards for ongoing monitoring
 
 ### Integration Capabilities
+
 - Business intelligence tools (Tableau, Power BI)
 - Project management systems (Jira, Asana)
 - Communication platforms (Slack, Teams)
@@ -261,6 +282,7 @@ Return on Investment Analysis
 - Custom reporting tools and APIs
 
 ## Privacy and Security
+
 - Anonymized usage data for privacy protection
 - Configurable data retention policies
 - Secure aggregation for team statistics
@@ -268,7 +290,53 @@ Return on Investment Analysis
 - Compliance with data protection regulations
 
 ## Related Commands
+
 - `/analyze-project` - Get analytics-driven project recommendations
 - `/workflow-builder` - Use analytics to optimize workflow design
 - `/health-check` - Compare project health with benchmark statistics
 - `/smart-suggest` - Leverage usage patterns for personalized recommendations
+
+```xml
+<role>
+You are an expert analytics specialist with deep knowledge of usage metrics, performance analysis, and data visualization. You specialize in generating comprehensive analytics and insights from command usage data.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Analyze and assess current state:
+   - Evaluate existing configuration and implementation
+   - Identify gaps and improvement opportunities
+   - Assess compliance and best practice adherence
+   - Review current workflows and processes
+
+2. Implement comprehensive solutions:
+   - Design and implement optimized workflows
+   - Create automation and integration solutions
+   - Establish best practices and standards
+   - Set up monitoring and validation systems
+
+3. Provide actionable recommendations:
+   - Generate specific improvement suggestions
+   - Create prioritized action plans with timelines
+   - Provide implementation guides and documentation
+   - Establish success metrics and validation criteria
+
+4. Facilitate continuous improvement:
+   - Create feedback loops and monitoring systems
+   - Implement learning and adaptation mechanisms
+   - Establish maintenance and evolution processes
+   - Build team capability and knowledge sharing
+
+5. Ensure quality and compliance:
+   - Validate implementations against requirements
+   - Ensure security and compliance standards
+   - Create comprehensive documentation and reporting
+   - Establish audit trails and accountability measures
+</instructions>
+```

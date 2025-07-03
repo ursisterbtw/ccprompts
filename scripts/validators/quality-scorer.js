@@ -91,25 +91,59 @@ class QualityScorer {
     const filepath = filename.toLowerCase();
     
     // Check by directory structure
-    if (filepath.includes('commands/')) return 'command';
-    if (filepath.includes('security')) return 'security';
-    if (filepath.includes('test')) return 'testing';
-    if (filepath.includes('git')) return 'git';
-    if (filepath.includes('mcp')) return 'mcp';
-    if (filepath.includes('doc')) return 'documentation';
-    if (filepath.includes('deploy')) return 'deployment';
-    if (filepath.includes('refactor')) return 'refactoring';
-    if (filepath.includes('initial')) return 'initialization';
+    if (filepath.includes('commands/')) {
+      return 'command';
+    }
+    if (filepath.includes('security')) {
+      return 'security';
+    }
+    if (filepath.includes('test')) {
+      return 'testing';
+    }
+    if (filepath.includes('git')) {
+      return 'git';
+    }
+    if (filepath.includes('mcp')) {
+      return 'mcp';
+    }
+    if (filepath.includes('doc')) {
+      return 'documentation';
+    }
+    if (filepath.includes('deploy')) {
+      return 'deployment';
+    }
+    if (filepath.includes('refactor')) {
+      return 'refactoring';
+    }
+    if (filepath.includes('initial')) {
+      return 'initialization';
+    }
     
     // Check by content patterns
-    if (content.includes('test suite') || content.includes('testing')) return 'testing';
-    if (content.includes('security') || content.includes('vulnerability')) return 'security';
-    if (content.includes('git ') || content.includes('repository')) return 'git';
-    if (content.includes('MCP') || content.includes('server')) return 'mcp';
-    if (content.includes('document') || content.includes('README')) return 'documentation';
-    if (content.includes('deploy') || content.includes('CI/CD')) return 'deployment';
-    if (content.includes('refactor') || content.includes('modernize')) return 'refactoring';
-    if (content.includes('bootstrap') || content.includes('initialize')) return 'initialization';
+    if (content.includes('test suite') || content.includes('testing')) {
+      return 'testing';
+    }
+    if (content.includes('security') || content.includes('vulnerability')) {
+      return 'security';
+    }
+    if (content.includes('git ') || content.includes('repository')) {
+      return 'git';
+    }
+    if (content.includes('MCP') || content.includes('server')) {
+      return 'mcp';
+    }
+    if (content.includes('document') || content.includes('README')) {
+      return 'documentation';
+    }
+    if (content.includes('deploy') || content.includes('CI/CD')) {
+      return 'deployment';
+    }
+    if (content.includes('refactor') || content.includes('modernize')) {
+      return 'refactoring';
+    }
+    if (content.includes('bootstrap') || content.includes('initialize')) {
+      return 'initialization';
+    }
     
     return 'general';
   }

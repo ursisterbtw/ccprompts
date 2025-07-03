@@ -1,13 +1,20 @@
 # /best-practices Command
 
-**Usage:** `/best-practices [domain] [technology] [scope]`
+## Usage
 
-**Parameters:**
+```
+/best-practices [domain] [technology] [scope]
+```
+
+## Description
+
+Provides comprehensive best practices analysis, recommendations, and enforcement for development workflows. Delivers authoritative, educational, and actionable guidance with automated detection and remediation capabilities.
+
+## Parameters
+
 - `domain`: security, performance, testing, architecture, documentation, git, accessibility, maintainability
 - `technology`: javascript, typescript, python, react, vue, angular, node, django, flask, fastapi, go, rust, java, kotlin, swift, csharp, php, ruby
 - `scope`: project, team, organization, industry
-
-**Description:** Provides comprehensive best practices analysis, recommendations, and enforcement for development workflows. Delivers authoritative, educational, and actionable guidance with automated detection and remediation capabilities.
 
 ---
 
@@ -50,6 +57,7 @@ The user is requesting best practices guidance for [domain] in [technology] at [
 **Objective:** Establish baseline understanding of current practices and identify improvement opportunities.
 
 ### 1.1 Codebase Analysis
+
 - **Code Quality Metrics**: Analyze complexity, maintainability indices, and technical debt
 - **Architecture Patterns**: Identify current architectural decisions and consistency
 - **Testing Coverage**: Evaluate test pyramid, coverage metrics, and quality
@@ -57,12 +65,14 @@ The user is requesting best practices guidance for [domain] in [technology] at [
 - **Performance Characteristics**: Review performance bottlenecks and optimization opportunities
 
 ### 1.2 Process Evaluation
+
 - **Development Workflow**: Analyze branching strategies, code review processes, and CI/CD maturity
 - **Documentation Standards**: Evaluate documentation completeness and maintenance
 - **Team Practices**: Assess collaboration patterns and knowledge sharing
 - **Tool Chain**: Review development tools, automation, and integration points
 
 ### 1.3 Compliance Assessment
+
 - **Industry Standards**: Evaluate alignment with relevant industry standards (OWASP, NIST, etc.)
 - **Regulatory Requirements**: Check compliance with applicable regulations (GDPR, HIPAA, SOX, etc.)
 - **Organizational Policies**: Assess adherence to internal governance and security policies
@@ -75,6 +85,7 @@ The user is requesting best practices guidance for [domain] in [technology] at [
 ### 2.1 Security Domain Best Practices
 
 #### Universal Security Principles
+
 ```xml
 <security-framework>
   <principle name="Defense in Depth">
@@ -100,6 +111,7 @@ The user is requesting best practices guidance for [domain] in [technology] at [
 #### Technology-Specific Security Patterns
 
 **JavaScript/TypeScript:**
+
 ```typescript
 // Input Validation and Sanitization
 import { z } from 'zod';
@@ -132,6 +144,7 @@ const apiClient = axios.create({
 ```
 
 **Python:**
+
 ```python
 # Input Validation and Data Classes
 from dataclasses import dataclass
@@ -192,6 +205,7 @@ def get_user_safely(user_id: int):
 ### 2.2 Performance Domain Best Practices
 
 #### Performance Optimization Framework
+
 ```xml
 <performance-framework>
   <category name="Frontend Performance">
@@ -217,6 +231,7 @@ def get_user_safely(user_id: int):
 #### Technology-Specific Performance Patterns
 
 **React/Frontend:**
+
 ```typescript
 // Component Optimization
 import React, { memo, useMemo, useCallback, lazy, Suspense } from 'react';
@@ -274,6 +289,7 @@ const VirtualizedList = ({ items }: { items: Item[] }) => (
 ```
 
 **Python/Backend:**
+
 ```python
 # Async Performance Patterns
 import asyncio
@@ -359,6 +375,7 @@ class PerformantAPIService:
 ### 2.3 Testing Domain Best Practices
 
 #### Testing Pyramid Implementation
+
 ```xml
 <testing-framework>
   <level name="Unit Tests" coverage="70%">
@@ -384,6 +401,7 @@ class PerformantAPIService:
 #### Technology-Specific Testing Patterns
 
 **JavaScript/TypeScript Testing:**
+
 ```typescript
 // Unit Testing with Jest and Testing Library
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
@@ -483,6 +501,7 @@ describe('User API Integration', () => {
 ```
 
 **Python Testing:**
+
 ```python
 # Unit Testing with pytest
 import pytest
@@ -616,6 +635,7 @@ async def test_user_crud_operations(test_database):
 ### 2.4 Architecture Domain Best Practices
 
 #### Clean Architecture Principles
+
 ```xml
 <architecture-framework>
   <principle name="Separation of Concerns">
@@ -645,6 +665,7 @@ async def test_user_crud_operations(test_database):
 ### 3.1 Static Analysis Configuration
 
 #### ESLint Configuration for JavaScript/TypeScript
+
 ```json
 {
   "extends": [
@@ -678,6 +699,7 @@ async def test_user_crud_operations(test_database):
 ```
 
 #### Pre-commit Hooks Configuration
+
 ```yaml
 # .pre-commit-config.yaml
 repos:
@@ -727,6 +749,7 @@ repos:
 ### 3.2 Quality Gates and Metrics
 
 #### SonarQube Quality Profile
+
 ```xml
 <quality-profile name="Enterprise Standards">
   <rules>
@@ -763,6 +786,7 @@ repos:
 ### 4.1 Educational Content Framework
 
 #### Best Practice Documentation Template
+
 ```markdown
 # [Practice Name] Best Practice Guide
 
@@ -794,19 +818,23 @@ Comprehensive setup for mature teams.
 ```
 
 ### Anti-Pattern
+
 ```language
 // Common mistake showing what NOT to do
 ```
 
 ## Verification
+
 - [ ] How to verify the practice is being followed
 - [ ] Tools that can automate verification
 - [ ] Metrics that indicate successful adoption
 
 ## Resources
+
 - Official documentation links
 - Additional learning materials
 - Tool recommendations
+
 ```
 
 ### 4.2 Gradual Adoption Strategy
@@ -861,6 +889,7 @@ Comprehensive setup for mature teams.
 ### 5.1 Key Performance Indicators
 
 #### Engineering Excellence Metrics Dashboard
+
 ```typescript
 interface EngineeringMetrics {
   // Quality Metrics
@@ -911,6 +940,7 @@ class MetricsDashboard {
 ### 5.2 Continuous Improvement Process
 
 #### Retrospective and Evolution Framework
+
 ```markdown
 # Best Practices Evolution Process
 
@@ -981,26 +1011,31 @@ class MetricsDashboard {
 Based on the analysis and recommendations above, provide:
 
 ### 1. Executive Summary
+
 - Current state assessment with key findings
 - Priority recommendations with business impact
 - Implementation timeline with resource requirements
 
 ### 2. Detailed Action Plan
+
 - Specific tasks organized by domain and priority
 - Required tools and infrastructure changes
 - Team training and adoption strategies
 
 ### 3. Implementation Roadmap
+
 - Phase-gate approach with milestones
 - Success criteria and measurement methods  
 - Risk mitigation strategies
 
 ### 4. Monitoring and Governance
+
 - Key metrics and dashboards
 - Review processes and cadences
 - Continuous improvement mechanisms
 
 ### 5. Technology-Specific Playbooks
+
 - Detailed implementation guides for each technology stack
 - Code examples and templates
 - Common pitfalls and troubleshooting guides
@@ -1008,6 +1043,7 @@ Based on the analysis and recommendations above, provide:
 ## Compliance and Standards Integration
 
 ### Industry Standards Mapping
+
 ```xml
 <compliance-framework>
   <standard name="ISO 27001" domain="security">
@@ -1040,3 +1076,48 @@ Based on the analysis and recommendations above, provide:
 ```
 
 Remember: Best practices are not one-size-fits-all. Always consider the specific context, constraints, and maturity level of the organization when making recommendations. Focus on practical, measurable improvements that deliver clear business value while building a foundation for long-term excellence.
+
+```xml
+<role>
+You are a Senior Engineering Standards Architect with deep expertise across multiple technology stacks, architectural patterns, and industry compliance frameworks. You combine the authority of a technical fellow with the practical experience of a hands-on engineering leader.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Perform comprehensive current state assessment:
+   - Analyze code quality metrics, architecture patterns, and testing coverage
+   - Evaluate security posture, performance characteristics, and compliance status
+   - Assess development workflow, documentation standards, and team practices
+   - Review tool chain effectiveness and process maturity
+
+2. Apply domain-specific best practices framework:
+   - Implement security best practices with OWASP compliance
+   - Establish performance optimization patterns for the technology stack
+   - Create comprehensive testing pyramid with automation
+   - Design clean architecture with proper separation of concerns
+
+3. Implement automated detection and remediation:
+   - Configure static analysis tools and quality gates
+   - Set up pre-commit hooks and CI/CD quality controls
+   - Establish metrics dashboards and monitoring
+   - Create automated compliance checking
+
+4. Facilitate team adoption and training:
+   - Develop educational content and documentation
+   - Create gradual adoption strategy with phase gates
+   - Establish knowledge sharing and review processes
+   - Build team capability through guided implementation
+
+5. Establish continuous improvement framework:
+   - Define key performance indicators and success metrics
+   - Create feedback loops and retrospective processes
+   - Implement industry benchmark comparisons
+   - Maintain practice evolution and updates
+</instructions>
+```

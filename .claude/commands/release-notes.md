@@ -3,16 +3,19 @@
 This command automates comprehensive release note generation with intelligent content curation and multi-audience formatting.
 
 ## Usage
+
 ```
 /release-notes [version] [audience] [format]
 ```
 
 ## Parameters
+
 - `version`: auto, major, minor, patch, specific-version
 - `audience`: technical, business, customer, internal, all
 - `format`: markdown, html, email, slack, pdf, changelog
 
 ## Examples
+
 ```
 /release-notes auto customer markdown
 /release-notes v2.1.0 technical html
@@ -21,7 +24,9 @@ This command automates comprehensive release note generation with intelligent co
 ```
 
 ## Description
+
 Intelligent release note automation system:
+
 1. Automated content extraction from commits, PRs, and issues
 2. AI-powered categorization and impact analysis
 3. Multi-audience content adaptation and formatting
@@ -32,6 +37,7 @@ Intelligent release note automation system:
 ## Content Generation
 
 ### Automated Content Extraction
+
 ```python
 # Release Content Analysis
 release_analysis = {
@@ -61,6 +67,7 @@ release_analysis = {
 ```
 
 ### Intelligent Categorization
+
 ```
 Release Content Analysis - Version 2.1.0
 ========================================
@@ -116,6 +123,7 @@ Release Content Analysis - Version 2.1.0
 ## Multi-Audience Adaptation
 
 ### Customer-Facing Release Notes
+
 ```
 🎉 What's New in Version 2.1.0
 ===============================
@@ -161,6 +169,7 @@ Questions? Check out our Help Center or contact support@company.com
 ```
 
 ### Technical Release Notes
+
 ```
 Release 2.1.0 - Technical Documentation
 =======================================
@@ -205,16 +214,19 @@ Release 2.1.0 - Technical Documentation
 ## Performance Improvements
 
 ### Database Optimizations
+
 - Added composite indexes on frequently queried columns
 - Query execution time: 15% improvement on average
 - Connection pool optimization: Reduced connection overhead by 20%
 
 ### Frontend Optimizations  
+
 - Bundle size reduction: 40% smaller (2.1MB → 1.3MB)
 - Code splitting: Implemented route-based chunking
 - Cache optimization: Improved browser caching strategy
 
 ### Infrastructure Changes
+
 - CDN integration: CloudFront distribution for static assets
 - API response caching: Redis-based caching for read-heavy endpoints
 - Background job processing: Switched to Sidekiq with Redis
@@ -222,6 +234,7 @@ Release 2.1.0 - Technical Documentation
 ## Security Updates
 
 ### Enhancements
+
 - **Two-Factor Authentication (2FA)**
   - TOTP support (Google Authenticator, Authy)
   - Backup codes generation
@@ -232,6 +245,7 @@ Release 2.1.0 - Technical Documentation
   - Enhanced: `X-Frame-Options`, `X-Content-Type-Options`
 
 ### Vulnerability Fixes
+
 - Updated dependencies with known vulnerabilities (12 packages)
 - Fixed: Potential XSS in user-generated content rendering
 - Patched: SQL injection vulnerability in search functionality
@@ -239,29 +253,34 @@ Release 2.1.0 - Technical Documentation
 ## Deployment Notes
 
 ### Migration Steps
+
 1. Database migrations: `npm run migrate`
 2. Update environment variables (see `.env.example`)
 3. Restart application services
 4. Verify health checks: `GET /api/v3/health`
 
 ### Rollback Plan
+
 - Database rollback: `npm run migrate:rollback`
 - Application rollback: Previous Docker image available
 - Estimated rollback time: 15 minutes
 
 ### Monitoring
+
 - New metrics: API v3 usage, WebSocket connections, 2FA adoption
 - Updated dashboards: Grafana dashboards for new features
 - Alerts: Enhanced alerting for rate limiting and authentication
+
 ```
 
 ### Business Impact Release Notes
 ```
+
 Q1 Release Summary - Business Impact Report
 ==========================================
 
 📈 Executive Summary:
-This release delivers significant value across customer experience, 
+This release delivers significant value across customer experience,
 operational efficiency, and competitive positioning.
 
 💰 Business Value Delivered:
@@ -317,6 +336,7 @@ Compliance & Risk:
 ├── Sales team training on enhanced capabilities
 ├── Customer success outreach for enterprise features
 └── Performance monitoring and optimization continuation
+
 ```
 
 ## Visual Asset Generation
@@ -366,6 +386,7 @@ visual_assets = {
 ```
 
 ### Interactive Release Showcase
+
 ```html
 <!-- Interactive Release Demo -->
 <div class="release-showcase">
@@ -393,6 +414,7 @@ visual_assets = {
 ## Distribution Automation
 
 ### Multi-Channel Distribution
+
 ```yaml
 # Release Distribution Configuration
 distribution:
@@ -429,6 +451,7 @@ distribution:
 ```
 
 ### Automated Scheduling
+
 ```typescript
 // Release Communication Timeline
 const releaseSchedule = {
@@ -475,6 +498,7 @@ const releaseSchedule = {
 ## Feedback and Analytics
 
 ### Release Impact Tracking
+
 ```
 Release 2.1.0 Impact Analysis
 ============================
@@ -511,6 +535,7 @@ Release 2.1.0 Impact Analysis
 ```
 
 ### Continuous Improvement
+
 ```python
 # Release Process Optimization
 improvement_insights = {
@@ -540,6 +565,7 @@ improvement_insights = {
 ## Integration Features
 
 ### Development Workflow Integration
+
 ```bash
 # Git Hook Integration
 # .git/hooks/post-merge
@@ -557,6 +583,7 @@ fi
 ```
 
 ### CI/CD Pipeline Integration
+
 ```yaml
 # GitHub Actions Workflow
 name: Release Notes Generation
@@ -583,6 +610,7 @@ jobs:
 ```
 
 ### Customer Communication Integration
+
 - **CRM Integration**: Salesforce, HubSpot customer communication tracking
 - **Support Integration**: Zendesk, Intercom knowledge base updates
 - **Marketing Integration**: Mailchimp, Constant Contact email campaigns
@@ -590,8 +618,54 @@ jobs:
 - **Feedback Collection**: In-app surveys, NPS score tracking
 
 ## Related Commands
+
 - `/daily-standup` - Track progress and blockers for release planning
 - `/code-review` - Ensure quality before releases
 - `/deploy` - Coordinate release deployment and validation
 - `/document` - Generate supporting documentation for releases
 - `/workflow-builder` - Create custom release processes and automation
+
+```xml
+<role>
+You are an expert technical communication specialist with deep knowledge of release communication, changelog generation, and stakeholder communication. You specialize in comprehensive release documentation and communication.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Analyze and assess current state:
+   - Evaluate existing configuration and implementation
+   - Identify gaps and improvement opportunities
+   - Assess compliance and best practice adherence
+   - Review current workflows and processes
+
+2. Implement comprehensive solutions:
+   - Design and implement optimized workflows
+   - Create automation and integration solutions
+   - Establish best practices and standards
+   - Set up monitoring and validation systems
+
+3. Provide actionable recommendations:
+   - Generate specific improvement suggestions
+   - Create prioritized action plans with timelines
+   - Provide implementation guides and documentation
+   - Establish success metrics and validation criteria
+
+4. Facilitate continuous improvement:
+   - Create feedback loops and monitoring systems
+   - Implement learning and adaptation mechanisms
+   - Establish maintenance and evolution processes
+   - Build team capability and knowledge sharing
+
+5. Ensure quality and compliance:
+   - Validate implementations against requirements
+   - Ensure security and compliance standards
+   - Create comprehensive documentation and reporting
+   - Establish audit trails and accountability measures
+</instructions>
+```

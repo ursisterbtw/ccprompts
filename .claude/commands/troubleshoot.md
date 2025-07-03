@@ -1,16 +1,23 @@
 # Troubleshoot Command
 
+## Description
+
+Provides systematic debugging assistance and troubleshooting guidance for software development issues. Uses intelligent analysis to identify problems, guide resolution steps, and build team debugging capabilities.
+
 ## Usage
+
 ```
 /troubleshoot [issue-type] [context] [urgency]
 ```
 
 ## Parameters
+
 - **issue-type**: `error` | `performance` | `behavior` | `environment` | `security` | `deployment` | `integration`
 - **context**: `development` | `staging` | `production` | `testing` | `ci-cd`
 - **urgency**: `low` | `medium` | `high` | `critical`
 
 ## Examples
+
 ```bash
 /troubleshoot error production critical
 /troubleshoot performance development medium
@@ -42,14 +49,14 @@ ACTIVATE when users need debugging assistance, error resolution, performance tro
    ```bash
    # Check system status
    /health-check --quick
-   
+
    # Verify recent changes
    git log --oneline -10
    git status
-   
+
    # Check running processes
    ps aux | grep -E "(node|python|java|docker)"
-   
+
    # System resources
    df -h
    free -h
@@ -65,17 +72,20 @@ ACTIVATE when users need debugging assistance, error resolution, performance tro
 ### Urgency-Based Response Protocol
 
 **CRITICAL (Immediate Action Required)**:
+
 - Production down, data loss risk, security breach
 - Establish incident response team
 - Implement immediate containment
 - Begin detailed logging
 
 **HIGH (Rapid Response)**:
+
 - Significant user impact, service degradation
 - Prioritize quick fixes and workarounds
 - Implement monitoring and alerting
 
 **MEDIUM/LOW (Systematic Approach)**:
+
 - Focus on root cause analysis
 - Emphasize learning and documentation
 - Implement preventive measures
@@ -83,14 +93,17 @@ ACTIVATE when users need debugging assistance, error resolution, performance tro
 ## Phase 2: Intelligent Error Analysis
 
 ### Error Pattern Recognition
+
 Analyze error messages and symptoms using these patterns:
 
 #### Common Error Categories
+
 1. **Syntax/Logic Errors**:
+
    ```bash
    # Check recent code changes
    git diff HEAD~1 HEAD
-   
+
    # Language-specific linting
    eslint . --fix
    pylint **/*.py
@@ -98,18 +111,20 @@ Analyze error messages and symptoms using these patterns:
    ```
 
 2. **Runtime Errors**:
+
    ```bash
    # Check logs
    tail -f /var/log/application.log
    journalctl -f -u service-name
    docker logs container-name --tail 100
-   
+
    # Memory/resource issues
    htop
    iostat 1 5
    ```
 
 3. **Network/Connectivity Issues**:
+
    ```bash
    # Network diagnostics
    ping google.com
@@ -119,20 +134,22 @@ Analyze error messages and symptoms using these patterns:
    ```
 
 4. **Database Issues**:
+
    ```bash
    # Database connectivity
    psql -h localhost -U user -d database -c "SELECT version();"
    mysql -u user -p -e "SHOW PROCESSLIST;"
-   
+
    # Query performance
    EXPLAIN ANALYZE SELECT * FROM table;
    ```
 
 5. **Environment Issues**:
+
    ```bash
    # Environment variables
    env | grep -E "(PATH|NODE|PYTHON|JAVA)"
-   
+
    # Dependencies
    npm list --depth=0
    pip freeze
@@ -161,6 +178,7 @@ Analyze error messages and symptoms using these patterns:
 ### Step-by-Step Debugging Process
 
 #### 1. Reproduce the Issue
+
 ```bash
 # Create isolated test environment
 docker run -it --rm debugging-env
@@ -170,11 +188,13 @@ npm run test:debug
 ```
 
 #### 2. Isolate the Problem
+
 - **Binary Search Approach**: Systematically eliminate possibilities
 - **Minimal Reproduction**: Strip down to simplest failing case
 - **Component Testing**: Test individual components in isolation
 
 #### 3. Gather Evidence
+
 ```bash
 # Enable debug logging
 export DEBUG=*
@@ -188,11 +208,13 @@ kubectl version --client
 ```
 
 #### 4. Hypothesis Formation
+
 - List possible causes based on symptoms
 - Rank hypotheses by likelihood and impact
 - Design tests to validate/invalidate hypotheses
 
 #### 5. Test Solutions
+
 - Implement fixes in isolated environment
 - Validate solutions against test cases
 - Document changes and their effects
@@ -200,6 +222,7 @@ kubectl version --client
 ### Debugging Techniques by Issue Type
 
 #### Error Debugging
+
 ```bash
 # Stack trace analysis
 grep -A 10 -B 5 "ERROR" /var/log/app.log
@@ -212,6 +235,7 @@ gdb application core.dump
 ```
 
 #### Performance Debugging
+
 ```bash
 # Application profiling
 python -m cProfile -o profile.stats app.py
@@ -225,6 +249,7 @@ sar -d 1 60  # Disk I/O
 ```
 
 #### Behavior Debugging
+
 ```bash
 # State inspection
 redis-cli monitor
@@ -237,6 +262,7 @@ curl -X POST -H "Content-Type: application/json" \
 ```
 
 #### Environment Debugging
+
 ```bash
 # Container debugging
 docker exec -it container-name /bin/bash
@@ -268,6 +294,7 @@ journalctl -u service-name --since "1 hour ago"
    - Process improvements
 
 ### Solution Validation Process
+
 ```bash
 # Pre-deployment validation
 npm run test
@@ -288,30 +315,31 @@ npm run test:integration
 ### Documentation Requirements
 
 1. **Incident Report Template**:
+
    ```markdown
    # Incident Report: [Brief Description]
-   
+
    **Date**: [Date]
    **Severity**: [Critical/High/Medium/Low]
    **Duration**: [How long the issue lasted]
    **Impact**: [What was affected]
-   
+
    ## Timeline
    - [Time]: Issue detected
    - [Time]: Investigation started
    - [Time]: Root cause identified
    - [Time]: Fix implemented
    - [Time]: Issue resolved
-   
+
    ## Root Cause
    [Detailed explanation of what caused the issue]
-   
+
    ## Resolution
    [What was done to fix the issue]
-   
+
    ## Prevention
    [What will be done to prevent similar issues]
-   
+
    ## Lessons Learned
    [Key takeaways for the team]
    ```
@@ -325,6 +353,7 @@ npm run test:integration
 ### Learning Objectives
 
 For each troubleshooting session, ensure:
+
 - **Skill Development**: Teach debugging methodology
 - **Knowledge Sharing**: Document solutions for team
 - **Process Improvement**: Identify workflow enhancements
@@ -333,6 +362,7 @@ For each troubleshooting session, ensure:
 ## Phase 6: Monitoring & Follow-up
 
 ### Post-Resolution Monitoring
+
 ```bash
 # Set up monitoring
 # Application metrics
@@ -366,6 +396,7 @@ tail -f /var/log/app.log | grep -i error
 ### Communication Templates
 
 #### Status Update Template
+
 ```
 🔧 TROUBLESHOOTING UPDATE
 
@@ -380,6 +411,7 @@ Workaround: [If available]
 ```
 
 #### Resolution Communication
+
 ```
 ✅ ISSUE RESOLVED
 
@@ -395,16 +427,19 @@ Thank you for your patience.
 ## Integration Points
 
 ### Logging Systems
+
 - **Centralized Logging**: ELK Stack, Splunk, Fluentd
 - **Application Logs**: Structured logging with correlation IDs
 - **System Logs**: Syslog, journald, Docker logs
 
 ### Monitoring Systems
+
 - **APM Tools**: New Relic, Datadog, AppDynamics
 - **Infrastructure**: Prometheus, Grafana, Nagios
 - **Synthetic Monitoring**: Pingdom, Uptime Robot
 
 ### Development Tools
+
 - **IDEs**: VS Code debugging, IntelliJ debugger
 - **Profilers**: Chrome DevTools, Java Flight Recorder
 - **Testing**: Jest, PyTest, JUnit debugging modes
@@ -453,6 +488,7 @@ Remember: The goal is not just to fix the immediate problem, but to build debugg
 **Scenario**: API endpoints returning 500 errors
 
 **Response**:
+
 ```
 🚨 CRITICAL PRODUCTION ERROR - IMMEDIATE ACTION REQUIRED
 
@@ -494,6 +530,7 @@ Next Review: 2 hours
 **Scenario**: Slow page load times in development
 
 **Response**:
+
 ```
 🔍 PERFORMANCE INVESTIGATION INITIATED
 
@@ -528,6 +565,7 @@ LEARNING OBJECTIVES:
 **Scenario**: Docker container failing to start
 
 **Response**:
+
 ```
 🔧 ENVIRONMENT TROUBLESHOOTING
 
@@ -556,12 +594,14 @@ KNOWLEDGE GAINED:
 - Port management best practices
 - Environment setup automation
 ```
+
 </examples>
 
 <thinking>
 This troubleshooting command is designed to be comprehensive and educational, providing systematic debugging guidance while building team capabilities. The structure follows a logical progression from immediate triage through resolution and knowledge capture.
 
 Key strengths of this implementation:
+
 1. Urgency-based response protocols
 2. Systematic debugging methodologies
 3. AI-powered error analysis patterns
@@ -574,6 +614,7 @@ Key strengths of this implementation:
 The command balances immediate problem-solving with long-term capability building, making it valuable for both crisis response and continuous improvement.
 </thinking>
 </xml>
+
 ```
 
 I've created a comprehensive troubleshooting command file at `/home/sistrlls/Projects/ccprompts/.claude/commands/troubleshoot.md`. This command provides intelligent debugging assistance with the following key features:

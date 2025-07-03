@@ -3,16 +3,19 @@
 This command provides advanced search capabilities across all prompt content with intelligent relevance scoring.
 
 ## Usage
+
 ```
 /search-prompts [query] [scope] [format]
 ```
 
 ## Parameters
+
 - `query`: Search terms, keywords, or phrases
 - `scope`: content, titles, metadata, examples, all
 - `format`: list, detailed, preview, export
 
 ## Examples
+
 ```
 /search-prompts "security audit"
 /search-prompts "performance optimization" content detailed
@@ -21,7 +24,9 @@ This command provides advanced search capabilities across all prompt content wit
 ```
 
 ## Description
+
 Advanced search engine for prompt discovery and content exploration:
+
 1. Full-text search across all prompt content and metadata
 2. Intelligent relevance scoring with contextual ranking
 3. Semantic search understanding intent and related concepts
@@ -32,18 +37,21 @@ Advanced search engine for prompt discovery and content exploration:
 ## Search Capabilities
 
 ### Full-Text Search
+
 - **Content Search**: Search within prompt instructions, examples, and documentation
 - **Metadata Search**: Find prompts by tags, categories, complexity ratings
 - **Title Search**: Quick lookup by prompt names and aliases
 - **Example Search**: Find prompts with specific usage examples or code samples
 
 ### Semantic Understanding
+
 - **Intent Recognition**: Understands what you're trying to accomplish
 - **Related Concepts**: Finds prompts addressing similar problems
 - **Technology Mapping**: Matches technology stack to relevant prompts
 - **Skill Level Matching**: Suggests prompts appropriate for experience level
 
 ### Advanced Query Syntax
+
 ```
 Basic Search:
 "docker setup"                    # Phrase search
@@ -65,39 +73,49 @@ docker*                          # Wildcard search
 ## Search Scopes
 
 ### Content Scope
+
 Searches within prompt instructions, descriptions, and implementation details:
+
 - Command descriptions and usage instructions
 - Step-by-step implementation guides
 - Best practices and recommendations
 - Troubleshooting and error handling sections
 
 ### Titles Scope
+
 Fast lookup across prompt names and aliases:
+
 - Official prompt names
 - Alternative names and shortcuts
 - Command aliases and variations
 - Category and subcategory names
 
 ### Metadata Scope
+
 Searches through prompt metadata and classification:
+
 - Categories and subcategories
 - Complexity ratings and time estimates
 - Technology stack requirements
 - Team size and project type suitability
 
 ### Examples Scope
+
 Finds prompts with specific usage examples:
+
 - Code examples and templates
 - Use case scenarios and applications
 - Before/after transformation examples
 - Integration patterns and workflows
 
 ### All Scope
+
 Comprehensive search across all prompt content and metadata.
 
 ## Relevance Scoring
 
 ### Scoring Factors
+
 1. **Exact Match Weight**: Direct keyword matches in titles and descriptions
 2. **Semantic Similarity**: Conceptual relevance using NLP analysis
 3. **Usage Popularity**: Community usage statistics and success rates
@@ -106,6 +124,7 @@ Comprehensive search across all prompt content and metadata.
 6. **Personal History**: Slightly favors prompts you've used successfully
 
 ### Result Ranking
+
 - **Perfect Match (95-100%)**: Exact title or primary keyword match
 - **High Relevance (80-94%)**: Strong content match with clear applicability
 - **Good Match (60-79%)**: Related concepts and complementary functionality
@@ -115,6 +134,7 @@ Comprehensive search across all prompt content and metadata.
 ## Output Formats
 
 ### List Format
+
 ```
 Search Results for "security audit" (8 matches)
 ==============================================
@@ -130,6 +150,7 @@ Search Results for "security audit" (8 matches)
 ```
 
 ### Detailed Format
+
 ```
 Search Results for "performance optimization" (5 matches)
 ========================================================
@@ -159,14 +180,18 @@ Search Results for "performance optimization" (5 matches)
 ```
 
 ### Preview Format
+
 Shows quick preview of top results with key information:
+
 - Prompt name and relevance score
 - One-line description
 - Key parameters and requirements
 - Estimated completion time
 
 ### Export Format
+
 Structured output suitable for processing:
+
 - JSON format with full metadata
 - CSV format for spreadsheet analysis
 - Markdown format for documentation
@@ -175,24 +200,28 @@ Structured output suitable for processing:
 ## Advanced Features
 
 ### Search History
+
 - Maintains search history with timestamp and context
 - Suggests related searches based on history
 - Identifies search patterns and frequently used terms
 - Provides search analytics and optimization suggestions
 
 ### Saved Searches
+
 - Save complex queries for repeated use
 - Create search alerts for new prompts matching criteria
 - Share saved searches with team members
 - Schedule periodic search updates
 
 ### Search Analytics
+
 - Track most searched terms and concepts
 - Identify gaps in prompt coverage
 - Monitor search success rates and user behavior
 - Generate reports on prompt discovery patterns
 
 ### Contextual Search
+
 - Consider current project characteristics in search
 - Weight results based on technology stack compatibility
 - Factor in team size and project complexity
@@ -201,24 +230,28 @@ Structured output suitable for processing:
 ## Integration Features
 
 ### IDE Integration
+
 - Search directly from code editor
 - Context-aware search based on current file
 - Quick preview and launch from search results
 - Bookmark and organize search results
 
 ### Command Line Integration
+
 - Pipe search results to other commands
 - Integration with shell completion
 - Output formatting for command processing
 - Batch operations on search results
 
 ### API Access
+
 - RESTful API for programmatic search
 - Webhook integration for automated workflows
 - Custom search interfaces and tools
 - Third-party application integration
 
 ## Performance Optimization
+
 - Indexed search for instant results
 - Caching of common queries
 - Incremental search with auto-complete
@@ -226,7 +259,53 @@ Structured output suitable for processing:
 - Offline search capability
 
 ## Related Commands
+
 - `/list-prompts` - Browse prompts by category and filters
 - `/workflow-builder` - Create workflows from search results
 - `/prompt-stats` - Analytics for searched prompts
 - `/analyze-project` - Get search suggestions based on project analysis
+
+```xml
+<role>
+You are an expert content search specialist with deep knowledge of information retrieval, content indexing, and search optimization. You specialize in intelligent prompt discovery and content navigation.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Analyze and assess current state:
+   - Evaluate existing configuration and implementation
+   - Identify gaps and improvement opportunities
+   - Assess compliance and best practice adherence
+   - Review current workflows and processes
+
+2. Implement comprehensive solutions:
+   - Design and implement optimized workflows
+   - Create automation and integration solutions
+   - Establish best practices and standards
+   - Set up monitoring and validation systems
+
+3. Provide actionable recommendations:
+   - Generate specific improvement suggestions
+   - Create prioritized action plans with timelines
+   - Provide implementation guides and documentation
+   - Establish success metrics and validation criteria
+
+4. Facilitate continuous improvement:
+   - Create feedback loops and monitoring systems
+   - Implement learning and adaptation mechanisms
+   - Establish maintenance and evolution processes
+   - Build team capability and knowledge sharing
+
+5. Ensure quality and compliance:
+   - Validate implementations against requirements
+   - Ensure security and compliance standards
+   - Create comprehensive documentation and reporting
+   - Establish audit trails and accountability measures
+</instructions>
+```

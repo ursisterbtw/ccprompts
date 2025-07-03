@@ -3,16 +3,19 @@
 This command enables export and sharing of Claude Code configurations, setups, and customizations.
 
 ## Usage
+
 ```
 /export-config [type] [scope] [format]
 ```
 
 ## Parameters
+
 - `type`: full, commands, workflows, settings, prompts, templates
 - `scope`: personal, project, team, organization
 - `format`: zip, tar, json, yaml, portable
 
 ## Examples
+
 ```
 /export-config
 /export-config full project zip
@@ -22,7 +25,9 @@ This command enables export and sharing of Claude Code configurations, setups, a
 ```
 
 ## Description
+
 Comprehensive configuration export and sharing system:
+
 1. Complete Claude Code environment export and backup
 2. Selective export of specific configuration components
 3. Cross-platform portable configuration packages
@@ -33,7 +38,9 @@ Comprehensive configuration export and sharing system:
 ## Export Types
 
 ### Full Configuration Export
+
 Complete Claude Code environment including:
+
 - All custom commands and aliases
 - Workflow definitions and templates
 - Project-specific settings and configurations
@@ -42,6 +49,7 @@ Complete Claude Code environment including:
 - Integration settings and API keys (sanitized)
 
 ### Selective Component Export
+
 - **Commands Only**: Custom command definitions and usage patterns
 - **Workflows Only**: Workflow templates and execution history
 - **Settings Only**: Configuration files and preferences
@@ -51,7 +59,9 @@ Complete Claude Code environment including:
 ## Export Scopes
 
 ### Personal Configuration
+
 Individual developer settings and customizations:
+
 ```
 Personal Claude Code Configuration Export
 ========================================
@@ -85,7 +95,9 @@ Compatibility: Claude Code v1.2.0+
 ```
 
 ### Project Configuration
+
 Project-specific settings and team configurations:
+
 - CLAUDE.md project guidance files
 - Project-specific command definitions
 - Workflow templates tailored to project needs
@@ -93,7 +105,9 @@ Project-specific settings and team configurations:
 - CI/CD integration settings
 
 ### Team Configuration
+
 Shared team standards and workflows:
+
 - Standard command library for team consistency
 - Approved workflow templates and best practices
 - Team coding standards and quality gates
@@ -101,7 +115,9 @@ Shared team standards and workflows:
 - Integration configurations for team tools
 
 ### Organization Configuration
+
 Enterprise-wide standards and compliance:
+
 - Corporate compliance and security templates
 - Organization-wide development standards
 - Approved tool integrations and configurations
@@ -111,6 +127,7 @@ Enterprise-wide standards and compliance:
 ## Export Formats
 
 ### ZIP Archive (.zip)
+
 ```
 claude-config-export-2024-01-15.zip
 ├── README.md                    # Setup instructions
@@ -140,7 +157,9 @@ claude-config-export-2024-01-15.zip
 ```
 
 ### Portable Package (.portable)
+
 Self-contained package with automatic setup:
+
 - Embedded Claude Code version compatibility checker
 - Automatic dependency resolution and installation
 - Interactive setup wizard for first-time users
@@ -148,6 +167,7 @@ Self-contained package with automatic setup:
 - Cross-platform compatibility layer
 
 ### JSON Configuration (.json)
+
 ```json
 {
   "export_metadata": {
@@ -185,7 +205,9 @@ Self-contained package with automatic setup:
 ```
 
 ### YAML Configuration (.yaml)
+
 Human-readable format optimized for version control:
+
 - Comments and documentation embedded
 - Easy diff and merge capabilities
 - Template variable support
@@ -194,6 +216,7 @@ Human-readable format optimized for version control:
 ## Setup and Installation
 
 ### Automated Installation Scripts
+
 Generated scripts for different platforms:
 
 ```bash
@@ -232,6 +255,7 @@ echo "Run 'claude-code --help' to see available commands."
 ```
 
 ### Interactive Setup Wizard
+
 ```
 Claude Code Configuration Setup Wizard
 =====================================
@@ -280,6 +304,7 @@ Installation complete! Run '/help' to see available commands.
 ## Configuration Management
 
 ### Version Control Integration
+
 - Git hooks for automatic configuration backup
 - Configuration change tracking and history
 - Merge conflict resolution for team configurations
@@ -287,6 +312,7 @@ Installation complete! Run '/help' to see available commands.
 - Automated synchronization across team members
 
 ### Configuration Validation
+
 - Compatibility checking with Claude Code versions
 - Dependency validation for workflows and commands
 - Security scanning for sensitive data exposure
@@ -294,6 +320,7 @@ Installation complete! Run '/help' to see available commands.
 - Best practice compliance checking
 
 ### Update Management
+
 - Automatic update notifications for shared configurations
 - Incremental updates with change summaries
 - Rollback capabilities for problematic updates
@@ -303,6 +330,7 @@ Installation complete! Run '/help' to see available commands.
 ## Security and Privacy
 
 ### Data Sanitization
+
 - Automatic removal of sensitive information (API keys, passwords)
 - Environment variable placeholder generation
 - Personal information redaction
@@ -310,6 +338,7 @@ Installation complete! Run '/help' to see available commands.
 - Secure sharing protocols
 
 ### Access Control
+
 - Role-based configuration sharing
 - Encrypted configuration packages
 - Digital signatures for authenticity verification
@@ -319,6 +348,7 @@ Installation complete! Run '/help' to see available commands.
 ## Integration Features
 
 ### Team Collaboration
+
 - Configuration sharing via GitHub/GitLab
 - Team configuration templates and standards
 - Change approval workflows
@@ -326,6 +356,7 @@ Installation complete! Run '/help' to see available commands.
 - Knowledge base integration
 
 ### Enterprise Features
+
 - Central configuration management
 - Policy enforcement and compliance checking
 - Bulk deployment to multiple environments
@@ -333,7 +364,53 @@ Installation complete! Run '/help' to see available commands.
 - Integration with enterprise tools (LDAP, SSO)
 
 ## Related Commands
+
 - `/validate-environment` - Verify configuration after import
 - `/workflow-builder` - Create workflows with imported templates
 - `/prompt-stats` - Analyze usage of imported configurations
 - `/health-check` - Assess configuration effectiveness
+
+```xml
+<role>
+You are an expert configuration management specialist with deep knowledge of configuration formats, deployment automation, and system integration. You specialize in configuration export and sharing workflows.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Analyze and assess current state:
+   - Evaluate existing configuration and implementation
+   - Identify gaps and improvement opportunities
+   - Assess compliance and best practice adherence
+   - Review current workflows and processes
+
+2. Implement comprehensive solutions:
+   - Design and implement optimized workflows
+   - Create automation and integration solutions
+   - Establish best practices and standards
+   - Set up monitoring and validation systems
+
+3. Provide actionable recommendations:
+   - Generate specific improvement suggestions
+   - Create prioritized action plans with timelines
+   - Provide implementation guides and documentation
+   - Establish success metrics and validation criteria
+
+4. Facilitate continuous improvement:
+   - Create feedback loops and monitoring systems
+   - Implement learning and adaptation mechanisms
+   - Establish maintenance and evolution processes
+   - Build team capability and knowledge sharing
+
+5. Ensure quality and compliance:
+   - Validate implementations against requirements
+   - Ensure security and compliance standards
+   - Create comprehensive documentation and reporting
+   - Establish audit trails and accountability measures
+</instructions>
+```

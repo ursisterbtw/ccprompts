@@ -1,6 +1,7 @@
 ## Pull Request Description
 
 ### Type of Change
+
 - [ ] 🐛 Bug fix (non-breaking change which fixes an issue)
 - [ ] ✨ New feature (non-breaking change which adds functionality)
 - [ ] 💥 Breaking change (fix or feature that would cause existing functionality to not work as expected)
@@ -16,7 +17,7 @@
 
 <!-- List any commands or prompts that were added, modified, or removed -->
 
-- [ ] Added new commands: 
+- [ ] Added new commands:
 - [ ] Modified existing commands:
 - [ ] Added new prompts:
 - [ ] Modified existing prompts:
@@ -25,24 +26,28 @@
 ### Quality Checklist
 
 #### Markdown & Documentation
+
 - [ ] All markdown files are properly formatted
 - [ ] Links have been tested and work correctly
 - [ ] Documentation has been updated to reflect changes
 - [ ] New commands include proper descriptions and usage examples
 
 #### Command Structure
+
 - [ ] All new commands follow the established XML structure
 - [ ] Commands include proper `<role>`, `<instructions>`, and output format sections
 - [ ] Usage examples are provided and tested
 - [ ] Commands integrate well with existing ecosystem
 
 #### Configuration & Testing
+
 - [ ] Configuration changes are documented
 - [ ] MCP integration is tested (if applicable)
 - [ ] No hardcoded secrets or sensitive information
 - [ ] All JSON configuration files are valid
 
 #### Prompt Quality
+
 - [ ] Prompts follow safety-first principles
 - [ ] Include verification steps and rollback procedures
 - [ ] Educational value is integrated
@@ -83,6 +88,7 @@
 5. **Ecosystem Integration**: Verify that changes work well with the existing 38-command ecosystem
 
 **Required Checks Before Approval:**
+
 - [ ] All automated checks are passing
 - [ ] Manual testing of affected commands/prompts
 - [ ] Documentation is clear and comprehensive

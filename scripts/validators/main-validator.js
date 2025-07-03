@@ -99,7 +99,9 @@ class MainValidator {
       
       // Run all validators using table-driven approach
       for (const validator of this.validators) {
-        if (!validator.when(filename, content)) continue;
+        if (!validator.when(filename, content)) {
+          continue;
+        }
         
         const result = validator.run(filename, content, fileType);
         const collected = validator.collect(result);

@@ -3,16 +3,19 @@
 This command provides comprehensive troubleshooting and debugging capabilities for Claude Code issues and session problems.
 
 ## Usage
+
 ```
 /debug-session [issue-type] [scope] [verbosity]
 ```
 
 ## Parameters
+
 - `issue-type`: connection, performance, commands, workflows, prompts, tools, mcp
 - `scope`: current-session, environment, configuration, history
 - `verbosity`: basic, detailed, diagnostic, trace
 
 ## Examples
+
 ```
 /debug-session
 /debug-session connection environment detailed
@@ -22,7 +25,9 @@ This command provides comprehensive troubleshooting and debugging capabilities f
 ```
 
 ## Description
+
 Advanced debugging and troubleshooting system for Claude Code:
+
 1. Comprehensive session state analysis and diagnostics
 2. Performance profiling and bottleneck identification
 3. Configuration validation and error detection
@@ -33,6 +38,7 @@ Advanced debugging and troubleshooting system for Claude Code:
 ## Diagnostic Categories
 
 ### Session State Analysis
+
 - **Memory Usage**: Context window utilization and optimization
 - **Tool Permissions**: Available tools and access restrictions
 - **Configuration State**: Current settings and overrides
@@ -41,6 +47,7 @@ Advanced debugging and troubleshooting system for Claude Code:
 - **Error Tracking**: Recent failures and warning patterns
 
 ### Connection Diagnostics
+
 - **Network Connectivity**: Internet and service reachability
 - **Authentication Status**: API keys and token validation
 - **Service Health**: Claude API and related service status
@@ -49,6 +56,7 @@ Advanced debugging and troubleshooting system for Claude Code:
 - **Rate Limiting**: API quota and throttling analysis
 
 ### Tool and MCP Integration
+
 - **Tool Availability**: Installed and accessible tools
 - **MCP Server Status**: Running servers and health checks
 - **Permission Validation**: Tool access and security restrictions
@@ -59,6 +67,7 @@ Advanced debugging and troubleshooting system for Claude Code:
 ## Debug Reports
 
 ### Quick Diagnostic Summary
+
 ```
 Claude Code Debug Report
 ========================
@@ -90,6 +99,7 @@ Recommendations:
 ```
 
 ### Detailed Diagnostic Report
+
 ```
 Detailed Debug Analysis: Connection Issues
 =========================================
@@ -144,6 +154,7 @@ Detailed Debug Analysis: Connection Issues
 ```
 
 ### Performance Profiling
+
 ```
 Performance Analysis Report  
 ==========================
@@ -187,7 +198,9 @@ Command                 │ Total Time │ Network │ Processing │ Tool Exec
 ## Issue Resolution
 
 ### Automated Fixes
+
 Issues that can be resolved automatically:
+
 - Configuration file updates and repairs
 - Permission corrections for accessible files
 - Cache clearing and memory optimization
@@ -195,7 +208,9 @@ Issues that can be resolved automatically:
 - Basic tool installation and updates
 
 ### Guided Resolution
+
 Step-by-step instructions for manual fixes:
+
 - MCP server configuration and troubleshooting
 - Network and firewall configuration
 - Complex permission and access issues
@@ -203,7 +218,9 @@ Step-by-step instructions for manual fixes:
 - Integration setup and authentication
 
 ### External Dependencies
+
 Issues requiring external action:
+
 - System-level permission changes
 - Network infrastructure problems
 - Third-party service outages
@@ -213,6 +230,7 @@ Issues requiring external action:
 ## Common Issues and Solutions
 
 ### Connection Problems
+
 ```
 Issue: MCP Server Connection Failed
 ===================================
@@ -248,6 +266,7 @@ Prevention:
 ```
 
 ### Performance Issues
+
 ```
 Issue: Slow Response Times
 =========================
@@ -280,6 +299,7 @@ Optimization Strategies:
 ```
 
 ### Tool Access Problems
+
 ```
 Issue: Tool Permission Denied
 ============================
@@ -312,18 +332,21 @@ Resolution Steps:
 ## Historical Analysis
 
 ### Issue Pattern Recognition
+
 - Identify recurring problems and their triggers
 - Analyze correlation between issues and system changes
 - Track resolution effectiveness over time
 - Predict potential issues based on usage patterns
 
 ### Performance Trend Analysis
+
 - Monitor performance degradation over time
 - Identify optimal usage patterns and configurations
 - Track improvement from optimization efforts
 - Benchmark against historical performance data
 
 ### Usage Analytics
+
 - Analyze command usage patterns for optimization
 - Identify most problematic operations
 - Track user behavior leading to issues
@@ -332,25 +355,74 @@ Resolution Steps:
 ## Integration Features
 
 ### Logging and Monitoring
+
 - Comprehensive logging of all debug sessions
 - Integration with system monitoring tools
 - Automated alerting for critical issues
 - Performance metrics export for analysis
 
 ### Support Integration
+
 - Generate support tickets with diagnostic data
 - Integration with help desk systems
 - Automated escalation for critical issues
 - Knowledge base integration for common solutions
 
 ### Team Collaboration
+
 - Share debug reports with team members
 - Collaborative troubleshooting workflows
 - Team-wide issue tracking and resolution
 - Best practice sharing for common problems
 
 ## Related Commands
+
 - `/validate-environment` - Proactive environment health checking
 - `/health-check` - Comprehensive project health assessment
 - `/export-config` - Backup configurations before troubleshooting
 - `/prompt-stats` - Analyze usage patterns affecting performance
+
+```xml
+<role>
+You are an expert debugging specialist with deep knowledge of troubleshooting methodologies, diagnostic tools, and problem-solving techniques. You specialize in systematic debugging and issue resolution.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Analyze and assess current state:
+   - Evaluate existing configuration and implementation
+   - Identify gaps and improvement opportunities
+   - Assess compliance and best practice adherence
+   - Review current workflows and processes
+
+2. Implement comprehensive solutions:
+   - Design and implement optimized workflows
+   - Create automation and integration solutions
+   - Establish best practices and standards
+   - Set up monitoring and validation systems
+
+3. Provide actionable recommendations:
+   - Generate specific improvement suggestions
+   - Create prioritized action plans with timelines
+   - Provide implementation guides and documentation
+   - Establish success metrics and validation criteria
+
+4. Facilitate continuous improvement:
+   - Create feedback loops and monitoring systems
+   - Implement learning and adaptation mechanisms
+   - Establish maintenance and evolution processes
+   - Build team capability and knowledge sharing
+
+5. Ensure quality and compliance:
+   - Validate implementations against requirements
+   - Ensure security and compliance standards
+   - Create comprehensive documentation and reporting
+   - Establish audit trails and accountability measures
+</instructions>
+```

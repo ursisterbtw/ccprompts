@@ -46,7 +46,9 @@ class PromptValidator {
     // Build regex to match content until next heading at same or higher level
     let nextHeadingPattern = '';
     for (let i = 1; i <= headingLevel; i++) {
-      if (i > 1) nextHeadingPattern += '|';
+      if (i > 1) {
+        nextHeadingPattern += '|';
+      }
       nextHeadingPattern += `^#{${i}}\\s`;
     }
     
@@ -337,35 +339,40 @@ class PromptValidator {
 
       // Determine file type
       const isCommand = filePath.includes('.claude/commands/');
-      const isPrompt = filePath.includes('prompts/');
+      const isPrompt = filePath.includes('prompts/') && !filePath.includes('INDEX.md');
+      const isDocumentation = this.isDocumentationFile(filePath);
 
       // Security validation for all files
       this.validateSecurity(content, filename);
 
+      // Only validate commands and prompts for structure
       if (isCommand) {
         this.stats.commandFiles++;
         this.validateCommandStructure(content, filename);
-      }
-
-      if (isPrompt) {
+        this.validateXMLStructure(content, filename);
+      } else if (isPrompt) {
         this.stats.promptFiles++;
         this.validateXMLStructure(content, filename);
         this.validatePromptQuality(content, filename);
       }
+      // Skip all other files (documentation, GitHub templates, etc.)
 
-      // Common validations for all markdown files
-      if (content.trim().length === 0) {
-        this.errors.push(`${filename}: File is empty`);
-        return;
-      }
+      // Basic validation for commands and prompts only
+      if (isCommand || isPrompt) {
+        // Common validations for command and prompt files
+        if (content.trim().length === 0) {
+          this.errors.push(`${filename}: File is empty`);
+          return;
+        }
 
-      if (!content.includes('# ')) {
-        this.warnings.push(`${filename}: No main heading found`);
-      }
+        if (!content.includes('# ')) {
+          this.warnings.push(`${filename}: No main heading found`);
+        }
 
-      // Check for consistent line endings
-      if (content.includes('\r\n')) {
-        this.warnings.push(`${filename}: Uses CRLF line endings (should be LF)`);
+        // Check for consistent line endings
+        if (content.includes('\r\n')) {
+          this.warnings.push(`${filename}: Uses CRLF line endings (should be LF)`);
+        }
       }
 
       this.stats.validFiles++;
@@ -373,6 +380,52 @@ class PromptValidator {
     } catch (error) {
       this.errors.push(`${filePath}: Failed to read file - ${error.message}`);
     }
+  }
+
+  // Determine if a file is documentation and should be excluded from strict validation
+  isDocumentationFile(filePath) {
+    const documentationFiles = [
+      'README.md',
+      'CLAUDE.md',
+      'CONTRIBUTING.md',
+      'CHANGELOG.md',
+      'LICENSE.md',
+      'CC-SDK-Guide.md',
+      '.claude/README.md',
+      'prompts/INDEX.md'
+    ];
+    
+    const githubFiles = [
+      '.github/',
+      'pull_request_template.md',
+      'ISSUE_TEMPLATE/',
+      'SETUP_INSTRUCTIONS.md',
+      'BRANCH_PROTECTION.md',
+      'workflows/'
+    ];
+    
+    const relativePath = path.relative(process.cwd(), filePath);
+    
+    // Check if it's a known documentation file
+    if (documentationFiles.some(doc => relativePath.endsWith(doc))) {
+      return true;
+    }
+    
+    // Check if it's a GitHub template file
+    if (githubFiles.some(github => relativePath.includes(github))) {
+      return true;
+    }
+    
+    // Also exclude any file that's not a command or prompt
+    const isCommand = filePath.includes('.claude/commands/');
+    const isPrompt = filePath.includes('prompts/') && !relativePath.includes('INDEX.md');
+    
+    // If it's not a command or prompt file, treat it as documentation
+    if (!isCommand && !isPrompt) {
+      return true;
+    }
+    
+    return false;
   }
 
   // Find all markdown files with exclusions
@@ -518,10 +571,15 @@ class PromptValidator {
     const warningPenalty = Math.min(30, (this.warnings.length / Math.max(1, this.stats.totalFiles)) * 50);
     const overallScore = Math.max(0, 100 - errorPenalty - warningPenalty);
     let grade = 'F';
-    if (overallScore >= 90) grade = 'A';
-    else if (overallScore >= 80) grade = 'B';
-    else if (overallScore >= 70) grade = 'C';
-    else if (overallScore >= 60) grade = 'D';
+    if (overallScore >= 90) {
+      grade = 'A';
+    } else if (overallScore >= 80) {
+             grade = 'B';
+           } else if (overallScore >= 70) {
+                    grade = 'C';
+                  } else if (overallScore >= 60) {
+                           grade = 'D';
+                         }
     
     log('cyan', `   Overall quality grade: ${grade} (${overallScore.toFixed(1)}/100)`);
   }

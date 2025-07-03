@@ -28,8 +28,9 @@
     "node": ">=18.0.0"
   },
   "devDependencies": {
-    "markdownlint-cli": "^0.37.0",
-    "markdown-link-check": "^3.11.2"
+    "markdown-link-check": "^3.11.2",
+    "markdownlint": "^0.38.0",
+    "markdownlint-cli": "^0.37.0"
   },
   "repository": {
     "type": "git",

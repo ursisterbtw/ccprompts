@@ -134,7 +134,9 @@ class StructureValidator {
     // Build regex to match content until next heading at same or higher level
     let nextHeadingPattern = '';
     for (let i = 1; i <= headingLevel; i++) {
-      if (i > 1) nextHeadingPattern += '|';
+      if (i > 1) {
+        nextHeadingPattern += '|';
+      }
       nextHeadingPattern += `^#{${i}}\\s`;
     }
     

@@ -61,12 +61,11 @@ Phase 3: Branching Strategy Implementation
 Phase 4: Commit Message Standardization
 7. Implement Conventional Commits:
    ```
+   [type]([scope]): [subject]
 
-   <type>(<scope>): <subject>
+   [body]
 
-   <body>
-
-   <footer>
+   [footer]
    ```
    Types: feat, fix, docs, style, refactor, test, chore
 

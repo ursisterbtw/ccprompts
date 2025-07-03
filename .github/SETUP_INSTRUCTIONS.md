@@ -2,7 +2,7 @@
 
 Follow these steps to implement the branch protection rules before making the repository public.
 
-## 🚀 Quick Setup (Recommended)
+## 🚀 Quick Setup (Recommended)6
 
 ### 1. Push All Files First
 
@@ -23,6 +23,7 @@ git push origin main
 **Branch name pattern:** `main`
 
 **Protect matching branches:**
+
 - ✅ Require a pull request before merging
   - Required number of reviewers: **1**
   - ✅ Dismiss stale PR approvals when new commits are pushed
@@ -46,6 +47,7 @@ git push origin main
 ### 3. Create develop Branch Protection (Optional)
 
 Repeat the process for `develop` branch with slightly relaxed rules:
+
 - Same as main, but don't require code owner reviews
 - Only require these status checks: `validate-markdown`, `validate-commands`, `validate-config`, `security-scan`
 
@@ -70,7 +72,7 @@ gh api repos/:owner/:repo/branches/main/protection \
     "strict": true,
     "contexts": [
       "validate-markdown",
-      "validate-commands", 
+      "validate-commands",
       "validate-config",
       "security-scan",
       "quality-gates",
@@ -123,7 +125,7 @@ gh pr create --title "Test: Branch Protection Rules" --body "Testing branch prot
 - Go to the PR page on GitHub
 - Verify that all required status checks run:
   - ✅ validate-markdown
-  - ✅ validate-commands  
+  - ✅ validate-commands
   - ✅ validate-config
   - ✅ security-scan
   - ✅ quality-gates
@@ -132,6 +134,7 @@ gh pr create --title "Test: Branch Protection Rules" --body "Testing branch prot
 ### 5. Test Protection Rules
 
 Try to:
+
 - [ ] Merge without approval (should be blocked)
 - [ ] Force push to main (should be blocked)
 - [ ] Push directly to main (should be blocked)
@@ -141,6 +144,7 @@ Try to:
 Before making the repository public, ensure:
 
 ### Repository Settings
+
 - [ ] Repository description is set
 - [ ] Topics/tags are added for discoverability
 - [ ] README.md is comprehensive and up-to-date
@@ -148,18 +152,21 @@ Before making the repository public, ensure:
 - [ ] Repository social preview image is set
 
 ### Security
+
 - [ ] All workflows are tested and passing
 - [ ] No secrets are hardcoded anywhere
 - [ ] .env.example is properly configured
 - [ ] .gitignore excludes sensitive files
 
-### Quality Assurance  
+### Quality Assurance
+
 - [ ] All 38 commands are documented and functional
 - [ ] All prompts follow the established XML structure
 - [ ] Links in documentation are working
 - [ ] MCP configuration is tested
 
 ### Community
+
 - [ ] Contributing guidelines are clear
 - [ ] Issue templates cover common scenarios
 - [ ] Pull request template guides contributors
@@ -168,11 +175,13 @@ Before making the repository public, ensure:
 ## 🔧 Maintenance
 
 ### Regular Tasks
+
 - **Weekly:** Review and update MCP server versions
 - **Monthly:** Security scan and dependency updates
 - **Quarterly:** Review and update branch protection rules
 
 ### Monitoring
+
 - Set up GitHub notifications for:
   - Failed workflow runs
   - Security alerts
@@ -183,15 +192,18 @@ Before making the repository public, ensure:
 ### Common Issues
 
 **"Required status check not found"**
+
 - Wait for the first PR to trigger all workflows
 - Status checks only appear after they run at least once
 
 **"Cannot merge - protection rules"**
+
 - Ensure all required status checks are passing
 - Verify you have the required approvals
 - Check that conversations are resolved
 
 **"Workflow fails on markdown validation"**
+
 - Run `markdownlint` locally first
 - Check for broken links with `markdown-link-check`
 - Validate JSON syntax in configuration files

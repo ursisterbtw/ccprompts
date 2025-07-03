@@ -3,16 +3,19 @@
 This command automates daily standup preparation and facilitates efficient team communication.
 
 ## Usage
+
 ```
 /daily-standup [mode] [scope] [format]
 ```
 
 ## Parameters
+
 - `mode`: prepare, facilitate, summarize, async
 - `scope`: personal, team, project, cross-team
 - `format`: slack, teams, zoom, email, markdown
 
 ## Examples
+
 ```
 /daily-standup prepare personal markdown
 /daily-standup facilitate team slack
@@ -21,7 +24,9 @@ This command automates daily standup preparation and facilitates efficient team 
 ```
 
 ## Description
+
 Comprehensive daily standup automation and facilitation system:
+
 1. Automated preparation of standup updates and progress summaries
 2. Intelligent blocking issue identification and resolution suggestions
 3. Goal tracking and progress visualization
@@ -32,6 +37,7 @@ Comprehensive daily standup automation and facilitation system:
 ## Standup Preparation
 
 ### Automated Update Generation
+
 ```
 Personal Standup Update - January 15, 2024
 ==========================================
@@ -72,6 +78,7 @@ Personal Standup Update - January 15, 2024
 ```
 
 ### Intelligent Blocking Detection
+
 ```python
 # Automated Blocker Detection
 blocking_patterns = {
@@ -120,6 +127,7 @@ blocking_patterns = {
 ```
 
 ### Progress Tracking
+
 - **Sprint Goal Alignment**: Track progress toward sprint objectives
 - **Story Point Completion**: Visualize work completed vs. planned
 - **Velocity Tracking**: Historical velocity comparison and trends
@@ -129,6 +137,7 @@ blocking_patterns = {
 ## Team Facilitation
 
 ### Automated Standup Facilitation
+
 ```
 Daily Standup Facilitation - Dev Team Alpha
 ==========================================
@@ -178,6 +187,7 @@ Daily Standup Facilitation - Dev Team Alpha
 ```
 
 ### Cross-Team Coordination
+
 ```
 Cross-Team Standup Summary
 =========================
@@ -210,6 +220,7 @@ Cross-Team Standup Summary
 ## Asynchronous Standup Support
 
 ### Distributed Team Management
+
 ```
 Async Standup - Global Development Team
 ======================================
@@ -252,6 +263,7 @@ Team members post updates when starting their day:
 ```
 
 ### Follow-up Automation
+
 ```yaml
 # Automated Follow-up Configuration
 async_standup:
@@ -281,6 +293,7 @@ async_standup:
 ## Progress Visualization
 
 ### Sprint Dashboard
+
 ```
 Sprint 23 Dashboard - Week 2 of 2
 =================================
@@ -320,6 +333,7 @@ Sprint 23 Dashboard - Week 2 of 2
 ```
 
 ### Team Health Metrics
+
 ```
 Team Health & Engagement Metrics
 ================================
@@ -352,6 +366,7 @@ Team Health & Engagement Metrics
 ## Integration Features
 
 ### Communication Platform Integration
+
 ```typescript
 // Slack Integration Example
 const slackIntegration = {
@@ -377,6 +392,7 @@ const slackIntegration = {
 ```
 
 ### Project Management Integration
+
 - **Jira**: Automatic story point tracking and velocity calculation
 - **Azure DevOps**: Work item status and progress reporting
 - **Asana**: Task completion and milestone tracking
@@ -384,6 +400,7 @@ const slackIntegration = {
 - **GitHub**: PR status, issue tracking, and milestone progress
 
 ### Calendar Integration
+
 - **Google Calendar**: Automatic meeting scheduling and reminders
 - **Outlook**: Team availability and meeting coordination
 - **Calendly**: Flexible scheduling for cross-timezone teams
@@ -393,6 +410,7 @@ const slackIntegration = {
 ## Analytics and Insights
 
 ### Team Performance Analytics
+
 ```python
 # Standup Analytics Dashboard
 analytics_metrics = {
@@ -419,6 +437,7 @@ analytics_metrics = {
 ```
 
 ### Predictive Analytics
+
 - **Blocker Prediction**: AI-powered identification of potential blockers
 - **Velocity Forecasting**: Sprint completion probability calculation
 - **Risk Assessment**: Early warning system for project delays
@@ -428,6 +447,7 @@ analytics_metrics = {
 ## Customization Options
 
 ### Team-Specific Templates
+
 ```yaml
 # Team Configuration Example
 team_config:
@@ -460,6 +480,7 @@ team_config:
 ```
 
 ### Custom Workflows
+
 - **Retrospective Integration**: Connect standup insights to retrospectives
 - **Performance Reviews**: Use standup data for performance evaluation
 - **Capacity Planning**: Historical data for future sprint planning
@@ -467,8 +488,54 @@ team_config:
 - **Process Improvement**: Continuous optimization based on metrics
 
 ## Related Commands
+
 - `/code-review` - Code review automation and quality gates
 - `/incident-response` - Handle production issues and blockers
 - `/workflow-builder` - Create custom standup workflows
 - `/prompt-stats` - Analyze standup effectiveness and improvements
 - `/health-check` - Team and project health assessment
+
+```xml
+<role>
+You are an expert agile coach with deep knowledge of team coordination, communication facilitation, and daily standup optimization. You specialize in efficient team coordination and progress tracking.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Analyze and assess current state:
+   - Evaluate existing configuration and implementation
+   - Identify gaps and improvement opportunities
+   - Assess compliance and best practice adherence
+   - Review current workflows and processes
+
+2. Implement comprehensive solutions:
+   - Design and implement optimized workflows
+   - Create automation and integration solutions
+   - Establish best practices and standards
+   - Set up monitoring and validation systems
+
+3. Provide actionable recommendations:
+   - Generate specific improvement suggestions
+   - Create prioritized action plans with timelines
+   - Provide implementation guides and documentation
+   - Establish success metrics and validation criteria
+
+4. Facilitate continuous improvement:
+   - Create feedback loops and monitoring systems
+   - Implement learning and adaptation mechanisms
+   - Establish maintenance and evolution processes
+   - Build team capability and knowledge sharing
+
+5. Ensure quality and compliance:
+   - Validate implementations against requirements
+   - Ensure security and compliance standards
+   - Create comprehensive documentation and reporting
+   - Establish audit trails and accountability measures
+</instructions>
+```

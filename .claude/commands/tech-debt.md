@@ -3,16 +3,19 @@
 This command provides comprehensive technical debt management with automated detection, prioritization, and resolution tracking.
 
 ## Usage
+
 ```
 /tech-debt [action] [scope] [priority]
 ```
 
 ## Parameters
+
 - `action`: assess, prioritize, plan, track, resolve, report
 - `scope`: file, module, service, full-codebase, architecture
 - `priority`: critical, high, medium, low, all
 
 ## Examples
+
 ```
 /tech-debt assess full-codebase all
 /tech-debt prioritize service high
@@ -22,7 +25,9 @@ This command provides comprehensive technical debt management with automated det
 ```
 
 ## Description
+
 Comprehensive technical debt management and resolution system:
+
 1. Automated technical debt detection and quantification
 2. ROI-based prioritization and impact analysis
 3. Strategic debt reduction planning and execution
@@ -33,6 +38,7 @@ Comprehensive technical debt management and resolution system:
 ## Technical Debt Assessment
 
 ### Automated Detection
+
 ```python
 # Technical Debt Analysis Results
 tech_debt_analysis = {
@@ -42,7 +48,7 @@ tech_debt_analysis = {
         "estimated_resolution_time": "156 hours",
         "business_impact": "High"
     },
-    
+
     "debt_categories": {
         "code_quality": {
             "score": 78,
@@ -50,35 +56,35 @@ tech_debt_analysis = {
             "time_to_fix": "45 hours",
             "examples": ["complex functions", "code duplication", "naming issues"]
         },
-        
+
         "architecture": {
             "score": 65,
             "issues": 12,
-            "time_to_fix": "89 hours", 
+            "time_to_fix": "89 hours",
             "examples": ["tight coupling", "circular dependencies", "monolithic components"]
         },
-        
+
         "documentation": {
             "score": 82,
             "issues": 67,
             "time_to_fix": "22 hours",
             "examples": ["missing API docs", "outdated comments", "no ADRs"]
         },
-        
+
         "testing": {
             "score": 71,
             "issues": 89,
             "time_to_fix": "34 hours",
             "examples": ["low coverage", "brittle tests", "no integration tests"]
         },
-        
+
         "security": {
             "score": 85,
             "issues": 23,
             "time_to_fix": "18 hours",
             "examples": ["outdated dependencies", "weak crypto", "missing validation"]
         },
-        
+
         "performance": {
             "score": 69,
             "issues": 45,
@@ -90,6 +96,7 @@ tech_debt_analysis = {
 ```
 
 ### Quantification Metrics
+
 ```
 Technical Debt Quantification Report
 ===================================
@@ -110,7 +117,7 @@ Authentication Service:
 ├── Priority: Critical
 
 Payment Processing:
-├── Debt Ratio: 28% 
+├── Debt Ratio: 28%
 ├── Primary Issues: No error handling, tight coupling to external APIs
 ├── Estimated Fix Time: 42 hours
 ├── Business Impact: Critical (revenue impact)
@@ -145,6 +152,7 @@ Admin Panel:
 ```
 
 ### Code Quality Analysis
+
 ```
 Code Quality Deep Dive
 ======================
@@ -203,6 +211,7 @@ Database Connection Boilerplate:
 ## Prioritization Framework
 
 ### ROI-Based Prioritization
+
 ```
 Technical Debt ROI Analysis
 ==========================
@@ -257,6 +266,7 @@ Low Priority (Low Impact or High Effort):
 ```
 
 ### Risk Assessment
+
 ```
 Technical Debt Risk Analysis
 ===========================
@@ -303,6 +313,7 @@ Compliance Risk (Risk Score: 5.2/10):
 ## Debt Resolution Planning
 
 ### Strategic Debt Reduction Plan
+
 ```
 6-Month Technical Debt Reduction Roadmap
 =======================================
@@ -360,6 +371,7 @@ Month 6: Long-term Maintenance (Focus: Prevention)
 ```
 
 ### Sprint Integration Strategy
+
 ```
 Technical Debt Integration with Feature Development
 ==================================================
@@ -398,6 +410,7 @@ Sprint 24 Example Integration:
 ## Monitoring and Prevention
 
 ### Continuous Debt Monitoring
+
 ```python
 # Technical Debt Monitoring Dashboard
 debt_monitoring = {
@@ -407,7 +420,7 @@ debt_monitoring = {
         "net_debt_change": -0.5,     # improvement
         "debt_velocity": "improving"
     },
-    
+
     "quality_gates": {
         "cyclomatic_complexity": {
             "threshold": 10,
@@ -425,7 +438,7 @@ debt_monitoring = {
             "trend": "stable"
         }
     },
-    
+
     "architectural_health": {
         "coupling_score": 6.8,      # out of 10
         "cohesion_score": 7.2,     # out of 10
@@ -436,6 +449,7 @@ debt_monitoring = {
 ```
 
 ### Automated Prevention
+
 ```yaml
 # Debt Prevention Automation
 prevention_rules:
@@ -444,18 +458,18 @@ prevention_rules:
     - duplication_check: "warn if duplicate code > 6 lines"
     - test_coverage: "require 80% coverage for new code"
     - documentation: "require docstrings for public APIs"
-    
+
   ci_cd_gates:
     - code_quality_score: "minimum 7.5/10"
     - security_scan: "no high severity vulnerabilities"
     - performance_regression: "no response time increase > 10%"
     - dependency_audit: "no known vulnerabilities"
-    
+
   automated_refactoring:
     - import_organization: "auto-organize imports on save"
     - code_formatting: "auto-format with prettier/black"
     - simple_refactoring: "auto-extract constants and simple functions"
-    
+
   monitoring_alerts:
     - debt_accumulation: "alert if debt ratio increases > 2% in week"
     - complexity_increase: "alert if average complexity > threshold"
@@ -464,6 +478,7 @@ prevention_rules:
 ```
 
 ### Team Education and Culture
+
 ```
 Technical Debt Education Program
 ===============================
@@ -512,6 +527,7 @@ Sprint Planning Integration:
 ## Reporting and Analytics
 
 ### Executive Reporting
+
 ```
 Technical Debt Executive Summary
 ===============================
@@ -554,6 +570,7 @@ Technical Debt Executive Summary
 ```
 
 ### Team Performance Impact
+
 ```python
 # Debt Impact on Team Metrics
 team_impact_analysis = {
@@ -562,19 +579,19 @@ team_impact_analysis = {
         "low_debt_periods": {"avg_velocity": 18.7, "confidence": 0.89},
         "improvement_potential": "32% velocity increase"
     },
-    
+
     "quality_correlation": {
         "bug_rate_high_debt": 3.4,  # bugs per story point
         "bug_rate_low_debt": 1.2,   # bugs per story point
         "quality_improvement": "183% fewer bugs"
     },
-    
+
     "team_satisfaction": {
         "high_debt_satisfaction": 6.2,  # out of 10
         "low_debt_satisfaction": 8.1,   # out of 10
         "morale_impact": "31% higher satisfaction"
     },
-    
+
     "onboarding_efficiency": {
         "high_debt_ramp_time": 8.5,  # weeks to productivity
         "low_debt_ramp_time": 5.2,   # weeks to productivity
@@ -586,6 +603,7 @@ team_impact_analysis = {
 ## Integration Features
 
 ### Development Workflow Integration
+
 ```bash
 # Git Hook Integration
 # .git/hooks/pre-commit
@@ -607,6 +625,7 @@ exit 0
 ```
 
 ### CI/CD Pipeline Integration
+
 ```yaml
 # GitHub Actions Workflow
 name: Technical Debt Monitoring
@@ -617,21 +636,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Analyze Technical Debt
         run: |
           claude-code /tech-debt assess full-codebase all
-          
+
       - name: Update Debt Dashboard
         run: |
           claude-code /tech-debt report full-codebase all
-          
+
       - name: Check Debt Thresholds
         run: |
           claude-code /tech-debt track full-codebase critical
 ```
 
 ### Project Management Integration
+
 - **Jira Integration**: Automatic debt story creation and tracking
 - **Azure DevOps**: Work item generation for debt reduction tasks
 - **GitHub Issues**: Debt issue templates and automated labeling
@@ -639,8 +659,54 @@ jobs:
 - **Slack**: Debt threshold alerts and team notifications
 
 ## Related Commands
+
 - `/code-review` - Identify debt during review process
 - `/sprint-planning` - Integrate debt work into sprint planning
 - `/audit-security` - Focus on security-related technical debt
 - `/optimize` - Performance debt identification and resolution
 - `/health-check` - Overall system health including debt assessment
+
+```xml
+<role>
+You are an expert technical debt analyst with deep knowledge of code quality metrics, refactoring strategies, and technical debt quantification. You specialize in identifying and prioritizing technical debt remediation.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Analyze and assess current state:
+   - Evaluate existing configuration and implementation
+   - Identify gaps and improvement opportunities
+   - Assess compliance and best practice adherence
+   - Review current workflows and processes
+
+2. Implement comprehensive solutions:
+   - Design and implement optimized workflows
+   - Create automation and integration solutions
+   - Establish best practices and standards
+   - Set up monitoring and validation systems
+
+3. Provide actionable recommendations:
+   - Generate specific improvement suggestions
+   - Create prioritized action plans with timelines
+   - Provide implementation guides and documentation
+   - Establish success metrics and validation criteria
+
+4. Facilitate continuous improvement:
+   - Create feedback loops and monitoring systems
+   - Implement learning and adaptation mechanisms
+   - Establish maintenance and evolution processes
+   - Build team capability and knowledge sharing
+
+5. Ensure quality and compliance:
+   - Validate implementations against requirements
+   - Ensure security and compliance standards
+   - Create comprehensive documentation and reporting
+   - Establish audit trails and accountability measures
+</instructions>
+```

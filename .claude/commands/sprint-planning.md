@@ -3,16 +3,19 @@
 This command automates comprehensive sprint planning with intelligent capacity management and goal optimization.
 
 ## Usage
+
 ```
 /sprint-planning [phase] [team] [duration]
 ```
 
 ## Parameters
+
 - `phase`: preparation, estimation, planning, commitment, retrospective
 - `team`: current-team, cross-team, program-level, custom-team
 - `duration`: 1-week, 2-week, 3-week, 4-week
 
 ## Examples
+
 ```
 /sprint-planning preparation current-team 2-week
 /sprint-planning estimation cross-team 3-week
@@ -21,7 +24,9 @@ This command automates comprehensive sprint planning with intelligent capacity m
 ```
 
 ## Description
+
 Comprehensive sprint planning automation and optimization system:
+
 1. Intelligent backlog prioritization and story point estimation
 2. Team capacity analysis and velocity-based planning
 3. Goal setting and dependency management
@@ -32,6 +37,7 @@ Comprehensive sprint planning automation and optimization system:
 ## Planning Phases
 
 ### Preparation Phase
+
 ```
 Sprint Planning Preparation - Sprint 24
 ======================================
@@ -71,6 +77,7 @@ Sprint Planning Preparation - Sprint 24
 ```
 
 ### Estimation Phase
+
 ```
 Story Point Estimation Session
 ==============================
@@ -124,6 +131,7 @@ Story Point Estimation Session
 ```
 
 ### Planning Phase
+
 ```
 Sprint 24 Planning Session Results
 =================================
@@ -199,6 +207,7 @@ Day 9-10: Polish and Documentation
 ```
 
 ### Commitment Phase
+
 ```
 Sprint 24 Final Commitment
 =========================
@@ -261,6 +270,7 @@ David Kim (Frontend Engineer):
 ## Intelligent Planning Features
 
 ### Velocity-Based Forecasting
+
 ```python
 # Sprint Planning AI Analytics
 velocity_analysis = {
@@ -290,6 +300,7 @@ velocity_analysis = {
 ```
 
 ### Intelligent Story Prioritization
+
 ```
 AI-Powered Backlog Prioritization
 =================================
@@ -339,6 +350,7 @@ Rank 3: PERF-167 (Database Query Optimization)
 ```
 
 ### Cross-Team Coordination
+
 ```
 Program-Level Sprint Planning
 ============================
@@ -389,6 +401,7 @@ Program-Level Sprint Planning
 ## Automated Documentation
 
 ### Sprint Planning Artifacts
+
 ```yaml
 # Auto-Generated Sprint Documentation
 sprint_artifacts:
@@ -426,6 +439,7 @@ sprint_artifacts:
 ```
 
 ### Automated Communication
+
 ```
 Sprint 24 Kickoff Communication
 ==============================
@@ -491,6 +505,7 @@ Next update: Wednesday sprint review
 ## Analytics and Optimization
 
 ### Sprint Performance Tracking
+
 ```
 Sprint Planning Effectiveness Analysis
 =====================================
@@ -527,6 +542,7 @@ Sprint Planning Effectiveness Analysis
 ```
 
 ### Team Development Metrics
+
 ```python
 # Team Growth and Learning Analytics
 team_development = {
@@ -566,6 +582,7 @@ team_development = {
 ## Integration Features
 
 ### Agile Tool Integration
+
 ```yaml
 # Integration Configuration
 integrations:
@@ -598,6 +615,7 @@ integrations:
 ```
 
 ### Calendar and Resource Management
+
 - **Google Calendar**: Automatic sprint ceremony scheduling
 - **Outlook**: Team availability and capacity planning
 - **Resource Planning**: Skills matrix and allocation optimization
@@ -605,8 +623,54 @@ integrations:
 - **Performance Tracking**: Individual and team growth metrics
 
 ## Related Commands
+
 - `/daily-standup` - Track daily progress against sprint commitments
 - `/code-review` - Ensure quality standards during sprint development
 - `/release-notes` - Prepare release communication for sprint deliverables
 - `/incident-response` - Handle production issues that impact sprint work
 - `/workflow-builder` - Create custom sprint processes and automation
+
+```xml
+<role>
+You are an expert agile project manager with deep knowledge of sprint planning, team coordination, and project management methodologies. You specialize in efficient sprint planning and team productivity optimization.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Analyze and assess current state:
+   - Evaluate existing configuration and implementation
+   - Identify gaps and improvement opportunities
+   - Assess compliance and best practice adherence
+   - Review current workflows and processes
+
+2. Implement comprehensive solutions:
+   - Design and implement optimized workflows
+   - Create automation and integration solutions
+   - Establish best practices and standards
+   - Set up monitoring and validation systems
+
+3. Provide actionable recommendations:
+   - Generate specific improvement suggestions
+   - Create prioritized action plans with timelines
+   - Provide implementation guides and documentation
+   - Establish success metrics and validation criteria
+
+4. Facilitate continuous improvement:
+   - Create feedback loops and monitoring systems
+   - Implement learning and adaptation mechanisms
+   - Establish maintenance and evolution processes
+   - Build team capability and knowledge sharing
+
+5. Ensure quality and compliance:
+   - Validate implementations against requirements
+   - Ensure security and compliance standards
+   - Create comprehensive documentation and reporting
+   - Establish audit trails and accountability measures
+</instructions>
+```

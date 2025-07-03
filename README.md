@@ -1,11 +1,5 @@
 # Claude Code Command Ecosystem
 
-<!-- markdownlint-disable MD033 -->
-<div align="center">
-  <img src="assets/ccprompts.svg" alt="ccprompts - Claude Code Command Ecosystem" width="800" height="300">
-</div>
-<!-- markdownlint-enable MD033 -->
-
 A comprehensive collection of **38 production-ready Claude Code commands** that transform development workflows through AI-powered automation, intelligent analysis, and continuous learning integration.
 
 ## 🚀 Complete Command Ecosystem
@@ -137,8 +131,6 @@ ccprompts/
 │   ├── commands/                     # All 38 slash commands for instant access
 │   ├── workflows/                    # Automated multi-command workflows
 │   └── config.json                   # Enterprise-grade configuration
-├── assets/                           # Visual assets and diagrams
-│   └── ccprompts.svg                 # Animated ecosystem visualization
 ├── README.md                         # This comprehensive guide
 ├── CLAUDE.md                         # Project-specific guidance for Claude Code
 └── CC-SDK-Guide.md                   # Advanced Claude Code SDK reference

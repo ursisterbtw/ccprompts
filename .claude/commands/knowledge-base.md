@@ -1,21 +1,25 @@
 # Knowledge Base Management Command
 
 ## Usage
+
 ```
 /knowledge-base [action] [scope] [format]
 ```
 
 ## Parameters
+
 - **action**: create, update, search, organize, archive, analyze, extract, sync, backup, audit
 - **scope**: project, team, organization, department, external
 - **format**: wiki, markdown, confluence, notion, sphinx, gitbook, mdbook, docusaurus
 
 ## Description
+
 Comprehensive knowledge base management system that creates, maintains, and organizes organizational knowledge across multiple formats and platforms. Handles automated content extraction, intelligent organization, and team collaboration workflows.
 
 ## Examples
 
 ### Create New Knowledge Base
+
 ```
 /knowledge-base create project markdown
 /knowledge-base create team confluence
@@ -23,6 +27,7 @@ Comprehensive knowledge base management system that creates, maintains, and orga
 ```
 
 ### Update and Maintain
+
 ```
 /knowledge-base update project wiki
 /knowledge-base sync team confluence
@@ -30,6 +35,7 @@ Comprehensive knowledge base management system that creates, maintains, and orga
 ```
 
 ### Search and Discovery
+
 ```
 /knowledge-base search project "authentication patterns"
 /knowledge-base analyze team "knowledge gaps"
@@ -37,6 +43,7 @@ Comprehensive knowledge base management system that creates, maintains, and orga
 ```
 
 ### Maintenance Operations
+
 ```
 /knowledge-base archive project "deprecated-apis"
 /knowledge-base audit team "outdated-content"
@@ -53,6 +60,7 @@ You are an Expert Knowledge Management Architect specializing in organizational 
 ACTIVATE when user requests knowledge base management with `/knowledge-base [action] [scope] [format]`
 
 AUTOMATICALLY DETECT:
+
 - Existing documentation and knowledge assets
 - Knowledge gaps and missing information
 - Content organization patterns
@@ -65,6 +73,7 @@ AUTOMATICALLY DETECT:
 ## Phase 1: Knowledge Base Analysis
 
 ### Current State Assessment
+
 ```bash
 # Analyze existing knowledge assets
 find . -name "*.md" -o -name "*.rst" -o -name "*.txt" | head -20
@@ -75,6 +84,7 @@ find . -name "wiki" -type d
 ```
 
 ### Documentation Inventory
+
 - Scan for existing documentation files
 - Identify knowledge silos and scattered information
 - Analyze content quality and consistency
@@ -82,6 +92,7 @@ find . -name "wiki" -type d
 - Assess team knowledge-sharing patterns
 
 ### Content Classification
+
 - Technical documentation (APIs, architecture, code)
 - Process documentation (workflows, procedures)
 - Onboarding materials (getting started, tutorials)
@@ -92,6 +103,7 @@ find . -name "wiki" -type d
 ## Phase 2: Knowledge Base Design
 
 ### Information Architecture
+
 ```markdown
 # Knowledge Base Structure
 knowledge-base/
@@ -138,6 +150,7 @@ knowledge-base/
 ```
 
 ### Content Standards
+
 - Consistent formatting and structure
 - Clear navigation and cross-references
 - Searchable tags and categories
@@ -147,6 +160,7 @@ knowledge-base/
 ## Phase 3: Automated Content Extraction
 
 ### Code Documentation Extraction
+
 ```python
 import ast
 import re
@@ -161,7 +175,7 @@ def extract_code_knowledge():
         'dependencies': [],
         'patterns': []
     }
-    
+
     for file_path in Path('.').rglob('*.py'):
         with open(file_path, 'r') as f:
             try:
@@ -177,11 +191,12 @@ def extract_code_knowledge():
                         })
             except SyntaxError:
                 continue
-    
+
     return knowledge
 ```
 
 ### Documentation Mining
+
 - Extract inline comments and docstrings
 - Parse README files and changelogs
 - Identify configuration patterns
@@ -189,6 +204,7 @@ def extract_code_knowledge():
 - Mine commit messages for context
 
 ### Knowledge Gap Analysis
+
 - Compare code complexity vs documentation coverage
 - Identify undocumented critical paths
 - Find missing onboarding materials
@@ -198,6 +214,7 @@ def extract_code_knowledge():
 ## Phase 4: Content Organization
 
 ### Intelligent Categorization
+
 ```python
 def categorize_content(content):
     """Automatically categorize content by type and topic"""
@@ -209,19 +226,20 @@ def categorize_content(content):
         'troubleshooting': ['error', 'issue', 'problem', 'fix'],
         'best-practices': ['standard', 'guideline', 'convention', 'policy']
     }
-    
+
     # NLP-based categorization logic
     content_lower = content.lower()
     scores = {}
-    
+
     for category, keywords in categories.items():
         score = sum(1 for keyword in keywords if keyword in content_lower)
         scores[category] = score
-    
+
     return max(scores, key=scores.get)
 ```
 
 ### Content Relationships
+
 - Link related topics and concepts
 - Create cross-references and see-also sections
 - Build topic hierarchies and taxonomies
@@ -229,6 +247,7 @@ def categorize_content(content):
 - Map learning paths and progressions
 
 ### Metadata Management
+
 ```yaml
 # Knowledge Base Metadata
 title: "API Authentication Guide"
@@ -245,6 +264,7 @@ prerequisites: ["basic-api-knowledge"]
 ## Phase 5: Search and Discovery
 
 ### Full-Text Search Implementation
+
 ```javascript
 // Search functionality
 class KnowledgeBaseSearch {
@@ -252,7 +272,7 @@ class KnowledgeBaseSearch {
         this.documents = documents;
         this.index = this.buildIndex();
     }
-    
+
     buildIndex() {
         // Build inverted index for fast searching
         const index = {};
@@ -265,23 +285,24 @@ class KnowledgeBaseSearch {
         });
         return index;
     }
-    
+
     search(query) {
         const words = query.toLowerCase().split(/\W+/);
         const results = new Set();
-        
+
         words.forEach(word => {
             if (this.index[word]) {
                 this.index[word].forEach(docId => results.add(docId));
             }
         });
-        
+
         return Array.from(results).map(id => this.documents[id]);
     }
 }
 ```
 
 ### Smart Recommendations
+
 - Suggest related content based on current viewing
 - Recommend next steps in learning paths
 - Identify frequently accessed together content
@@ -289,6 +310,7 @@ class KnowledgeBaseSearch {
 - Provide contextual help and guidance
 
 ### Discovery Workflows
+
 - New employee onboarding paths
 - Feature-specific documentation trails
 - Troubleshooting decision trees
@@ -298,6 +320,7 @@ class KnowledgeBaseSearch {
 ## Phase 6: Team Collaboration
 
 ### Knowledge Sharing Workflows
+
 ```markdown
 # Knowledge Contribution Workflow
 1. **Identify Knowledge Gap**
@@ -327,6 +350,7 @@ class KnowledgeBaseSearch {
 ```
 
 ### Collaborative Editing
+
 - Real-time editing capabilities
 - Comment and suggestion systems
 - Version control and change tracking
@@ -334,6 +358,7 @@ class KnowledgeBaseSearch {
 - Integration with team communication tools
 
 ### Knowledge Ownership
+
 - Assign content owners and maintainers
 - Define review responsibilities
 - Set update schedules and reminders
@@ -343,23 +368,24 @@ class KnowledgeBaseSearch {
 ## Phase 7: Platform Integration
 
 ### Multiple Format Support
+
 ```python
 class KnowledgeBaseExporter:
     def export_to_confluence(self, content):
         """Export to Confluence format"""
         # Convert markdown to Confluence storage format
         pass
-    
+
     def export_to_notion(self, content):
         """Export to Notion format"""
         # Convert to Notion blocks
         pass
-    
+
     def export_to_wiki(self, content):
         """Export to MediaWiki format"""
         # Convert to wiki markup
         pass
-    
+
     def export_to_sphinx(self, content):
         """Export to Sphinx/reStructuredText"""
         # Convert to .rst format
@@ -367,6 +393,7 @@ class KnowledgeBaseExporter:
 ```
 
 ### API Integration
+
 - Connect with team collaboration tools
 - Sync with project management systems
 - Integrate with code repositories
@@ -374,6 +401,7 @@ class KnowledgeBaseExporter:
 - Connect with learning management platforms
 
 ### Cross-Platform Synchronization
+
 - Maintain consistency across platforms
 - Handle format-specific features
 - Manage access controls and permissions
@@ -383,30 +411,32 @@ class KnowledgeBaseExporter:
 ## Phase 8: Maintenance and Analytics
 
 ### Content Health Monitoring
+
 ```python
 def audit_knowledge_base():
     """Audit knowledge base for quality and completeness"""
     issues = []
-    
+
     # Check for outdated content
     for doc in get_all_documents():
         if doc.last_updated < (datetime.now() - timedelta(days=90)):
             issues.append(f"Outdated: {doc.title}")
-    
+
     # Check for broken links
     for link in extract_all_links():
         if not link_exists(link):
             issues.append(f"Broken link: {link}")
-    
+
     # Check for missing mandatory sections
     for doc in get_all_documents():
         if not has_required_sections(doc):
             issues.append(f"Missing sections: {doc.title}")
-    
+
     return issues
 ```
 
 ### Usage Analytics
+
 - Track content access patterns
 - Identify popular and unused content
 - Measure search success rates
@@ -414,6 +444,7 @@ def audit_knowledge_base():
 - Monitor team engagement levels
 
 ### Continuous Improvement
+
 - Regular content audits and cleanup
 - Feedback collection and analysis
 - Performance optimization
@@ -423,6 +454,7 @@ def audit_knowledge_base():
 ## Phase 9: Onboarding and Training
 
 ### Automated Onboarding
+
 ```markdown
 # New Team Member Onboarding
 ## Week 1: Foundations
@@ -445,6 +477,7 @@ def audit_knowledge_base():
 ```
 
 ### Training Materials
+
 - Interactive tutorials and guides
 - Video walkthroughs and demos
 - Hands-on exercises and labs
@@ -452,6 +485,7 @@ def audit_knowledge_base():
 - Mentorship and buddy programs
 
 ### Knowledge Validation
+
 - Quiz and assessment creation
 - Competency tracking and verification
 - Skill gap identification
@@ -461,6 +495,7 @@ def audit_knowledge_base():
 ## Phase 10: Advanced Features
 
 ### AI-Powered Enhancements
+
 - Natural language search and queries
 - Automated content summarization
 - Intelligent content suggestions
@@ -468,6 +503,7 @@ def audit_knowledge_base():
 - Conversational knowledge interface
 
 ### Integration Ecosystem
+
 - Slack/Teams bot integration
 - IDE plugins and extensions
 - CI/CD pipeline integration
@@ -475,6 +511,7 @@ def audit_knowledge_base():
 - Learning management systems
 
 ### Enterprise Features
+
 - Single sign-on integration
 - Advanced access controls
 - Compliance and audit trails
@@ -484,6 +521,7 @@ def audit_knowledge_base():
 ## Implementation Checklist
 
 ### Initial Setup
+
 - [ ] Analyze existing knowledge assets
 - [ ] Design information architecture
 - [ ] Choose primary knowledge base platform
@@ -491,6 +529,7 @@ def audit_knowledge_base():
 - [ ] Define content standards and templates
 
 ### Content Migration
+
 - [ ] Extract existing documentation
 - [ ] Categorize and organize content
 - [ ] Update and improve content quality
@@ -498,6 +537,7 @@ def audit_knowledge_base():
 - [ ] Migrate to new platform
 
 ### Team Enablement
+
 - [ ] Train team on knowledge base usage
 - [ ] Establish contribution workflows
 - [ ] Set up review and approval processes
@@ -505,6 +545,7 @@ def audit_knowledge_base():
 - [ ] Implement feedback mechanisms
 
 ### Continuous Improvement
+
 - [ ] Monitor usage and engagement
 - [ ] Collect user feedback
 - [ ] Perform regular content audits
@@ -514,6 +555,7 @@ def audit_knowledge_base():
 ## Best Practices
 
 ### Content Quality
+
 - Write for your audience's skill level
 - Use clear, concise language
 - Include practical examples
@@ -521,6 +563,7 @@ def audit_knowledge_base():
 - Regular review and updates
 
 ### Information Architecture
+
 - Logical organization and navigation
 - Clear categorization and tagging
 - Effective search capabilities
@@ -528,6 +571,7 @@ def audit_knowledge_base():
 - Progressive disclosure of information
 
 ### Team Adoption
+
 - Make contribution easy and rewarding
 - Integrate with existing workflows
 - Provide training and support
@@ -535,6 +579,7 @@ def audit_knowledge_base():
 - Lead by example
 
 ### Maintenance Strategy
+
 - Regular content audits
 - Automated quality checks
 - User feedback integration
@@ -587,6 +632,7 @@ Include specific file paths, configuration examples, and integration patterns fo
 ## Integration Commands
 
 This command works seamlessly with:
+
 - `/document` - Generate specific documentation
 - `/analyze-project` - Assess knowledge needs
 - `/git` - Version control for knowledge base

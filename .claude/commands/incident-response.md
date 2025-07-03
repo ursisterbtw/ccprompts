@@ -3,16 +3,19 @@
 This command provides structured incident response workflows for production issues and system failures.
 
 ## Usage
+
 ```
 /incident-response [severity] [type] [environment]
 ```
 
 ## Parameters
+
 - `severity`: critical, high, medium, low
 - `type`: outage, security, performance, data, integration
 - `environment`: production, staging, development, all
 
 ## Examples
+
 ```
 /incident-response critical outage production
 /incident-response high security production
@@ -21,7 +24,9 @@ This command provides structured incident response workflows for production issu
 ```
 
 ## Description
+
 Comprehensive incident response management system:
+
 1. Automated incident detection and classification
 2. Structured response workflows and communication
 3. Real-time monitoring and status tracking
@@ -34,6 +39,7 @@ Comprehensive incident response management system:
 ### Severity Levels
 
 #### Critical (SEV-1)
+
 - **Impact**: Complete service outage or critical functionality unavailable
 - **Customer Impact**: All or majority of customers affected
 - **Revenue Impact**: Direct revenue loss occurring
@@ -42,6 +48,7 @@ Comprehensive incident response management system:
 - **Communication**: Real-time updates every 30 minutes
 
 #### High (SEV-2)
+
 - **Impact**: Major functionality degraded or limited outage
 - **Customer Impact**: Significant portion of customers affected
 - **Revenue Impact**: Potential revenue impact
@@ -50,6 +57,7 @@ Comprehensive incident response management system:
 - **Communication**: Updates every 2 hours
 
 #### Medium (SEV-3)
+
 - **Impact**: Minor functionality issues or performance degradation
 - **Customer Impact**: Small subset of customers affected
 - **Revenue Impact**: Minimal revenue impact
@@ -58,6 +66,7 @@ Comprehensive incident response management system:
 - **Communication**: Daily updates until resolved
 
 #### Low (SEV-4)
+
 - **Impact**: Cosmetic issues or non-critical functionality
 - **Customer Impact**: Minimal or no customer impact
 - **Revenue Impact**: No revenue impact
@@ -68,6 +77,7 @@ Comprehensive incident response management system:
 ### Incident Types
 
 #### System Outage
+
 ```
 System Outage Response Workflow
 ==============================
@@ -95,6 +105,7 @@ Resolution Phase (varies):
 ```
 
 #### Security Incident
+
 ```
 Security Incident Response Workflow
 ==================================
@@ -124,6 +135,7 @@ Containment & Recovery (2-24 hours):
 ## Automated Response Actions
 
 ### Detection and Alerting
+
 ```python
 # Automated Incident Detection Example
 incident_triggers = {
@@ -160,6 +172,7 @@ incident_triggers = {
 ```
 
 ### Response Automation
+
 - **System Health Checks**: Automated diagnosis of system components
 - **Log Collection**: Automatic gathering of relevant logs and metrics
 - **Backup Activation**: Emergency failover to backup systems
@@ -170,6 +183,7 @@ incident_triggers = {
 ## Communication Management
 
 ### Stakeholder Communication
+
 ```
 Incident Communication Matrix
 ============================
@@ -186,6 +200,7 @@ Legal/Compliance    │  ✅   │   -   │   -   │   -   │ Secure Channel
 ```
 
 ### Status Page Management
+
 ```
 Status Page Update Template
 ==========================
@@ -208,6 +223,7 @@ Updates:
 ```
 
 ### Internal Communication
+
 - **War Room Setup**: Dedicated communication channels for incident response
 - **Role Assignment**: Clear responsibilities and decision-making authority
 - **Progress Updates**: Regular internal status updates and coordination
@@ -217,6 +233,7 @@ Updates:
 ## Monitoring and Diagnostics
 
 ### Real-Time Monitoring
+
 ```
 Incident Monitoring Dashboard
 ============================
@@ -246,6 +263,7 @@ Incident Monitoring Dashboard
 ```
 
 ### Diagnostic Tools
+
 - **Log Aggregation**: Centralized log collection and analysis
 - **Performance Metrics**: Real-time application and infrastructure metrics
 - **Distributed Tracing**: Request flow analysis across microservices
@@ -256,6 +274,7 @@ Incident Monitoring Dashboard
 ## Root Cause Analysis
 
 ### Investigation Framework
+
 ```
 Root Cause Analysis Template
 ===========================
@@ -294,6 +313,7 @@ Corrective Actions:
 ```
 
 ### Analysis Tools
+
 - **Timeline Reconstruction**: Chronological event analysis
 - **Failure Mode Analysis**: Systematic evaluation of failure points
 - **Contributing Factor Identification**: Environmental and process factors
@@ -303,6 +323,7 @@ Corrective Actions:
 ## Post-Incident Activities
 
 ### Post-Incident Review (PIR)
+
 ```
 Post-Incident Review Agenda
 ===========================
@@ -336,6 +357,7 @@ Post-Incident Review Agenda
 ```
 
 ### Improvement Implementation
+
 - **Action Item Tracking**: Systematic follow-up on improvement actions
 - **Process Updates**: Revision of incident response procedures
 - **Tool Enhancements**: Implementation of better monitoring and alerting
@@ -346,6 +368,7 @@ Post-Incident Review Agenda
 ## Integration Features
 
 ### Monitoring System Integration
+
 - **PagerDuty**: Incident creation and escalation management
 - **Datadog/New Relic**: Automated anomaly detection and alerting
 - **Splunk/ELK**: Log analysis and correlation
@@ -354,6 +377,7 @@ Post-Incident Review Agenda
 - **Custom Webhooks**: Integration with proprietary systems
 
 ### Communication Platform Integration
+
 ```yaml
 # Integration Configuration Example
 integrations:
@@ -381,6 +405,7 @@ integrations:
 ```
 
 ### ITSM Integration
+
 - **ServiceNow**: Incident ticket creation and workflow management
 - **Remedy**: Change management and approval workflows
 - **Cherwell**: Service desk integration and customer communication
@@ -389,6 +414,7 @@ integrations:
 ## Compliance and Reporting
 
 ### Regulatory Compliance
+
 - **GDPR**: Data breach notification procedures
 - **HIPAA**: Healthcare incident reporting requirements  
 - **SOX**: Financial controls and audit trails
@@ -396,6 +422,7 @@ integrations:
 - **SOC 2**: Security incident documentation and reporting
 
 ### Reporting and Analytics
+
 ```
 Monthly Incident Report
 ======================
@@ -426,8 +453,54 @@ Monthly Incident Report
 ```
 
 ## Related Commands
+
 - `/monitor` - Set up comprehensive monitoring and alerting
 - `/debug-session` - Detailed system debugging and analysis
 - `/health-check` - Proactive system health assessment
 - `/deploy` - Safe deployment procedures with rollback capability
 - `/audit-security` - Security incident investigation and response
+
+```xml
+<role>
+You are an expert incident response specialist with deep knowledge of incident management, crisis communication, and post-incident analysis. You specialize in comprehensive incident response and system recovery.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Analyze and assess current state:
+   - Evaluate existing configuration and implementation
+   - Identify gaps and improvement opportunities
+   - Assess compliance and best practice adherence
+   - Review current workflows and processes
+
+2. Implement comprehensive solutions:
+   - Design and implement optimized workflows
+   - Create automation and integration solutions
+   - Establish best practices and standards
+   - Set up monitoring and validation systems
+
+3. Provide actionable recommendations:
+   - Generate specific improvement suggestions
+   - Create prioritized action plans with timelines
+   - Provide implementation guides and documentation
+   - Establish success metrics and validation criteria
+
+4. Facilitate continuous improvement:
+   - Create feedback loops and monitoring systems
+   - Implement learning and adaptation mechanisms
+   - Establish maintenance and evolution processes
+   - Build team capability and knowledge sharing
+
+5. Ensure quality and compliance:
+   - Validate implementations against requirements
+   - Ensure security and compliance standards
+   - Create comprehensive documentation and reporting
+   - Establish audit trails and accountability measures
+</instructions>
+```

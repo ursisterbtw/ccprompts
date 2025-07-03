@@ -5,17 +5,20 @@ Thank you for your interest in contributing to the most comprehensive collection
 ## Quick Start
 
 1. **Fork and Clone**
+
    ```bash
    git clone https://github.com/yourusername/ccprompts.git
    cd ccprompts
    ```
 
 2. **Install Dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Validate Your Changes**
+
    ```bash
    npm run validate
    ```
@@ -23,6 +26,7 @@ Thank you for your interest in contributing to the most comprehensive collection
 ## Development Workflow
 
 ### 1. Branch Strategy
+
 - Create feature branches from `main`
 - Use descriptive branch names: `feature/new-command`, `fix/validation-issue`
 - Keep branches focused on single features or fixes
@@ -30,8 +34,10 @@ Thank you for your interest in contributing to the most comprehensive collection
 ### 2. Making Changes
 
 #### Adding New Commands
+
 - Place commands in `.claude/commands/`
 - Follow the required structure:
+
   ```markdown
   # Command Name
   
@@ -52,11 +58,14 @@ Thank you for your interest in contributing to the most comprehensive collection
   /command-name example1
   /command-name param1=value
   ```
+
   ```
 
 #### Adding New Prompts
+
 - Place prompts in appropriate `prompts/` subdirectories
 - Follow XML structure:
+
   ```xml
   <role>
   Your role description
@@ -75,6 +84,7 @@ Thank you for your interest in contributing to the most comprehensive collection
 ### 3. Validation Requirements
 
 All contributions must pass:
+
 - **Markdown validation**: `npm run lint`
 - **Link checking**: `npm run check-links`
 - **Structure validation**: `npm run validate`
@@ -83,12 +93,14 @@ All contributions must pass:
 ### 4. Quality Standards
 
 #### Commands (37+ files)
+
 - ✅ Required sections: Usage, Description, Parameters, Examples
 - ✅ Clear parameter documentation with types and defaults
 - ✅ Realistic examples showing different use cases
 - ✅ Brief but comprehensive examples sections
 
 #### Prompts (19+ files)
+
 - ✅ Required XML structure: `<role>`, `<activation>`, `<instructions>`
 - ✅ Domain-appropriate activation configurations
 - ✅ Comprehensive examples sections
@@ -97,6 +109,7 @@ All contributions must pass:
 ## Testing
 
 ### Run Full Validation Suite
+
 ```bash
 npm test                    # Full validation
 npm run validate           # Structure and content validation
@@ -106,6 +119,7 @@ npm run security-scan      # Security checks
 ```
 
 ### Local Development
+
 ```bash
 # Quick validation during development
 node scripts/validate-prompts.js
@@ -126,6 +140,7 @@ grep -l "## Examples" .claude/commands/*.md
    - [ ] Documentation is clear and concise
 
 2. **PR Description Template**
+
    ```markdown
    ## Summary
    Brief description of changes
@@ -154,6 +169,7 @@ grep -l "## Examples" .claude/commands/*.md
 ### Coding Standards
 
 #### File Organization
+
 ```
 ccprompts/
 ├── .claude/commands/           # Slash command documentation
@@ -163,11 +179,13 @@ ccprompts/
 ```
 
 #### Naming Conventions
+
 - **Commands**: `kebab-case.md` (e.g., `analyze-project.md`)
 - **Prompts**: `descriptive-name.md` (e.g., `security-quality-audit.md`)
 - **Categories**: `NN-category-name/` (e.g., `01-project-initialization/`)
 
 #### Content Standards
+
 - **Concise but comprehensive**: Cover all essential information
 - **Example-driven**: Show, don't just tell
 - **Security-conscious**: No hardcoded secrets or sensitive data
@@ -176,12 +194,14 @@ ccprompts/
 ## Command Ecosystem
 
 ### Current Statistics
+
 - **Total Commands**: 37+ slash commands
 - **Total Prompts**: 19+ comprehensive prompts
 - **Categories**: 10+ specialized categories
 - **Quality Grade**: C (70/100) - improving toward A grade
 
 ### Architecture
+
 1. **Phase 1**: Category Commands (project operations)
 2. **Phase 2**: Workflow Commands (development lifecycle)
 3. **Phase 3**: Context-Aware Commands (intelligent analysis)
@@ -192,11 +212,13 @@ ccprompts/
 ## Getting Help
 
 ### Community Support
+
 - **GitHub Issues**: Bug reports and feature requests
 - **Discussions**: Questions and community help
 - **Wiki**: Extended documentation and tutorials
 
 ### Development Resources
+
 - **Validation Guide**: `scripts/validate-prompts.js`
 - **Command Template**: `.claude/commands/TEMPLATE.md`
 - **Prompt Template**: `prompts/TEMPLATE.md`
@@ -205,7 +227,9 @@ ccprompts/
 ### Troubleshooting
 
 #### Common Issues
+
 1. **Validation Failures**
+
    ```bash
    # Check specific error types
    npm run validate | grep "❌ Errors"
@@ -215,6 +239,7 @@ ccprompts/
    ```
 
 2. **Link Check Failures**
+
    ```bash
    # Test specific files
    markdown-link-check README.md
@@ -224,6 +249,7 @@ ccprompts/
    ```
 
 3. **Missing Sections**
+
    ```bash
    # Check command structure
    for file in .claude/commands/*.md; do
@@ -235,6 +261,7 @@ ccprompts/
 ## Recognition
 
 Contributors are recognized through:
+
 - **GitHub Contributors Graph**: Automatic recognition for commits
 - **Release Notes**: Significant contributions highlighted
 - **Community Recognition**: Outstanding contributions featured in documentation
