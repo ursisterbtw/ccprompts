@@ -115,4 +115,5 @@ project-root/
 <output_requirements>
 Generate a comprehensive CLAUDE.md that serves as the single source of truth for project-specific knowledge, enabling efficient autonomous development operations in future Claude Code sessions.
 </output_requirements>
+
 ```

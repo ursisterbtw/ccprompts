@@ -1,0 +1,144 @@
+name: "Full Development Cycle"
+description: "Complete development workflow from feature start to production deployment"
+version: "1.0"
+
+workflows:
+  feature_development:
+    name: "Feature Development Workflow"
+    description: "End-to-end feature development with quality gates"
+    triggers:
+      - pattern: ["new feature", "implement", "build"]
+      - context: ["feature branch", "development"]
+    
+    steps:
+      - name: "Project Analysis"
+        command: "/project:analyze-project"
+        condition: "always"
+        
+      - name: "Environment Validation"
+        command: "/project:validate-environment"
+        condition: "on_success"
+        
+      - name: "Security Baseline"
+        command: "/project:audit-security baseline"
+        condition: "on_success"
+        
+      - name: "Feature Implementation"
+        type: "manual"
+        description: "Implement feature with AI assistance"
+        condition: "on_success"
+        
+      - name: "Code Review"
+        command: "/project:code-review"
+        condition: "on_success"
+        
+      - name: "Testing"
+        command: "/project:test comprehensive"
+        condition: "on_success"
+        
+      - name: "Security Validation"
+        command: "/project:audit-security changes"
+        condition: "on_success"
+        
+      - name: "Performance Check"
+        command: "/project:optimize analyze"
+        condition: "on_success"
+
+  hotfix_workflow:
+    name: "Hotfix Workflow"
+    description: "Emergency fix workflow with accelerated validation"
+    triggers:
+      - pattern: ["hotfix", "urgent", "critical bug"]
+      - context: ["production issue", "emergency"]
+    
+    steps:
+      - name: "Quick Analysis"
+        command: "/project:health-check critical"
+        condition: "always"
+        
+      - name: "Issue Isolation"
+        command: "/project:quick-fix"
+        condition: "on_success"
+        
+      - name: "Targeted Testing"
+        command: "/project:test focused"
+        condition: "on_success"
+        
+      - name: "Security Check"
+        command: "/project:audit-security quick"
+        condition: "on_success"
+        
+      - name: "Deploy"
+        command: "/project:deploy hotfix"
+        condition: "on_success"
+
+  refactoring_workflow:
+    name: "Safe Refactoring Workflow"
+    description: "Large-scale refactoring with comprehensive validation"
+    triggers:
+      - pattern: ["refactor", "modernize", "technical debt"]
+      - context: ["code quality", "maintenance"]
+    
+    steps:
+      - name: "Tech Debt Analysis"
+        command: "/project:tech-debt analyze"
+        condition: "always"
+        
+      - name: "Backup Creation"
+        command: "/project:backup create"
+        condition: "on_success"
+        
+      - name: "Refactoring Plan"
+        command: "/project:refactor plan"
+        condition: "on_success"
+        
+      - name: "Safe Refactoring"
+        command: "/project:refactor execute"
+        condition: "on_success"
+        
+      - name: "Comprehensive Testing"
+        command: "/project:test regression"
+        condition: "on_success"
+        
+      - name: "Performance Validation"
+        command: "/project:optimize validate"
+        condition: "on_success"
+
+context_analysis:
+  project_indicators:
+    web_app:
+      files: ["package.json", "src/", "public/"]
+      commands: ["bootstrap-project web-app", "setup-ci github"]
+    
+    api_service:
+      files: ["requirements.txt", "app.py", "Dockerfile"]
+      commands: ["bootstrap-project api", "audit-security comprehensive"]
+    
+    mobile_app:
+      files: ["android/", "ios/", "lib/"]
+      commands: ["bootstrap-project mobile", "test device"]
+
+  team_context:
+    small_team:
+      indicators: ["< 5 contributors"]
+      workflow_emphasis: ["collaboration", "knowledge-sharing"]
+    
+    enterprise:
+      indicators: [".github/CODEOWNERS", "security/", "compliance/"]
+      workflow_emphasis: ["security", "compliance", "monitoring"]
+
+execution_rules:
+  safety:
+    - always_backup_before_major_changes: true
+    - require_tests_before_deploy: true
+    - validate_security_on_changes: true
+    
+  performance:
+    - parallel_execution: true
+    - cache_analysis_results: true
+    - skip_redundant_checks: true
+    
+  collaboration:
+    - notify_team_on_failures: true
+    - share_workflow_results: true
+    - document_decisions: true

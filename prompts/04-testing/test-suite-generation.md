@@ -184,4 +184,5 @@ describe('[Feature] Integration Tests', () => {
 - Critical paths: 100% coverage required
 </coverage_requirements>
 </xml>
+
 ```
