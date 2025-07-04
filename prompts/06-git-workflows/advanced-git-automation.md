@@ -137,4 +137,5 @@ Create Git automation scripts:
 4. Automated release tagging
 5. Git bisect automation for bug finding
 </automation_scripts>
+
 ```
