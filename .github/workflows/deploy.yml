@@ -5,7 +5,7 @@
         branches:
           - main
         tags:
-          - v*
+          - v4
       workflow_dispatch:
         inputs:
           environment:
@@ -202,7 +202,7 @@
               echo "✅ Security scan completed"
           - name: Upload pre-deployment artifacts
             if: always()
-            uses: actions/upload-artifact@v3
+            uses: actions/upload-artifact@v4
             with:
               name: pre-deployment-reports
               path: |
@@ -296,7 +296,7 @@
               sleep 3
               echo "✅ Staging health checks passed"
           - name: Upload staging artifacts
-            uses: actions/upload-artifact@v3
+            uses: actions/upload-artifact@v4
             with:
               name: staging-deployment-${{ needs.prepare.outputs.deploy-version }}
               path: dist/
@@ -446,7 +446,7 @@
 
               echo "✅ Deployment record created"
           - name: Upload production artifacts
-            uses: actions/upload-artifact@v3
+            uses: actions/upload-artifact@v4
             with:
               name: production-deployment-${{ needs.prepare.outputs.deploy-version }}
               path: |
