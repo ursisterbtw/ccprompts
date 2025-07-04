@@ -12,34 +12,93 @@ on:
       - '.claude/config.json'
       - '.claude/mcp.json'
 
+env:
+  NODE_VERSION: '20'
+  VALIDATION_CACHE_VERSION: v2
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  validate-markdown:
+  prepare-validation:
     runs-on: ubuntu-latest
-    name: Validate Markdown Files
+    outputs:
+      validation-matrix: ${{ steps.setup-matrix.outputs.matrix }}
+      cache-key: ${{ steps.cache-setup.outputs.key }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          
+      - name: Setup validation matrix
+        id: setup-matrix
+        run: |
+          echo 'matrix=["markdown","commands","config","security"]' >> $GITHUB_OUTPUT
+          
+      - name: Cache setup
+        id: cache-setup
+        run: |
+          echo "key=validation-${{ env.VALIDATION_CACHE_VERSION }}-${{ runner.os }}-${{ hashFiles('package-lock.json') }}" >> $GITHUB_OUTPUT
+  validate-content:
+    needs: prepare-validation
+    strategy:
+      matrix:
+        validation-type: ${{ fromJson(needs.prepare-validation.outputs.validation-matrix) }}
+      fail-fast: false
+    runs-on: ubuntu-latest
+    name: Validate ${{ matrix.validation-type }}
+    permissions:
+      contents: read
     
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
     
     - name: Setup Node.js
+      if: matrix.validation-type != 'security'
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        cache-dependency-path: 'package-lock.json'
+        
+    - name: Cache validation tools
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.npm
+          ~/.cache/markdownlint
+          /tmp/validation-cache
+        key: ${{ needs.prepare-validation.outputs.cache-key }}
+        restore-keys: |
+          validation-${{ env.VALIDATION_CACHE_VERSION }}-${{ runner.os }}-
     
     - name: Install dependencies
+      if: matrix.validation-type == 'markdown'
       run: |
         npm install -g markdownlint-cli
         npm install -g markdown-link-check
         
     - name: Lint markdown files
+      if: matrix.validation-type == 'markdown'
       run: |
         markdownlint prompts/**/*.md .claude/commands/**/*.md README.md CLAUDE.md CC-SDK-Guide.md
         
     - name: Check markdown links
+      if: matrix.validation-type == 'markdown'
       run: |
         find . -name "*.md" -not -path "./node_modules/*" | xargs markdown-link-check --config .github/markdown-link-check.json
         
     - name: Validate prompt structure
+      if: matrix.validation-type == 'markdown'
       run: |
         # Check for required XML sections in prompts
         for file in prompts/**/*.md; do
@@ -50,14 +109,8 @@ jobs:
         done
         echo "✅ All prompts have valid XML structure"
 
-  validate-commands:
-    runs-on: ubuntu-latest
-    name: Validate Command Files
-    
-    steps:
-    - uses: actions/checkout@v4
-    
     - name: Validate command completeness
+      if: matrix.validation-type == 'commands'
       run: |
         # Check that all commands have proper headers and descriptions
         for file in .claude/commands/*.md; do
@@ -69,6 +122,7 @@ jobs:
         echo "✅ All commands have valid structure"
         
     - name: Count commands
+      if: matrix.validation-type == 'commands'
       run: |
         command_count=$(ls -1 .claude/commands/*.md | wc -l)
         echo "Found $command_count commands"
@@ -78,19 +132,8 @@ jobs:
         fi
         echo "✅ Command count matches documentation"
 
-  validate-config:
-    runs-on: ubuntu-latest
-    name: Validate Configuration
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        
     - name: Validate JSON configuration
+      if: matrix.validation-type == 'config'
       run: |
         # Validate JSON syntax
         node -e "JSON.parse(require('fs').readFileSync('.claude/config.json', 'utf8'))"
@@ -98,18 +141,13 @@ jobs:
         echo "✅ Configuration files are valid JSON"
         
     - name: Test MCP configuration
+      if: matrix.validation-type == 'config'
       run: |
         cd .claude
         node test-mcp.js
         
-  security-scan:
-    runs-on: ubuntu-latest
-    name: Security Scan
-    
-    steps:
-    - uses: actions/checkout@v4
-    
     - name: Check for secrets
+      if: matrix.validation-type == 'security'
       run: |
         # Basic secret scanning
         if grep -r "GITHUB_TOKEN=" . --exclude-dir=.git --exclude="*.example" --exclude-dir=node_modules; then
@@ -124,6 +162,7 @@ jobs:
         echo "✅ No obvious secrets found"
         
     - name: Validate file permissions
+      if: matrix.validation-type == 'security'
       run: |
         # Check for executable files that shouldn't be
         find . -name "*.md" -executable -not -path "./.git/*" | while read file; do
@@ -135,7 +174,7 @@ jobs:
   quality-gates:
     runs-on: ubuntu-latest
     name: Quality Gates
-    needs: [validate-markdown, validate-commands, validate-config, security-scan]
+    needs: [validate-content]
     
     steps:
     - uses: actions/checkout@v4

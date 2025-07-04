@@ -3,12 +3,17 @@ name: Claude Code Review
 on:
   pull_request:
     types: [opened, synchronize]
-    # Optional: Only run on specific file changes
-    # paths:
-    #   - "src/**/*.ts"
-    #   - "src/**/*.tsx"
-    #   - "src/**/*.js"
-    #   - "src/**/*.jsx"
+    paths:
+      - "**/*.ts"
+      - "**/*.tsx"
+      - "**/*.js"
+      - "**/*.jsx"
+      - "**/*.md"
+      - "prompts/**/*"
+      - ".claude/**/*"
+
+env:
+  NODE_VERSION: '20'
 
 jobs:
   claude-review:
@@ -20,16 +25,33 @@ jobs:
     
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      pull-requests: read
-      issues: read
+      contents: read                # For checkout
+      pull-requests: write         # For PR comments
+      issues: write               # For issue comments
       id-token: write
+      security-events: write       # For security alerts
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0            # Fetch full history for better analysis
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js with caching
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - name: Cache Claude analysis results
+        uses: actions/cache@v4
+        with:
+          path: ~/.claude-cache
+          key: claude-analysis-${{ runner.os }}-${{ hashFiles('**/*.ts', '**/*.js', '**/*.md') }}
+          restore-keys: |
+            claude-analysis-${{ runner.os }}-
 
       - name: Run Claude Code Review
         id: claude-review

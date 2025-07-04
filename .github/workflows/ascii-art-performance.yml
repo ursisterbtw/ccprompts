@@ -1,0 +1,59 @@
+name: ASCII Art Performance Reporter
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  workflow_run:
+    workflows: ["*"]
+    types: [completed]
+
+permissions:
+  pull-requests: write
+  actions: read
+
+jobs:
+  generate-ascii-report:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || (github.event_name == 'workflow_run' && github.event.workflow_run.event == 'pull_request')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python for ASCII generation
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install ASCII art dependencies
+        run: |
+          pip install asciichartpy sparklines termcolor rich
+
+      - name: Generate ASCII performance report
+        id: ascii-report
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Make the script executable
+          chmod +x .github/scripts/generate_ascii_report.py
+          
+          # Run the Python script to generate the report
+          python .github/scripts/generate_ascii_report.py > ascii_report.md
+          
+          # Display the report in the workflow logs
+          cat ascii_report.md
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('ascii_report.md', 'utf8');
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: report
+            });
