@@ -456,6 +456,8 @@
       post-deployment:
         name: Post-Deployment Tasks
         runs-on: ubuntu-latest
+        permissions:
+          contents: read
         needs:
           - prepare
           - deploy-staging
