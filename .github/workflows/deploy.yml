@@ -549,6 +549,9 @@
         if: failure() && (github.event_name == 'workflow_dispatch' ||
           contains(github.event.head_commit.message, '[rollback]'))
         environment: ${{ needs.prepare.outputs.deploy-environment || 'production' }}
+        permissions:
+          contents: read
+          issues: write
         steps:
           - name: Checkout repository
             uses: actions/checkout@v4
