@@ -43,6 +43,8 @@ jobs:
     name: Test Deployment Preparation
     runs-on: ubuntu-latest
     needs: [test-validation, test-security]
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout repository
