@@ -147,3 +147,53 @@ If MCP GitHub server available:
 - **Learning capture**: Document lessons learned
 
 Generate intelligent, context-aware daily standup updates with team coordination and progress tracking!
+
+## 🚀 Advanced Standup Features (migrated from legacy extras command)
+
+### Standup Preparation
+
+#### Automated Update Generation
+
+```
+Personal Standup Update - TEMPLATE
+=================================
+
+✅ Yesterday's Accomplishments:
+- Summarize key completed tasks
+
+🎯 Today's Goals:
+- Outline main objectives for the day
+
+🚫 Blockers & Issues:
+- List any impediments needing assistance
+
+⏱️ Capacity Today: _hours available_
+```
+
+#### Intelligent Blocking Detection (sample logic)
+
+```python
+blocking_patterns = {
+    "external_dependency": {
+        "indicators": ["waiting for approval", "blocked by external team"],
+        "auto_actions": ["escalate_to_team_lead", "find_alternative_approach"]
+    },
+    "technical_blocker": {
+        "indicators": ["environment not working", "build failing"],
+        "auto_actions": ["create_incident_ticket", "suggest_workarounds"]
+    }
+}
+```
+
+#### Progress Tracking Metrics
+- **Sprint Goal Alignment**
+- **Story Point Completion**
+- **Velocity Trends**
+- **Quality Metrics**
+
+### Asynchronous & Cross-Team Support
+- Distributed-team async update schedule examples
+- Cross-team dependency hand-off template
+- Automated follow-up reminders and escalation rules
+
+> NOTE: The full legacy content has been condensed for brevity. See commit history if you need the verbatim original text.
