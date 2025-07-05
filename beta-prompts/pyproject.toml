@@ -1,0 +1,521 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "beta-prompts"
+version = "1.0.0"
+description = "Advanced prompt optimization research framework with real Claude API integration"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Beta-Prompts Research Team"},
+]
+maintainers = [
+    {name = "Beta-Prompts Research Team"},
+]
+keywords = [
+    "anthropic",
+    "claude",
+    "prompt-engineering",
+    "optimization",
+    "ai",
+    "research",
+    "templating",
+    "generation"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Linguistic",
+]
+requires-python = ">=3.9"
+dependencies = [
+    # Core API client for Claude integration
+    "anthropic>=0.21.0,<1.0.0",
+    
+    # Data analysis and numerical computing
+    "numpy>=1.24.0,<2.0.0",
+    
+    # Visualization and plotting
+    "matplotlib>=3.7.0,<4.0.0",
+    "seaborn>=0.12.0,<1.0.0",
+    "plotly>=5.15.0,<6.0.0",
+    
+    # Advanced templating engine
+    "jinja2>=3.1.0,<4.0.0",
+    
+    # YAML configuration support
+    "pyyaml>=6.0,<7.0",
+    
+    # Data validation and serialization
+    "pydantic>=2.0.0,<3.0.0",
+    
+    # Scientific computing and machine learning
+    "scipy>=1.11.0,<2.0.0",
+    "scikit-learn>=1.3.0,<2.0.0",
+    "pandas>=2.0.0,<3.0.0",
+    
+    # Async HTTP client for API calls
+    "httpx>=0.24.0,<1.0.0",
+    
+    # Progress bars for long operations
+    "tqdm>=4.65.0,<5.0.0",
+    
+    # Rich text and formatting
+    "rich>=13.0.0,<14.0.0",
+    
+    # Type checking support
+    "typing-extensions>=4.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Testing framework
+    "pytest>=7.4.0,<8.0.0",
+    "pytest-asyncio>=0.21.0,<1.0.0",
+    "pytest-cov>=4.1.0,<5.0.0",
+    "pytest-mock>=3.11.0,<4.0.0",
+    "pytest-xdist>=3.3.0,<4.0.0",  # Parallel test execution
+    
+    # Modern code quality and formatting
+    "ruff>=0.1.0,<1.0.0",           # Fast Python linter and formatter
+    "black>=23.0.0,<25.0.0",        # Code formatter
+    "isort>=5.12.0,<6.0.0",         # Import sorting
+    
+    # Advanced type checking
+    "typer>=0.9.0,<1.0.0",          # Modern type checking (typer for CLI support)
+    "mypy>=1.5.0,<2.0.0",           # Static type checker
+    "types-pyyaml>=6.0.0",          # Type stubs for PyYAML
+    "types-requests>=2.31.0",       # Type stubs for requests
+    
+    # Advanced linting and code quality
+    "sourcery>=1.0.0",              # AI-powered code reviewer
+    "vulture>=2.10",                # Dead code finder
+    "interrogate>=1.5.0",           # Docstring coverage checker
+    "darglint>=1.8.0",              # Docstring style checker
+    
+    # Security scanning
+    "bandit[toml]>=1.7.5,<2.0.0",   # Security linter
+    "safety>=2.3.0,<4.0.0",         # Dependency vulnerability scanner
+    "semgrep>=1.45.0",              # Static analysis security scanner
+    
+    # Documentation
+    "sphinx>=7.0.0,<8.0.0",
+    "sphinx-rtd-theme>=1.3.0,<2.0.0",
+    "sphinx-autodoc-typehints>=1.24.0,<2.0.0",
+    
+    # Pre-commit hooks and git utilities
+    "pre-commit>=3.3.0,<4.0.0",
+    "commitizen>=3.10.0,<4.0.0",    # Conventional commits
+    
+    # Performance profiling
+    "py-spy>=0.3.14",               # Python profiler
+    "memory-profiler>=0.61.0",      # Memory usage profiler
+]
+
+research = [
+    # Jupyter notebook support
+    "jupyter>=1.0.0,<2.0.0",
+    "ipykernel>=6.25.0,<7.0.0",
+    
+    # Network analysis and graph visualization
+    "networkx>=3.0,<4.0.0",
+    
+    # Advanced statistical modeling
+    "statsmodels>=0.14.0,<1.0.0",
+]
+
+optimization = [
+    # Optimization algorithms
+    "optuna>=3.3.0,<4.0.0",
+    
+    # Hyperparameter tuning
+    "hyperopt>=0.2.7,<1.0.0",
+    
+    # Bayesian optimization
+    "scikit-optimize>=0.9.0,<1.0.0",
+    
+    # Parallel processing
+    "joblib>=1.3.0,<2.0.0",
+]
+
+security = [
+    # Security scanning
+    "bandit>=1.7.5,<2.0.0",
+    "safety>=2.3.0,<3.0.0",
+    
+    # Dependency vulnerability checking
+    "pip-audit>=2.6.0,<3.0.0",
+]
+
+all = [
+    "beta-prompts[dev,research,optimization,security]"
+]
+
+[project.urls]
+Homepage = "https://github.com/your-org/ccprompts"
+Documentation = "https://github.com/your-org/ccprompts/blob/main/beta-prompts/README.md"
+Repository = "https://github.com/your-org/ccprompts.git"
+"Bug Tracker" = "https://github.com/your-org/ccprompts/issues"
+Changelog = "https://github.com/your-org/ccprompts/blob/main/CHANGELOG.md"
+
+[project.scripts]
+prompt-improve = "beta_prompts.improvement_engine:main"
+prompt-generate = "beta_prompts.generation_system:main"
+prompt-template = "beta_prompts.templating_framework:main"
+prompt-optimize = "beta_prompts.optimization_suite:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["beta_prompts*"]
+exclude = ["tests*", "docs*", "scripts*"]
+
+[tool.setuptools.package-data]
+beta_prompts = [
+    "templates/*.json",
+    "templates/*.yaml", 
+    "data/*.json",
+    "config/*.toml",
+]
+
+# Ruff - Fast Python linter and formatter
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+select = [
+    "A",    # flake8-builtins
+    "ARG",  # flake8-unused-arguments  
+    "B",    # flake8-bugbear
+    "C",    # flake8-comprehensions
+    "C4",   # flake8-comprehensions
+    "COM",  # flake8-commas
+    "DTZ",  # flake8-datetimez
+    "E",    # pycodestyle Error
+    "EM",   # flake8-errmsg
+    "F",    # Pyflakes
+    "FBT",  # flake8-boolean-trap
+    "I",    # isort
+    "ICN",  # flake8-import-conventions
+    "ISC",  # flake8-implicit-str-concat
+    "N",    # pep8-naming
+    "PD",   # pandas-vet
+    "PGH",  # pygrep-hooks
+    "PIE",  # flake8-pie
+    "PLC",  # Pylint Convention
+    "PLE",  # Pylint Error
+    "PLR",  # Pylint Refactor
+    "PLW",  # Pylint Warning
+    "PT",   # flake8-pytest-style
+    "PTH",  # flake8-use-pathlib
+    "Q",    # flake8-quotes
+    "RET",  # flake8-return
+    "RUF",  # Ruff-specific rules
+    "S",    # flake8-bandit
+    "SIM",  # flake8-simplify
+    "T20",  # flake8-print
+    "TCH",  # flake8-type-checking
+    "TID",  # flake8-tidy-imports
+    "UP",   # pyupgrade
+    "W",    # pycodestyle Warning
+    "YTT",  # flake8-2020
+]
+ignore = [
+    "PLR0913",  # Too many arguments to function call
+    "PLR0912",  # Too many branches
+    "PLR0915",  # Too many statements
+    "PLR2004",  # Magic value used in comparison
+    "S101",     # Use of assert detected
+    "S311",     # Standard pseudo-random generators not suitable for cryptographic purposes
+    "T20",      # Remove print statements (allow for demo/debug)
+    "EM101",    # Exception must not use a string literal
+    "EM102",    # Exception must not use an f-string literal
+    "COM812",   # Missing trailing comma (handled by formatter)
+    "ISC001",   # Single line implicit string concatenation (conflicts with formatter)
+]
+extend-exclude = [
+    ".bzr",
+    ".direnv", 
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+unfixable = ["F841"]  # Don't auto-remove unused variables
+
+[tool.ruff.mccabe]
+max-complexity = 12
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401", "F403"]  # Allow unused imports and star imports
+"tests/**/*" = ["PLR2004", "S101", "TID252", "ARG", "FBT"]  # Allow magic values and asserts in tests
+"scripts/**/*" = ["T20", "S101", "PLR2004"]  # Allow prints and asserts in scripts
+
+[tool.ruff.isort]
+known-first-party = ["beta_prompts"]
+force-single-line = false
+combine-as-imports = true
+split-on-trailing-comma = true
+
+# Black code formatting  
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+# isort import sorting (backup for non-Ruff users)
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+known_first_party = ["beta_prompts"]
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+
+# MyPy type checking
+[tool.mypy]
+python_version = "3.9"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+show_error_codes = true
+show_column_numbers = true
+pretty = true
+color_output = true
+
+[[tool.mypy.overrides]]
+module = [
+    "matplotlib.*",
+    "anthropic.*", 
+    "jinja2.*",
+    "yaml.*",
+    "seaborn.*",
+    "plotly.*",
+    "sklearn.*",
+    "scipy.*",
+    "pandas.*",
+    "numpy.*",
+    "tqdm.*",
+    "rich.*",
+    "httpx.*",
+]
+ignore_missing_imports = true
+
+# Pytest configuration
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--cov=beta_prompts",
+    "--cov-report=term-missing",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "api: marks tests that require API access",
+    "safety: marks tests for safety system",
+]
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+]
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["beta_prompts"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "scripts/*",
+    "dagger-src/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+# Sourcery - AI-powered code reviewer and refactoring
+[tool.sourcery]
+rules = [
+    "default",
+    "gpsg",     # Google Python Style Guide
+    "pep8",     # PEP 8 compliance
+]
+python_version = "3.9"
+github_sourcery_teammate = true
+refactor = {
+    skip_initial_comment = true,
+    add_common_sense_checks = true,
+    simplify_conditional_assignments = true,
+    merge_duplicate_blocks = true,
+    merge_nested_ifs = true,
+    remove_redundant_fstring = true,
+    use_named_expression = true,
+    hoist_repeated_variants = true,
+    merge_comparisons = true,
+    replace_method_with_attribute = true,
+}
+rules_settings = {
+    enable = "all",
+    disable = [
+        "no-complex-if-expressions",     # Allow complex if expressions for data analysis
+        "no-long-functions",            # Data processing functions can be longer
+        "avoid-global-variables",       # Allow module-level configuration
+        "no-complex-list-comprehension", # Scientific computing often needs complex comprehensions
+    ]
+}
+
+# Bandit security linting
+[tool.bandit]
+exclude_dirs = ["tests", "scripts", "docs"]
+skips = ["B101", "B601", "B311"]  # Skip assert_used, shell_injection_process_args, random
+tests = ["B201", "B301", "B302", "B303", "B304", "B305", "B306", "B307", "B324", "B501", "B502", "B503", "B504", "B505", "B506", "B507", "B601", "B602", "B603", "B604", "B605", "B606", "B607", "B608", "B609", "B610", "B611", "B701", "B702", "B703"]
+
+# Safety dependency checking  
+[tool.safety]
+ignore = []  # Add CVE numbers to ignore if needed
+full_report = true
+output = "json"
+
+# Vulture - Dead code finder
+[tool.vulture]
+min_confidence = 80
+paths = ["beta_prompts"]
+exclude = ["tests/", "scripts/", "docs/"]
+ignore_decorators = ["@app.route", "@pytest.fixture", "@dataclass", "@lru_cache"]
+ignore_names = ["_*", "*_test", "test_*"]
+
+# Interrogate - Docstring coverage checker
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic = false
+ignore-semiprivate = false
+ignore-private = false
+ignore-property-decorators = false
+ignore-module = true
+ignore-nested-functions = false
+ignore-nested-classes = true
+ignore-setters = false
+fail-under = 80
+exclude = ["setup.py", "docs", "build", "tests"]
+ignore-regex = ["^get$", "^mock_.*", ".*BaseClass.*"]
+verbose = 0
+quiet = false
+whitelist-regex = []
+color = true
+omit-covered-files = false
+
+# Darglint - Docstring style checker
+[tool.darglint]
+docstring_style = "google"
+strictness = "short"
+ignore_regex = "^_.*"
+message_template = "{path}:{line}: {msg_id}: {msg}"
+ignore = ["DAR101", "DAR201"]  # Allow missing parameters and return descriptions for simple functions
+
+# Commitizen - Conventional commits
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "1.0.0"
+tag_format = "v$version"
+version_files = [
+    "pyproject.toml:version",
+    "beta_prompts/__init__.py:__version__",
+]
+update_changelog_on_bump = true
+bump_message = "chore(release): release v$new_version [skip ci]"
+
+# Pre-commit configuration
+[tool.pre-commit]
+repos = [
+    {
+        repo = "https://github.com/astral-sh/ruff-pre-commit",
+        rev = "v0.1.0",
+        hooks = [
+            {id = "ruff", args = ["--fix", "--exit-non-zero-on-fix"]},
+            {id = "ruff-format"},
+        ]
+    },
+    {
+        repo = "https://github.com/pre-commit/mirrors-mypy",
+        rev = "v1.5.1",
+        hooks = [{id = "mypy", additional_dependencies = ["types-all"]}]
+    },
+    {
+        repo = "https://github.com/PyCQA/bandit",
+        rev = "1.7.5",
+        hooks = [{id = "bandit", args = ["-c", "pyproject.toml"]}]
+    },
+]
