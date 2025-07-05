@@ -12,17 +12,18 @@
 
 # ccprompts – practical claude code commands and prompts
 
-**ccprompts** is a curated set of prompt templates and supporting tooling for developers who want to extend Claude-powered automation into their own projects. Each prompt is production-ready, peer-reviewed, and versioned so you can drop it into an existing workflow—or use it as a starting point for your own commands.
+**ccprompts** is a comprehensive collection of Claude Code-specific developer commands and prompts. The project delivers **39 production-ready commands** across **9 organized directories**, plus an advanced **prompt optimization system** with 12 Python modules for intelligent automation, continuous learning, and enterprise-grade quality assurance.
 
 ---
 
 ## Why use this repo?
 
-- **Breadth without bloat** – Prompts cover common phases of the SDLC (bootstrap, testing, refactoring, CI/CD, security) but stay laser-focused on useful output.
-- **Quality gates built-in** – The [`scripts/validate-prompts.js`](scripts/validate-prompts.js) validator enforces length, structure, and security guards for every prompt.
-- **Composable** – Prompts are plain Markdown with a minimal YAML header (`id`, `tags`, `description`). Use them as is, or compose them in your own workflows.
-- **Zero vendor lock-in** – No proprietary wrappers or hidden services; the repo is pure text + Node.js tooling so you can fork and adapt freely.
-- **Built-in Safety** – Containerized execution system for safely running potentially dangerous commands via Dagger.
+- **Comprehensive Command Ecosystem** – 39 production-ready commands across 9 directories covering the complete development lifecycle
+- **Advanced Optimization System** – 12 Python modules for intelligent prompt optimization, scoring, and validation
+- **Enterprise-Grade Quality** – Built-in security scanning, compliance checking, and audit trails
+- **Containerized Safety** – Isolated execution system for safely running potentially dangerous commands via Dagger
+- **Learning-Integrated Automation** – Every command teaches while it automates, transforming routine tasks into skill development
+- **Zero vendor lock-in** – Pure text-based prompts + tooling, freely forkable and adaptable
 
 ---
 
@@ -49,10 +50,25 @@ ls prompts/*/*.md | less
 
 ---
 
-## Repository layout (trimmed)
+## Repository layout 
 
 ```text
-prompts/               # Organized by phase (01–10)
+prompts/               # 10 organized prompt categories (01–10)
+beta-prompts/          # Advanced optimization system (12 Python modules)
+.claude/               # 39 slash commands across 9 directories
+├── commands/          # All production-ready commands
+│   ├── 00-initial-workflow/    # Initial workflow automation
+│   ├── 01-project-setup/       # Project setup and initialization
+│   ├── 02-development/         # Development workflow commands
+│   ├── 03-security/            # Security and compliance
+│   ├── 04-testing/             # Testing and validation
+│   ├── 05-deployment/          # Deployment and release
+│   ├── 06-collaboration/       # Team collaboration
+│   ├── 07-utilities/           # Utility commands
+│   └── 08-extras/              # Additional specialized commands
+├── workflows/         # Automated workflow definitions
+└── config.json        # Enterprise-grade configuration
+docs/                  # Documentation and SDK guide
 scripts/               # Safety system + validation utilities
 src/                   # Dagger safety container module
 dagger.json            # Dagger configuration
@@ -66,11 +82,17 @@ LICENSE                # MIT
 
 ## Usage Examples
 
-### Browse and use prompts
+### Browse and use commands
 
 ```bash
+# Browse available commands
+ls .claude/commands/*/*.md
+
+# Use a specific command (copy content into Claude Code)
+cat .claude/commands/01-project-setup/bootstrap-project.md
+
+# Browse prompt templates
 cat prompts/02-code-analysis/security-quality-audit.md
-# Copy-paste the YAML and instructions into your Claude workflow or automation tool
 ```
 
 ### Safe command execution

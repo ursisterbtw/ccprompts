@@ -4,71 +4,77 @@ This file provides comprehensive guidance to Claude Code (claude.ai/code) when w
 
 ## Project Overview
 
-This repository contains the **most comprehensive collection of Claude Code-specific developer commands and prompts** ever created. The project delivers **38 production-ready commands** across **6 development phases**, transforming how teams approach AI-assisted development through intelligent automation, continuous learning, and enterprise-grade quality assurance.
+This repository contains the **most comprehensive collection of Claude Code-specific developer commands and prompts** ever created. The project delivers **39 production-ready commands** across **9 organized directories**, transforming how teams approach AI-assisted development through intelligent automation, continuous learning, and enterprise-grade quality assurance.
 
 ## Revolutionary Command Ecosystem
 
-### **38 Commands Across 6 Strategic Phases**
+### **39 Commands Across 9 Organized Directories**
 
 ```tree
-📁 Phase 1: Category Commands (8 commands)
-   ├── /bootstrap-project    # Complete project initialization
+🚀 Initial Workflow (2 commands)
+   ├── /intelligent-chain   # Multi-step intelligent automation
+   └── /project-init        # Complete project initialization
+
+🏗️ Project Setup (4 commands)
+   ├── /bootstrap-project   # Complete project initialization
    ├── /audit-security      # OWASP-compliant security analysis
-   ├── /refactor           # Safe multi-file transformations
-   ├── /test               # Comprehensive test automation
-   ├── /document           # Auto-generated documentation
    ├── /setup-ci           # CI/CD pipeline automation
-   ├── /deploy             # Production deployment workflows
-   └── /optimize           # Performance optimization
-
-🔄 Phase 2: Workflow Commands (6 commands)
-   ├── /backup             # Comprehensive backup strategies
-   ├── /migrate            # Database and system migrations
-   ├── /monitor            # Production monitoring setup
-   ├── /comply             # Regulatory compliance automation
-   ├── /modernize          # Legacy system modernization
-   └── /harden             # Security hardening workflows
-
-🧠 Phase 3: Context-Aware Commands (5 commands)
-   ├── /analyze-project    # AI-powered project assessment
-   ├── /health-check       # Comprehensive system health
-   ├── /quick-fix          # Targeted issue resolution
-   ├── /smart-suggest      # Intelligent recommendations
    └── /validate-environment # Environment verification
 
-🛠️ Phase 4: Utility Commands (6 commands)
+💻 Development (3 commands)
+   ├── /refactor           # Safe multi-file transformations
+   ├── /code-review        # AI-powered code analysis
+   └── /optimize           # Performance optimization
+
+🛡️ Security (4 commands)
+   ├── /harden             # Security hardening workflows
+   ├── /comply             # Regulatory compliance automation
+   ├── /incident-response  # Production incident management
+   └── /modernize          # Legacy system modernization
+
+🧪 Testing (2 commands)
+   ├── /test               # Comprehensive test automation
+   └── /pre-commit         # Quality gates and validation
+
+🚀 Deployment (5 commands)
+   ├── /deploy             # Production deployment workflows
+   ├── /release            # Release management automation
+   ├── /daily-standup      # Team coordination automation
+   ├── /release-notes      # Multi-audience communication
+   └── /tech-debt          # Technical debt optimization
+
+👥 Collaboration (3 commands)
+   ├── /document           # Auto-generated documentation
+   ├── /sprint-planning    # Intelligent sprint management
+   └── /knowledge-base     # Organizational knowledge management
+
+🛠️ Utilities (10 commands)
    ├── /list-prompts       # Command discovery and browsing
    ├── /search-prompts     # Intelligent content search
    ├── /workflow-builder   # Visual workflow creation
    ├── /prompt-stats       # Usage analytics and metrics
    ├── /export-config      # Configuration sharing
-   └── /debug-session      # Advanced troubleshooting
+   ├── /debug-session      # Advanced troubleshooting
+   ├── /analyze-project    # AI-powered project assessment
+   ├── /health-check       # Comprehensive system health
+   ├── /quick-fix          # Targeted issue resolution
+   └── /smart-suggest      # Intelligent recommendations
 
-📊 Phase 5: Developer Lifecycle Commands (7 commands)
-   ├── /pre-commit         # Quality gates and validation
-   ├── /incident-response  # Production incident management
-   ├── /code-review        # AI-powered code analysis
-   ├── /daily-standup      # Team coordination automation
-   ├── /release-notes      # Multi-audience communication
-   ├── /sprint-planning    # Intelligent sprint management
-   └── /tech-debt          # Technical debt optimization
-
-📚 Phase 6: Learning Commands (4 commands)
+🎯 Extras (6 commands)
    ├── /learn              # Interactive skill development
    ├── /best-practices     # Technology-specific guidance
    ├── /troubleshoot       # Systematic debugging assistance
-   └── /knowledge-base     # Organizational knowledge management
-
-🔧 Specialized Commands (2 commands)
    ├── /git                # Advanced Git operations and workflows
-   └── /mcp                # MCP server integration and testing
+   ├── /mcp                # MCP server integration and testing
+   ├── /new-feature        # Feature development workflow
+   └── /transform          # Advanced transformation operations
 ```
 
 ## Repository Architecture
 
 ```
 ccprompts/
-├── prompts/                           # 20 organized prompt categories
+├── prompts/                           # 10 organized prompt categories
 │   ├── 01-project-initialization/     # Bootstrap & CLAUDE.md generation
 │   │   ├── comprehensive-bootstrap.md  # Complete project setup
 │   │   └── claude-md-generator.md     # Project guidance creation
@@ -96,60 +102,86 @@ ccprompts/
 │   ├── 09-build-deployment/          # CI/CD pipelines & Infrastructure as Code
 │   │   ├── comprehensive-cicd.md      # Complete pipeline setup
 │   │   └── infrastructure-as-code.md  # IaC automation
-│   └── 10-security-compliance/       # Security hardening & compliance
-│       ├── security-hardening.md     # Production security
-│       └── compliance-automation.md  # Regulatory compliance
+│   ├── 10-security-compliance/       # Security hardening & compliance
+│   │   ├── security-hardening.md     # Production security
+│   │   └── compliance-automation.md  # Regulatory compliance
+│   └── INDEX.md                      # Comprehensive category index
+
+├── beta-prompts/                     # Advanced prompt optimization system
+│   ├── 01-context-analysis.py        # Context pattern analysis
+│   ├── 02-semantic-clustering.py     # Semantic prompt clustering
+│   ├── 03-performance-scoring.py     # Performance evaluation framework
+│   ├── 04-optimization-engine.py     # Automated prompt optimization
+│   ├── 05-quality-validation.py      # Quality assurance validation
+│   ├── 06-batch-processing.py        # Batch optimization processing
+│   ├── 07-metric-analysis.py         # Metric analysis and reporting
+│   ├── 08-workflow-integration.py    # Workflow integration utilities
+│   ├── 09-content-generation.py      # Content generation algorithms
+│   ├── 10-evaluation-framework.py    # Evaluation framework
+│   ├── 11-automated-testing.py       # Automated testing suite
+│   └── 12-reporting-system.py        # Comprehensive reporting system
 
 ├── .claude/                          # Complete command ecosystem
-│   ├── commands/                     # All 38 slash commands
-│   │   ├── [Phase 1: Category Commands]
+│   ├── commands/                     # All 39 slash commands
+│   │   ├── 00-initial-workflow/      # Initial workflow automation
+│   │   │   ├── intelligent-chain.md
+│   │   │   └── project-init.md
+│   │   ├── 01-project-setup/         # Project setup and initialization
 │   │   │   ├── bootstrap-project.md
 │   │   │   ├── audit-security.md
-│   │   │   ├── refactor.md
-│   │   │   ├── test.md
-│   │   │   ├── document.md
 │   │   │   ├── setup-ci.md
-│   │   │   ├── deploy.md
-│   │   │   └── optimize.md
-│   │   ├── [Phase 2: Workflow Commands]
-│   │   │   ├── backup.md
-│   │   │   ├── migrate.md
-│   │   │   ├── monitor.md
-│   │   │   ├── comply.md
-│   │   │   ├── modernize.md
-│   │   │   └── harden.md
-│   │   ├── [Phase 3: Context-Aware Commands]
-│   │   │   ├── analyze-project.md
-│   │   │   ├── health-check.md
-│   │   │   ├── quick-fix.md
-│   │   │   ├── smart-suggest.md
 │   │   │   └── validate-environment.md
-│   │   ├── [Phase 4: Utility Commands]
+│   │   ├── 02-development/           # Development workflow commands
+│   │   │   ├── refactor.md
+│   │   │   ├── code-review.md
+│   │   │   └── optimize.md
+│   │   ├── 03-security/              # Security and compliance
+│   │   │   ├── harden.md
+│   │   │   ├── comply.md
+│   │   │   ├── incident-response.md
+│   │   │   └── modernize.md
+│   │   ├── 04-testing/               # Testing and validation
+│   │   │   ├── test.md
+│   │   │   └── pre-commit.md
+│   │   ├── 05-deployment/            # Deployment and release
+│   │   │   ├── deploy.md
+│   │   │   ├── release.md
+│   │   │   ├── daily-standup.md
+│   │   │   ├── release-notes.md
+│   │   │   └── tech-debt.md
+│   │   ├── 06-collaboration/         # Team collaboration
+│   │   │   ├── document.md
+│   │   │   ├── sprint-planning.md
+│   │   │   └── knowledge-base.md
+│   │   ├── 07-utilities/             # Utility commands
 │   │   │   ├── list-prompts.md
 │   │   │   ├── search-prompts.md
 │   │   │   ├── workflow-builder.md
 │   │   │   ├── prompt-stats.md
 │   │   │   ├── export-config.md
-│   │   │   └── debug-session.md
-│   │   ├── [Phase 5: Developer Lifecycle Commands]
-│   │   │   ├── pre-commit.md
-│   │   │   ├── incident-response.md
-│   │   │   ├── code-review.md
-│   │   │   ├── daily-standup.md
-│   │   │   ├── release-notes.md
-│   │   │   ├── sprint-planning.md
-│   │   │   └── tech-debt.md
-│   │   └── [Phase 6: Learning Commands]
+│   │   │   ├── debug-session.md
+│   │   │   ├── analyze-project.md
+│   │   │   ├── health-check.md
+│   │   │   ├── quick-fix.md
+│   │   │   └── smart-suggest.md
+│   │   └── 08-extras/                # Additional specialized commands
 │   │       ├── learn.md
 │   │       ├── best-practices.md
 │   │       ├── troubleshoot.md
-│   │       └── knowledge-base.md
+│   │       ├── git.md
+│   │       ├── mcp.md
+│   │       ├── new-feature.md
+│   │       └── transform.md
 │   ├── workflows/                    # Automated workflow definitions
-│   │   ├── full-development-cycle.yaml
-│   │   ├── security-hardening.yaml
-│   │   ├── legacy-modernization.yaml
-│   │   └── team-onboarding.yaml
+│   │   ├── development-cycle.yaml    # Complete development workflow
+│   │   ├── full-development-cycle.yaml # Full lifecycle automation
+│   │   └── security-hardening.yaml   # Security hardening workflow
 │   └── config.json                   # Enterprise-grade configuration
+
+├── docs/                             # Documentation and guides
+│   ├── assets/                       # Documentation assets
+│   │   └── banner.svg               # Project banner
+│   └── CC-SDK.md                    # Advanced Claude Code SDK reference
 
 ├── scripts/                          # Safety and validation tools
 │   ├── safe-run.sh                   # Containerized command execution
@@ -162,7 +194,6 @@ ccprompts/
 ├── SAFETY.md                         # Containerized safety system guide
 ├── README.md                         # Comprehensive ecosystem guide
 ├── CLAUDE.md                         # This guidance file
-├── CC-SDK-Guide.md                   # Advanced Claude Code SDK reference
 └── .gitignore                        # Optimized for .claude directory
 ```
 
@@ -226,10 +257,23 @@ ccprompts/
 ### **Command Ecosystem Navigation**
 
 1. **Start with Discovery**: Use `/analyze-project` and `/list-prompts` to understand current state
-2. **Build Foundation**: Use `/bootstrap-project` and `/harden` for solid project setup
+2. **Build Foundation**: Use `/bootstrap-project` and `/harden` for solid project setup  
 3. **Establish Quality**: Implement `/pre-commit`, `/code-review`, and `/best-practices`
 4. **Enable Learning**: Use `/learn` and `/troubleshoot` for continuous development
 5. **Scale Operations**: Leverage `/workflow-builder` and `/sprint-planning` for team coordination
+
+### **Advanced Prompt Optimization**
+
+The `beta-prompts/` directory contains a comprehensive Python-based optimization system:
+
+- **Context Analysis**: Automated analysis of prompt context patterns
+- **Semantic Clustering**: Intelligent grouping of similar prompts
+- **Performance Scoring**: Quantitative evaluation of prompt effectiveness
+- **Optimization Engine**: Automated prompt improvement algorithms
+- **Quality Validation**: Comprehensive validation and testing framework
+- **Batch Processing**: Efficient processing of multiple prompts
+- **Metric Analysis**: Detailed performance metrics and reporting
+- **Workflow Integration**: Seamless integration with existing workflows
 
 ### **Workflow Integration Examples**
 
@@ -317,7 +361,7 @@ Commands intelligently adapt to project characteristics, technology stacks, and 
 
 ### **5. Comprehensive Ecosystem Thinking**
 
-The 38 commands form a cohesive ecosystem where discovery leads to implementation, implementation enables learning, and learning drives continuous improvement.
+The 39 commands form a cohesive ecosystem where discovery leads to implementation, implementation enables learning, and learning drives continuous improvement.
 
 ## Advanced Usage Patterns
 
@@ -399,7 +443,7 @@ The 38 commands form a cohesive ecosystem where discovery leads to implementatio
 
 ---
 
-**This repository represents the future of AI-assisted development: where automation teaches, workflows learn, and every interaction builds team capability. The 38-command ecosystem transforms Claude Code into a comprehensive development platform that elevates teams, accelerates learning, and ensures enterprise-grade quality at every step.**
+**This repository represents the future of AI-assisted development: where automation teaches, workflows learn, and every interaction builds team capability. The 39-command ecosystem transforms Claude Code into a comprehensive development platform that elevates teams, accelerates learning, and ensures enterprise-grade quality at every step.**
 
 ## Containerized Safety System
 
@@ -446,4 +490,4 @@ curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
 - **[SAFETY.md](SAFETY.md)** - Complete containerized safety system guide
 - **[.claude/README.md](.claude/README.md)** - Complete command ecosystem guide with usage examples
 - **[prompts/INDEX.md](prompts/INDEX.md)** - Detailed prompt directory and category descriptions
-- **[CC-SDK-Guide.md](CC-SDK-Guide.md)** - Advanced Claude Code SDK reference and integration guide
+- **[docs/CC-SDK.md](docs/CC-SDK.md)** - Advanced Claude Code SDK reference and integration guide
