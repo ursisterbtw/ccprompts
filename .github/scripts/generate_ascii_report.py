@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
 def generate_bar_chart(value, width):
-    filled = int(round(value * width / 6.0))
-    return '█' * filled + '░' * (width - filled)
+    filled = min(width, int(round(value * width / 6.0)))
 
 def generate_sparkline(data):
     # Convert data to a simple sparkline
