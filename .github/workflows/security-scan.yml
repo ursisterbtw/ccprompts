@@ -8,11 +8,62 @@ on:
   schedule:
     # Run security scan daily at 2 AM UTC
     - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      scan-type:
+        description: 'Type of security scan'
+        required: false
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - quick
+          - critical-only
+
+env:
+  NODE_VERSION: '20'
+  SECURITY_SCAN_VERSION: v3
+
+permissions:
+  contents: read
+  security-events: write
+  issues: write
+  pull-requests: write
 
 jobs:
-  security-audit:
+  prepare-security-scan:
     runs-on: ubuntu-latest
-    name: Security Audit and Vulnerability Assessment
+    outputs:
+      scan-matrix: ${{ steps.setup-matrix.outputs.matrix }}
+      cache-key: ${{ steps.cache-setup.outputs.key }}
+    steps:
+      - name: Setup scan matrix
+        id: setup-matrix
+        run: |
+          if [ "${{ github.event.inputs.scan-type }}" = "quick" ]; then
+            echo 'matrix=["dependency","secrets"]' >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.inputs.scan-type }}" = "critical-only" ]; then
+            echo 'matrix=["dependency"]' >> $GITHUB_OUTPUT
+          else
+            echo 'matrix=["dependency","secrets","permissions","code-analysis","compliance"]' >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Cache setup
+        id: cache-setup
+        run: |
+          echo "key=security-${{ env.SECURITY_SCAN_VERSION }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}" >> $GITHUB_OUTPUT
+
+  security-audit:
+    needs: prepare-security-scan
+    strategy:
+      matrix:
+        scan-type: ${{ fromJson(needs.prepare-security-scan.outputs.scan-matrix) }}
+      fail-fast: false
+    runs-on: ubuntu-latest
+    name: Security Scan - ${{ matrix.scan-type }}
+    permissions:
+      contents: read
+      security-events: write
     
     steps:
     - uses: actions/checkout@v4
@@ -20,25 +71,42 @@ jobs:
         fetch-depth: 0
     
     - name: Setup Node.js
+      if: matrix.scan-type == 'dependency' || matrix.scan-type == 'code-analysis'
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        cache-dependency-path: 'package-lock.json'
+
+    - name: Cache security tools
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cache/pip
+          ~/.npm
+          /opt/security-tools
+        key: ${{ needs.prepare-security-scan.outputs.cache-key }}
+        restore-keys: |
+          security-${{ env.SECURITY_SCAN_VERSION }}-${{ runner.os }}-
     
     - name: Install dependencies
+      if: matrix.scan-type == 'dependency' || matrix.scan-type == 'code-analysis'
       run: npm ci
     
     - name: Run npm audit
+      if: matrix.scan-type == 'dependency'
       run: |
         npm audit --audit-level=moderate || true
         npm audit --audit-level=high --json > audit-results.json || true
     
     - name: Security scan with enhanced validator
+      if: matrix.scan-type == 'code-analysis'
       run: |
         echo "🛡️ Running comprehensive security validation..."
         npm run validate
     
     - name: Check for hardcoded secrets
+      if: matrix.scan-type == 'secrets'
       run: |
         echo "🔍 Scanning for hardcoded secrets..."
         
@@ -59,6 +127,7 @@ jobs:
         echo "✅ Secret scanning completed"
     
     - name: Validate file permissions
+      if: matrix.scan-type == 'permissions'
       run: |
         echo "� Checking file permissions..."
         
@@ -77,6 +146,7 @@ jobs:
         echo "✅ File permissions are appropriate"
     
     - name: Dependency vulnerability check
+      if: matrix.scan-type == 'dependency'
       run: |
         echo "📦 Checking dependency vulnerabilities..."
         

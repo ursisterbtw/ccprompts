@@ -1,5 +1,10 @@
 ---
     name: Deployment Pipeline
+
+    concurrency:
+      group: deploy-${{ github.ref }}
+      cancel-in-progress: false      # Don't cancel deployments
+
     on:
       push:
         branches:
@@ -25,19 +30,37 @@
       NODE_VERSION: "18"
       FORCE_COLOR: 1
       CI: true
+      DEPLOYMENT_TIMEOUT: 1800       # 30 minutes
+      CACHE_VERSION: v2
+
+    permissions:
+      contents: read
+      deployments: write
+      id-token: write
+
     jobs:
       prepare:
         name: Prepare Deployment
         runs-on: ubuntu-latest
+        permissions:
+          contents: read
         outputs:
           deploy-environment: ${{ steps.determine-env.outputs.environment }}
           deploy-version: ${{ steps.determine-version.outputs.version }}
           should-deploy: ${{ steps.quality-gate.outputs.should-deploy }}
+          cache-key: ${{ steps.cache-strategy.outputs.cache-key }}
         steps:
           - name: Checkout repository
             uses: actions/checkout@v4
             with:
               fetch-depth: 0
+
+          - name: Determine cache strategy
+            id: cache-strategy
+            run: |
+              CACHE_KEY="deploy-${{ env.CACHE_VERSION }}-${{ runner.os }}-${{ hashFiles('**/package-lock.json', '**/requirements.txt') }}"
+              echo "cache-key=$CACHE_KEY" >> $GITHUB_OUTPUT
+
           - name: Determine target environment
             id: determine-env
             env:
@@ -458,10 +481,11 @@
         runs-on: ubuntu-latest
         permissions:
           contents: read
-        needs:
-          - prepare
-          - deploy-staging
-          - deploy-production
+needs:
+  - prepare
+  - deploy-staging
+  - deploy-production
+  - quality-validation
         if: always() && (needs.deploy-staging.result == 'success' ||
           needs.deploy-production.result == 'success')
         steps:

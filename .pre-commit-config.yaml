@@ -1,0 +1,51 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: ['--allow-multiple-documents']
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.33.0
+    hooks:
+      - id: yamllint
+        args: ['-c=.yamllint.yml']
+        files: \.github/workflows/.*\.yml$
+
+  - repo: local
+    hooks:
+      - id: validate-github-workflows
+        name: Validate GitHub Workflows
+        entry: .github/test-harness/test-workflows.sh
+        language: script
+        files: \.github/workflows/.*\.yml$
+        pass_filenames: false
+
+      - id: check-workflow-permissions
+        name: Check Workflow Permissions
+        entry: |
+          bash -c '
+            missing=0
+            for f in .github/workflows/*.yml; do
+              if grep -L "permissions:" "$f" >/dev/null; then
+                echo "Missing permissions in $f"
+                missing=1
+              fi
+            done
+            exit $missing
+          '
+        language: system
+        files: \.github/workflows/.*\.yml$
+        pass_filenames: false
+
+      - id: actionlint
+        name: Lint GitHub Actions
+        entry: bash -c 'which actionlint >/dev/null 2>&1 && actionlint || echo "actionlint not installed, skipping"'
+        language: system
+        files: \.github/workflows/.*\.yml$
+        pass_filenames: false

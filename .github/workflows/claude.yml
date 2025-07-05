@@ -1,5 +1,8 @@
 name: Claude Code
 
+env:
+  NODE_VERSION: '20'
+
 on:
   issue_comment:
     types: [created]
@@ -10,6 +13,10 @@ on:
   pull_request_review:
     types: [submitted]
 
+concurrency:
+  group: claude-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   claude:
     if: |
@@ -19,15 +26,28 @@ jobs:
       (github.event_name == 'issues' && (contains(github.event.issue.body, '@claude') || contains(github.event.issue.title, '@claude')))
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      pull-requests: read
-      issues: read
+      contents: read                # For repository access
+      pull-requests: write         # For PR interactions
+      issues: write               # For issue interactions
       id-token: write
+      security-events: read        # For security context
+    
+    outputs:
+      response-generated: ${{ steps.claude.outputs.response-generated }}
+      
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 2            # Fetch enough for context
+          
+      - name: Cache Claude context
+        uses: actions/cache@v4
+        with:
+          path: ~/.claude-context
+          key: claude-context-${{ runner.os }}-${{ github.run_id }}
+          restore-keys: |
+            claude-context-${{ runner.os }}-
 
       - name: Run Claude Code
         id: claude

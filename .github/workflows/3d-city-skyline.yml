@@ -1,0 +1,489 @@
+name: 3D City Skyline Performance
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+  pages: write
+  id-token: write
+
+jobs:
+  generate-3d-skyline:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create 3D city skyline visualization
+        run: |
+          cat > 3d-skyline.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>CI/CD Performance City</title>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+            <style>
+              body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+                background: #000;
+              }
+              
+              #canvas {
+                width: 100vw;
+                height: 100vh;
+              }
+              
+              .info-panel {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                max-width: 300px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+              }
+              
+              .info-panel h2 {
+                margin: 0 0 15px 0;
+                color: #58a6ff;
+                font-size: 24px;
+              }
+              
+              .building-info {
+                display: none;
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px solid rgba(255, 255, 255, 0.2);
+              }
+              
+              .building-info.active {
+                display: block;
+              }
+              
+              .metric {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 8px;
+                font-size: 14px;
+              }
+              
+              .metric-label {
+                color: #8b949e;
+              }
+              
+              .metric-value {
+                font-weight: bold;
+              }
+              
+              .controls {
+                position: absolute;
+                bottom: 20px;
+                left: 20px;
+                background: rgba(0, 0, 0, 0.8);
+                padding: 15px;
+                border-radius: 10px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+              }
+              
+              button {
+                background: #238636;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 6px;
+                cursor: pointer;
+                margin-right: 10px;
+                font-size: 14px;
+                transition: background 0.2s;
+              }
+              
+              button:hover {
+                background: #2ea043;
+              }
+              
+              .legend {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: rgba(0, 0, 0, 0.8);
+                padding: 15px;
+                border-radius: 10px;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: white;
+                font-size: 12px;
+              }
+              
+              .legend-item {
+                display: flex;
+                align-items: center;
+                margin-bottom: 8px;
+              }
+              
+              .legend-color {
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+                border-radius: 3px;
+              }
+            </style>
+          </head>
+          <body>
+            <div id="canvas"></div>
+            
+            <div class="info-panel">
+              <h2>🏙️ CI/CD Performance City</h2>
+              <div class="metric">
+                <span class="metric-label">Total Workflows:</span>
+                <span class="metric-value">12</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Average Build Time:</span>
+                <span class="metric-value">2.3 min</span>
+              </div>
+              <div class="metric">
+                <span class="metric-label">Success Rate:</span>
+                <span class="metric-value">94%</span>
+              </div>
+              
+              <div class="building-info" id="buildingInfo">
+                <h3 id="buildingName">-</h3>
+                <div class="metric">
+                  <span class="metric-label">Height (Duration):</span>
+                  <span class="metric-value" id="buildingHeight">-</span>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">Color (Success Rate):</span>
+                  <span class="metric-value" id="buildingColor">-</span>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">Last Run:</span>
+                  <span class="metric-value" id="buildingLastRun">-</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="controls">
+              <button onclick="toggleAnimation()">⏯️ Toggle Animation</button>
+              <button onclick="resetCamera()">📷 Reset View</button>
+              <button onclick="toggleNightMode()">🌙 Night Mode</button>
+            </div>
+            
+            <div class="legend">
+              <h4 style="margin: 0 0 10px 0;">Performance Legend</h4>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #00ff00;"></div>
+                <span>Excellent (>95%)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #88ff00;"></div>
+                <span>Good (85-95%)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #ffff00;"></div>
+                <span>Fair (70-85%)</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color" style="background: #ff8800;"></div>
+                <span>Poor (<70%)</span>
+              </div>
+            </div>
+            
+            <script>
+              // Scene setup
+              const scene = new THREE.Scene();
+              scene.fog = new THREE.Fog(0x000000, 50, 200);
+              
+              const camera = new THREE.PerspectiveCamera(
+                75,
+                window.innerWidth / window.innerHeight,
+                0.1,
+                1000
+              );
+              
+              const renderer = new THREE.WebGLRenderer({ antialias: true });
+              renderer.setSize(window.innerWidth, window.innerHeight);
+              renderer.shadowMap.enabled = true;
+              renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+              document.getElementById('canvas').appendChild(renderer.domElement);
+              
+              // Controls
+              const controls = new THREE.OrbitControls(camera, renderer.domElement);
+              controls.enableDamping = true;
+              controls.dampingFactor = 0.05;
+              controls.minDistance = 20;
+              controls.maxDistance = 200;
+              
+              // Lighting
+              const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
+              scene.add(ambientLight);
+              
+              const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+              directionalLight.position.set(50, 100, 50);
+              directionalLight.castShadow = true;
+              directionalLight.shadow.camera.left = -50;
+              directionalLight.shadow.camera.right = 50;
+              directionalLight.shadow.camera.top = 50;
+              directionalLight.shadow.camera.bottom = -50;
+              scene.add(directionalLight);
+              
+              // Ground
+              const groundGeometry = new THREE.PlaneGeometry(200, 200);
+              const groundMaterial = new THREE.MeshStandardMaterial({ 
+                color: 0x111111,
+                roughness: 0.8,
+                metalness: 0.2
+              });
+              const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+              ground.rotation.x = -Math.PI / 2;
+              ground.receiveShadow = true;
+              scene.add(ground);
+              
+              // Grid
+              const gridHelper = new THREE.GridHelper(200, 50, 0x444444, 0x222222);
+              scene.add(gridHelper);
+              
+              // Workflow data
+              const workflows = [
+                { name: 'Deploy', duration: 5.2, successRate: 95, position: { x: -20, z: -20 } },
+                { name: 'Security Scan', duration: 3.8, successRate: 92, position: { x: 0, z: -20 } },
+                { name: 'Tests', duration: 2.1, successRate: 98, position: { x: 20, z: -20 } },
+                { name: 'Lint', duration: 1.5, successRate: 99, position: { x: -20, z: 0 } },
+                { name: 'Build', duration: 4.5, successRate: 88, position: { x: 0, z: 0 } },
+                { name: 'Claude Review', duration: 2.3, successRate: 100, position: { x: 20, z: 0 } },
+                { name: 'Validate', duration: 1.8, successRate: 96, position: { x: -20, z: 20 } },
+                { name: 'Performance', duration: 3.2, successRate: 85, position: { x: 0, z: 20 } },
+                { name: 'Badges', duration: 0.8, successRate: 100, position: { x: 20, z: 20 } }
+              ];
+              
+              // Create buildings
+              const buildings = [];
+              const raycaster = new THREE.Raycaster();
+              const mouse = new THREE.Vector2();
+              
+              function getColorForSuccessRate(rate) {
+                if (rate >= 95) return 0x00ff00;
+                if (rate >= 85) return 0x88ff00;
+                if (rate >= 70) return 0xffff00;
+                return 0xff8800;
+              }
+              
+              workflows.forEach((workflow, index) => {
+                const height = workflow.duration * 10;
+                const geometry = new THREE.BoxGeometry(8, height, 8);
+                const material = new THREE.MeshStandardMaterial({
+                  color: getColorForSuccessRate(workflow.successRate),
+                  emissive: getColorForSuccessRate(workflow.successRate),
+                  emissiveIntensity: 0.2,
+                  roughness: 0.3,
+                  metalness: 0.7
+                });
+                
+                const building = new THREE.Mesh(geometry, material);
+                building.position.set(workflow.position.x, height / 2, workflow.position.z);
+                building.castShadow = true;
+                building.receiveShadow = true;
+                building.userData = workflow;
+                
+                scene.add(building);
+                buildings.push(building);
+                
+                // Add windows
+                const windowGeometry = new THREE.PlaneGeometry(1, 1);
+                const windowMaterial = new THREE.MeshBasicMaterial({ 
+                  color: 0xffffff,
+                  emissive: 0xffffff,
+                  emissiveIntensity: 0.5
+                });
+                
+                for (let y = 2; y < height - 2; y += 3) {
+                  for (let x = -3; x <= 3; x += 2) {
+                    const window = new THREE.Mesh(windowGeometry, windowMaterial);
+                    window.position.set(x, y, 4.01);
+                    building.add(window);
+                  }
+                }
+                
+                // Add label
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = 256;
+                canvas.height = 64;
+                context.fillStyle = 'white';
+                context.font = 'bold 24px Arial';
+                context.textAlign = 'center';
+                context.fillText(workflow.name, 128, 40);
+                
+                const texture = new THREE.CanvasTexture(canvas);
+                const labelMaterial = new THREE.SpriteMaterial({ map: texture });
+                const label = new THREE.Sprite(labelMaterial);
+                label.position.set(0, height + 5, 0);
+                label.scale.set(10, 2.5, 1);
+                building.add(label);
+              });
+              
+              // Camera position
+              camera.position.set(50, 50, 50);
+              camera.lookAt(0, 0, 0);
+              
+              // Animation
+              let animationEnabled = true;
+              let time = 0;
+              
+              function animate() {
+                requestAnimationFrame(animate);
+                
+                if (animationEnabled) {
+                  time += 0.01;
+                  
+                  // Animate buildings
+                  buildings.forEach((building, index) => {
+                    building.position.y = building.geometry.parameters.height / 2 + 
+                      Math.sin(time + index) * 0.5;
+                    building.rotation.y = Math.sin(time * 0.5 + index) * 0.02;
+                  });
+                  
+                  // Rotate camera
+                  camera.position.x = Math.cos(time * 0.1) * 80;
+                  camera.position.z = Math.sin(time * 0.1) * 80;
+                  camera.lookAt(0, 0, 0);
+                }
+                
+                controls.update();
+                renderer.render(scene, camera);
+              }
+              
+              // Mouse interaction
+              function onMouseMove(event) {
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+                
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObjects(buildings);
+                
+                if (intersects.length > 0) {
+                  const building = intersects[0].object;
+                  const data = building.userData;
+                  
+                  document.getElementById('buildingInfo').classList.add('active');
+                  document.getElementById('buildingName').textContent = data.name;
+                  document.getElementById('buildingHeight').textContent = data.duration + ' min';
+                  document.getElementById('buildingColor').textContent = data.successRate + '%';
+                  document.getElementById('buildingLastRun').textContent = '2 mins ago';
+                  
+                  // Highlight building
+                  buildings.forEach(b => {
+                    b.material.emissiveIntensity = 0.2;
+                  });
+                  building.material.emissiveIntensity = 0.5;
+                } else {
+                  document.getElementById('buildingInfo').classList.remove('active');
+                  buildings.forEach(b => {
+                    b.material.emissiveIntensity = 0.2;
+                  });
+                }
+              }
+              
+              window.addEventListener('mousemove', onMouseMove);
+              
+              // Controls
+              window.toggleAnimation = () => {
+                animationEnabled = !animationEnabled;
+              };
+              
+              window.resetCamera = () => {
+                camera.position.set(50, 50, 50);
+                camera.lookAt(0, 0, 0);
+                controls.reset();
+              };
+              
+              let nightMode = false;
+              window.toggleNightMode = () => {
+                nightMode = !nightMode;
+                if (nightMode) {
+                  scene.fog = new THREE.Fog(0x000033, 50, 200);
+                  ambientLight.intensity = 0.2;
+                  directionalLight.intensity = 0.5;
+                } else {
+                  scene.fog = new THREE.Fog(0x000000, 50, 200);
+                  ambientLight.intensity = 0.5;
+                  directionalLight.intensity = 1;
+                }
+              };
+              
+              // Resize handler
+              window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+              });
+              
+              // Start animation
+              animate();
+              
+              // Add particles for running builds
+              const particleGeometry = new THREE.BufferGeometry();
+              const particleCount = 1000;
+              const positions = new Float32Array(particleCount * 3);
+              
+              for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 100;
+                positions[i + 1] = Math.random() * 50;
+                positions[i + 2] = (Math.random() - 0.5) * 100;
+              }
+              
+              particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+              const particleMaterial = new THREE.PointsMaterial({
+                color: 0x58a6ff,
+                size: 0.5,
+                transparent: true,
+                opacity: 0.6,
+                blending: THREE.AdditiveBlending
+              });
+              
+              const particles = new THREE.Points(particleGeometry, particleMaterial);
+              scene.add(particles);
+              
+              // Animate particles
+              function animateParticles() {
+                const positions = particles.geometry.attributes.position.array;
+                for (let i = 0; i < positions.length; i += 3) {
+                  positions[i + 1] += 0.1;
+                  if (positions[i + 1] > 50) {
+                    positions[i + 1] = 0;
+                  }
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+              }
+              
+              setInterval(animateParticles, 16);
+            </script>
+          </body>
+          </html>
+          EOF
+
+          echo "🏙️ 3D City Skyline generated!"
+
+      - name: Upload 3D visualization
+        uses: actions/upload-artifact@v4
+        with:
+          name: 3d-city-skyline-${{ github.run_id }}
+          path: 3d-skyline.html
+          retention-days: 30

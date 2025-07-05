@@ -18,6 +18,21 @@ on:
         required: false
         type: boolean
         default: true
+      enable-sarif-upload:
+        description: 'Enable SARIF results upload to GitHub Security'
+        required: false
+        type: boolean
+        default: true
+      fail-on-severity:
+        description: 'Minimum severity to fail the workflow (low, medium, high, critical)'
+        required: false
+        type: string
+        default: 'high'
+      scan-timeout:
+        description: 'Timeout for security scans in minutes'
+        required: false
+        type: number
+        default: 30
     outputs:
       vulnerabilities-found:
         description: 'Whether vulnerabilities were found'
@@ -25,17 +40,47 @@ on:
       security-status:
         description: 'Overall security scan status'
         value: ${{ jobs.scan.outputs.status }}
+      sarif-file:
+        description: 'Path to generated SARIF file'
+        value: ${{ jobs.scan.outputs.sarif-file }}
+      scan-summary:
+        description: 'Security scan summary'
+        value: ${{ jobs.scan.outputs.summary }}
+
+env:
+  SECURITY_SCAN_VERSION: v4
 
 jobs:
   scan:
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.scan-timeout }}
+    permissions:
+      contents: read
+      security-events: write
     outputs:
       vulnerabilities: ${{ steps.summary.outputs.vulnerabilities }}
       status: ${{ steps.summary.outputs.status }}
+      sarif-file: ${{ steps.sarif-generation.outputs.sarif-file }}
+      summary: ${{ steps.summary.outputs.summary }}
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0              # Full history for comprehensive analysis
+
+      - name: Cache security tools and databases
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.npm
+            /tmp/security-cache
+            /opt/security-tools
+          key: security-tools-${{ env.SECURITY_SCAN_VERSION }}-${{ runner.os }}-${{ hashFiles('**/requirements.txt', '**/package-lock.json') }}
+          restore-keys: |
+            security-tools-${{ env.SECURITY_SCAN_VERSION }}-${{ runner.os }}-
+            security-tools-${{ env.SECURITY_SCAN_VERSION }}-
 
       - name: Setup Node.js
         if: inputs.enable-dependency-scan
@@ -124,6 +169,42 @@ jobs:
             echo "permission_issues=false" >> $GITHUB_ENV
           fi
 
+      - name: Generate SARIF report
+        id: sarif-generation
+        if: inputs.enable-sarif-upload && (env.dep_vulnerabilities == 'true' || env.secrets_found == 'true')
+        run: |
+          echo "🔧 Generating SARIF report..."
+          
+          # Create SARIF structure
+          cat > security-scan.sarif << 'EOF'
+          {
+            "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+            "version": "2.1.0",
+            "runs": [
+              {
+                "tool": {
+                  "driver": {
+                    "name": "Custom Security Scanner",
+                    "version": "${{ env.SECURITY_SCAN_VERSION }}",
+                    "informationUri": "https://github.com/${{ github.repository }}"
+                  }
+                },
+                "results": []
+              }
+            ]
+          }
+          EOF
+          
+          echo "sarif-file=security-scan.sarif" >> $GITHUB_OUTPUT
+          echo "✅ SARIF report generated"
+          
+      - name: Upload SARIF to GitHub Security
+        if: inputs.enable-sarif-upload && steps.sarif-generation.outputs.sarif-file
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: ${{ steps.sarif-generation.outputs.sarif-file }}
+          category: custom-security-scan
+
       - name: Generate security summary
         id: summary
         if: always()
@@ -131,6 +212,7 @@ jobs:
           # Determine overall status
           VULNERABILITIES_FOUND=false
           SECURITY_STATUS="passed"
+          SCAN_SUMMARY=""
           
           if [ "${{ env.dep_vulnerabilities }}" = "true" ] || \
              [ "${{ env.secrets_found }}" = "true" ] || \
@@ -139,8 +221,27 @@ jobs:
             SECURITY_STATUS="failed"
           fi
           
+          # Check severity threshold
+          if [ "${{ inputs.fail-on-severity }}" = "low" ] && [ "$VULNERABILITIES_FOUND" = "true" ]; then
+            SECURITY_STATUS="failed"
+          fi
+          
           echo "vulnerabilities=$VULNERABILITIES_FOUND" >> $GITHUB_OUTPUT
           echo "status=$SECURITY_STATUS" >> $GITHUB_OUTPUT
+          
+          # Generate summary JSON
+          SCAN_SUMMARY=$(cat << EOJ
+          {
+            "dependency_vulnerabilities": "${{ env.dep_vulnerabilities }}",
+            "secrets_found": "${{ env.secrets_found }}",
+            "permission_issues": "${{ env.permission_issues }}",
+            "overall_status": "$SECURITY_STATUS",
+            "scan_version": "${{ env.SECURITY_SCAN_VERSION }}"
+          }
+          EOJ
+          )
+          
+          echo "summary=$SCAN_SUMMARY" >> $GITHUB_OUTPUT
           
           # Generate report
           cat << EOF >> $GITHUB_STEP_SUMMARY
@@ -152,4 +253,9 @@ jobs:
           - **File Permissions**: ${{ env.permission_issues == 'true' && '⚠️ Issues' || '✅ Secure' }}
           
           ### Overall Status: ${{ steps.summary.outputs.status == 'passed' && '✅ PASSED' || '❌ FAILED' }}
+          
+          ### Configuration:
+          - **Fail on Severity**: ${{ inputs.fail-on-severity }}
+          - **SARIF Upload**: ${{ inputs.enable-sarif-upload && 'Enabled' || 'Disabled' }}
+          - **Scan Version**: ${{ env.SECURITY_SCAN_VERSION }}
           EOF

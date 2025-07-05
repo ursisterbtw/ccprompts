@@ -19,31 +19,60 @@ on:
   schedule:
     - cron: '32 10 * * 0'
 
+env:
+  SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+  SEMGREP_DEPLOYMENT_ID: ${{ secrets.SEMGREP_DEPLOYMENT_ID }}
+
 permissions:
-  contents: read
+  contents: read                   # For checkout
+  security-events: write          # For SARIF upload
+  actions: read                    # For workflow status
+  pull-requests: write            # For PR comments
+
+concurrency:
+  group: semgrep-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   semgrep:
-    permissions:
-      contents: read # for actions/checkout to fetch code
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     name: Scan
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+
     steps:
       # Checkout project source
       - uses: actions/checkout@v4
-
-      # Scan code using project's configuration on https://semgrep.dev/manage
-      - uses: returntocorp/semgrep-action@fcd5ab7459e8d91cb1777481980d1b18b4fc6735
         with:
-          publishToken: ${{ secrets.SEMGREP_APP_TOKEN }}
-          publishDeployment: ${{ secrets.SEMGREP_DEPLOYMENT_ID }}
-          generateSarif: "1"
+          fetch-depth: 0           # Full history for better analysis
+
+      - name: Cache Semgrep rules and databases
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/semgrep
+            ~/.semgrep
+          key: semgrep-${{ runner.os }}-${{ hashFiles('.semgrep.yml', '.semgrep/**') }}
+          restore-keys: |
+            semgrep-${{ runner.os }}-
+
+      # Install Semgrep CLI
+      - name: Install Semgrep
+        run: python -m pip install semgrep
+
+      # Run Semgrep scan
+      - name: Run Semgrep
+        run: |
+          semgrep ci \
+            --config=auto \
+            --sarif \
+            --output=semgrep.sarif \
+            --publish-token "${{ env.SEMGREP_APP_TOKEN }}" \
+            --publish-deployment "${{ env.SEMGREP_DEPLOYMENT_ID }}"
 
       # Upload SARIF file generated in previous step
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: semgrep.sarif
+          category: semgrep
         if: always()

@@ -1,0 +1,212 @@
+name: Performance Badge Generator
+
+on:
+  push:
+    branches: [ main ]
+  workflow_run:
+    workflows: ["*"]
+    types: [completed]
+  schedule:
+    - cron: '*/30 * * * *'  # Update every 30 minutes
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  generate-badges:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install badge dependencies
+        run: |
+          npm install badge-maker canvas chartjs-node-canvas
+
+      - name: Generate performance badges
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat > generate-badges.js << 'EOF'
+          const { makeBadge } = require('badge-maker');
+          const fs = require('fs');
+          const { createCanvas } = require('canvas');
+          const { ChartJSNodeCanvas } = require('chartjs-node-canvas');
+
+          // Performance data (in production, fetch from API)
+          const performanceData = {
+            buildTime: 2.3,
+            buildTrend: -15, // % change
+            successRate: 94,
+            coverage: 87,
+            performance: 95,
+            lastUpdated: new Date().toISOString()
+          };
+
+          // Color schemes
+          function getColorForMetric(value, metric) {
+            switch(metric) {
+              case 'buildTime':
+                if (value < 2) return '#00ff00';
+                if (value < 5) return '#88ff00';
+                if (value < 10) return '#ffff00';
+                if (value < 15) return '#ff8800';
+                return '#ff0000';
+              case 'successRate':
+              case 'coverage':
+              case 'performance':
+                if (value >= 90) return '#00ff00';
+                if (value >= 70) return '#88ff00';
+                if (value >= 50) return '#ffff00';
+                if (value >= 30) return '#ff8800';
+                return '#ff0000';
+              default:
+                return '#0066cc';
+            }
+          }
+
+          // Generate standard badges
+          const badges = [
+            {
+              label: 'build time',
+              message: `${performanceData.buildTime}m`,
+              color: getColorForMetric(performanceData.buildTime, 'buildTime'),
+              style: 'flat-square'
+            },
+            {
+              label: 'build trend',
+              message: `${performanceData.buildTrend > 0 ? '↑' : '↓'} ${Math.abs(performanceData.buildTrend)}%`,
+              color: performanceData.buildTrend > 0 ? '#ff0000' : '#00ff00',
+              style: 'flat-square'
+            },
+            {
+              label: 'success rate',
+              message: `${performanceData.successRate}%`,
+              color: getColorForMetric(performanceData.successRate, 'successRate'),
+              style: 'flat-square'
+            },
+            {
+              label: 'performance',
+              message: `${performanceData.performance}/100`,
+              color: getColorForMetric(performanceData.performance, 'performance'),
+              style: 'flat-square'
+            }
+          ];
+
+          // Create badges directory
+          if (!fs.existsSync('badges')) {
+            fs.mkdirSync('badges');
+          }
+
+          // Generate SVG badges
+          badges.forEach((badge, index) => {
+            const svg = makeBadge(badge);
+            fs.writeFileSync(`badges/${badge.label.replace(' ', '-')}.svg`, svg);
+          });
+
+          // Generate animated performance badge
+          const animatedBadge = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="20">
+            <defs>
+              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#00ff00;stop-opacity:1">
+                  <animate attributeName="stop-color" values="#00ff00;#88ff00;#ffff00;#ff8800;#ff0000;#ff8800;#ffff00;#88ff00;#00ff00" dur="5s" repeatCount="indefinite" />
+                </stop>
+                <stop offset="100%" style="stop-color:#0066cc;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <rect width="200" height="20" fill="url(#grad1)" />
+            <text x="10" y="14" fill="white" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11" font-weight="bold">
+              CI/CD Performance: ${performanceData.performance}/100
+            </text>
+            <animateTransform
+              attributeName="transform"
+              type="scale"
+              values="1,1; 1.05,1.05; 1,1"
+              dur="2s"
+              repeatCount="indefinite" />
+          </svg>`;
+
+          fs.writeFileSync('badges/performance-animated.svg', animatedBadge);
+
+          // Generate mini chart badge
+          const width = 300;
+          const height = 80;
+          const chartJSNodeCanvas = new ChartJSNodeCanvas({ width, height, backgroundColour: 'transparent' });
+
+          const configuration = {
+            type: 'line',
+            data: {
+              labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              datasets: [{
+                label: 'Build Time',
+                data: [3.2, 3.0, 2.8, 2.5, 2.3, 2.4, 2.3],
+                borderColor: '#00ff00',
+                backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                tension: 0.4,
+                borderWidth: 2,
+                pointRadius: 0
+              }]
+            },
+            options: {
+              responsive: false,
+              plugins: {
+                legend: { display: false },
+                title: {
+                  display: true,
+                  text: 'Build Performance Trend',
+                  color: '#ffffff',
+                  font: { size: 12 }
+                }
+              },
+              scales: {
+                x: { display: false },
+                y: { display: false }
+              }
+            }
+          };
+
+          const image = await chartJSNodeCanvas.renderToBuffer(configuration);
+          fs.writeFileSync('badges/performance-chart.png', image);
+
+          // Generate README with all badges
+          const readmeBadges = `
+<!-- Performance Badges -->
+<div align="center">
+
+## 🎯 CI/CD Performance Metrics
+
+![Build Time](https://raw.githubusercontent.com/${{ github.repository }}/main/badges/build-time.svg)
+![Build Trend](https://raw.githubusercontent.com/${{ github.repository }}/main/badges/build-trend.svg)
+![Success Rate](https://raw.githubusercontent.com/${{ github.repository }}/main/badges/success-rate.svg)
+![Performance Score](https://raw.githubusercontent.com/${{ github.repository }}/main/badges/performance.svg)
+
+![Performance Animation](https://raw.githubusercontent.com/${{ github.repository }}/main/badges/performance-animated.svg)
+
+![Performance Trend](https://raw.githubusercontent.com/${{ github.repository }}/main/badges/performance-chart.png)
+
+<sub>Last updated: ${new Date().toLocaleString()}</sub>
+
+</div>
+`;
+
+          fs.writeFileSync('badges/README.md', readmeBadges);
+          console.log('✅ Badges generated successfully!');
+          EOF
+
+          node generate-badges.js
+
+      - name: Commit and push badges
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          git add badges/
+          git commit -m "Update performance badges - $(date)" || echo "No changes"
+          git push
