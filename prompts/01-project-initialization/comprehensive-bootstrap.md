@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/00-workflow/bootstrap-project.md
+---
+**DEPRECATED:** Use the `/bootstrap-project` command for project initialization.
+
 # Comprehensive Project Bootstrap
 
 ```xml

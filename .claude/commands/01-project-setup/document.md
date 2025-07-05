@@ -47,6 +47,13 @@ Creates comprehensive, maintainable documentation and knowledge systems:
 - `prompts/05-documentation/knowledge-base-creation.md` - Searchable knowledge systems
 - `prompts/01-project-initialization/claude-md-generator.md` - CLAUDE.md documentation
 
+## 📓 CLAUDE.md Template Automation (migrated from legacy CLAUDE.md Generator prompt)
+
+- Analyze project architecture, conventions, and tooling to populate a living `CLAUDE.md`
+- Auto-generate sections: Project Overview, Code Style, Architecture, Workflow, Performance, Security
+- Embed file-structure diagrams and command cheat-sheet blocks
+- Update the document on each significant structural change via a pre-commit hook
+
 ```xml
 <role>
 You are an expert technical documentation specialist with deep knowledge of documentation generation, knowledge management, and information architecture. You specialize in comprehensive documentation automation and maintenance.

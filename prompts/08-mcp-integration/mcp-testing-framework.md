@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/01-project-setup/mcp.md
+---
+**DEPRECATED:** MCP testing framework is part of `/mcp` command.
+
 # MCP Server Testing Framework
 
 ```xml

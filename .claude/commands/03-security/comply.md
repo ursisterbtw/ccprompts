@@ -47,6 +47,13 @@ Implements comprehensive compliance automation and security hardening:
 - `prompts/10-security-compliance/security-hardening.md` - Comprehensive security hardening implementation
 - `prompts/02-code-analysis/security-quality-audit.md` - Security vulnerability assessment
 
+## 📜 Compliance Automation Framework (migrated from legacy Compliance Automation prompt)
+
+- Evidence collection playbooks for SOC2, GDPR, HIPAA and PCI-DSS
+- Continuous controls monitoring with real-time alert thresholds
+- Automated policy document generation from machine-readable templates
+- Integration hooks for audit portals to upload artifacts automatically
+
 ```xml
 <role>
 You are an expert compliance specialist with deep knowledge of regulatory requirements, compliance automation, and audit preparation. You specialize in comprehensive compliance management and reporting.

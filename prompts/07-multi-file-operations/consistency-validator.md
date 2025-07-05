@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/07-utilities/validate-environment.md
+---
+**DEPRECATED:** Consistency validation lives in `/validate-environment`.
+
 # Cross-File Consistency Validator
 
 ```xml

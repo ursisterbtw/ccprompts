@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/04-testing/test.md
+---
+**DEPRECATED:** Mutation testing is integrated into `/test`.
+
 # Mutation Testing Implementation
 
 ```xml

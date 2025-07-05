@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/07-utilities/knowledge-base.md
+---
+**DEPRECATED:** Knowledge base creation is part of `/knowledge-base`.
+
 # Knowledge Base Creation
 
 ```xml

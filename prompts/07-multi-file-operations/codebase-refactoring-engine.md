@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/02-development/refactor.md
+---
+**DEPRECATED:** Use `/refactor` for multi-file refactoring.
+
 # Codebase-Wide Refactoring Engine
 
 ```xml

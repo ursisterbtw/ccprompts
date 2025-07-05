@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/04-testing/test.md
+---
+**DEPRECATED:** Test suite generation is part of `/test`.
+
 # Comprehensive Test Suite Generation
 
 ```xml

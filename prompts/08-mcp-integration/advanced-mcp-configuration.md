@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/01-project-setup/mcp.md
+---
+**DEPRECATED:** Advanced MCP configuration is included in `/mcp` command.
+
 # Advanced MCP Server Configuration
 
 ```xml
