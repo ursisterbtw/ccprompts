@@ -28,7 +28,17 @@ repos:
 
       - id: check-workflow-permissions
         name: Check Workflow Permissions
-        entry: bash -c 'for f in .github/workflows/*.yml; do grep -L "permissions:" "$f" && echo "Missing permissions in $f" && exit 1 || true; done; exit 0'
+        entry: |
+          bash -c '
+            missing=0
+            for f in .github/workflows/*.yml; do
+              if grep -L "permissions:" "$f" >/dev/null; then
+                echo "Missing permissions in $f"
+                missing=1
+              fi
+            done
+            exit $missing
+          '
         language: system
         files: \.github/workflows/.*\.yml$
         pass_filenames: false
