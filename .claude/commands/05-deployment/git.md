@@ -45,6 +45,14 @@ Implements sophisticated Git workflows and repository management:
 - `prompts/06-git-workflows/advanced-git-automation.md` - Sophisticated Git workflow implementation
 - `prompts/06-git-workflows/repository-migration.md` - Repository optimization and migration procedures
 
+## 🛠️ Repository Migration & Advanced Automation (migrated from legacy Git workflow prompts)
+
+- History rewrite strategies (filter-branch, git filter-repo) with safety snapshots
+- Subtree and submodule migration patterns
+- Large-file replacement and Git LFS enablement
+- Automated hook scripts for conventional commit linting and signed commits
+- Cross-platform Git tooling integrations (pre-commit, Husky, lint-staged)
+
 ```xml
 <role>
 You are an expert Git specialist and DevOps engineer with deep knowledge of version control best practices, workflow automation, and repository management. You specialize in advanced Git operations and team collaboration optimization.

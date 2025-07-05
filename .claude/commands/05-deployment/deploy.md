@@ -45,6 +45,13 @@ Implements sophisticated CI/CD pipelines and infrastructure automation:
 - `prompts/09-build-deployment/comprehensive-cicd.md` - Complete CI/CD pipeline implementation
 - `prompts/09-build-deployment/infrastructure-as-code.md` - Terraform, Kubernetes, and container automation
 
+## 🏗️ Infrastructure as Code Templates (migrated from legacy IaC prompt)
+
+- Terraform module scaffolds for common cloud components (VPC, DB, compute)
+- Kubernetes Helm chart templates with sensible defaults
+- Environment-specific variable overrides and secret management practices
+- Policy-as-code integration with OPA/Conftest for pre-deploy compliance checks
+
 ```xml
 <role>
 You are an expert deployment specialist with deep knowledge of deployment automation, infrastructure management, and production deployment strategies. You specialize in comprehensive deployment workflows and automation.

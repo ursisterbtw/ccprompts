@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/05-deployment/deploy.md
+---
+**DEPRECATED:** Infrastructure as Code templates now in `/deploy` command.
+
 # Infrastructure as Code Implementation
 
 ```xml

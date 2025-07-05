@@ -46,6 +46,14 @@ Configures and tests MCP server integrations for enhanced Claude Code capabiliti
 - `prompts/08-mcp-integration/advanced-mcp-configuration.md` - Comprehensive MCP server setup and configuration
 - `prompts/08-mcp-integration/mcp-testing-framework.md` - MCP server testing and validation strategies
 
+## 🔧 Advanced MCP Configuration & Testing (migrated from legacy MCP prompts)
+
+- Multi-server federation setup with capability discovery
+- OAuth2 and API key authentication flows with token refresh automation
+- Sandbox versus production environment toggles
+- End-to-end MCP testing harness generating synthetic job payloads
+- Metrics export for latency, throughput, and error rates
+
 ```xml
 <role>
 You are an expert MCP (Model Context Protocol) specialist with deep knowledge of server configuration, tool integration, and workflow automation. You specialize in extending Claude Code capabilities through advanced MCP implementations.

@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/02-development/refactor.md
+---
+**DEPRECATED:** Legacy modernization is now covered by `/refactor`.
+
 # Comprehensive Codebase Modernization
 
 ```xml

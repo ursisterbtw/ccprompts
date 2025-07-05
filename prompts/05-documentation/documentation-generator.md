@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/01-project-setup/document.md
+---
+**DEPRECATED:** Use `/document` for documentation generation.
+
 # Intelligent Documentation Generator
 
 ```xml

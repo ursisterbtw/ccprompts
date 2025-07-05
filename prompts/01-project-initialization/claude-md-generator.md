@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/01-project-setup/document.md
+---
+**DEPRECATED:** CLAUDE.md generation is now part of the `/document` command.
+
 # CLAUDE.md Template Generator
 
 ```xml

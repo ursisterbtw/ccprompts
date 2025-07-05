@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/05-deployment/git.md
+---
+**DEPRECATED:** Advanced Git workflows are now in `/git` command.
+
 # Advanced Git Workflow Automation
 
 ```xml

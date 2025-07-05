@@ -173,4 +173,11 @@ build:
 - [ ] **Monitoring setup**: Pipeline and application observability
 - [ ] **Documentation**: Team training and runbook creation
 
+## 🚀 Multi-Stage Pipeline & Quality Gates (migrated from legacy CI/CD prompt)
+
+- Matrix build strategies across language versions and OSes
+- Security scanning, linting, and test stages gating merge actions
+- Manual approval and progressive delivery environments (dev → staging → prod)
+- Automatic changelog and release note generation on successful pipeline
+
 Create enterprise-grade CI/CD pipeline with security, testing, and deployment automation!

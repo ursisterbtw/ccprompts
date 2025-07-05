@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/03-security/audit-security.md
+---
+**DEPRECATED:** Unique dependency and license analysis content has been merged into the `/audit-security` command.
+
 # Intelligent Dependency Analysis
 
 ```xml

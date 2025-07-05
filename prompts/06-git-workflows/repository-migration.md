@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/05-deployment/git.md
+---
+**DEPRECATED:** Repository migration guidance is part of `/git`.
+
 # Repository Migration and Cleanup
 
 ```xml

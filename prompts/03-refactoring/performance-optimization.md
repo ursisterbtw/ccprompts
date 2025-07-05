@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/02-development/optimize.md
+---
+**DEPRECATED:** Use `/optimize` for performance enhancements.
+
 # Performance Optimization Deep Dive
 
 ```xml

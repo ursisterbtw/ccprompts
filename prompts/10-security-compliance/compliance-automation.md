@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/03-security/comply.md
+---
+**DEPRECATED:** Compliance automation is handled by `/comply` command.
+
 # Compliance Automation Framework
 
 ```xml

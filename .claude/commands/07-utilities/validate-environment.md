@@ -75,6 +75,13 @@ Performs comprehensive validation of the development environment and tooling:
 - **Performance Tools**: Profiling and monitoring tool availability
 - **Documentation Tools**: Documentation generation system status
 
+## ✅ Consistency Validator (migrated from legacy Consistency Validator prompt)
+
+- Cross-file lint rules to detect style and config drifts
+- Semantic analysis to ensure naming conventions across modules
+- Auto-fix recipes for common inconsistencies
+- Generates a compliance score and detailed diff report
+
 ## Validation Results
 
 ### Health Score (0-100%)

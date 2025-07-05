@@ -119,4 +119,12 @@ Focus: **$ARGUMENTS** (e.g., "missing coverage", "integration tests", "performan
 5. **Integration**: Add tests to CI/CD pipeline
 6. **Monitor**: Track test results and coverage over time
 
+## 🧬 Mutation Testing & Automated Suite Generation (migrated from legacy testing prompts)
+
+- Integrate mutation frameworks (StrykerJS, Mutmut, PIT) with project build
+- Establish mutation score thresholds (e.g., 80%) to gate CI pipelines
+- Auto-generate baseline test suites targeting uncovered code paths
+- Report surviving mutants with actionable remediation guidance
+- Include sample scripts: `npm run mutate`, `pytest --mutate`, `./gradlew pitest`
+
 Execute comprehensive testing strategy with intelligent test generation and automation!

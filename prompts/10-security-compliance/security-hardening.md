@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/03-security/harden.md
+---
+**DEPRECATED:** Security hardening guidance is included in `/harden` command.
+
 # Security Hardening Implementation
 
 ```xml

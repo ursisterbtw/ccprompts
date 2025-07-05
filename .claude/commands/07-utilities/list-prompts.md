@@ -179,3 +179,30 @@ Team Impact: High (shared setup)
 6. **Chain workflows**: Combine commands for complex tasks
 
 Discover and navigate the complete command ecosystem with intelligent filtering and recommendations!
+
+## 🆕 Extended Browsing Categories (migrated from legacy extras command)
+
+### By Development Stage
+- **Project Setup**: Bootstrap, initialization, and configuration prompts
+- **Development**: Active coding, refactoring, and feature development
+- **Quality Assurance**: Testing, security, and compliance prompts
+- **Deployment**: CI/CD, infrastructure, and release management
+- **Maintenance**: Monitoring, optimization, and legacy modernization
+
+### By Complexity Level
+- **Beginner**: Simple, single-purpose prompts with clear instructions
+- **Intermediate**: Multi-step prompts requiring some technical knowledge
+- **Advanced**: Complex workflows requiring deep technical expertise
+- **Enterprise**: Comprehensive prompts for large-scale operations
+
+### By Time Investment
+- **Quick Wins**: 15-60 minutes, immediate impact
+- **Short Projects**: 2-8 hours, focused improvements
+- **Strategic Initiatives**: 1-5 days, comprehensive changes
+- **Long-term Programs**: 1+ weeks, major transformations
+
+### By Team Size
+- **Solo Developer**: Individual productivity and learning focused
+- **Small Team**: 2-10 developers, coordination and standards
+- **Medium Team**: 10-50 developers, process and governance
+- **Enterprise**: 50+ developers, compliance and scale

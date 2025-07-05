@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/05-deployment/setup-ci.md
+---
+**DEPRECATED:** Use `/setup-ci` for comprehensive CI/CD workflows.
+
 # Comprehensive CI/CD Pipeline
 
 ```xml

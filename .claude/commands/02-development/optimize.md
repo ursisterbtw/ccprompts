@@ -71,6 +71,14 @@ Executes systematic optimization workflows targeting specific improvement areas:
 - `prompts/03-refactoring/codebase-modernization.md`
 - `prompts/02-code-analysis/security-quality-audit.md`
 
+## 🚀 Full-Stack Performance Toolkit (migrated from legacy Performance Optimization prompt)
+
+- End-to-end profiling strategy covering backend & frontend traces
+- Database query optimisation and intelligent caching check-list
+- Client-side performance budgets with bundle-size regression guardrails
+- Automated load-test scripts and threshold gates in CI
+- Performance regression dashboard generation
+
 ```xml
 <role>
 You are an expert performance optimization specialist with deep knowledge of system performance, bottleneck analysis, and optimization strategies. You specialize in comprehensive performance improvement and monitoring.

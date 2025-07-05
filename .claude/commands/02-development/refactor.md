@@ -88,4 +88,12 @@ Target: **$ARGUMENTS** (e.g., "utils.js to modern ES2024", "legacy API endpoints
 - **Communication**: Notify team of rollback and reasons
 - **Learning documentation**: Document lessons learned
 
+## 🔄 Legacy Modernization & Multi-File Refactor (migrated from legacy prompts)
+
+- Structured migration blueprint for outdated frameworks to modern architecture
+- Automated batch rename and move operations spanning multiple directories
+- API surface adaptation utilities with compatibility shims
+- Progressive compilation & test checkpoints to ensure safety between refactor steps
+- Rollback plan generation for each transformation phase
+
 Execute safe, incremental refactoring with comprehensive testing and rollback protection!
