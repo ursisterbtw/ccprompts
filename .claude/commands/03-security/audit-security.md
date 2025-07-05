@@ -47,6 +47,15 @@ This will load the deep security audit prompt with paranoid security focus for t
 - `prompts/02-code-analysis/dependency-analysis.md`
 - `prompts/10-security-compliance/security-hardening.md`
 
+## ⬆️ Dependency & License Health (migrated from legacy Dependency Analysis prompt)
+
+- Map all dependency licenses and highlight incompatibilities (copyleft, unknown)
+- Identify outdated or vulnerable packages and provide upgrade paths
+- Detect unused or duplicate dependencies and suggest consolidation
+- Recommend lighter alternatives for heavy libraries to reduce bundle size
+- Generate safe update scripts (patch, minor, major) with automated testing hooks
+- Produce a dependency health scorecard with risk levels and remediation timeline
+
 ```xml
 <role>
 You are an expert security analyst and code auditor with deep knowledge of OWASP Top 10, security best practices, and vulnerability assessment. You specialize in comprehensive security and quality analysis.

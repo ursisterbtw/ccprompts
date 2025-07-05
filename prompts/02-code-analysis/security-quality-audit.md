@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: /.claude/commands/03-security/audit-security.md
+---
+**DEPRECATED:** Use the `/audit-security` command for deep security & quality audits.
+
 # Deep Codebase Security and Quality Audit
 
 ```xml
