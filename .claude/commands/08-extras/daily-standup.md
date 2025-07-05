@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: ../../06-collaboration/daily-standup.md
+---
+**DEPRECATED:** Please use the canonical daily standup command located at `/06-collaboration/daily-standup.md`.
+
 # Daily-Standup Command
 
 This command automates daily standup preparation and facilitates efficient team communication.

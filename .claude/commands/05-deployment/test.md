@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: ../../04-testing/test.md
+---
+**DEPRECATED:** Use the comprehensive testing command in `/04-testing/test.md` instead.
+
 # Test Command
 
 This command provides access to comprehensive testing implementation and quality assurance prompts.

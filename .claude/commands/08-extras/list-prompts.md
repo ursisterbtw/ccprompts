@@ -1,3 +1,9 @@
+---
+deprecated: true
+alias_of: ../../07-utilities/list-prompts.md
+---
+**DEPRECATED:** This duplicate command has been superseded by the canonical version in `/07-utilities/list-prompts.md`.
+
 # List-Prompts Command
 
 This command provides comprehensive browsing and filtering of available prompts with advanced categorization.

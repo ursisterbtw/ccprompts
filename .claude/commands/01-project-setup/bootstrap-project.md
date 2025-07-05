@@ -1,4 +1,10 @@
 ---
+deprecated: true
+alias_of: ../../00-workflow/bootstrap-project.md
+---
+**DEPRECATED:** This duplicate has been replaced by the canonical version in `/00-workflow/bootstrap-project.md`.
+
+---
 description: Complete project initialization with intelligent technology detection
 allowed-tools: Bash(npm:*), Bash(pip:*), Bash(cargo:*), Bash(git:*), Write, Edit, Read
 ---
