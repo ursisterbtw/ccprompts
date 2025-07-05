@@ -11,6 +11,10 @@ on:
       - "**/*.md"
       - "prompts/**/*"
       - ".claude/**/*"
+      - "src/**/*"
+      - "scripts/**/*"
+      - "package.json"
+      - "package-lock.json"
 
 env:
   NODE_VERSION: '20'
@@ -24,6 +28,7 @@ jobs:
     #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
     
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read                # For checkout
       pull-requests: write         # For PR comments
@@ -55,6 +60,7 @@ jobs:
 
       - name: Run Claude Code Review
         id: claude-review
+        timeout-minutes: 25
         uses: anthropics/claude-code-action@beta
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}

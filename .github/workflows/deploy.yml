@@ -121,6 +121,9 @@
       quality-validation:
         name: Pre-Deployment Quality Validation
         runs-on: ubuntu-latest
+        timeout-minutes: 30
+        permissions:
+          contents: read
         needs: prepare
         if: needs.prepare.outputs.should-deploy == 'true'
         steps:
@@ -133,7 +136,20 @@
             with:
               node-version: ${{ env.NODE_VERSION }}
               cache: npm
+              cache-dependency-path: package-lock.json
+          
+          - name: Cache npm dependencies
+            uses: actions/cache@v4
+            id: npm-cache
+            with:
+              path: ~/.npm
+              key: ${{ runner.os }}-npm-deploy-${{ hashFiles('**/package-lock.json') }}
+              restore-keys: |
+                ${{ runner.os }}-npm-deploy-
+                ${{ runner.os }}-npm-
+          
           - name: Install dependencies
+            if: steps.npm-cache.outputs.cache-hit != 'true'
             run: |
               npm ci --prefer-offline --no-audit --progress=false
           - name: Run comprehensive validation
@@ -235,6 +251,9 @@
       deploy-staging:
         name: Deploy to Staging
         runs-on: ubuntu-latest
+        timeout-minutes: 25
+        permissions:
+          contents: read
         needs:
           - prepare
           - quality-validation
@@ -250,7 +269,20 @@
             with:
               node-version: ${{ env.NODE_VERSION }}
               cache: npm
+              cache-dependency-path: package-lock.json
+          
+          - name: Cache npm dependencies
+            uses: actions/cache@v4
+            id: npm-cache
+            with:
+              path: ~/.npm
+              key: ${{ runner.os }}-npm-deploy-${{ hashFiles('**/package-lock.json') }}
+              restore-keys: |
+                ${{ runner.os }}-npm-deploy-
+                ${{ runner.os }}-npm-
+          
           - name: Install dependencies
+            if: steps.npm-cache.outputs.cache-hit != 'true'
             run: |
               npm ci --prefer-offline --no-audit --progress=false
           - name: Build deployment package
@@ -327,6 +359,9 @@
       deploy-production:
         name: Deploy to Production
         runs-on: ubuntu-latest
+        timeout-minutes: 45
+        permissions:
+          contents: read
         needs:
           - prepare
           - quality-validation
@@ -342,7 +377,20 @@
             with:
               node-version: ${{ env.NODE_VERSION }}
               cache: npm
+              cache-dependency-path: package-lock.json
+          
+          - name: Cache npm dependencies
+            uses: actions/cache@v4
+            id: npm-cache
+            with:
+              path: ~/.npm
+              key: ${{ runner.os }}-npm-deploy-${{ hashFiles('**/package-lock.json') }}
+              restore-keys: |
+                ${{ runner.os }}-npm-deploy-
+                ${{ runner.os }}-npm-
+          
           - name: Install dependencies
+            if: steps.npm-cache.outputs.cache-hit != 'true'
             run: |
               npm ci --prefer-offline --no-audit --progress=false
           - name: Final pre-production validation
@@ -479,6 +527,7 @@
       post-deployment:
         name: Post-Deployment Tasks
         runs-on: ubuntu-latest
+        timeout-minutes: 15
         permissions:
           contents: read
 needs:
@@ -572,6 +621,7 @@ needs:
       rollback:
         name: Emergency Rollback
         runs-on: ubuntu-latest
+        timeout-minutes: 20
         if: failure() && (github.event_name == 'workflow_dispatch' ||
           contains(github.event.head_commit.message, '[rollback]'))
         environment: ${{ needs.prepare.outputs.deploy-environment || 'production' }}

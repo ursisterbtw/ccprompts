@@ -42,9 +42,10 @@ jobs:
   test-deployment:
     name: Test Deployment Preparation
     runs-on: ubuntu-latest
-    needs: [test-validation, test-security]
+    timeout-minutes: 20
     permissions:
       contents: read
+    needs: [test-validation, test-security]
     
     steps:
       - name: Checkout repository
@@ -55,8 +56,20 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - name: Cache npm dependencies
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-npm-test-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-test-
+            ${{ runner.os }}-npm-
 
       - name: Install dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm ci --prefer-offline --no-audit
 
       - name: Create deployment package
@@ -118,6 +131,9 @@ jobs:
   test-report:
     name: Generate Test Report
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
     needs: [test-validation, test-security, test-deployment, test-artifacts]
     if: always()
     

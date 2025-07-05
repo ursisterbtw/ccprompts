@@ -38,22 +38,23 @@ jobs:
     name: Scan
     runs-on: ubuntu-latest
     timeout-minutes: 30
-
     steps:
       # Checkout project source
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0           # Full history for better analysis
 
-      - name: Cache Semgrep rules and databases
+      - name: Cache Semgrep rules
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.cache/semgrep
-            ~/.semgrep
-          key: semgrep-${{ runner.os }}-${{ hashFiles('.semgrep.yml', '.semgrep/**') }}
+          path: ~/.semgrep
+          key: ${{ runner.os }}-semgrep-${{ hashFiles('**/semgrep.yml', '**/semgrep.yaml') }}
           restore-keys: |
-            semgrep-${{ runner.os }}-
+            ${{ runner.os }}-semgrep-
+
+      # Scan code using project's configuration on https://semgrep.dev/manage
+      - uses: returntocorp/semgrep-action@v1
+        timeout-minutes: 20
+        with:
+          fetch-depth: 0           # Full history for better analysis
 
       # Install Semgrep CLI
       - name: Install Semgrep
