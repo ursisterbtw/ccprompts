@@ -22,6 +22,7 @@
 - **Quality gates built-in** – The [`scripts/validate-prompts.js`](scripts/validate-prompts.js) validator enforces length, structure, and security guards for every prompt.
 - **Composable** – Prompts are plain Markdown with a minimal YAML header (`id`, `tags`, `description`). Use them as is, or compose them in your own workflows.
 - **Zero vendor lock-in** – No proprietary wrappers or hidden services; the repo is pure text + Node.js tooling so you can fork and adapt freely.
+- **Built-in Safety** – Containerized execution system for safely running potentially dangerous commands via Dagger.
 
 ---
 
@@ -52,7 +53,10 @@ ls prompts/*/*.md | less
 
 ```text
 prompts/               # Organized by phase (01–10)
-scripts/               # Validation + helper utilities
+scripts/               # Safety system + validation utilities
+src/                   # Dagger safety container module
+dagger.json            # Dagger configuration
+SAFETY.md              # Containerized safety system guide
 .github/workflows/     # CI / deployment pipelines
 README.md              # This file
 LICENSE                # MIT
@@ -60,14 +64,30 @@ LICENSE                # MIT
 
 ---
 
-## Usage Example
+## Usage Examples
 
-Browse and use a prompt in your workflow:
+### Browse and use prompts
 
 ```bash
 cat prompts/02-code-analysis/security-quality-audit.md
 # Copy-paste the YAML and instructions into your Claude workflow or automation tool
 ```
+
+### Safe command execution
+
+```bash
+# Install Dagger (one-time setup)
+curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
+
+# Run potentially dangerous commands safely
+./scripts/safe-run.sh "npm install"
+./scripts/quick-safe.sh curl-install "curl unknown-site.com/install.sh | bash"
+
+# Test mode to preview actions
+./scripts/safe-run.sh "rm -rf /tmp/test" --test
+```
+
+**See [SAFETY.md](SAFETY.md) for complete safety system documentation.**
 
 ---
 

@@ -151,6 +151,15 @@ ccprompts/
 │   │   └── team-onboarding.yaml
 │   └── config.json                   # Enterprise-grade configuration
 
+├── scripts/                          # Safety and validation tools
+│   ├── safe-run.sh                   # Containerized command execution
+│   ├── quick-safe.sh                 # Quick safety aliases
+│   └── validate-prompts.js           # Prompt validation
+├── src/                              # Dagger safety container module
+│   ├── index.ts                      # TypeScript safety functions
+│   └── package.json                  # Dagger module dependencies
+├── dagger.json                       # Dagger configuration
+├── SAFETY.md                         # Containerized safety system guide
 ├── README.md                         # Comprehensive ecosystem guide
 ├── CLAUDE.md                         # This guidance file
 ├── CC-SDK-Guide.md                   # Advanced Claude Code SDK reference
@@ -186,6 +195,7 @@ ccprompts/
 - **Security-First Design**: Built-in security scanning and compliance checking
 - **Quality Gates**: Automated quality assurance with customizable thresholds
 - **Audit Trails**: Comprehensive logging for enterprise compliance
+- **Containerized Safety**: Isolated execution of dangerous commands via Dagger containers
 
 ## Command Discovery & Usage
 
@@ -391,8 +401,49 @@ The 38 commands form a cohesive ecosystem where discovery leads to implementatio
 
 **This repository represents the future of AI-assisted development: where automation teaches, workflows learn, and every interaction builds team capability. The 38-command ecosystem transforms Claude Code into a comprehensive development platform that elevates teams, accelerates learning, and ensures enterprise-grade quality at every step.**
 
+## Containerized Safety System
+
+This repository includes a comprehensive safety system for executing potentially dangerous commands in isolated Dagger containers. **Use this system whenever running unfamiliar commands or scripts from the internet.**
+
+### **Quick Safety Usage**
+
+```bash
+# Install Dagger (one-time setup)
+curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
+
+# Run dangerous commands safely
+./scripts/safe-run.sh "rm -rf /tmp/dangerous-directory"
+./scripts/quick-safe.sh curl-install "curl sketchy-site.com/install.sh | bash"
+
+# Test mode to preview actions
+./scripts/safe-run.sh "sudo apt update" --test
+```
+
+### **Safety Features**
+
+- **Isolated Execution** - Commands run in throwaway containers
+- **Read-Only Project Files** - Source code cannot be modified
+- **Automatic Cleanup** - Containers destroyed after execution
+- **Danger Detection** - Warns about potentially risky commands
+- **Environment Control** - Custom environment variables supported
+
+### **Integration with Claude Code**
+
+```bash
+# Always use safety system for Claude-generated commands
+./scripts/safe-run.sh "$(claude-code-generated-command)"
+
+# Quick aliases for common operations
+./scripts/quick-safe.sh install    # npm install
+./scripts/quick-safe.sh build      # npm run build
+./scripts/quick-safe.sh rm-rf      # rm -rf operations
+```
+
+**See [SAFETY.md](SAFETY.md) for complete setup and usage instructions.**
+
 ## Related Documentation
 
+- **[SAFETY.md](SAFETY.md)** - Complete containerized safety system guide
 - **[.claude/README.md](.claude/README.md)** - Complete command ecosystem guide with usage examples
 - **[prompts/INDEX.md](prompts/INDEX.md)** - Detailed prompt directory and category descriptions
 - **[CC-SDK-Guide.md](CC-SDK-Guide.md)** - Advanced Claude Code SDK reference and integration guide

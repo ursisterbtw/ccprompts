@@ -1,0 +1,13 @@
+{
+  "name": "ccprompts-safety-dagger",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.ts",
+  "dependencies": {
+    "@dagger.io/dagger": "^0.13.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
