@@ -22,7 +22,7 @@
 - **Quality gates built-in** – The [`scripts/validate-prompts.js`](scripts/validate-prompts.js) validator enforces length, structure, and security guards for every prompt.
 - **Composable** – Prompts are plain Markdown with a minimal YAML header (`id`, `tags`, `description`). Use them as is, or compose them in your own workflows.
 - **Zero vendor lock-in** – No proprietary wrappers or hidden services; the repo is pure text + Node.js tooling so you can fork and adapt freely.
-- **Built-in Safety** – Containerized execution system for safely running potentially dangerous commands, via Dagger.
+- **Built-in Safety** – Containerized execution system for safely running potentially dangerous commands via Dagger.
 
 ---
 
