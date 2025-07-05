@@ -53,7 +53,7 @@ ls prompts/*/*.md | less
 ## Repository layout 
 
 ```text
-prompts/               # 10 organized prompt categories (01–10)
+prompts/               # 8 organized prompt categories (01-8)
 beta-prompts/          # Advanced optimization system (12 Python modules)
 .claude/               # 39 slash commands across 9 directories
 ├── commands/          # All production-ready commands
