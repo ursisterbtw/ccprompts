@@ -1,0 +1,157 @@
+# Pre-commit configuration for beta-prompts
+# Modern Python development with Ruff, MyPy, and security scanning
+
+default_language_version:
+  python: python3.11
+
+repos:
+  # Ruff - Ultra-fast Python linter and formatter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.7
+    hooks:
+      # Linter
+      - id: ruff
+        name: ruff-linter
+        description: "Run Ruff linter"
+        args: [--fix, --exit-non-zero-on-fix]
+        types: [python]
+      # Formatter  
+      - id: ruff-format
+        name: ruff-formatter
+        description: "Run Ruff formatter"
+        types: [python]
+
+  # MyPy - Static type checker
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.7.1
+    hooks:
+      - id: mypy
+        name: mypy-type-check
+        description: "Run MyPy type checking"
+        additional_dependencies: 
+          - types-pyyaml
+          - types-requests
+          - anthropic
+          - pydantic
+        args: [--ignore-missing-imports, --show-error-codes]
+        exclude: ^(tests/|scripts/|docs/)
+
+  # Security scanning with Bandit
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        name: bandit-security-scan
+        description: "Run Bandit security scanner"
+        args: ["-c", "pyproject.toml"]
+        additional_dependencies: ["bandit[toml]"]
+        exclude: ^(tests/|scripts/)
+
+  # Safety - Dependency vulnerability scanner
+  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+    rev: v1.3.2
+    hooks:
+      - id: python-safety-dependencies-check
+        name: safety-dependency-check
+        description: "Check dependencies for vulnerabilities"
+        files: requirements.*\.txt$
+
+  # Generic file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      # File formatting
+      - id: trailing-whitespace
+        name: trim-trailing-whitespace
+        description: "Trim trailing whitespace"
+      - id: end-of-file-fixer
+        name: fix-end-of-files
+        description: "Ensure files end with newline"
+      - id: mixed-line-ending
+        name: fix-line-endings
+        description: "Fix mixed line endings"
+        args: [--fix=lf]
+      
+      # File validation
+      - id: check-yaml
+        name: check-yaml-syntax
+        description: "Check YAML syntax"
+      - id: check-toml
+        name: check-toml-syntax
+        description: "Check TOML syntax"
+      - id: check-json
+        name: check-json-syntax
+        description: "Check JSON syntax"
+      - id: check-xml
+        name: check-xml-syntax
+        description: "Check XML syntax"
+      
+      # Python-specific
+      - id: check-ast
+        name: check-python-ast
+        description: "Check Python AST"
+      - id: debug-statements
+        name: check-debug-statements
+        description: "Check for debug statements"
+      - id: check-docstring-first
+        name: check-docstring-first
+        description: "Check docstring is first"
+      
+      # Security and secrets
+      - id: detect-private-key
+        name: detect-private-keys
+        description: "Detect private keys"
+      - id: check-merge-conflict
+        name: check-merge-conflicts
+        description: "Check for merge conflicts"
+      
+      # File size and encoding
+      - id: check-added-large-files
+        name: check-large-files
+        description: "Check for large files"
+        args: [--maxkb=500]
+      - id: check-case-conflict
+        name: check-case-conflicts
+        description: "Check for case conflicts"
+
+  # Commitizen - Conventional commits
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.13.0
+    hooks:
+      - id: commitizen
+        name: commitizen-check
+        description: "Check commit message format"
+        stages: [commit-msg]
+
+  # Interrogate - Docstring coverage (optional)
+  - repo: https://github.com/econchick/interrogate
+    rev: 1.5.0
+    hooks:
+      - id: interrogate
+        name: interrogate-docstring-coverage
+        description: "Check docstring coverage"
+        args: [--fail-under=80, --ignore-init-method, --ignore-module]
+        exclude: ^(tests/|scripts/|docs/)
+
+  # Additional security with Semgrep (if available)
+  - repo: https://github.com/returntocorp/semgrep
+    rev: v1.45.0
+    hooks:
+      - id: semgrep
+        name: semgrep-security-scan
+        description: "Run Semgrep security analysis"
+        args: ['--config=auto', '--error', '--skip-unknown-extensions']
+        exclude: ^(tests/|scripts/|docs/)
+
+# Advanced hook configurations
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit.com hooks
+
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ''
+  autoupdate_commit_msg: '[pre-commit.ci] pre-commit autoupdate'
+  autoupdate_schedule: weekly
+  skip: [mypy, bandit, semgrep]  # Skip heavy tools in CI
+  submodules: false

@@ -1,0 +1,147 @@
+{
+  "version": "1.0",
+  "hooks": {
+    "pre_tool": [
+      {
+        "name": "python_execution_safety",
+        "description": "Force all Python execution into Dagger containers for safety",
+        "triggers": [
+          {
+            "tool": "Bash",
+            "condition": "command_contains",
+            "patterns": [
+              "python",
+              "python3",
+              "pip",
+              "pip3",
+              "pytest",
+              ".py"
+            ]
+          }
+        ],
+        "action": "block",
+        "message": "BLOCKED: Python execution detected. Use containerized safety system instead.\n\nSAFE ALTERNATIVES:\n  ./scripts/safe-run.sh \"python script.py\"\n  ./scripts/quick-safe.sh python \"python script.py\"\n  ./scripts/safe-run.sh \"pip install -r requirements.txt\"\n\nThis prevents potential damage from:\n- Malicious Python code\n- Dependency conflicts\n- System modification\n- File system corruption\n\nAll Python execution MUST happen in isolated Dagger containers."
+      },
+      {
+        "name": "package_installation_safety",
+        "description": "Block direct package installation, require containerized approach",
+        "triggers": [
+          {
+            "tool": "Bash",
+            "condition": "command_contains",
+            "patterns": [
+              "npm install",
+              "yarn install",
+              "pip install",
+              "pip3 install",
+              "conda install",
+              "apt install",
+              "apt-get install",
+              "yum install",
+              "brew install"
+            ]
+          }
+        ],
+        "action": "block",
+        "message": "BLOCKED: Package installation detected. Use containerized approach.\n\nSAFE ALTERNATIVES:\n  ./scripts/safe-run.sh \"pip install package_name\"\n  ./scripts/quick-safe.sh install \"pip install -r requirements.txt\"\n\nThis prevents:\n- System pollution\n- Dependency conflicts\n- Security vulnerabilities\n- Permission escalation\n\nAll package operations MUST happen in containers."
+      },
+      {
+        "name": "script_execution_safety", 
+        "description": "Block direct script execution, require containerized approach",
+        "triggers": [
+          {
+            "tool": "Bash",
+            "condition": "command_starts_with",
+            "patterns": [
+              "./",
+              "bash ",
+              "sh ",
+              "zsh "
+            ]
+          },
+          {
+            "tool": "Bash",
+            "condition": "command_contains",
+            "patterns": [
+              "chmod +x",
+              "sudo",
+              "su -"
+            ]
+          }
+        ],
+        "action": "block",
+        "message": "BLOCKED: Direct script execution detected. Use containerized approach.\n\nSAFE ALTERNATIVES:\n  ./scripts/safe-run.sh \"./your-script.sh\"\n  ./scripts/quick-safe.sh script \"bash script.sh\"\n\nThis prevents:\n- Malicious script execution\n- Permission escalation\n- System modification\n- Uncontrolled file access\n\nAll scripts MUST run in isolated containers."
+      },
+      {
+        "name": "dangerous_commands_safety",
+        "description": "Block potentially dangerous system commands",
+        "triggers": [
+          {
+            "tool": "Bash", 
+            "condition": "command_contains",
+            "patterns": [
+              "rm -rf",
+              "rm -r /",
+              "dd if=",
+              "mkfs",
+              "fdisk",
+              "format",
+              "del /s",
+              "rmdir /s",
+              "curl | bash",
+              "wget | bash",
+              "curl | sh",
+              "wget | sh"
+            ]
+          }
+        ],
+        "action": "block",
+        "message": "BLOCKED: Potentially dangerous command detected.\n\nIf this operation is necessary:\n  ./scripts/safe-run.sh \"your-command\" --test\n  ./scripts/safe-run.sh \"your-command\"  # after verification\n\nThis prevents:\n- File system destruction\n- System corruption\n- Malicious code execution\n- Data loss\n\nUse containerized execution for safety."
+      },
+      {
+        "name": "environment_modification_safety",
+        "description": "Block direct environment modifications",
+        "triggers": [
+          {
+            "tool": "Bash",
+            "condition": "command_contains", 
+            "patterns": [
+              "export ",
+              "setenv",
+              "source ",
+              ". ",
+              "eval",
+              "exec"
+            ]
+          }
+        ],
+        "action": "warn",
+        "message": "WARNING: Environment modification detected.\n\nFor persistent changes, consider:\n  ./scripts/safe-run.sh \"export VAR=value && command\"\n\nFor testing:\n  ./scripts/safe-run.sh \"your-command\" --test\n\nThis helps prevent:\n- Environment pollution\n- Unintended side effects\n- Configuration conflicts\n\nProceed with caution or use containerized approach."
+      }
+    ]
+  },
+  "dagger_config": {
+    "required_for_python": true,
+    "required_for_scripts": true,
+    "required_for_packages": true,
+    "container_image": "python:3.11-slim",
+    "mount_paths": [
+      "/home/sistr/Projects/ccprompts/beta-prompts:/workspace",
+      "/tmp:/tmp"
+    ],
+    "environment_variables": {
+      "PYTHONPATH": "/workspace",
+      "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"
+    },
+    "network_access": true,
+    "timeout_seconds": 300
+  },
+  "safety_instructions": {
+    "always_use_containers": "All Python code execution, package installation, and script running must happen in Dagger containers",
+    "validate_before_run": "Always run with --test flag first to preview operations",
+    "check_dependencies": "Verify all required dependencies are in requirements.txt before running",
+    "backup_data": "Ensure important data is backed up before running potentially destructive operations",
+    "monitor_resources": "Monitor container resource usage during execution",
+    "clean_up": "Containers are automatically cleaned up after execution"
+  }
+}
