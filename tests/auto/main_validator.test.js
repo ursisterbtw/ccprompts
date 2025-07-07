@@ -514,6 +514,30 @@ describe('MainValidator', () => {
       expect(result.valid).to.be.true;
     });
 
+    it('should report validation errors for very large files', async () => {
+      const filepath = '/test/large_with_error.md';
+      // Create a large file with a known error pattern
+      const errorContent = 'a'.repeat(50000) + 'ERROR_PATTERN' + 'b'.repeat(50000);
+      mockFileUtils.readFileContent.returns(errorContent);
+
+      // Mock the validator to return an error when ERROR_PATTERN is present
+      const mockError = { message: 'Validation error found', line: 50001 };
+      sinon.stub(validator, 'runValidations').callsFake(async (content, file) => {
+        if (content.includes('ERROR_PATTERN')) {
+          return [mockError];
+        }
+        return [];
+      });
+
+      const result = await validator.validateFile(filepath);
+
+      expect(result.valid).to.be.false;
+      expect(result.errors).to.be.an('array').that.is.not.empty;
+      expect(result.errors[0]).to.deep.equal(mockError);
+
+      validator.runValidations.restore();
+    });
+
     it('should handle special characters in filenames', async () => {
       const filepath = '/test/file with spaces & special chars.md';
       mockFileUtils.getRelativePath.returns('file with spaces & special chars.md');
@@ -522,6 +546,17 @@ describe('MainValidator', () => {
       
       expect(result.valid).to.be.true;
       expect(validator.stats.fileTypes.has('file with spaces & special chars.md')).to.be.true;
+    });
+
+    it('should handle Unicode characters in filenames', async () => {
+      const unicodeFilename = 'fílè_üñíćødë_😀.md';
+      const filepath = `/test/${unicodeFilename}`;
+      mockFileUtils.getRelativePath.returns(unicodeFilename);
+
+      const result = await validator.validateFile(filepath);
+
+      expect(result.valid).to.be.true;
+      expect(validator.stats.fileTypes.has(unicodeFilename)).to.be.true;
     });
 
     it('should handle multiple validator failures', async () => {

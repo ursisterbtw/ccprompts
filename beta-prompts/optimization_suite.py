@@ -850,10 +850,13 @@ class IntegratedOptimizationSuite:
             optimization_sessions.append(session_data)
         
         # Calculate success rates
-        for session in optimization_sessions:
+        for i, session in enumerate(optimization_sessions):
             total = session['total_optimizations']
-            successful = sum(1 for result in self.optimization_history[0].optimization_results 
-                           if result.get('optimization_result', {}).get('performance_prediction', {}).get('overall_improvement', 0) > 0.1)
+            if i < len(self.optimization_history):
+                successful = sum(1 for result in self.optimization_history[i].optimization_results 
+                               if result.get('optimization_result', {}).get('performance_prediction', {}).get('overall_improvement', 0) > 0.1)
+            else:
+                successful = 0
             performance_metrics['success_rates'].append(successful / total if total > 0 else 0)
         
         # Process technique effectiveness
@@ -861,6 +864,9 @@ class IntegratedOptimizationSuite:
             technique_effectiveness[technique] = {
                 'avg_improvement': np.mean(improvements),
                 'usage_count': len(improvements),
+                # Effectiveness score: combines average improvement with usage frequency
+                # Division by 100 normalizes the score to a reasonable range (0-1 typical)
+                # assuming most techniques are used < 100 times and improvements are 0-1
                 'effectiveness_score': np.mean(improvements) * len(improvements) / 100
             }
         

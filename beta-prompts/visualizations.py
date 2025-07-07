@@ -237,9 +237,11 @@ class DarkModeVisualizer:
         effectiveness += effectiveness[:1]  # Complete the circle
         angles += angles[:1]
         
-        # Clear axis and create polar plot
+        # Clear axis for polar plot
         ax.clear()
-        ax = plt.subplot(gs[0, 2:], projection='polar')
+        # Set polar projection on the existing axis
+        ax.remove()
+        ax = ax.figure.add_subplot(ax.get_subplotspec(), projection='polar')
         
         # Create gradient fill
         ax.fill(angles, effectiveness, color=DARK_THEME['primary'], alpha=0.3)

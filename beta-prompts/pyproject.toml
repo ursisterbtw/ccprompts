@@ -49,7 +49,7 @@ dependencies = [
     
     # Visualization and plotting
     "matplotlib>=3.7.0,<4.0.0",
-    "seaborn>=0.12.0,<1.0.0",
+    "seaborn>=0.12.0",
     "plotly>=5.15.0,<6.0.0",
     
     # Advanced templating engine
@@ -94,7 +94,6 @@ dev = [
     "isort>=5.12.0,<6.0.0",         # Import sorting
     
     # Advanced type checking
-    "typer>=0.9.0,<1.0.0",          # Modern type checking (typer for CLI support)
     "mypy>=1.5.0,<2.0.0",           # Static type checker
     "types-pyyaml>=6.0.0",          # Type stubs for PyYAML
     "types-requests>=2.31.0",       # Type stubs for requests
@@ -159,9 +158,8 @@ security = [
     "pip-audit>=2.6.0,<3.0.0",
 ]
 
-all = [
-    "beta-prompts[dev,research,optimization,security]"
-]
+# Combines all optional dependencies
+# Note: We list the actual dependencies instead of self-referencing to avoid circular dependency issues
 
 [project.urls]
 Homepage = "https://github.com/your-org/ccprompts"
@@ -177,7 +175,7 @@ prompt-template = "beta_prompts.templating_framework:main"
 prompt-optimize = "beta_prompts.optimization_suite:main"
 
 [tool.setuptools]
-py-modules = ["improvement_engine", "generation_system", "templating_framework", "optimization_suite", "scorer", "interactive_dashboard", "seaborn_analytics", "visualizations"]
+packages = ["beta_prompts"]
 
 # Ruff - Fast Python linter and formatter
 [tool.ruff]

@@ -93,7 +93,7 @@ except ImportError:
 
 # Utility functions with scoring (optional)
 try:
-    from .prompt_scorer import PromptScorer, RealTaskMetrics
+    from .scorer import PromptScorer, RealTaskMetrics
     _SCORING_EXPORTS = ["PromptScorer", "RealTaskMetrics"]
 except ImportError:
     _SCORING_EXPORTS = []
@@ -125,7 +125,7 @@ def get_info() -> dict[str, str | list[str]]:
     if _VISUALIZATION_EXPORTS:
         available_modules.extend(["visualizations", "interactive_dashboard", "seaborn_analytics"])
     if _SCORING_EXPORTS:
-        available_modules.append("prompt_scorer")
+        available_modules.append("scorer")
     
     return {
         "name": "beta-prompts",

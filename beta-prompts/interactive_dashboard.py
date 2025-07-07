@@ -649,7 +649,9 @@ class InteractiveDashboard:
         # Add optimization path
         path_x = np.linspace(1, 9, 20)
         path_y = np.sin(path_x) * 2 + 5
-        path_z = [Z[int(y*5), int(x*5)] + 0.1 for x, y in zip(path_x, path_y)]
+        # Ensure indices are within bounds (0-49 for 50x50 array)
+        path_z = [Z[np.clip(int(y*5), 0, 49), np.clip(int(x*5), 0, 49)] + 0.1 
+                  for x, y in zip(path_x, path_y)]
         
         fig.add_trace(
             go.Scatter3d(
@@ -718,16 +720,32 @@ class InteractiveDashboard:
         
         return fig
     
-    def save_dashboard_html(self, fig: go.Figure, filename: str = 'interactive_dashboard.html'):
-        """Save interactive dashboard as HTML file"""
+    def save_dashboard_html(self, fig: go.Figure, filename: str = 'interactive_dashboard.html', 
+                           mode_bar_buttons: list[str] | None = None,
+                           config: dict | None = None):
+        """Save interactive dashboard as HTML file with customizable configuration.
+        
+        Args:
+            fig: The plotly figure to save
+            filename: Output filename
+            mode_bar_buttons: List of buttons to add to mode bar. Defaults to drawing tools.
+            config: Custom configuration dict. If provided, overrides default config.
+        """
+        
+        default_mode_bar_buttons = ['drawline', 'drawopenpath', 'drawclosedpath', 'drawcircle', 'drawrect', 'eraseshape']
+        
+        default_config = {
+            'displayModeBar': True,
+            'displaylogo': False,
+            'modeBarButtonsToAdd': mode_bar_buttons or default_mode_bar_buttons
+        }
+        
+        # Use custom config if provided, otherwise use default
+        final_config = config if config is not None else default_config
         
         fig.write_html(
             filename,
-            config={
-                'displayModeBar': True,
-                'displaylogo': False,
-                'modeBarButtonsToAdd': ['drawline', 'drawopenpath', 'drawclosedpath', 'drawcircle', 'drawrect', 'eraseshape']
-            },
+            config=final_config,
             include_plotlyjs=True
         )
         
