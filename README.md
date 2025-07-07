@@ -12,16 +12,15 @@
 
 # ccprompts – practical claude code commands and prompts
 
-**ccprompts** is a comprehensive collection of Claude Code-specific developer commands and prompts. The project delivers **39 production-ready commands** across **9 organized directories**, plus an advanced **prompt optimization system** with 12 Python modules for intelligent automation, continuous learning, and enterprise-grade quality assurance.
+**ccprompts** is a comprehensive collection of Claude Code-specific developer commands and prompts. The project delivers **39 production-ready commands** across **9 organized directories**, plus prompt optimization tools for intelligent automation, continuous learning, and enterprise-grade quality assurance.
 
 ---
 
 ## Why use this repo?
 
 - **Comprehensive Command Ecosystem** – 39 production-ready commands across 9 directories covering the complete development lifecycle
-- **Advanced Optimization System** – 12 Python modules for intelligent prompt optimization, scoring, and validation
+- **Prompt Optimization Tools** – Python modules for intelligent prompt optimization, scoring, and validation
 - **Enterprise-Grade Quality** – Built-in security scanning, compliance checking, and audit trails
-- **Containerized Safety** – Isolated execution system for safely running potentially dangerous commands via Dagger
 - **Learning-Integrated Automation** – Every command teaches while it automates, transforming routine tasks into skill development
 - **Zero vendor lock-in** – Pure text-based prompts + tooling, freely forkable and adaptable
 
@@ -54,7 +53,7 @@ ls prompts/*/*.md | less
 
 ```text
 prompts/               # 8 organized prompt categories (01-8)
-beta-prompts/          # Advanced optimization system (12 Python modules)
+beta-prompts/          # Prompt optimization tools
 .claude/               # 39 slash commands across 9 directories
 ├── commands/          # All production-ready commands
 │   ├── 00-initial-workflow/    # Initial workflow automation
@@ -69,10 +68,7 @@ beta-prompts/          # Advanced optimization system (12 Python modules)
 ├── workflows/         # Automated workflow definitions
 └── config.json        # Enterprise-grade configuration
 docs/                  # Documentation and SDK guide
-scripts/               # Safety system + validation utilities
-src/                   # Dagger safety container module
-dagger.json            # Dagger configuration
-SAFETY.md              # Containerized safety system guide
+scripts/               # Validation utilities
 .github/workflows/     # CI / deployment pipelines
 README.md              # This file
 LICENSE                # MIT
@@ -95,21 +91,6 @@ cat .claude/commands/01-project-setup/bootstrap-project.md
 cat prompts/02-code-analysis/security-quality-audit.md
 ```
 
-### Safe command execution
-
-```bash
-# Install Dagger (one-time setup)
-curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
-
-# Run potentially dangerous commands safely
-./scripts/safe-run.sh "npm install"
-./scripts/quick-safe.sh curl-install "curl unknown-site.com/install.sh | bash"
-
-# Test mode to preview actions
-./scripts/safe-run.sh "rm -rf /tmp/test" --test
-```
-
-**See [SAFETY.md](SAFETY.md) for complete safety system documentation.**
 
 ---
 

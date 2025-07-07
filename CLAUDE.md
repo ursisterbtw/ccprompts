@@ -107,19 +107,18 @@ ccprompts/
 │   │   └── compliance-automation.md  # Regulatory compliance
 │   └── INDEX.md                      # Comprehensive category index
 
-├── beta-prompts/                     # Advanced prompt optimization system
-│   ├── 01-context-analysis.py        # Context pattern analysis
-│   ├── 02-semantic-clustering.py     # Semantic prompt clustering
-│   ├── 03-performance-scoring.py     # Performance evaluation framework
-│   ├── 04-optimization-engine.py     # Automated prompt optimization
-│   ├── 05-quality-validation.py      # Quality assurance validation
-│   ├── 06-batch-processing.py        # Batch optimization processing
-│   ├── 07-metric-analysis.py         # Metric analysis and reporting
-│   ├── 08-workflow-integration.py    # Workflow integration utilities
-│   ├── 09-content-generation.py      # Content generation algorithms
-│   ├── 10-evaluation-framework.py    # Evaluation framework
-│   ├── 11-automated-testing.py       # Automated testing suite
-│   └── 12-reporting-system.py        # Comprehensive reporting system
+├── beta-prompts/                     # Prompt optimization tools
+│   ├── beta_prompts/                 # Core Python package
+│   │   ├── improvement_engine.py     # Prompt optimization engine
+│   │   ├── generation_system.py      # Prompt generation system
+│   │   ├── templating_framework.py   # Advanced templating
+│   │   ├── optimization_suite.py     # Integrated optimization
+│   │   ├── scorer.py                 # Shared scoring utilities
+│   │   ├── interactive_dashboard.py  # Interactive analytics
+│   │   ├── seaborn_analytics.py      # Statistical visualization
+│   │   └── visualizations.py         # Core visualization utilities
+│   ├── README.md                     # Documentation and usage guide
+│   └── pyproject.toml                # Python package configuration
 
 ├── .claude/                          # Complete command ecosystem
 │   ├── commands/                     # All 39 slash commands
@@ -183,15 +182,6 @@ ccprompts/
 │   │   └── banner.svg               # Project banner
 │   └── CC-SDK.md                    # Advanced Claude Code SDK reference
 
-├── scripts/                          # Safety and validation tools
-│   ├── safe-run.sh                   # Containerized command execution
-│   ├── quick-safe.sh                 # Quick safety aliases
-│   └── validate-prompts.js           # Prompt validation
-├── src/                              # Dagger safety container module
-│   ├── index.ts                      # TypeScript safety functions
-│   └── package.json                  # Dagger module dependencies
-├── dagger.json                       # Dagger configuration
-├── SAFETY.md                         # Containerized safety system guide
 ├── README.md                         # Comprehensive ecosystem guide
 ├── CLAUDE.md                         # This guidance file
 └── .gitignore                        # Optimized for .claude directory
@@ -262,18 +252,14 @@ ccprompts/
 4. **Enable Learning**: Use `/learn` and `/troubleshoot` for continuous development
 5. **Scale Operations**: Leverage `/workflow-builder` and `/sprint-planning` for team coordination
 
-### **Advanced Prompt Optimization**
+### **Prompt Optimization Tools**
 
-The `beta-prompts/` directory contains a comprehensive Python-based optimization system:
+The `beta-prompts/` directory contains Python-based prompt optimization tools:
 
-- **Context Analysis**: Automated analysis of prompt context patterns
-- **Semantic Clustering**: Intelligent grouping of similar prompts
-- **Performance Scoring**: Quantitative evaluation of prompt effectiveness
-- **Optimization Engine**: Automated prompt improvement algorithms
-- **Quality Validation**: Comprehensive validation and testing framework
-- **Batch Processing**: Efficient processing of multiple prompts
-- **Metric Analysis**: Detailed performance metrics and reporting
-- **Workflow Integration**: Seamless integration with existing workflows
+- **Prompt Improvement**: Automated optimization and enhancement
+- **Template Generation**: Advanced templating framework
+- **Interactive Analytics**: Dashboard for prompt performance analysis
+- **Visualization Tools**: Statistical and performance visualizations
 
 ### **Workflow Integration Examples**
 
@@ -445,49 +431,9 @@ The 39 commands form a cohesive ecosystem where discovery leads to implementatio
 
 **This repository represents the future of AI-assisted development: where automation teaches, workflows learn, and every interaction builds team capability. The 39-command ecosystem transforms Claude Code into a comprehensive development platform that elevates teams, accelerates learning, and ensures enterprise-grade quality at every step.**
 
-## Containerized Safety System
-
-This repository includes a comprehensive safety system for executing potentially dangerous commands in isolated Dagger containers. **Use this system whenever running unfamiliar commands or scripts from the internet.**
-
-### **Quick Safety Usage**
-
-```bash
-# Install Dagger (one-time setup)
-curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
-
-# Run dangerous commands safely
-./scripts/safe-run.sh "rm -rf /tmp/dangerous-directory"
-./scripts/quick-safe.sh curl-install "curl sketchy-site.com/install.sh | bash"
-
-# Test mode to preview actions
-./scripts/safe-run.sh "sudo apt update" --test
-```
-
-### **Safety Features**
-
-- **Isolated Execution** - Commands run in throwaway containers
-- **Read-Only Project Files** - Source code cannot be modified
-- **Automatic Cleanup** - Containers destroyed after execution
-- **Danger Detection** - Warns about potentially risky commands
-- **Environment Control** - Custom environment variables supported
-
-### **Integration with Claude Code**
-
-```bash
-# Always use safety system for Claude-generated commands
-./scripts/safe-run.sh "$(claude-code-generated-command)"
-
-# Quick aliases for common operations
-./scripts/quick-safe.sh install    # npm install
-./scripts/quick-safe.sh build      # npm run build
-./scripts/quick-safe.sh rm-rf      # rm -rf operations
-```
-
-**See [SAFETY.md](SAFETY.md) for complete setup and usage instructions.**
 
 ## Related Documentation
 
-- **[SAFETY.md](SAFETY.md)** - Complete containerized safety system guide
 - **[.claude/README.md](.claude/README.md)** - Complete command ecosystem guide with usage examples
 - **[prompts/INDEX.md](prompts/INDEX.md)** - Detailed prompt directory and category descriptions
 - **[docs/CC-SDK.md](docs/CC-SDK.md)** - Advanced Claude Code SDK reference and integration guide
