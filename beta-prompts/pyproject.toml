@@ -176,18 +176,8 @@ prompt-generate = "beta_prompts.generation_system:main"
 prompt-template = "beta_prompts.templating_framework:main"
 prompt-optimize = "beta_prompts.optimization_suite:main"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["beta_prompts*"]
-exclude = ["tests*", "docs*", "scripts*"]
-
-[tool.setuptools.package-data]
-beta_prompts = [
-    "templates/*.json",
-    "templates/*.yaml", 
-    "data/*.json",
-    "config/*.toml",
-]
+[tool.setuptools]
+py-modules = ["improvement_engine", "generation_system", "templating_framework", "optimization_suite", "scorer", "interactive_dashboard", "seaborn_analytics", "visualizations"]
 
 # Ruff - Fast Python linter and formatter
 [tool.ruff]
@@ -277,7 +267,7 @@ max-complexity = 12
 "scripts/**/*" = ["T20", "S101", "PLR2004"]  # Allow prints and asserts in scripts
 
 [tool.ruff.isort]
-known-first-party = ["beta_prompts"]
+known-first-party = []
 force-single-line = false
 combine-as-imports = true
 split-on-trailing-comma = true
