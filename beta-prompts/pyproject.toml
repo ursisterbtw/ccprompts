@@ -169,13 +169,22 @@ Repository = "https://github.com/your-org/ccprompts.git"
 Changelog = "https://github.com/your-org/ccprompts/blob/main/CHANGELOG.md"
 
 [project.scripts]
-prompt-improve = "beta_prompts.improvement_engine:main"
-prompt-generate = "beta_prompts.generation_system:main"
-prompt-template = "beta_prompts.templating_framework:main"
-prompt-optimize = "beta_prompts.optimization_suite:main"
+prompt-improve = "improvement_engine:main"
+prompt-generate = "generation_system:main"
+prompt-template = "templating_framework:main"
+prompt-optimize = "optimization_suite:main"
 
 [tool.setuptools]
-packages = ["beta_prompts"]
+py-modules = [
+    "generation_system",
+    "improvement_engine",
+    "interactive_dashboard",
+    "optimization_suite",
+    "scorer",
+    "seaborn_analytics",
+    "templating_framework",
+    "visualizations"
+]
 
 # Ruff - Fast Python linter and formatter
 [tool.ruff]
@@ -402,27 +411,26 @@ rules = [
 ]
 python_version = "3.9"
 github_sourcery_teammate = true
-refactor = {
-    skip_initial_comment = true,
-    add_common_sense_checks = true,
-    simplify_conditional_assignments = true,
-    merge_duplicate_blocks = true,
-    merge_nested_ifs = true,
-    remove_redundant_fstring = true,
-    use_named_expression = true,
-    hoist_repeated_variants = true,
-    merge_comparisons = true,
-    replace_method_with_attribute = true,
-}
-rules_settings = {
-    enable = "all",
-    disable = [
+[tool.sourcery.refactor]
+skip_initial_comment = true
+add_common_sense_checks = true
+simplify_conditional_assignments = true
+merge_duplicate_blocks = true
+merge_nested_ifs = true
+remove_redundant_fstring = true
+use_named_expression = true
+hoist_repeated_variants = true
+merge_comparisons = true
+replace_method_with_attribute = true
+
+[tool.sourcery.rules_settings]
+enable = "all"
+disable = [
         "no-complex-if-expressions",     # Allow complex if expressions for data analysis
         "no-long-functions",            # Data processing functions can be longer
         "avoid-global-variables",       # Allow module-level configuration
         "no-complex-list-comprehension", # Scientific computing often needs complex comprehensions
     ]
-}
 
 # Bandit security linting
 [tool.bandit]
@@ -486,24 +494,20 @@ update_changelog_on_bump = true
 bump_message = "chore(release): release v$new_version [skip ci]"
 
 # Pre-commit configuration
-[tool.pre-commit]
-repos = [
-    {
-        repo = "https://github.com/astral-sh/ruff-pre-commit",
-        rev = "v0.1.0",
-        hooks = [
-            {id = "ruff", args = ["--fix", "--exit-non-zero-on-fix"]},
-            {id = "ruff-format"},
-        ]
-    },
-    {
-        repo = "https://github.com/pre-commit/mirrors-mypy",
-        rev = "v1.5.1",
-        hooks = [{id = "mypy", additional_dependencies = ["types-all"]}]
-    },
-    {
-        repo = "https://github.com/PyCQA/bandit",
-        rev = "1.7.5",
-        hooks = [{id = "bandit", args = ["-c", "pyproject.toml"]}]
-    },
+[[tool.pre-commit.repos]]
+repo = "https://github.com/astral-sh/ruff-pre-commit"
+rev = "v0.1.0"
+hooks = [
+    {id = "ruff", args = ["--fix", "--exit-non-zero-on-fix"]},
+    {id = "ruff-format"},
 ]
+
+[[tool.pre-commit.repos]]
+repo = "https://github.com/pre-commit/mirrors-mypy"
+rev = "v1.5.1"
+hooks = [{id = "mypy", additional_dependencies = ["types-all"]}]
+
+[[tool.pre-commit.repos]]
+repo = "https://github.com/PyCQA/bandit"
+rev = "1.7.5"
+hooks = [{id = "bandit", args = ["-c", "pyproject.toml"]}]
