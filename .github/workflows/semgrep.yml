@@ -16,8 +16,6 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
-  schedule:
-    - cron: '32 10 * * 0'
 
 env:
   SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}

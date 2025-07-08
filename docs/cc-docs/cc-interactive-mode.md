@@ -18,7 +18,7 @@ Claude Code GitHub Actions brings AI-powered automation to your GitHub workflow.
 * **Automated code implementation**: Turn issues into working code with a single command
 * **Follows your standards**: Claude respects your `CLAUDE.md` guidelines and existing code patterns
 * **Simple setup**: Get started in minutes with our installer and API key
-* **Secure by default**: Your code stays on Github's runners
+* **Secure by default**: Your code stays on GitHub's runners
 
 ## What can Claude do?
 
@@ -212,7 +212,7 @@ Before setting up Claude Code GitHub Actions with cloud providers, you need:
       This app will be used with the [actions/create-github-app-token](https://github.com/actions/create-github-app-token) action to generate authentication tokens in your workflows.
     </Note>
 
-    **Alternative for Anthropic API or if you don't want to setup your own Github app**: Use the official Anthropic app:
+    **Alternative for Anthropic API or if you don't want to setup your own GitHub app**: Use the official Anthropic app:
 
     1. Install from: [https://github.com/apps/claude](https://github.com/apps/claude)
     2. No additional configuration needed for authentication

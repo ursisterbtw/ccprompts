@@ -203,21 +203,25 @@ dagger version
 ### Common Issues
 
 1. **Dagger not found**
+
    ```bash
    curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
    ```
 
 2. **Permission denied**
+
    ```bash
    chmod +x scripts/safe-run.sh scripts/quick-safe.sh
    ```
 
 3. **TypeScript errors**
+
    ```bash
    cd src && npm install
    ```
 
 4. **Container won't start**
+
    ```bash
    dagger call base-container
    ```

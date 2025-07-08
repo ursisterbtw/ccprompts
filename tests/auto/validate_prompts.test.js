@@ -120,7 +120,7 @@ const config = {
       const content = `
 \`\`\`javascript
 const config = {
-  apiKey: 'sk-' + 'abc123def456ghi789jkl012mno345pqr678stu901',
+  apiKey: 'sk-' + 'test123abc456def789ghi012jkl345mno678pqr901',
   password: 'mySecretPassword123',
   secret: 'realSecretValue12345'
 };

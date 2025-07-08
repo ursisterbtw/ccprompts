@@ -49,7 +49,7 @@ ls prompts/*/*.md | less
 
 ---
 
-## Repository layout 
+## Repository layout
 
 ```text
 prompts/               # 8 organized prompt categories (01-8)

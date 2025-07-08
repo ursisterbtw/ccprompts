@@ -9,6 +9,7 @@ A comprehensive suite of tools for **prompt engineering, optimization, and resea
 ## 🚀 **Quick Start**
 
 ### 1. Setup Safety System
+
 ```bash
 # Install Dagger (one-time)
 curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
@@ -18,6 +19,7 @@ curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
 ```
 
 ### 2. Run Individual Modules
+
 ```bash
 # Test before running
 ./scripts/quick-safe.sh test improvement
@@ -36,6 +38,7 @@ curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
 ```
 
 ### 3. Run Complete Workflow
+
 ```bash
 # Run all modules sequentially
 ./scripts/quick-safe.sh all
@@ -77,6 +80,7 @@ All Python execution is **strictly controlled** through Dagger containers:
 ✅ **Pre-Tool Hooks** - Block dangerous direct execution  
 
 ### **Blocked Operations**
+
 ```bash
 ❌ python script.py                  # BLOCKED
 ❌ pip install package               # BLOCKED  
@@ -89,12 +93,14 @@ All Python execution is **strictly controlled** through Dagger containers:
 ## 🧠 **Core Modules**
 
 ### 1. **Prompt Improvement Engine** (`beta_prompts.improvement_engine`)
+
 - **Analyzes existing prompts** for optimization potential
 - **Applies Anthropic's techniques**: XML tags, role definitions, structured instructions
 - **Predicts performance improvements** with confidence scores
 - **Batch optimization** for multiple prompts
 
 **Usage:**
+
 ```python
 from beta_prompts import PromptImprovementEngine
 
@@ -104,12 +110,14 @@ print(f"Improvement: {result.performance_prediction['overall_improvement']:.1%}"
 ```
 
 ### 2. **Prompt Generation System** (`beta_prompts.generation_system`)
+
 - **Generates high-quality prompts** using Anthropic's 10-element structure
 - **Domain-specific templates** for analysis, technical, creative tasks
 - **Quality scoring framework** with validation
 - **Prompt variations** and alternatives
 
 **Usage:**
+
 ```python
 from beta_prompts import PromptGenerationSystem
 
@@ -119,12 +127,14 @@ print(f"Quality Score: {prompt.quality_score:.2f}")
 ```
 
 ### 3. **Templating Framework** (`beta_prompts.templating_framework`)
+
 - **Enterprise-grade template management** with versioning
 - **Context-aware adaptation** for domains and complexity
 - **Jinja2-powered templating** with custom filters
 - **Variable validation** and constraint checking
 
 **Usage:**
+
 ```python
 from beta_prompts import AdvancedTemplatingFramework
 
@@ -134,12 +144,14 @@ compiled = framework.compile_template(templates[0]['template_id'], variables)
 ```
 
 ### 4. **Optimization Suite** (`beta_prompts.optimization_suite`)
+
 - **Unified platform** combining all optimization capabilities
 - **A/B testing framework** for comparing variants
 - **Advanced analytics** with pattern detection
 - **Performance dashboards** and insights
 
 **Usage:**
+
 ```python
 from beta_prompts import IntegratedOptimizationSuite
 
@@ -152,6 +164,7 @@ suite.end_optimization_session()
 ## 🎯 **Key Features**
 
 ### **Anthropic Best Practices Implementation**
+
 - ✅ **XML tag optimization** (`<role>`, `<thinking>`, `<output_format>`)
 - ✅ **Structured instruction patterns** with numbered steps
 - ✅ **Chain-of-thought reasoning** integration  
@@ -159,6 +172,7 @@ suite.end_optimization_session()
 - ✅ **10-element prompt structure** from Anthropic courses
 
 ### **Research-Grade Analytics**
+
 - ✅ **Performance prediction algorithms** with confidence intervals
 - ✅ **Statistical significance testing** for A/B experiments
 - ✅ **Quality scoring frameworks** based on documented criteria
@@ -166,6 +180,7 @@ suite.end_optimization_session()
 - ✅ **Comprehensive reporting** and visualization
 
 ### **Enterprise-Ready Safety**
+
 - ✅ **Complete container isolation** via Dagger
 - ✅ **Pre-tool hook enforcement** blocking unsafe operations
 - ✅ **Read-only source mounting** preventing code modification
@@ -175,6 +190,7 @@ suite.end_optimization_session()
 ## 📊 **Dependencies**
 
 ### **Core Dependencies**
+
 - `anthropic>=0.21.0` - Claude API client
 - `numpy>=1.24.0` - Numerical computing
 - `matplotlib>=3.7.0` - Visualization
@@ -182,6 +198,7 @@ suite.end_optimization_session()
 - `pydantic>=2.0.0` - Data validation
 
 ### **Optional Dependencies**
+
 ```bash
 # Development tools
 pip install -e .[dev]
@@ -202,6 +219,7 @@ pip install -e .[all]
 ## 🚦 **Usage Examples**
 
 ### **Complete Research Workflow**
+
 ```bash
 # 1. Setup environment
 export ANTHROPIC_API_KEY="your-api-key"
@@ -221,6 +239,7 @@ export ANTHROPIC_API_KEY="your-api-key"
 ```
 
 ### **Safety-First Development**
+
 ```bash
 # Always test first
 ./scripts/quick-safe.sh test improvement
@@ -233,6 +252,7 @@ export ANTHROPIC_API_KEY="your-api-key"
 ```
 
 ### **Programmatic Usage**
+
 ```python
 # Use as library
 import beta_prompts
@@ -251,19 +271,24 @@ suite = beta_prompts.IntegratedOptimizationSuite()
 ## 🔧 **Configuration**
 
 ### **Environment Variables**
+
 - `ANTHROPIC_API_KEY` - Required for API calls
 - `BETA_PROMPTS_TIMEOUT` - Container timeout (default: 300s)
 - `BETA_PROMPTS_LOG_LEVEL` - Logging level (default: INFO)
 
 ### **Container Configuration**
+
 Edit `dagger.json` to customize:
+
 - Container image (default: `python:3.11-slim`)
 - Resource limits
 - Network access
 - Mount points
 
 ### **Pre-Tool Hooks**
+
 Customize `.claude_hooks.json` to adjust:
+
 - Blocked command patterns
 - Warning thresholds
 - Safety requirements
@@ -271,6 +296,7 @@ Customize `.claude_hooks.json` to adjust:
 ## 📈 **Performance & Analytics**
 
 ### **Optimization Metrics**
+
 - **Response Time**: API call duration
 - **Token Efficiency**: Input/output token usage
 - **Quality Score**: Automated quality assessment
@@ -278,6 +304,7 @@ Customize `.claude_hooks.json` to adjust:
 - **Improvement Rate**: Performance gains achieved
 
 ### **Research Capabilities**
+
 - **A/B Testing**: Statistical comparison of prompt variants
 - **Pattern Detection**: Automated insight discovery
 - **Trend Analysis**: Performance tracking over time
@@ -287,6 +314,7 @@ Customize `.claude_hooks.json` to adjust:
 ## 🛠️ **Development**
 
 ### **Running Tests**
+
 ```bash
 # Run all tests safely
 ./scripts/quick-safe.sh pytest
@@ -298,6 +326,7 @@ Customize `.claude_hooks.json` to adjust:
 ```
 
 ### **Code Quality**
+
 ```bash
 # Format code
 ./scripts/safe-run.sh "black beta_prompts/"
@@ -313,6 +342,7 @@ Customize `.claude_hooks.json` to adjust:
 ```
 
 ### **Documentation**
+
 ```bash
 # Build docs
 ./scripts/safe-run.sh "sphinx-build docs/ docs/_build/"
@@ -324,12 +354,14 @@ Customize `.claude_hooks.json` to adjust:
 ## 🔐 **Security**
 
 ### **Built-in Security Features**
+
 - **Container Isolation**: Complete host system protection
 - **Dependency Scanning**: Automated vulnerability detection
 - **Code Analysis**: Static security analysis with Bandit
 - **Access Controls**: Restricted API and file system access
 
 ### **Security Scanning**
+
 ```bash
 # Scan dependencies
 ./scripts/safe-run.sh "safety check"

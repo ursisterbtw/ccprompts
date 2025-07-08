@@ -611,8 +611,12 @@ describe('MainValidator', () => {
       });
       
       mockQualityScorer.determinePromptType.callsFake((filename) => {
-        if (filename.includes('commands')) return 'command';
-        if (filename.includes('security')) return 'security';
+        if (filename.includes('commands')) {
+          return 'command';
+        }
+        if (filename.includes('security')) {
+          return 'security';
+        }
         return 'documentation';
       });
       
