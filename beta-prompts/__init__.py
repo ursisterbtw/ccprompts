@@ -115,7 +115,7 @@ def get_version() -> str:
     return __version__
 
 
-def get_info() -> dict[str, str | list[str]]:
+def get_info() -> Dict[str, Union[str, List[str]]]:
     """Get comprehensive package information.
 
     Returns:
