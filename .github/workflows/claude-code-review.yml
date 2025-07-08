@@ -32,9 +32,6 @@ jobs:
     permissions:
       contents: read                # For checkout
       pull-requests: write         # For PR comments
-      issues: write               # For issue comments
-      id-token: write
-      security-events: write       # For security alerts
     
     steps:
       - name: Checkout repository

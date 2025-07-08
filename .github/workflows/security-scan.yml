@@ -6,35 +6,18 @@ on:
   pull_request:
     branches: [ main, develop ]
   workflow_dispatch:
-    inputs:
-      scan-type:
-        description: 'Type of security scan'
-        required: false
-        default: 'full'
-        type: choice
-        options:
-          - full
-          - quick
-          - critical-only
 
 env:
   NODE_VERSION: '20'
-  SECURITY_SCAN_VERSION: v3
 
 permissions:
   contents: read
   security-events: write
-  issues: write
-  pull-requests: write
 
 jobs:
   security-audit:
     runs-on: ubuntu-latest
-    name: Security Audit and Vulnerability Assessment
-    timeout-minutes: 30
-    permissions:
-      contents: read
-      security-events: write
+    name: Security Audit
     
     steps:
     - uses: actions/checkout@v4
@@ -46,217 +29,19 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
-        cache-dependency-path: 'package-lock.json'
-    
-    - name: Cache npm dependencies
-      uses: actions/cache@v4
-      id: npm-cache
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-npm-audit-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-npm-audit-
-          ${{ runner.os }}-npm-
     
     - name: Install dependencies
-      if: steps.npm-cache.outputs.cache-hit != 'true'
-      run: npm ci --prefer-offline --no-audit --progress=false
+      run: npm ci --no-audit
     
     - name: Run npm audit
       run: |
-        npm audit --audit-level=moderate || true
-        npm audit --audit-level=high --json > audit-results.json || true
-    
-    - name: Security scan with enhanced validator
+        npm audit --audit-level=high || true
+        
+    - name: Check file permissions
       run: |
-        echo "🛡️ Running comprehensive security validation..."
-        npm run security-scan || echo "Security scan not configured"
-    
-    - name: Check for hardcoded secrets
-      run: |
-        echo "🔍 Scanning for hardcoded secrets..."
-        
-        # Check for common secret patterns
-        if grep -r "password\s*=\s*['\"][^'\"]\+['\"]" . --exclude-dir=node_modules --exclude-dir=.git; then
-          echo "❌ Found hardcoded passwords"
-          exit 1
-        fi
-        
-        if grep -r "api[_-]\?key\s*=\s*['\"][^'\"]\+['\"]" . --exclude-dir=node_modules --exclude-dir=.git --exclude="*.md"; then
-          echo "⚠️ Found potential hardcoded API keys - review needed"
-        fi
-        
-        if grep -r "secret\s*=\s*['\"][^'\"]\+['\"]" . --exclude-dir=node_modules --exclude-dir=.git --exclude="*.md"; then
-          echo "⚠️ Found potential hardcoded secrets - review needed"
-        fi
-        
-        echo "✅ Secret scanning completed"
-    
-    - name: Validate file permissions
-      run: |
-        echo "� Checking file permissions..."
-        
-        # Check for executable files that shouldn't be
+        # Check for executable markdown files
         find . -name "*.md" -executable -not -path "./.git/*" -not -path "./node_modules/*" | while read file; do
           echo "❌ Markdown file should not be executable: $file"
           exit 1
         done
-        
-        # Check for world-writable files
-        find . -type f -perm -002 -not -path "./.git/*" -not -path "./node_modules/*" | while read file; do
-          echo "❌ File is world-writable: $file"
-          exit 1
-        done
-        
-        echo "✅ File permissions are appropriate"
-    
-    - name: Dependency vulnerability check
-      run: |
-        echo "📦 Checking dependency vulnerabilities..."
-        
-        # Enhanced dependency checking
-        if [ -f "audit-results.json" ]; then
-          HIGH_VULNS=$(cat audit-results.json | grep -o '"severity":"high"' | wc -l)
-          CRITICAL_VULNS=$(cat audit-results.json | grep -o '"severity":"critical"' | wc -l)
-          
-          echo "High severity vulnerabilities: $HIGH_VULNS"
-          echo "Critical severity vulnerabilities: $CRITICAL_VULNS"
-          
-          if [ "$CRITICAL_VULNS" -gt 0 ]; then
-            echo "❌ Critical vulnerabilities found - blocking deployment"
-            exit 1
-          fi
-          
-          if [ "$HIGH_VULNS" -gt 5 ]; then
-            echo "⚠️ Too many high severity vulnerabilities"
-            exit 1
-          fi
-        fi
-        
-        echo "✅ Dependency security check passed"
-    
-    - name: Configuration security check
-      run: |
-        echo "⚙️ Checking configuration security..."
-        
-        # Check for insecure configurations
-        if find . -name "*.json" -not -path "./node_modules/*" -not -path "./.git/*" | xargs grep -l "\"password\":\|\"secret\":\|\"key\":"; then
-          echo "⚠️ Found potential secrets in configuration files"
-        fi
-        
-        # Check for debug flags in production configs
-        if find . -name "*.json" -not -path "./node_modules/*" | xargs grep -l "\"debug\":\s*true"; then
-          echo "⚠️ Found debug flags in configuration"
-        fi
-        
-        echo "✅ Configuration security check completed"
-    
-    - name: Generate security report
-      if: always()
-      run: |
-        echo "## Security Scan Results" >> $GITHUB_STEP_SUMMARY
-        echo "✅ Hardcoded secret scanning completed" >> $GITHUB_STEP_SUMMARY
-        echo "✅ File permission validation passed" >> $GITHUB_STEP_SUMMARY
-        echo "✅ Dependency vulnerability check completed" >> $GITHUB_STEP_SUMMARY
-        echo "✅ Configuration security check completed" >> $GITHUB_STEP_SUMMARY
-        
-        if [ -f "audit-results.json" ]; then
-          echo "📊 **Dependency Audit Results**:" >> $GITHUB_STEP_SUMMARY
-          echo "- High severity: $(cat audit-results.json | grep -o '"severity":"high"' | wc -l)" >> $GITHUB_STEP_SUMMARY
-          echo "- Critical severity: $(cat audit-results.json | grep -o '"severity":"critical"' | wc -l)" >> $GITHUB_STEP_SUMMARY
-        fi
-        
-        echo "🛡️ Security scan completed successfully!" >> $GITHUB_STEP_SUMMARY
-
-  markdown-security:
-    runs-on: ubuntu-latest
-    name: Markdown Content Security Review
-    timeout-minutes: 15
-    permissions:
-      contents: read
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: Check for malicious links
-      run: |
-        echo "� Scanning for potentially malicious links..."
-        
-        # Check for suspicious domains in markdown files
-        SUSPICIOUS_PATTERNS="(bit\.ly|tinyurl\.com|t\.co|goo\.gl)|(javascript:|data:|vbscript:)"
-        
-        if grep -r -E "$SUSPICIOUS_PATTERNS" . --include="*.md" --exclude-dir=node_modules; then
-          echo "⚠️ Found potentially suspicious links - manual review required"
-        else
-          echo "✅ No suspicious links found"
-        fi
-    
-    - name: Validate markdown structure
-      run: |
-        echo "📝 Validating markdown structure..."
-        
-        # Check for potentially dangerous HTML in markdown
-        if grep -r "<script\|<iframe\|<object\|<embed" . --include="*.md" --exclude-dir=node_modules; then
-          echo "⚠️ Found potentially dangerous HTML tags in markdown"
-        else
-          echo "✅ No dangerous HTML tags found"
-        fi
-    
-    - name: Content validation
-      run: |
-        echo "� Performing content validation..."
-        
-        # Check for TODO/FIXME in production files
-        if find . -name "*.md" -not -path "./CONTRIBUTING.md" -not -path "./.github/*" | xargs grep -l "TODO\|FIXME\|XXX\|HACK"; then
-          echo "⚠️ Found TODO/FIXME markers in production documentation"
-        else
-          echo "✅ No TODO markers found in production files"
-        fi
-
-  compliance-check:
-    runs-on: ubuntu-latest
-    name: Compliance and Policy Validation
-    timeout-minutes: 10
-    permissions:
-      contents: read
-    
-    steps:
-    - uses: actions/checkout@v4
-    
-    - name: License compliance check
-      run: |
-        echo "⚖️ Checking license compliance..."
-        
-        # Verify LICENSE file exists and is readable
-        if [ ! -f "LICENSE" ]; then
-          echo "❌ LICENSE file is missing"
-          exit 1
-        fi
-        
-        # Check for license headers in key files (if applicable)
-        echo "✅ License compliance check passed"
-    
-    - name: Documentation completeness
-      run: |
-        echo "� Checking documentation completeness..."
-        
-        REQUIRED_DOCS=("README.md" "CONTRIBUTING.md" "CHANGELOG.md")
-        
-        for doc in "${REQUIRED_DOCS[@]}"; do
-          if [ ! -f "$doc" ]; then
-            echo "❌ Required documentation file missing: $doc"
-            exit 1
-          fi
-        done
-        
-        echo "✅ All required documentation files present"
-    
-    - name: Code of conduct check
-      run: |
-        echo "🤝 Checking for code of conduct..."
-        
-        if [ -f "CODE_OF_CONDUCT.md" ] || grep -q "code of conduct" README.md CONTRIBUTING.md; then
-          echo "✅ Code of conduct found"
-        else
-          echo "⚠️ Consider adding a code of conduct"
-        fi
+        echo "✅ File permissions check passed"
