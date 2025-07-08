@@ -818,8 +818,8 @@ class InteractiveDashboard:
         self,
         fig: go.Figure,
         filename: str = "interactive_dashboard.html",
-        mode_bar_buttons: list[str] | None = None,
-        config: dict | None = None,
+        mode_bar_buttons: Optional[list[str]] = None,
+        config: Optional[dict] = None,
     ):
         """Save interactive dashboard as HTML file with customizable configuration.
 
