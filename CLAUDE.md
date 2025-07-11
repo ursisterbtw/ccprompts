@@ -1,12 +1,12 @@
 # CLAUDE.md
 
-This file provides comprehensive guidance to Claude Code (claude.ai/code) when working with this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with this repository.
 
 ## Project Overview
 
-This repository contains the **most comprehensive collection of Claude Code-specific developer commands and prompts** ever created. The project delivers **38 production-ready commands** across **6 development phases**, transforming how teams approach AI-assisted development through intelligent automation, continuous learning, and enterprise-grade quality assurance.
+This repository contains a collection of Claude Code-specific developer commands and prompts. The project includes **38 production-ready commands** across **6 development phases**, helping teams with AI-assisted development through automation, learning resources, and quality assurance tools.
 
-## Revolutionary Command Ecosystem
+## Command Ecosystem
 
 ### **38 Commands Across 6 Strategic Phases**
 
@@ -15,14 +15,14 @@ This repository contains the **most comprehensive collection of Claude Code-spec
    ├── /bootstrap-project    # Complete project initialization
    ├── /audit-security      # OWASP-compliant security analysis
    ├── /refactor           # Safe multi-file transformations
-   ├── /test               # Comprehensive test automation
+   ├── /test               # Test automation
    ├── /document           # Auto-generated documentation
    ├── /setup-ci           # CI/CD pipeline automation
    ├── /deploy             # Production deployment workflows
    └── /optimize           # Performance optimization
 
 🔄 Phase 2: Workflow Commands (6 commands)
-   ├── /backup             # Comprehensive backup strategies
+   ├── /backup             # Backup strategies
    ├── /migrate            # Database and system migrations
    ├── /monitor            # Production monitoring setup
    ├── /comply             # Regulatory compliance automation
@@ -31,14 +31,14 @@ This repository contains the **most comprehensive collection of Claude Code-spec
 
 🧠 Phase 3: Context-Aware Commands (5 commands)
    ├── /analyze-project    # AI-powered project assessment
-   ├── /health-check       # Comprehensive system health
+   ├── /health-check       # System health checks
    ├── /quick-fix          # Targeted issue resolution
-   ├── /smart-suggest      # Intelligent recommendations
+   ├── /smart-suggest      # Contextual recommendations
    └── /validate-environment # Environment verification
 
 🛠️ Phase 4: Utility Commands (6 commands)
    ├── /list-prompts       # Command discovery and browsing
-   ├── /search-prompts     # Intelligent content search
+   ├── /search-prompts     # Content search
    ├── /workflow-builder   # Visual workflow creation
    ├── /prompt-stats       # Usage analytics and metrics
    ├── /export-config      # Configuration sharing
@@ -50,7 +50,7 @@ This repository contains the **most comprehensive collection of Claude Code-spec
    ├── /code-review        # AI-powered code analysis
    ├── /daily-standup      # Team coordination automation
    ├── /release-notes      # Multi-audience communication
-   ├── /sprint-planning    # Intelligent sprint management
+   ├── /sprint-planning    # Sprint management
    └── /tech-debt          # Technical debt optimization
 
 📚 Phase 6: Learning Commands (4 commands)
@@ -79,7 +79,7 @@ ccprompts/
 │   │   ├── codebase-modernization.md  # Legacy code transformation
 │   │   └── performance-optimization.md # Bottleneck resolution
 │   ├── 04-testing/                   # Test suite generation & mutation testing
-│   │   ├── test-suite-generation.md   # Comprehensive test creation
+│   │   ├── test-suite-generation.md   # Test suite creation
 │   │   └── mutation-testing.md       # Quality validation
 │   ├── 05-documentation/             # Documentation & knowledge management
 │   │   ├── interactive-documentation.md # Auto-generated docs
@@ -94,7 +94,7 @@ ccprompts/
 │   │   ├── mcp-custom-server.md       # Custom server development
 │   │   └── advanced-tool-chains.md   # Tool integration
 │   ├── 09-build-deployment/          # CI/CD pipelines & Infrastructure as Code
-│   │   ├── comprehensive-cicd.md      # Complete pipeline setup
+│   │   ├── comprehensive-cicd.md      # CI/CD pipeline setup
 │   │   └── infrastructure-as-code.md  # IaC automation
 │   └── 10-security-compliance/       # Security hardening & compliance
 │       ├── security-hardening.md     # Production security
@@ -149,7 +149,7 @@ ccprompts/
 │   │   ├── security-hardening.yaml
 │   │   ├── legacy-modernization.yaml
 │   │   └── team-onboarding.yaml
-│   └── config.json                   # Enterprise-grade configuration
+│   └── config.json                   # Project configuration
 
 ├── scripts/                          # Safety and validation tools
 │   ├── safe-run.sh                   # Containerized command execution
@@ -160,22 +160,22 @@ ccprompts/
 │   └── package.json                  # Dagger module dependencies
 ├── dagger.json                       # Dagger configuration
 ├── SAFETY.md                         # Containerized safety system guide
-├── README.md                         # Comprehensive ecosystem guide
+├── README.md                         # Project guide
 ├── CLAUDE.md                         # This guidance file
 ├── CC-SDK-Guide.md                   # Advanced Claude Code SDK reference
 └── .gitignore                        # Optimized for .claude directory
 ```
 
-## Revolutionary Features
+## Key Features
 
-### **🤖 AI-Powered Intelligence**
+### **🤖 AI-Powered Features**
 
-- **Contextual Adaptation**: Commands automatically adjust to project characteristics
-- **Pattern Recognition**: Intelligent detection of code patterns, issues, and opportunities
-- **Predictive Analytics**: Forecast potential issues and optimization opportunities
-- **Learning Integration**: Every command teaches while it automates
+- **Contextual Adaptation**: Commands adjust to project characteristics
+- **Pattern Recognition**: Detection of code patterns, issues, and opportunities
+- **Analytics**: Identify potential issues and optimization opportunities
+- **Learning Integration**: Commands include educational components
 
-### **🔗 Seamless Ecosystem Integration**
+### **🔗 Ecosystem Integration**
 
 - **Command Chaining**: Commands work together for complex multi-step operations
 - **Workflow Automation**: Visual workflow builder for custom processes
@@ -189,12 +189,12 @@ ccprompts/
 - **Knowledge Management**: Automated documentation and organizational learning
 - **Best Practice Evolution**: Continuously updated recommendations
 
-### **🛡️ Enterprise-Grade Safety & Compliance**
+### **🛡️ Safety & Compliance**
 
 - **Atomic Operations**: All changes are versioned, tested, and reversible
 - **Security-First Design**: Built-in security scanning and compliance checking
 - **Quality Gates**: Automated quality assurance with customizable thresholds
-- **Audit Trails**: Comprehensive logging for enterprise compliance
+- **Audit Trails**: Detailed logging for compliance
 - **Containerized Safety**: Isolated execution of dangerous commands via Dagger containers
 
 ## Command Discovery & Usage
@@ -205,7 +205,7 @@ ccprompts/
 # Instant project setup and analysis
 /bootstrap-project web-app typescript cloud
 /analyze-project
-/health-check comprehensive
+/health-check full
 
 # Development workflow automation
 /pre-commit strict
@@ -268,9 +268,9 @@ ccprompts/
 ### **Content Standards for Contributors**
 
 1. **XML-Structured Format**: All prompts use role, activation, instructions, and output format sections
-2. **Safety-First Approach**: Include comprehensive verification steps and rollback procedures
+2. **Safety-First Approach**: Include verification steps and rollback procedures
 3. **Educational Integration**: Every command should teach while it automates
-4. **Enterprise Focus**: Maintain production-grade security and compliance standards
+4. **Production Focus**: Maintain security and compliance standards
 5. **Team Collaboration**: Design for team environments and knowledge sharing
 
 ### **Command Design Principles**
@@ -299,25 +299,25 @@ xmllint --noout prompts/**/*.md .claude/commands/*.md
 
 ## Key Innovations
 
-### **1. Progressive Enhancement Architecture**
+### **1. Modular Architecture**
 
-Commands are designed to work independently but gain power when combined, allowing teams to adopt the ecosystem gradually while maintaining full functionality at every step.
+Commands work independently or can be combined, allowing teams to adopt features gradually.
 
-### **2. Learning-Integrated Automation**
+### **2. Educational Components**
 
-Every command includes educational components, transforming routine automation into continuous skill development opportunities for teams.
+Commands include educational elements to support skill development alongside automation.
 
-### **3. Enterprise-Ready Compliance**
+### **3. Compliance Support**
 
 Built-in support for SOC2, GDPR, HIPAA, and other regulatory frameworks, with automated compliance checking and audit trail generation.
 
-### **4. AI-Powered Contextual Adaptation**
+### **4. Contextual Adaptation**
 
-Commands intelligently adapt to project characteristics, technology stacks, and team dynamics, providing personalized recommendations and workflows.
+Commands adapt to project characteristics, technology stacks, and team needs, providing relevant recommendations and workflows.
 
-### **5. Comprehensive Ecosystem Thinking**
+### **5. Integrated Command System**
 
-The 38 commands form a cohesive ecosystem where discovery leads to implementation, implementation enables learning, and learning drives continuous improvement.
+The 38 commands work together as a system supporting discovery, implementation, and learning.
 
 ## Advanced Usage Patterns
 
@@ -330,10 +330,10 @@ The 38 commands form a cohesive ecosystem where discovery leads to implementatio
 
 ### **Senior Developer Productivity**
 
-- **Intelligent Code Review**: AI-powered analysis with `/code-review` and educational explanations
+- **Code Review**: AI-powered analysis with `/code-review` and educational explanations
 - **Technical Debt Management**: ROI-based prioritization using `/tech-debt` and `/optimize`
 - **Knowledge Sharing**: Automated documentation via `/document` and `/knowledge-base`
-- **Continuous Integration**: Seamless CI/CD via `/setup-ci` and `/deploy`
+- **Continuous Integration**: CI/CD via `/setup-ci` and `/deploy`
 
 ### **Growing Developer Support**
 
@@ -379,7 +379,7 @@ The 38 commands form a cohesive ecosystem where discovery leads to implementatio
 ### **Command Ecosystem Assumptions**
 
 - All commands assume Claude Code's extended capabilities (file operations, MCP servers, git integration)
-- Commands are designed for team environments with enterprise-grade security requirements
+- Commands are designed for team environments with security requirements
 - Safety and rollback procedures are emphasized throughout all operational commands
 - The ecosystem is designed for both standalone command use and complex workflow chaining
 
@@ -399,11 +399,11 @@ The 38 commands form a cohesive ecosystem where discovery leads to implementatio
 
 ---
 
-**This repository represents the future of AI-assisted development: where automation teaches, workflows learn, and every interaction builds team capability. The 38-command ecosystem transforms Claude Code into a comprehensive development platform that elevates teams, accelerates learning, and ensures enterprise-grade quality at every step.**
+**This repository provides tools for AI-assisted development with a focus on automation, learning, and team capability building. The 38 commands extend Claude Code's capabilities to support development workflows and team collaboration.**
 
 ## Containerized Safety System
 
-This repository includes a comprehensive safety system for executing potentially dangerous commands in isolated Dagger containers. **Use this system whenever running unfamiliar commands or scripts from the internet.**
+This repository includes a safety system for executing potentially dangerous commands in isolated Dagger containers. **Use this system whenever running unfamiliar commands or scripts from the internet.**
 
 ### **Quick Safety Usage**
 

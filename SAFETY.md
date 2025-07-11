@@ -251,7 +251,7 @@ dagger version
 
 ## 🎯 Integration with Claude Code
 
-This system integrates seamlessly with Claude Code workflows:
+This system integrates with Claude Code workflows:
 
 ```bash
 # Use before running Claude-generated commands

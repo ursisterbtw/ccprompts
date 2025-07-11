@@ -1,6 +1,6 @@
-# Claude Code Prompts Collection - Directory Index
+# Claude Code Prompts - Directory Index
 
-This directory contains 20 comprehensive Claude Code prompts organized into 10 categories for maximum usability and maintainability. This index provides detailed descriptions of each category and prompt.
+This directory contains 20 Claude Code prompts organized into 10 categories. This index provides descriptions of each category and prompt.
 
 ## 📁 Categories
 
@@ -88,9 +88,9 @@ Each prompt follows the structured XML format:
 All prompts emphasize:
 
 - ✅ Safety-first approach with rollback procedures
-- ✅ Comprehensive testing and verification
+- ✅ Testing and verification procedures
 - ✅ CLAUDE.md integration for knowledge persistence
-- ✅ Enterprise-grade security and compliance
+- ✅ Security and compliance features
 - ✅ Multi-file operation capabilities
 
 ## 🔗 Related Files
