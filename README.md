@@ -250,7 +250,7 @@ All prompts and commands undergo multi-level validation:
 - **Structure**: XML format compliance, required sections
 - **Security**: No exposed secrets or sensitive data
 - **Quality**: Scoring based on clarity and specificity
-- **Count**: Expected 38 commands (CI enforced)
+- **Count**: Expected 39 commands (CI enforced)
 
 Always run `npm run validate` before committing.
 

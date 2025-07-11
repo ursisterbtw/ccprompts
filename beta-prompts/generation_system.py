@@ -604,12 +604,38 @@ Create {deliverable_type} that includes:
 
     def _generate_from_template(self, template: str, variables: dict[str, str]) -> str:
         """Generate prompt from template with variable substitution"""
-
+        
+        # Use safe template substitution that ignores missing variables
+        import string
+        
+        class SafeTemplate(string.Template):
+            # Override to leave placeholders unchanged if variable is missing
+            def safe_substitute(self, mapping):
+                def convert(mo):
+                    named = mo.group('named') or mo.group('braced')
+                    if named is not None:
+                        return str(mapping.get(named, mo.group()))
+                    if mo.group('escaped') is not None:
+                        return self.delimiter
+                    if mo.group('invalid') is not None:
+                        return mo.group()
+                    raise ValueError('Unrecognized named group in pattern', self.pattern)
+                return self.pattern.sub(convert, self.template)
+        
+        # Convert format-style placeholders to template-style
+        template_str = template.replace('{', '${')
+        template_str = template_str.replace('}', '}')
+        
         try:
-            return template.format(**variables)
-        except KeyError as e:
-            # Handle missing variables gracefully
-            print(f"Warning: Missing variable {e}")
+            safe_template = SafeTemplate(template_str)
+            result = safe_template.safe_substitute(variables)
+            # Log missing variables
+            missing_vars = [key for key in template_str.split('${') if key.split('}')[0] not in variables and key]
+            if missing_vars:
+                print(f"Warning: Some template variables not provided: {missing_vars}")
+            return result
+        except Exception as e:
+            print(f"Error in template substitution: {e}")
             return template
 
     def _calculate_quality_score(self, prompt: str, criteria: list[str]) -> float:
