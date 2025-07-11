@@ -12,82 +12,267 @@
 
 # ccprompts – practical claude code commands and prompts
 
-**ccprompts** is a curated set of prompt templates and supporting tooling for developers who want to extend Claude-powered automation into their own projects. Each prompt is production-ready, peer-reviewed, and versioned so you can drop it into an existing workflow—or use it as a starting point for your own commands.
+**ccprompts** is a comprehensive collection of Claude Code-specific developer commands and prompts. The project delivers **39 production-ready commands** across **9 organized directories**, plus prompt optimization tools for intelligent automation, continuous learning, and enterprise-grade quality assurance.
 
 ---
 
-## Why use this repo?
+## Key Features
 
-- **Breadth without bloat** – Prompts cover common phases of the SDLC (bootstrap, testing, refactoring, CI/CD, security) but stay laser-focused on useful output.
-- **Quality gates built-in** – The [`scripts/validate-prompts.js`](scripts/validate-prompts.js) validator enforces length, structure, and security guards for every prompt.
-- **Composable** – Prompts are plain Markdown with a minimal YAML header (`id`, `tags`, `description`). Use them as is, or compose them in your own workflows.
-- **Zero vendor lock-in** – No proprietary wrappers or hidden services; the repo is pure text + Node.js tooling so you can fork and adapt freely.
-- **Built-in Safety** – Containerized execution system for safely running potentially dangerous commands via Dagger.
+- **39 slash commands** organized by workflow phase for Claude Code
+- **10 prompt categories** covering all development aspects
+- **Python optimization tools** for prompt engineering and analysis
+- **Enterprise validation** with security and quality checks
+- **Zero vendor lock-in** – Pure text-based, freely forkable
 
 ---
 
 ## Quick start
 
+### Initial Setup
+
 ```bash
-# Clone
+# Clone repository
 git clone https://github.com/ursisterbtw/ccprompts.git
 cd ccprompts
 
-# Validate all prompts
+# Install Node.js dependencies
 npm ci
-npm run validate
 
-# Browse available prompts
-ls prompts/*/*.md | less
+# Validate prompt collection
+npm run validate
 ```
 
-### Adding a new prompt
+### Using Slash Commands
 
-1. Copy `prompts/01-project-initialization/claude-md-generator.md` to your desired folder.
-2. Update the YAML header and content – keep the required `<role>`, `<activation>`, and `<instructions>` sections.
-3. Run `npm run validate` before committing. Zero errors = good to go.
+```bash
+# Browse available commands
+ls .claude/commands/*/*.md
+
+# Copy a command to use in Claude Code
+cat .claude/commands/01-project-setup/bootstrap-project.md
+
+# Common workflow: project initialization
+cat .claude/commands/00-initial-workflow/project-init.md
+```
+
+### Using Prompt Templates
+
+```bash
+# Browse prompt categories
+ls prompts/*/
+
+# View a specific prompt
+cat prompts/02-code-analysis/security-quality-audit.md
+```
+
+### Beta-Prompts Setup (Optional)
+
+```bash
+cd beta-prompts
+
+# Install with safety container support
+pip install -e ".[dev,test]"
+
+# Run optimization tools safely
+./scripts/quick-safe.sh improvement
+```
+
+### Adding New Prompts
+
+1. Copy a template: `prompts/01-project-initialization/claude-md-generator.md`
+2. Follow the XML structure:
+
+   ```xml
+   <role>System role definition</role>
+   <activation>User trigger phrase</activation>
+   <instructions>Step-by-step instructions</instructions>
+   <output_format>Expected deliverables</output_format>
+   ```
+
+3. Run `npm run validate` to ensure compliance
+4. Update command count in `package.json` if adding to `.claude/commands/`
 
 ---
 
-## Repository layout (trimmed)
+## Development Setup
+
+### Node.js Commands
+
+```bash
+npm run validate      # Validate all prompts (expected: 39)
+npm run lint          # Check markdown formatting
+npm run lint:fix      # Auto-fix formatting issues
+npm run check-links   # Verify all links are valid
+npm run security-scan # Security-only validation
+npm run ci            # Full CI pipeline
+```
+
+### Python Development
+
+```bash
+cd beta-prompts
+pip install -e ".[dev,test,docs]"
+
+# Testing
+pytest                        # Run all tests
+pytest --cov=beta_prompts     # With coverage
+
+# Code quality
+ruff check . --fix            # Lint and auto-fix
+black .                       # Format code
+mypy .                        # Type checking
+```
+
+---
+
+## Repository Structure
 
 ```text
-prompts/               # Organized by phase (01–10)
-scripts/               # Safety system + validation utilities
-src/                   # Dagger safety container module
-dagger.json            # Dagger configuration
-SAFETY.md              # Containerized safety system guide
-.github/workflows/     # CI / deployment pipelines
-README.md              # This file
-LICENSE                # MIT
+prompts/               # 10 prompt template categories
+├── 01-project-initialization/   # Bootstrap, CLAUDE.md generation
+├── 02-code-analysis/           # Security audits, dependency analysis
+├── 03-refactoring/             # Code modernization, optimization
+├── 04-testing/                 # Test generation, mutation testing
+├── 05-documentation/           # Auto-docs, knowledge bases
+├── 06-git-workflows/           # Git automation, repo optimization
+├── 07-multi-file-operations/   # Cross-codebase refactoring
+├── 08-mcp-integration/         # MCP server configuration
+├── 09-build-deployment/        # CI/CD, Infrastructure as Code
+└── 10-security-compliance/     # Security hardening, compliance
+
+.claude/               # 39 slash commands for Claude Code
+├── commands/          # Organized by workflow phase (00-08)
+├── workflows/         # YAML workflow definitions
+└── config.json        # Command configuration
+
+beta-prompts/          # Python-based optimization tools
+├── beta_prompts/      # Core Python modules
+├── scripts/           # Safety execution scripts
+└── dagger-src/        # Container safety system
+
+scripts/               # JavaScript validation system
+├── validators/        # Structure, security, quality checks
+└── validate-prompts.js # Main validation entry point
+
+docs/                  # Documentation
+├── CC-SDK.md          # Claude Code SDK reference
+└── assets/            # Documentation resources
 ```
+
+---
+
+## Architecture Overview
+
+### Dual-Language Ecosystem
+
+The project uses two complementary technology stacks:
+
+1. **JavaScript/Node.js** - Validation and tooling
+   - Markdown validation and linting
+   - Security scanning for sensitive data
+   - Quality scoring and structure validation
+   - CI/CD pipeline automation
+
+2. **Python** - Prompt optimization and research
+   - Real Claude API integration
+   - Statistical analysis and scoring
+   - Template generation and management
+   - Containerized execution for safety
+
+### Command Organization
+
+The 39 slash commands are organized by workflow phase:
+
+- **Initial (00)**: Entry points for automation chains
+- **Setup (01)**: Project initialization and configuration
+- **Development (02)**: Core development workflows
+- **Security (03)**: Security hardening and compliance
+- **Testing (04)**: Quality assurance automation
+- **Deployment (05)**: Release and deployment management
+- **Collaboration (06)**: Team coordination tools
+- **Utilities (07)**: Discovery and analysis commands
+- **Extras (08)**: Specialized domain commands
 
 ---
 
 ## Usage Examples
 
-### Browse and use prompts
+### Common Workflows
 
 ```bash
-cat prompts/02-code-analysis/security-quality-audit.md
-# Copy-paste the YAML and instructions into your Claude workflow or automation tool
+# Project initialization workflow
+/project-init → /bootstrap-project → /setup-ci → /validate-environment
+
+# Security audit workflow
+/audit-security → /pre-commit → /code-review → /comply
+
+# Development workflow
+/analyze-project → /refactor → /test → /code-review
 ```
 
-### Safe command execution
+### Using Commands
 
 ```bash
-# Install Dagger (one-time setup)
-curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
+# List all available commands
+/list-prompts
 
-# Run potentially dangerous commands safely
-./scripts/safe-run.sh "npm install"
-./scripts/quick-safe.sh curl-install "curl unknown-site.com/install.sh | bash"
+# Search for specific functionality
+/search-prompts "security"
 
-# Test mode to preview actions
-./scripts/safe-run.sh "rm -rf /tmp/test" --test
+# Build custom workflows
+/workflow-builder
 ```
 
-**See [SAFETY.md](SAFETY.md) for complete safety system documentation.**
+### Prompt Optimization
+
+```bash
+cd beta-prompts
+
+# Optimize an existing prompt
+./scripts/quick-safe.sh improvement
+
+# Generate new prompts from templates
+./scripts/quick-safe.sh generation
+
+# Run full optimization suite
+./scripts/quick-safe.sh optimization
+```
+
+
+---
+
+## Safety & Validation
+
+### Validation System
+
+All prompts and commands undergo multi-level validation:
+
+- **Structure**: XML format compliance, required sections
+- **Security**: No exposed secrets or sensitive data
+- **Quality**: Scoring based on clarity and specificity
+- **Count**: Expected 39 commands (CI enforced)
+
+Always run `npm run validate` before committing.
+
+### Container Safety (Beta-Prompts)
+
+Python code execution is containerized for safety:
+
+```bash
+# Never run Python directly
+❌ python script.py
+
+# Always use safety containers
+✅ ./scripts/quick-safe.sh python script.py
+```
+
+### Contributing Standards
+
+1. Follow XML structure for all prompts
+2. Include rollback procedures for destructive operations
+3. Add comprehensive error handling
+4. Update command count if adding new commands
+5. Keep prompts focused and actionable
 
 ---
 
@@ -99,13 +284,25 @@ curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
 
 ---
 
-## Contributing
+## Getting Started with Commands
 
-Pull requests are welcome! Please:
+1. **Discover**: Use `/list-prompts` to browse available commands
+2. **Analyze**: Run `/analyze-project` to understand your codebase
+3. **Initialize**: Use `/bootstrap-project` for new projects
+4. **Secure**: Apply `/harden` and `/audit-security` early
+5. **Automate**: Chain commands with `/workflow-builder`
 
-1. Run the validator and ensure no errors.
-2. Follow conventional commit messages (`feat: …`, `fix: …`, etc.).
-3. Keep marketing language out of prompts—clarity beats hype.
+For detailed command documentation, see [.claude/README.md](.claude/README.md).
+
+---
+
+## Related Documentation
+
+- **[CLAUDE.md](CLAUDE.md)** - Detailed guidance for Claude Code instances
+- **[.claude/README.md](.claude/README.md)** - Complete command reference
+- **[prompts/INDEX.md](prompts/INDEX.md)** - Prompt category descriptions
+- **[beta-prompts/README.md](beta-prompts/README.md)** - Optimization tools guide
+- **[docs/CC-SDK.md](docs/CC-SDK.md)** - Claude Code SDK reference
 
 ---
 
