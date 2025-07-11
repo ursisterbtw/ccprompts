@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This repository contains the **most comprehensive collection of Claude Code-specific developer commands and prompts** ever created. The project delivers **39 production-ready commands** across **9 organized directories**, transforming how teams approach AI-assisted development through intelligent automation, continuous learning, and enterprise-grade quality assurance.
+This repository contains the **most comprehensive collection of Claude Code-specific developer commands and prompts** ever created. The project delivers **39 production-ready commands** across **9 organized directories**
 
 ## Development Commands
 
