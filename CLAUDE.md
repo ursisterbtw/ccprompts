@@ -15,7 +15,7 @@ This repository contains the **most comprehensive collection of Claude Code-spec
 npm ci                          # Clean install from lock file
 
 # Validation and Testing
-npm run validate                # Validate all prompts (expected count: 38)
+npm run validate                # Validate all prompts (expected count: 39)
 npm test                        # Same as validate
 npm run security-scan           # Run security-only validation
 
