@@ -1,6 +1,6 @@
 # Claude Code SDK comprehensive guide
 
-Claude Code SDK is Anthropic's **extensible CLI-based agentic coding tool** that transforms Claude into an autonomous development assistant capable of understanding entire codebases, performing multi-file operations, and executing complex development workflows directly in your terminal. Unlike regular Claude API usage, it features automatic context gathering, built-in file operations, git integration, and a permission-based security system - making it a powerful tool for automated code review, refactoring, and development tasks.
+Claude Code SDK is Anthropic's **extensible CLI-based agentic coding tool** that enables Claude to work as an autonomous development assistant capable of understanding entire codebases, performing multi-file operations, and executing complex development workflows directly in your terminal. Unlike regular Claude API usage, it features automatic context gathering, built-in file operations, git integration, and a permission-based security system - making it a useful tool for automated code review, refactoring, and development tasks.
 
 ## Core capabilities and features
 
@@ -31,7 +31,7 @@ Output: Expected output format
 </examples>
 ```
 
-A powerful feature is the **CLAUDE.md configuration file** placed in your project root. This file loads automatically and should contain frequently used commands, code style preferences, and project structure information. For monorepos or global settings, place it in parent directories or `~/.claude/CLAUDE.md`.
+An important feature is the **CLAUDE.md configuration file** placed in your project root. This file loads automatically and should contain frequently used commands, code style preferences, and project structure information. For monorepos or global settings, place it in parent directories or `~/.claude/CLAUDE.md`.
 
 The recommended **4-step development workflow** maximizes Claude Code's capabilities: First, use a research phase ("Analyze the codebase structure and identify the best approach"), then planning ("Create a detailed implementation plan"), followed by implementation ("Implement the solution following the plan"), and finally finalization ("Create appropriate commit messages and PR documentation").
 
