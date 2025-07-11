@@ -1,48 +1,4 @@
-# Claude Code GitHub Actions
-
-> Learn about integrating Claude Code into your development workflow with Claude Code GitHub Actions
-
-Claude Code GitHub Actions brings AI-powered automation to your GitHub workflow. With a simple `@claude` mention in any PR or issue, Claude can analyze your code, create pull requests, implement features, and fix bugs - all while following your project's standards.
-
-<Info>
-  Claude Code GitHub Actions is currently in beta. Features and functionality may evolve as we refine the experience.
-</Info>
-
-<Note>
-  Claude Code GitHub Actions is built on top of the [Claude Code SDK](/en/docs/claude-code/sdk), which enables programmatic integration of Claude Code into your applications. You can use the SDK to build custom automation workflows beyond GitHub Actions.
-</Note>
-
-## Why use Claude Code GitHub Actions?
-
-* **Instant PR creation**: Describe what you need, and Claude creates a complete PR with all necessary changes
-* **Automated code implementation**: Turn issues into working code with a single command
-* **Follows your standards**: Claude respects your `CLAUDE.md` guidelines and existing code patterns
-* **Simple setup**: Get started in minutes with our installer and API key
-* **Secure by default**: Your code stays on GitHub's runners
-
-## What can Claude do?
-
-Claude Code provides powerful GitHub Actions that transform how you work with code:
-
-### Claude Code Action
-
-This GitHub Action allows you to run Claude Code within your GitHub Actions workflows. You can use this to build any custom workflow on top of Claude Code.
-
-[View repository →](https://github.com/anthropics/claude-code-action)
-
-### Claude Code Action (Base)
-
-The foundation for building custom GitHub workflows with Claude. This extensible framework gives you full access to Claude's capabilities for creating tailored automation.
-
-[View repository →](https://github.com/anthropics/claude-code-base-action)
-
-## Setup
-
-## Quick setup
-
-The easiest way to set up this action is through Claude Code in the terminal. Just open claude and run `/install-github-app`.
-
-This command will guide you through setting up the GitHub app and required secrets.
+N/A (File will be renamed to `cc-gh-actions.md` and content consolidated if necessary.)
 
 <Note>
   * You must be a repository admin to install the GitHub app and add secrets
