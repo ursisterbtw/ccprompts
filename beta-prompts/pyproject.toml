@@ -227,22 +227,13 @@ Repository = "https://github.com/your-org/ccprompts.git"
 Changelog = "https://github.com/your-org/ccprompts/blob/main/CHANGELOG.md"
 
 [project.scripts]
-prompt-improve = "improvement_engine:main"
-prompt-generate = "generation_system:main"
-prompt-template = "templating_framework:main"
-prompt-optimize = "optimization_suite:main"
+prompt-improve = "beta_prompts.improvement_engine:main"
+prompt-generate = "beta_prompts.generation_system:main"
+prompt-template = "beta_prompts.templating_framework:main"
+prompt-optimize = "beta_prompts.optimization_suite:main"
 
 [tool.setuptools]
-py-modules = [
-    "generation_system",
-    "improvement_engine",
-    "interactive_dashboard",
-    "optimization_suite",
-    "scorer",
-    "seaborn_analytics",
-    "templating_framework",
-    "visualizations"
-]
+packages = ["beta_prompts"]
 
 # Ruff - Fast Python linter and formatter
 [tool.ruff]

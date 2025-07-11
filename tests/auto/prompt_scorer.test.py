@@ -12,8 +12,8 @@ from unittest.mock import mock_open, patch
 
 import pytest
 
-sys.path.append("../../beta-prompts")
-from beta_prompts.prompt_scorer_02 import PromptScorer, TaskMetrics
+# Remove sys.path manipulation - use proper imports
+from beta_prompts.scorer import PromptScorer, TaskMetrics
 
 
 class TestTaskMetrics:

@@ -12,10 +12,11 @@ from unittest.mock import mock_open, patch
 
 import pytest
 
-sys.path.append("../../beta-prompts")
-from beta_prompts.baseline_collector_01 import (BaselineCollector,
-                                                test_manual_code_review)
-from beta_prompts.prompt_scorer_02 import PromptScorer, TaskMetrics
+# Remove sys.path manipulation - use proper imports
+# Note: baseline_collector_01 module may need to be created or renamed
+# from beta_prompts.baseline_collector import (BaselineCollector,
+#                                             test_manual_code_review)
+from beta_prompts.scorer import PromptScorer, TaskMetrics
 
 
 class TestBaselineCollector:

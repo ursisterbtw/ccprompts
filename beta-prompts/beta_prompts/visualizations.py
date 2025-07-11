@@ -14,7 +14,9 @@ import numpy as np
 from matplotlib import patches
 from matplotlib.patches import Circle, Rectangle
 
-warnings.filterwarnings("ignore")
+# Suppress only specific matplotlib warnings that are not relevant
+warnings.filterwarnings("ignore", category=UserWarning, module="matplotlib")
+warnings.filterwarnings("ignore", category=DeprecationWarning, module="matplotlib")
 
 # Dark theme configuration
 DARK_THEME = {
