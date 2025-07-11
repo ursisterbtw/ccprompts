@@ -3,21 +3,12 @@ name: Claude Code Review
 on:
   pull_request:
     types: [opened, synchronize]
-    paths:
-      - "**/*.ts"
-      - "**/*.tsx"
-      - "**/*.js"
-      - "**/*.jsx"
-      - "**/*.md"
-      - "prompts/**/*"
-      - ".claude/**/*"
-      - "src/**/*"
-      - "scripts/**/*"
-      - "package.json"
-      - "package-lock.json"
-
-env:
-  NODE_VERSION: '20'
+    # Optional: Only run on specific file changes
+    # paths:
+    #   - "src/**/*.ts"
+    #   - "src/**/*.tsx"
+    #   - "src/**/*.js"
+    #   - "src/**/*.jsx"
 
 jobs:
   claude-review:
@@ -28,43 +19,24 @@ jobs:
     #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
     
     runs-on: ubuntu-latest
-    timeout-minutes: 30
     permissions:
-      contents: read                # For checkout
-      pull-requests: write         # For PR comments
-      issues: write               # For issue comments
+      contents: read
+      pull-requests: read
+      issues: read
       id-token: write
-      security-events: write       # For security alerts
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0            # Fetch full history for better analysis
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Node.js with caching
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
-
-      - name: Cache Claude analysis results
-        uses: actions/cache@v4
-        with:
-          path: ~/.claude-cache
-          key: claude-analysis-${{ runner.os }}-${{ hashFiles('**/*.ts', '**/*.js', '**/*.md') }}
-          restore-keys: |
-            claude-analysis-${{ runner.os }}-
+          fetch-depth: 1
 
       - name: Run Claude Code Review
         id: claude-review
-        timeout-minutes: 25
         uses: anthropics/claude-code-action@beta
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
           # Optional: Specify model (defaults to Claude Sonnet 4, uncomment for Claude Opus 4)
           # model: "claude-opus-4-20250514"
           
@@ -78,6 +50,9 @@ jobs:
             - Test coverage
             
             Be constructive and helpful in your feedback.
+
+          # Optional: Use sticky comments to make Claude reuse the same comment on subsequent pushes to the same PR
+          # use_sticky_comment: true
           
           # Optional: Customize review based on file types
           # direct_prompt: |
