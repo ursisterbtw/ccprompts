@@ -1,7 +1,7 @@
 {
   "name": "ccprompts-safety",
   "sdk": "typescript",
-  "engineVersion": "v0.13.3",
+  "engineVersion": "v18.12",
   "source": "src",
   "dependencies": [],
   "dev": true

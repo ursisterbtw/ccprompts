@@ -409,7 +409,7 @@ This repository includes a safety system for executing potentially dangerous com
 
 ```bash
 # Install Dagger (one-time setup)
-curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
+curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
 
 # Run dangerous commands safely
 ./scripts/safe-run.sh "rm -rf /tmp/dangerous-directory"

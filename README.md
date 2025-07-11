@@ -77,7 +77,7 @@ cat prompts/02-code-analysis/security-quality-audit.md
 
 ```bash
 # Install Dagger (one-time setup)
-curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
+curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
 
 # Run potentially dangerous commands safely
 ./scripts/safe-run.sh "npm install"

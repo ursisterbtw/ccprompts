@@ -6,7 +6,7 @@ A simple, reproducible system for running potentially dangerous commands in isol
 
 ```bash
 # Install Dagger (if not already installed)
-curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
+curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
 
 # Initialize the Dagger module
 cd src && npm install
@@ -115,7 +115,7 @@ The system automatically detects potentially dangerous command patterns:
 
 ```bash
 # Set custom Dagger version
-export DAGGER_VERSION="0.13.3"
+export DAGGER_VERSION="18.12"
 
 # Enable verbose logging
 export VERBOSE=true
@@ -148,7 +148,7 @@ baseContainer(): Container {
 
 ```bash
 # Install Dagger
-curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
+curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
 
 # Install TypeScript dependencies
 cd src && npm install
@@ -204,7 +204,7 @@ dagger version
 
 1. **Dagger not found**
    ```bash
-   curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=0.13.3 sh
+   curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
    ```
 
 2. **Permission denied**
