@@ -47,7 +47,7 @@ pytest -m "not slow"            # Skip slow tests
 # Code Quality
 ruff check .                    # Fast linting
 ruff check . --fix              # Auto-fix linting issues
-black .                         # Format code
+black .                          # Format code
 mypy .                          # Type checking
 
 # Documentation
@@ -215,6 +215,12 @@ Requires `ANTHROPIC_API_KEY` environment variable for API features.
 
 # important-instruction-reminders
 
+Do what has been asked; nothing more, nothing less.
+NEVER create files unless they're absolutely necessary for achieving your goal.
+ALWAYS prefer editing an existing file to creating a new one.
+NEVER proactively create documentation files (*.md) or README files. Only create documentation files if explicitly requested by the User.
+
+# important-instruction-reminders
 Do what has been asked; nothing more, nothing less.
 NEVER create files unless they're absolutely necessary for achieving your goal.
 ALWAYS prefer editing an existing file to creating a new one.

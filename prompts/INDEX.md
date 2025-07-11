@@ -1,6 +1,6 @@
-# Claude Code Prompts Collection - Directory Index
+# Claude Code Prompts - Directory Index
 
-This directory contains 20 comprehensive Claude Code prompts organized into 10 categories for maximum usability and maintainability. This index provides detailed descriptions of each category and prompt.
+This directory contains 20 Claude Code prompts organized into 10 categories. This index provides descriptions of each category and prompt.
 
 ## 📁 Categories
 
@@ -9,13 +9,13 @@ This directory contains 20 comprehensive Claude Code prompts organized into 10 c
 **Bootstrap new projects and generate CLAUDE.md files**
 
 - `comprehensive-bootstrap.md` - Complete project setup with CI/CD foundation
-- `claude-md-generator.md` - Generate comprehensive CLAUDE.md documentation
+- `claude-md-generator.md` - Generate CLAUDE.md documentation
 
 ### 02-code-analysis/
 
 **Security audits and dependency analysis**
 
-- `security-quality-audit.md` - OWASP Top 10 and comprehensive quality assessment
+- `security-quality-audit.md` - OWASP Top 10 and quality assessment
 - `dependency-analysis.md` - Vulnerability scanning and license compliance
 
 ### 03-refactoring/
@@ -27,7 +27,7 @@ This directory contains 20 comprehensive Claude Code prompts organized into 10 c
 
 ### 04-testing/
 
-**Comprehensive test implementation**
+**Test implementation**
 
 - `test-suite-generation.md` - Complete test pyramid with E2E automation
 - `mutation-testing.md` - Test effectiveness verification
@@ -43,7 +43,7 @@ This directory contains 20 comprehensive Claude Code prompts organized into 10 c
 
 **Advanced Git operations and repository management**
 
-- `advanced-git-automation.md` - Sophisticated Git workflows and hooks
+- `advanced-git-automation.md` - Git workflows and hooks
 - `repository-migration.md` - History cleanup and VCS migrations
 
 ### 07-multi-file-operations/
@@ -58,7 +58,7 @@ This directory contains 20 comprehensive Claude Code prompts organized into 10 c
 **MCP server configuration and testing**
 
 - `advanced-mcp-configuration.md` - Custom MCP servers and tool chains
-- `mcp-testing-framework.md` - Comprehensive MCP testing strategies
+- `mcp-testing-framework.md` - MCP testing strategies
 
 ### 09-build-deployment/
 
@@ -88,14 +88,14 @@ Each prompt follows the structured XML format:
 All prompts emphasize:
 
 - ✅ Safety-first approach with rollback procedures
-- ✅ Comprehensive testing and verification
+- ✅ Testing and verification procedures
 - ✅ CLAUDE.md integration for knowledge persistence
-- ✅ Enterprise-grade security and compliance
+- ✅ Security and compliance features
 - ✅ Multi-file operation capabilities
 
 ## 🔗 Related Files
 
 - **/.claude/commands/** - Custom slash commands for quick access
 - **/.claude/workflows/** - Automated workflow combinations
-- **/CC-SDK-Guide.md** - Comprehensive Claude Code SDK reference
+- **/CC-SDK-Guide.md** - Claude Code SDK reference
 - **/CLAUDE.md** - Project-specific guidance for Claude Code

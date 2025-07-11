@@ -180,4 +180,4 @@ build:
 - Manual approval and progressive delivery environments (dev → staging → prod)
 - Automatic changelog and release note generation on successful pipeline
 
-Create enterprise-grade CI/CD pipeline with security, testing, and deployment automation!
+Create CI/CD pipeline with security, testing, and deployment automation.

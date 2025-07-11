@@ -38,7 +38,7 @@ Implements sophisticated CI/CD pipelines and infrastructure automation:
 - **Multi-Cloud Strategy**: `/deploy multi-cloud enterprise` - Enterprise multi-cloud deployment
 - **Development Pipeline**: `/deploy dev basic` - Simple development environment setup
 - **Canary Releases**: `/deploy prod canary` - Gradual rollout with monitoring
-- **Zero-Downtime Updates**: `/deploy prod zero-downtime` - Seamless production updates
+- **Zero-Downtime Updates**: `/deploy prod zero-downtime` - Production updates without downtime
 
 ## Related Prompts
 

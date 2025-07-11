@@ -1,6 +1,6 @@
 # Contributing to ccprompts
 
-Thank you for your interest in contributing to the most comprehensive collection of Claude Code-specific developer commands and prompts! This guide will help you get started.
+Thank you for your interest in contributing to this collection of Claude Code-specific developer commands and prompts! This guide will help you get started.
 
 ## Quick Start
 
