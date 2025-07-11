@@ -99,7 +99,7 @@ pip install -e ".[dev,test]"
 ### Node.js Commands
 
 ```bash
-npm run validate      # Validate all prompts (expected: 38)
+npm run validate      # Validate all prompts (expected: 39)
 npm run lint          # Check markdown formatting
 npm run lint:fix      # Auto-fix formatting issues
 npm run check-links   # Verify all links are valid
