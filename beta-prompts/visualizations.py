@@ -1017,7 +1017,9 @@ class DarkModeVisualizer:
                 color=DARK_THEME["text_primary"],
                 fontsize=10,
                 bbox={
-                    "boxstyle": "round,pad=0.3", "facecolor": DARK_THEME["gold"], "alpha": 0.8
+                    "boxstyle": "round,pad=0.3",
+                    "facecolor": DARK_THEME["gold"],
+                    "alpha": 0.8,
                 },
                 arrowprops={"arrowstyle": "->", "color": DARK_THEME["gold"]},
             )
@@ -1093,7 +1095,10 @@ class DarkModeVisualizer:
 
             if abs(trend) > 0.01:  # Only show significant trends
                 arrow_props = {
-                    "arrowstyle": "->" if trend > 0 else "<-", "color": color, "lw": 3, "alpha": 0.8
+                    "arrowstyle": "->" if trend > 0 else "<-",
+                    "color": color,
+                    "lw": 3,
+                    "alpha": 0.8,
                 }
 
                 # Arrow direction based on trend

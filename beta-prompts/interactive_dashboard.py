@@ -194,7 +194,9 @@ class InteractiveDashboard:
                 name="⭐ Quality Score",
                 line={"color": DARK_COLORS["secondary"], "width": 4, "shape": "spline"},
                 marker={
-                    "size": 8, "color": DARK_COLORS["gold"], "line": {"color": "white", "width": 2}
+                    "size": 8,
+                    "color": DARK_COLORS["gold"],
+                    "line": {"color": "white", "width": 2},
                 },
                 hovertemplate="<b>Quality</b>: %{y:.2f}<br><b>Date</b>: %{x}<extra></extra>",
             ),
@@ -335,7 +337,10 @@ class InteractiveDashboard:
                     x=[x0, x1, None],
                     y=[y0, y1, None],
                     mode="lines",
-                    line={"color": DARK_COLORS["primary"], "width": edge["strength"] * 8},
+                    line={
+                        "color": DARK_COLORS["primary"],
+                        "width": edge["strength"] * 8,
+                    },
                     opacity=edge["strength"] * 0.8,
                     showlegend=False,
                     hoverinfo="skip",
@@ -523,7 +528,8 @@ class InteractiveDashboard:
                 x=achievements,
                 y=achievement_values,
                 marker={
-                    "color": achievement_colors, "line": {"color": "white", "width": 2}
+                    "color": achievement_colors,
+                    "line": {"color": "white", "width": 2},
                 },
                 text=[f"{val:.1%}" for val in achievement_values],
                 textposition="auto",
@@ -768,7 +774,9 @@ class InteractiveDashboard:
                     z=[pz + 0.05],
                     mode="markers+text",
                     marker={
-                        "size": 15, "color": DARK_COLORS["neon_pink"], "symbol": "diamond"
+                        "size": 15,
+                        "color": DARK_COLORS["neon_pink"],
+                        "symbol": "diamond",
                     },
                     text=[name],
                     textposition="top center",

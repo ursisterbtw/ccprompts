@@ -593,8 +593,7 @@ Create {deliverable_type} that includes:
             if var_name not in variables_used:
                 if domain in self.domain_knowledge:
                     domain_data = self.domain_knowledge[domain]
-                    domain_options = domain_data.get(var_name)
-                    if domain_options:
+                    if domain_options := domain_data.get(var_name):
                         variables_used[var_name] = random.choice(domain_options)
                     else:
                         variables_used[var_name] = random.choice(var_options)

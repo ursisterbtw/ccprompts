@@ -1161,7 +1161,6 @@ class SeabornAnalytics:
             facecolor=SEABORN_DARK_THEME["background"],
         )
         plt.close()
-        output_files = [filename1, filename2]
         # 3. Multi-dimensional Quality Analysis
         fig, ax = plt.subplots(figsize=(12, 12))
         self._create_multidimensional_quality_analysis(ax, data)
@@ -1173,9 +1172,7 @@ class SeabornAnalytics:
             facecolor=SEABORN_DARK_THEME["background"],
         )
         plt.close()
-        output_files.append(filename3)
-
-        return output_files
+        return [filename1, filename2, filename3]
 
     def _create_advanced_correlation_network(self, ax, data: pd.DataFrame):
         """Create network-style correlation visualization"""

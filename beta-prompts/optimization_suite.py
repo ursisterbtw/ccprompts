@@ -539,7 +539,10 @@ class IntegratedOptimizationSuite:
                     name=f"Optimization experiment for {task_type}",
                     description="Comparing optimized vs generated vs templated approaches",
                     baseline_prompt=prompt,
-                    candidate_prompts=[optimization_result.optimized_prompt, *alternative_prompts[:2]],
+                    candidate_prompts=[
+                        optimization_result.optimized_prompt,
+                        *alternative_prompts[:2],
+                    ],
                     test_cases=[
                         {"input": "sample_input", "expected_output": "sample_output"}
                     ],
@@ -842,13 +845,10 @@ class IntegratedOptimizationSuite:
         print("   🔬 Statistical analytics suite")
         print("   📈 Publication-ready plots")
 
-        created_files = []
-
         # 1. Dark mode dashboard
         print("\n🎨 Creating dark mode dashboard...")
         dashboard_file = self.generate_optimization_dashboard()
-        created_files.append(dashboard_file)
-
+        created_files = [dashboard_file]
         # 2. Interactive dashboards
         print("\n🌐 Creating interactive dashboards...")
         interactive_files = self.create_interactive_dashboard()
@@ -945,12 +945,10 @@ class IntegratedOptimizationSuite:
             total = session["total_optimizations"]
             if i < len(self.optimization_history):
                 successful = sum(
-                    bool(
-                        result.get("optimization_result", {})
-                        .get("performance_prediction", {})
-                        .get("overall_improvement", 0)
-                        > 0.1
-                    )
+                    result.get("optimization_result", {})
+                    .get("performance_prediction", {})
+                    .get("overall_improvement", 0)
+                    > 0.1
                     for result in self.optimization_history[i].optimization_results
                 )
             else:
