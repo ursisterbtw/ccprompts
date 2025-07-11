@@ -126,7 +126,7 @@
     "required_for_packages": true,
     "container_image": "python:3.11-slim",
     "mount_paths": [
-      "/home/sistr/Projects/ccprompts/beta-prompts:/workspace",
+      ".:/workspace",
       "/tmp:/tmp"
     ],
     "environment_variables": {

@@ -143,7 +143,7 @@ The project uses a sophisticated JavaScript-based validation system that checks:
 - **Prompt Structure**: XML format compliance, required sections
 - **Security**: No exposed secrets, API keys, or sensitive data
 - **Quality**: Scoring based on clarity, specificity, and safety
-- **Command Count**: Expected 38 commands (enforced in CI)
+- **Command Count**: Expected 39 commands (enforced in CI)
 
 Run `npm run validate` before any commit to ensure compliance.
 

@@ -4,6 +4,6 @@ Convenience wrapper for running the prompt improvement engine
 """
 
 if __name__ == "__main__":
-    from .improvement_engine import main
+    from beta_prompts.improvement_engine import main
 
     main()

@@ -905,6 +905,9 @@ class IntegratedOptimizationSuite:
             for result in session.optimization_results:
                 opt_result = result.get("optimization_result", {})
                 analysis = result.get("analysis", {})
+                
+                # Initialize improvement with default value
+                improvement = 0
 
                 if "performance_prediction" in opt_result:
                     improvement = opt_result["performance_prediction"].get(
@@ -926,9 +929,7 @@ class IntegratedOptimizationSuite:
                     for technique in techniques:
                         if technique not in technique_effectiveness:
                             technique_effectiveness[technique] = []
-                        technique_effectiveness[technique].append(
-                            improvement if improvements else 0
-                        )
+                        technique_effectiveness[technique].append(improvement)
 
             session_data["avg_improvement"] = (
                 np.mean(improvements) if improvements else 0

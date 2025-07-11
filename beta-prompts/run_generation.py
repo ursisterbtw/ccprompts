@@ -4,6 +4,6 @@ Convenience wrapper for running the prompt generation system
 """
 
 if __name__ == "__main__":
-    from .generation_system import main
+    from beta_prompts.generation_system import main
 
     main()

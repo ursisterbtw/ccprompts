@@ -4,6 +4,6 @@ Convenience wrapper for running the templating framework
 """
 
 if __name__ == "__main__":
-    from .templating_framework import main
+    from beta_prompts.templating_framework import main
 
     main()
