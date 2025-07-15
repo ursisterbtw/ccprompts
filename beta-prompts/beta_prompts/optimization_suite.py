@@ -781,10 +781,10 @@ class IntegratedOptimizationSuite:
             return None
 
         # Prepare data for interactive dashboard
-        dashboard_data = self._prepare_interactive_data()
+        dashboard_data = self._prepare_visualization_data()
 
         # Create master interactive dashboard
-        master_fig = self.interactive_dashboard.create_master_dashboard(dashboard_data)
+        master_fig = self.interactive_dashboard.create_master_dashboard()
         dashboard_file = self.interactive_dashboard.save_dashboard_html(
             master_fig, output_file
         )
@@ -792,9 +792,7 @@ class IntegratedOptimizationSuite:
         print(f"🌐 Interactive dashboard saved: {dashboard_file}")
 
         # Create 3D performance landscape
-        landscape_fig = self.interactive_dashboard.create_3d_performance_landscape(
-            dashboard_data
-        )
+        landscape_fig = self.interactive_dashboard.create_3d_performance_landscape()
         landscape_file = self.interactive_dashboard.save_dashboard_html(
             landscape_fig, "3d_performance_landscape.html"
         )
@@ -812,19 +810,12 @@ class IntegratedOptimizationSuite:
             print("No optimization history available for statistical analytics")
             return None
 
-        # Prepare statistical data
-        stats_data = self._prepare_statistical_data()
-
         # Create comprehensive analytics suite
-        suite_file = self.seaborn_analytics.create_comprehensive_analytics_suite(
-            stats_data
-        )
+        suite_file = self.seaborn_analytics.create_comprehensive_analytics_suite()
         print(f"📊 Statistical analytics suite saved: {suite_file}")
 
         # Create individual publication-ready plots
-        individual_files = self.seaborn_analytics.create_publication_ready_plots(
-            stats_data
-        )
+        individual_files = self.seaborn_analytics.create_publication_ready_plots()
         print("📈 Individual statistical plots saved:")
         for file in individual_files:
             print(f"  - {file}")
@@ -905,7 +896,7 @@ class IntegratedOptimizationSuite:
             for result in session.optimization_results:
                 opt_result = result.get("optimization_result", {})
                 analysis = result.get("analysis", {})
-                
+
                 # Initialize improvement with default value
                 improvement = 0
 

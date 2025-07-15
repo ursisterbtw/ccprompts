@@ -787,13 +787,14 @@ class InteractiveDashboard:
             )
 
         # Styling
+        layout_template = self.template["layout"].copy()
+        layout_template["title"] = {
+            "text": "🏔️ OPTIMIZATION PERFORMANCE LANDSCAPE 🏔️",
+            "x": 0.5,
+            "font": {"size": 24, "color": DARK_COLORS["primary"]},
+        }
         fig.update_layout(
-            **self.template["layout"],
-            title={
-                "text": "🏔️ OPTIMIZATION PERFORMANCE LANDSCAPE 🏔️",
-                "x": 0.5,
-                "font": {"size": 24, "color": DARK_COLORS["primary"]},
-            },
+            **layout_template,
             scene={
                 "xaxis": {
                     "title": "Technique Complexity",

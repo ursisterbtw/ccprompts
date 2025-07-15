@@ -1,0 +1,313 @@
+{
+  "version": "1.0",
+  "updated": "2025-07-15T17:28:49.380962",
+  "templates": {
+    "comprehensive_analysis": {
+      "template_id": "comprehensive_analysis",
+      "content": "{%- set role_definition -%}\nYou are an expert {{ domain }} analyst with {{ experience|default(\"10\") }} years of experience in {{ specialization|default(\"comprehensive analysis\") }}.\n{%- endset -%}\n\n{%- set task_definition -%}\n{{ task_description|default(\"Perform a comprehensive analysis of the provided content\") }}.\n{%- endset -%}\n\n{%- set instructions -%}\nFollow this systematic analysis methodology:\n{{ analysis_steps|format_list('numbered') }}\n{%- endset -%}\n\n{%- set thinking_process -%}\nLet me approach this analysis systematically:\n{{ thinking_steps|format_list('dash') }}\n{%- endset -%}\n\n{%- set output_format -%}\nStructure your analysis as follows:\n{{ output_sections|format_list('numbered') }}\n{%- endset -%}\n\n{{ role_definition|xml_wrap('role') }}\n\n{{ task_definition|xml_wrap('task') }}\n\n{{ instructions|xml_wrap('instructions') }}\n\n{{ thinking_process|xml_wrap('thinking') }}\n\n{% if examples -%}\n{{ examples|xml_wrap('examples') }}\n{% endif -%}\n\n{{ output_format|xml_wrap('output_format') }}\n\n{{ input_data|default(\"[Input data will be provided here]\") }}",
+      "metadata": {
+        "name": "comprehensive_analysis",
+        "version": "1.0",
+        "description": "Comprehensive analysis template with systematic methodology",
+        "author": "AdvancedTemplatingFramework",
+        "created_date": "2025-07-15T17:28:49.380454",
+        "last_modified": "2025-07-15T17:28:49.380462",
+        "task_types": [
+          "analysis",
+          "evaluation",
+          "assessment"
+        ],
+        "domains": [
+          "business",
+          "technical",
+          "financial",
+          "strategic"
+        ],
+        "complexity_levels": [
+          "intermediate",
+          "complex"
+        ],
+        "quality_score": 0.92,
+        "usage_count": 0,
+        "performance_metrics": {},
+        "tags": [
+          "analysis",
+          "systematic",
+          "comprehensive",
+          "structured"
+        ]
+      },
+      "variables": [
+        {
+          "name": "domain",
+          "type": "string",
+          "description": "Analysis domain (e.g., business, technical, financial)",
+          "required": true,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "experience",
+          "type": "string",
+          "description": "Years of experience",
+          "required": false,
+          "default": "10",
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "specialization",
+          "type": "string",
+          "description": "Area of specialization",
+          "required": false,
+          "default": "comprehensive analysis",
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "task_description",
+          "type": "string",
+          "description": "Specific task description",
+          "required": true,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "analysis_steps",
+          "type": "list",
+          "description": "Analysis methodology steps",
+          "required": true,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "thinking_steps",
+          "type": "list",
+          "description": "Thinking process steps",
+          "required": true,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "output_sections",
+          "type": "list",
+          "description": "Output structure sections",
+          "required": true,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "examples",
+          "type": "string",
+          "description": "Example content",
+          "required": false,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "input_data",
+          "type": "string",
+          "description": "Input data placeholder",
+          "required": false,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        }
+      ],
+      "registered_date": "2025-07-15T17:28:49.380509"
+    },
+    "technical_implementation": {
+      "template_id": "technical_implementation",
+      "content": "{%- set role_definition -%}\nYou are a senior {{ role_type|default(\"software engineer\") }} with {{ experience|default(\"10\") }} years of experience in {{ technology_stack }} and expertise in {{ specialization|default(\"scalable system design\") }}.\n{%- endset -%}\n\n{%- set technical_context -%}\nTechnical Context:\n{{ context_elements|format_list('bulleted') }}\n{%- endset -%}\n\n{%- set requirements -%}\nRequirements:\n{{ requirement_list|format_list('numbered') }}\n{%- endset -%}\n\n{%- set constraints -%}\nConstraints:\n{{ constraint_list|format_list('bulleted') }}\n{%- endset -%}\n\n{%- set implementation_approach -%}\nLet me approach this technical challenge systematically:\n\n1. **Architecture Analysis** - {{ architecture_focus|default(\"Analyze current system design and identify optimization opportunities\") }}\n2. **Implementation Strategy** - {{ implementation_strategy|default(\"Design modular, testable, and maintainable solution\") }}\n3. **Testing Approach** - {{ testing_strategy|default(\"Implement comprehensive testing at unit, integration, and system levels\") }}\n4. **Performance Optimization** - {{ optimization_approach|default(\"Identify and address performance bottlenecks\") }}\n{%- endset -%}\n\n{%- set output_specification -%}\nProvide your technical solution with:\n{{ output_elements|format_list('numbered') }}\n{%- endset -%}\n\n{{ role_definition|xml_wrap('role') }}\n\n{{ technical_context|xml_wrap('technical_context') }}\n\n{{ requirements|xml_wrap('requirements') }}\n\n{{ constraints|xml_wrap('constraints') }}\n\n{{ implementation_approach|xml_wrap('thinking') }}\n\n{% if code_examples -%}\n{{ code_examples|xml_wrap('examples') }}\n{% endif -%}\n\n{{ output_specification|xml_wrap('output_format') }}\n\n{{ technical_input|default(\"[Technical specifications and requirements will be provided here]\") }}",
+      "metadata": {
+        "name": "technical_implementation",
+        "version": "1.0",
+        "description": "Technical implementation template with systematic approach",
+        "author": "AdvancedTemplatingFramework",
+        "created_date": "2025-07-15T17:28:49.380888",
+        "last_modified": "2025-07-15T17:28:49.380891",
+        "task_types": [
+          "technical",
+          "implementation",
+          "development"
+        ],
+        "domains": [
+          "software_engineering",
+          "system_design",
+          "development"
+        ],
+        "complexity_levels": [
+          "intermediate",
+          "complex"
+        ],
+        "quality_score": 0.94,
+        "usage_count": 0,
+        "performance_metrics": {},
+        "tags": [
+          "technical",
+          "implementation",
+          "systematic",
+          "development"
+        ]
+      },
+      "variables": [
+        {
+          "name": "role_type",
+          "type": "string",
+          "description": "Technical role type",
+          "required": false,
+          "default": "software engineer",
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "experience",
+          "type": "string",
+          "description": "Years of experience",
+          "required": false,
+          "default": "10",
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "technology_stack",
+          "type": "string",
+          "description": "Primary technology stack",
+          "required": true,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "specialization",
+          "type": "string",
+          "description": "Area of technical specialization",
+          "required": false,
+          "default": "scalable system design",
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "context_elements",
+          "type": "list",
+          "description": "Technical context elements",
+          "required": true,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "requirement_list",
+          "type": "list",
+          "description": "Technical requirements",
+          "required": true,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "constraint_list",
+          "type": "list",
+          "description": "Technical constraints",
+          "required": true,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "architecture_focus",
+          "type": "string",
+          "description": "Architecture analysis focus",
+          "required": false,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "implementation_strategy",
+          "type": "string",
+          "description": "Implementation approach",
+          "required": false,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "testing_strategy",
+          "type": "string",
+          "description": "Testing methodology",
+          "required": false,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "optimization_approach",
+          "type": "string",
+          "description": "Performance optimization strategy",
+          "required": false,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "output_elements",
+          "type": "list",
+          "description": "Output structure elements",
+          "required": true,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "code_examples",
+          "type": "string",
+          "description": "Code example content",
+          "required": false,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        },
+        {
+          "name": "technical_input",
+          "type": "string",
+          "description": "Technical input placeholder",
+          "required": false,
+          "default": null,
+          "constraints": {},
+          "validation_rules": [],
+          "context_dependent": false
+        }
+      ],
+      "registered_date": "2025-07-15T17:28:49.380957"
+    }
+  }
+}

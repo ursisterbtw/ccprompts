@@ -88,9 +88,23 @@ class TemplateRegistry:
             ).items():
                 self.templates[template_id] = template_data
 
-                # Load metadata
+                # Load metadata with defaults
                 metadata_data = template_data.get("metadata", {})
-                self.metadata_index[template_id] = TemplateMetadata(**metadata_data)
+                self.metadata_index[template_id] = TemplateMetadata(
+                    name=metadata_data.get("name", template_id),
+                    version=metadata_data.get("version", "1.0.0"),
+                    description=metadata_data.get("description", ""),
+                    author=metadata_data.get("author", "Unknown"),
+                    created_date=metadata_data.get("created_date", ""),
+                    last_modified=metadata_data.get("last_modified", ""),
+                    task_types=metadata_data.get("task_types", []),
+                    domains=metadata_data.get("domains", []),
+                    complexity_levels=metadata_data.get("complexity_levels", []),
+                    quality_score=metadata_data.get("quality_score", 0.0),
+                    usage_count=metadata_data.get("usage_count", 0),
+                    performance_metrics=metadata_data.get("performance_metrics", {}),
+                    tags=metadata_data.get("tags", []),
+                )
 
     def register_template(
         self,
@@ -588,7 +602,22 @@ Provide your technical solution with:
             raise ValueError(f"Template {template_id} not found in registry")
 
         template_content = template_data["content"]
-        metadata = TemplateMetadata(**template_data["metadata"])
+        metadata_data = template_data["metadata"]
+        metadata = TemplateMetadata(
+            name=metadata_data.get("name", template_id),
+            version=metadata_data.get("version", "1.0.0"),
+            description=metadata_data.get("description", ""),
+            author=metadata_data.get("author", "Unknown"),
+            created_date=metadata_data.get("created_date", ""),
+            last_modified=metadata_data.get("last_modified", ""),
+            task_types=metadata_data.get("task_types", []),
+            domains=metadata_data.get("domains", []),
+            complexity_levels=metadata_data.get("complexity_levels", []),
+            quality_score=metadata_data.get("quality_score", 0.0),
+            usage_count=metadata_data.get("usage_count", 0),
+            performance_metrics=metadata_data.get("performance_metrics", {}),
+            tags=metadata_data.get("tags", []),
+        )
 
         # Apply context adaptation
         if context:
@@ -598,7 +627,17 @@ Provide your technical solution with:
 
         # Validate variables
         template_variables = [
-            TemplateVariable(**var_data) for var_data in template_data["variables"]
+            TemplateVariable(
+                name=var_data.get("name", ""),
+                type=var_data.get("type", "string"),
+                description=var_data.get("description", ""),
+                required=var_data.get("required", True),
+                default=var_data.get("default"),
+                constraints=var_data.get("constraints", {}),
+                validation_rules=var_data.get("validation_rules", []),
+                context_dependent=var_data.get("context_dependent", False),
+            )
+            for var_data in template_data["variables"]
         ]
         validated_variables = self._validate_variables(template_variables, variables)
 
@@ -832,8 +871,35 @@ Provide your technical solution with:
         # Extract components
         template_id = data["template_id"]
         content = data["content"]
-        metadata = TemplateMetadata(**data["metadata"])
-        variables = [TemplateVariable(**var_data) for var_data in data["variables"]]
+        metadata_data = data["metadata"]
+        metadata = TemplateMetadata(
+            name=metadata_data.get("name", template_id),
+            version=metadata_data.get("version", "1.0.0"),
+            description=metadata_data.get("description", ""),
+            author=metadata_data.get("author", "Unknown"),
+            created_date=metadata_data.get("created_date", ""),
+            last_modified=metadata_data.get("last_modified", ""),
+            task_types=metadata_data.get("task_types", []),
+            domains=metadata_data.get("domains", []),
+            complexity_levels=metadata_data.get("complexity_levels", []),
+            quality_score=metadata_data.get("quality_score", 0.0),
+            usage_count=metadata_data.get("usage_count", 0),
+            performance_metrics=metadata_data.get("performance_metrics", {}),
+            tags=metadata_data.get("tags", []),
+        )
+        variables = [
+            TemplateVariable(
+                name=var_data.get("name", ""),
+                type=var_data.get("type", "string"),
+                description=var_data.get("description", ""),
+                required=var_data.get("required", True),
+                default=var_data.get("default"),
+                constraints=var_data.get("constraints", {}),
+                validation_rules=var_data.get("validation_rules", []),
+                context_dependent=var_data.get("context_dependent", False),
+            )
+            for var_data in data["variables"]
+        ]
 
         return self.registry.register_template(
             template_id, content, metadata, variables

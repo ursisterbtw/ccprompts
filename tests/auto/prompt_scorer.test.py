@@ -5,13 +5,11 @@ Tests all public methods with happy path and edge cases
 """
 
 # Import the classes to test
-import sys
 import time
 from datetime import datetime
 from unittest.mock import mock_open, patch
 
 import pytest
-
 # Remove sys.path manipulation - use proper imports
 from beta_prompts.scorer import PromptScorer, TaskMetrics
 

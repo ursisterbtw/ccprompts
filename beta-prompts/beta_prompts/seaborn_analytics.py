@@ -255,7 +255,6 @@ class SeabornAnalytics:
             cbar_kws={
                 "shrink": 0.8,
                 "label": "Correlation Coefficient",
-                "labelpad": 20,
             },
             annot_kws={"fontsize": 11, "fontweight": "bold", "color": "white"},
             ax=ax,
@@ -591,7 +590,7 @@ class SeabornAnalytics:
         # Add trend line
         sns.regplot(
             data=data_sorted,
-            x=range(len(data_sorted)),
+            x=list(range(len(data_sorted))),
             y="quality_score",
             scatter=False,
             color=SEABORN_DARK_THEME["neon_lime"],
@@ -1189,7 +1188,23 @@ class SeabornAnalytics:
         corr_matrix = data[numeric_cols].corr()
 
         # Create network layout
-        import networkx as nx
+        try:
+            import networkx as nx  # type: ignore
+        except ImportError:
+            print(
+                "⚠️  NetworkX not available, skipping correlation network visualization"
+            )
+            ax.text(
+                0.5,
+                0.5,
+                "NetworkX not available\nSkipping correlation network",
+                ha="center",
+                va="center",
+                transform=ax.transAxes,
+                fontsize=14,
+                color="white",
+            )
+            return
 
         G = nx.Graph()
 
