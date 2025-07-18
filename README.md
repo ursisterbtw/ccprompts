@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/banner.svg" width="720" height="120" alt="ccprompts banner: practical Claude code commands and prompts" />
+  <img src="docs/assets/banner.svg" width="720" height="120" alt="ccprompts banner" />
 </p>
 
 <div align="center">
@@ -12,17 +12,38 @@
 
 # ccprompts – practical claude code commands and prompts
 
-**ccprompts** is a curated set of prompt templates and supporting tooling for developers who want to extend Claude-powered automation into their own projects. Each prompt is production-ready, peer-reviewed, and versioned so you can drop it into an existing workflow—or use it as a starting point for your own commands.
+**ccprompts** is a collection of structured prompt templates for common development tasks.
+The templates are organized into 10 categories covering the software development lifecycle,
+from project initialization to security compliance. Each prompt includes validation and can be
+used directly with Claude Code or adapted for your own workflows.
+
+> **⚠️ Development Notice**: This repository is under active development. Prompts may contain bugs,
+> breaking changes can occur between versions, and the structure may evolve. Use with caution in
+> production environments.
 
 ---
 
-## Why use this repo?
+## What's included
 
-- **Breadth without bloat** – Prompts cover common phases of the SDLC (bootstrap, testing, refactoring, CI/CD, security) but stay laser-focused on useful output.
-- **Quality gates built-in** – The [`scripts/validate-prompts.js`](scripts/validate-prompts.js) validator enforces length, structure, and security guards for every prompt.
-- **Composable** – Prompts are plain Markdown with a minimal YAML header (`id`, `tags`, `description`). Use them as is, or compose them in your own workflows.
-- **Zero vendor lock-in** – No proprietary wrappers or hidden services; the repo is pure text + Node.js tooling so you can fork and adapt freely.
-- **Built-in Safety** – Containerized execution system for safely running potentially dangerous commands via Dagger.
+**10 categories of development prompts:**
+
+- Project initialization & documentation
+- Code analysis & security audits
+- Refactoring & performance optimization
+- Testing & quality assurance
+- Documentation generation
+- Git workflows & automation
+- Multi-file operations
+- MCP integration
+- Build & deployment pipelines
+- Security & compliance
+
+**Key features:**
+
+- **Validated prompts** – Built-in validation ensures prompt quality and security
+- **Plain Markdown** – Simple format with minimal YAML headers, easy to modify
+- **Safety system** – Containerized execution for potentially dangerous commands via Dagger
+- **No dependencies** – Pure text files with Node.js tooling for validation
 
 ---
 
@@ -105,7 +126,7 @@ Pull requests are welcome! Please:
 
 1. Run the validator and ensure no errors.
 2. Follow conventional commit messages (`feat: …`, `fix: …`, etc.).
-3. Keep marketing language out of prompts—clarity beats hype.
+3. Keep prompts clear and focused—avoid unnecessary complexity.
 
 ---
 
