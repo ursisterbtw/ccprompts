@@ -179,7 +179,6 @@ describe('[Feature] Integration Tests', () => {
     expect(dbRecord).toBeDefined();
   });
 });
-</test_templates>
 ```
 
 <coverage_requirements>

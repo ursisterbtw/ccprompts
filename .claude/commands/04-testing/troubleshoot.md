@@ -481,6 +481,7 @@ Remember: The goal is not just to fix the immediate problem, but to build debugg
 </instructions>
 
 <examples>
+
 ## Example 1: Production Error Troubleshooting
 
 **Command**: `/troubleshoot error production critical`

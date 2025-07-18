@@ -6,6 +6,7 @@ allowed-tools: Bash(git:*), Read, Write, Edit, mcp__*
 # Intelligent Command Chain
 
 ## Context Analysis
+
 - Current project: !`pwd | xargs basename`
 - Git status: !`git status --porcelain | head -5`
 - Recent activity: !`git log --oneline -3`
@@ -26,18 +27,22 @@ Based on the context above and your intent, I'll execute an intelligent sequence
 ## Common Workflow Patterns
 
 ### Development Workflows
+
 - `new feature authentication` → analyze → bootstrap → security audit → test → document
 - `fix bug in user service` → locate → analyze → test → fix → validate
 - `deploy to production` → audit → test → backup → deploy → monitor
 
 ### Quality Workflows  
+
 - `improve code quality` → analyze → refactor → test → document
 - `security hardening` → audit → harden → compliance → validate
 - `performance optimization` → profile → optimize → benchmark → validate
 
 ### Team Workflows
+
 - `prepare for sprint` → analyze backlog → estimate → plan → communicate
 - `release preparation` → test → audit → document → package → notify
 
 ## Execution
+
 Tell me what you want to accomplish, and I'll chain the appropriate commands intelligently!

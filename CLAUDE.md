@@ -4,64 +4,66 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 
 ## Project Overview
 
-This repository contains a collection of Claude Code-specific developer commands and prompts. The project includes **38 production-ready commands** across **6 development phases**, helping teams with AI-assisted development through automation, learning resources, and quality assurance tools.
+This repository contains a collection of Claude Code-specific developer commands and prompts. The project includes **38 production-ready commands** across **8 strategic phases**, helping teams with AI-assisted development through automation, learning resources, and quality assurance tools.
 
 ## Command Ecosystem
 
-### **38 Commands Across 6 Strategic Phases**
+### **38 Commands Across 8 Strategic Phases**
 
 ```tree
-📁 Phase 1: Category Commands (8 commands)
-   ├── /bootstrap-project    # Complete project initialization
-   ├── /audit-security      # OWASP-compliant security analysis
-   ├── /refactor           # Safe multi-file transformations
-   ├── /test               # Test automation
+📁 Phase 1: Initial Workflow (2 commands)
+   ├── /analyze-project     # AI-powered project assessment
+   └── /intelligent-chain   # Natural language workflow automation
+
+🏗️ Phase 2: Project Setup (4 commands)
    ├── /document           # Auto-generated documentation
-   ├── /setup-ci           # CI/CD pipeline automation
-   ├── /deploy             # Production deployment workflows
-   └── /optimize           # Performance optimization
+   ├── /learn              # Interactive skill development
+   ├── /mcp                # MCP server integration and testing
+   └── /new-feature        # Feature implementation workflow
 
-🔄 Phase 2: Workflow Commands (6 commands)
+🛠️ Phase 3: Development (6 commands)
    ├── /backup             # Backup strategies
+   ├── /debug-session      # Advanced troubleshooting
    ├── /migrate            # Database and system migrations
-   ├── /monitor            # Production monitoring setup
+   ├── /optimize           # Performance optimization
+   ├── /refactor           # Safe multi-file transformations
+   └── /monitor            # Production monitoring setup
+
+🔒 Phase 4: Security & Compliance (4 commands)
+   ├── /audit-security     # OWASP-compliant security analysis
    ├── /comply             # Regulatory compliance automation
-   ├── /modernize          # Legacy system modernization
-   └── /harden             # Security hardening workflows
+   ├── /harden             # Security hardening workflows
+   └── /incident-response  # Production incident management
 
-🧠 Phase 3: Context-Aware Commands (5 commands)
-   ├── /analyze-project    # AI-powered project assessment
-   ├── /health-check       # System health checks
-   ├── /quick-fix          # Targeted issue resolution
-   ├── /smart-suggest      # Contextual recommendations
-   └── /validate-environment # Environment verification
+🧪 Phase 5: Testing & Quality (2 commands)
+   ├── /test               # Test automation
+   └── /troubleshoot       # Systematic debugging assistance
 
-🛠️ Phase 4: Utility Commands (6 commands)
-   ├── /list-prompts       # Command discovery and browsing
-   ├── /search-prompts     # Content search
-   ├── /workflow-builder   # Visual workflow creation
-   ├── /prompt-stats       # Usage analytics and metrics
-   ├── /export-config      # Configuration sharing
-   └── /debug-session      # Advanced troubleshooting
-
-📊 Phase 5: Developer Lifecycle Commands (7 commands)
+🚀 Phase 6: Deployment & Operations (4 commands)
+   ├── /deploy             # Production deployment workflows
+   ├── /git                # Advanced Git operations and workflows
    ├── /pre-commit         # Quality gates and validation
-   ├── /incident-response  # Production incident management
+   └── /setup-ci           # CI/CD pipeline automation
+
+👥 Phase 7: Collaboration & Management (8 commands)
    ├── /code-review        # AI-powered code analysis
    ├── /daily-standup      # Team coordination automation
    ├── /release-notes      # Multi-audience communication
    ├── /sprint-planning    # Sprint management
-   └── /tech-debt          # Technical debt optimization
-
-📚 Phase 6: Learning Commands (4 commands)
-   ├── /learn              # Interactive skill development
+   ├── /tech-debt          # Technical debt optimization
    ├── /best-practices     # Technology-specific guidance
-   ├── /troubleshoot       # Systematic debugging assistance
-   └── /knowledge-base     # Organizational knowledge management
+   ├── /knowledge-base     # Organizational knowledge management
+   └── /modernize          # Legacy system modernization
 
-🔧 Specialized Commands (2 commands)
-   ├── /git                # Advanced Git operations and workflows
-   └── /mcp                # MCP server integration and testing
+📊 Phase 8: Utilities & Analytics (6 commands)
+   ├── /health-check       # System health checks
+   ├── /list-prompts       # Command discovery and browsing
+   ├── /prompt-stats       # Usage analytics and metrics
+   ├── /quick-fix          # Targeted issue resolution
+   ├── /search-prompts     # Content search
+   ├── /smart-suggest      # Contextual recommendations
+   ├── /validate-environment # Environment verification
+   └── /workflow-builder   # Visual workflow creation
 ```
 
 ## Repository Architecture
@@ -203,8 +205,8 @@ ccprompts/
 
 ```bash
 # Instant project setup and analysis
-/bootstrap-project web-app typescript cloud
 /analyze-project
+/new-feature web-app typescript cloud
 /health-check full
 
 # Development workflow automation
@@ -226,7 +228,7 @@ ccprompts/
 ### **Command Ecosystem Navigation**
 
 1. **Start with Discovery**: Use `/analyze-project` and `/list-prompts` to understand current state
-2. **Build Foundation**: Use `/bootstrap-project` and `/harden` for solid project setup
+2. **Build Foundation**: Use `/new-feature` and `/harden` for solid project setup
 3. **Establish Quality**: Implement `/pre-commit`, `/code-review`, and `/best-practices`
 4. **Enable Learning**: Use `/learn` and `/troubleshoot` for continuous development
 5. **Scale Operations**: Leverage `/workflow-builder` and `/sprint-planning` for team coordination
@@ -236,7 +238,8 @@ ccprompts/
 #### **Complete Project Setup Workflow**
 
 ```bash
-/bootstrap-project web-app typescript cloud
+/analyze-project
+→ /new-feature web-app typescript
 → /harden enterprise
 → /setup-ci github professional
 → /document auto-generated

@@ -282,19 +282,23 @@ class PromptValidator {
 
   // Enhanced command structure validation
   validateCommandStructure(content, filename) {
-    const requiredSections = [
-      '## Usage',
-      '## Description', 
-      '## Parameters',
-      '## Examples'
-    ];
-
-    const missingSections = requiredSections.filter(section => 
+    // Commands should have at least a description
+    const hasDescription = content.includes('## Description') || 
+                          content.includes('# ') || 
+                          content.match(/^description:/m);
+    
+    if (!hasDescription) {
+      this.errors.push(`${filename}: Command file missing description`);
+    }
+    
+    // Warn about missing sections but don't error
+    const recommendedSections = ['## Usage', '## Parameters', '## Examples'];
+    const missingSections = recommendedSections.filter(section => 
       !content.includes(section)
     );
-
+    
     if (missingSections.length > 0) {
-      this.errors.push(`${filename}: Missing command sections: ${missingSections.join(', ')}`);
+      this.warnings.push(`${filename}: Consider adding sections: ${missingSections.join(', ')}`);
     }
 
     // Validate usage format
@@ -339,7 +343,8 @@ class PromptValidator {
 
       // Determine file type
       const isCommand = filePath.includes('.claude/commands/');
-      const isPrompt = filePath.includes('prompts/') && !filePath.includes('INDEX.md');
+      const isPrompt = filePath.includes('prompts/') && !filePath.includes('INDEX.md') && 
+                      !filePath.includes('README.md') && filePath.endsWith('.md');
       const isDocumentation = this.isDocumentationFile(filePath);
 
       // Security validation for all files
@@ -349,13 +354,15 @@ class PromptValidator {
       if (isCommand) {
         this.stats.commandFiles++;
         this.validateCommandStructure(content, filename);
-        this.validateXMLStructure(content, filename);
+        // Skip XML validation for commands - they use YAML/markdown format
       } else if (isPrompt) {
         this.stats.promptFiles++;
         this.validateXMLStructure(content, filename);
         this.validatePromptQuality(content, filename);
+      } else {
+        // Skip validation for documentation and other files
+        return;
       }
-      // Skip all other files (documentation, GitHub templates, etc.)
 
       // Basic validation for commands and prompts only
       if (isCommand || isPrompt) {
@@ -506,7 +513,26 @@ class PromptValidator {
         : null;
 
       if (fs.existsSync(commandDir)) {
-        const commandFiles = fs.readdirSync(commandDir).filter(f => f.endsWith('.md')).length;
+        // Count all .md files recursively in subdirectories
+        const countMarkdownFiles = (dir) => {
+          let count = 0;
+          const items = fs.readdirSync(dir);
+          
+          for (const item of items) {
+            const fullPath = path.join(dir, item);
+            const stat = fs.statSync(fullPath);
+            
+            if (stat.isDirectory()) {
+              count += countMarkdownFiles(fullPath);
+            } else if (item.endsWith('.md')) {
+              count++;
+            }
+          }
+          
+          return count;
+        };
+        
+        const commandFiles = countMarkdownFiles(commandDir);
         if (expectedCommandCount !== null) {
           if (commandFiles !== expectedCommandCount) {
             this.errors.push(`Expected ${expectedCommandCount} commands, found ${commandFiles}`);

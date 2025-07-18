@@ -70,6 +70,7 @@ AUTOMATICALLY DETECT:
 </activation>
 
 <instructions>
+
 ## Phase 1: Knowledge Base Analysis
 
 ### Current State Assessment
