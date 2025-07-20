@@ -12,7 +12,23 @@
     "backup_enabled": true,
     "mcp_enabled": true,
     "mcp_timeout": 30000,
-    "mcp_retry": 3
+    "mcp_retry": 3,
+    "validation": {
+      "enabled": true,
+      "strict_mode": false,
+      "command_count_validation": true,
+      "expected_command_count": 40
+    },
+    "performance": {
+      "discovery_timeout": 100,
+      "validation_timeout": 2000,
+      "cache_enabled": true
+    },
+    "safety": {
+      "container_isolation": true,
+      "dangerous_command_validation": true,
+      "security_scanning": true
+    }
   },
   "conventions": {
     "commit_format": "conventional",

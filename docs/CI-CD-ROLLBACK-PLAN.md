@@ -1,6 +1,7 @@
 # CI/CD Optimization Rollback Plan
 
 ## Overview
+
 This document provides a comprehensive rollback strategy for the CI/CD optimizations implemented in this repository. Use this guide if any issues arise after deploying the workflow changes.
 
 ## Quick Rollback (Emergency)
@@ -21,6 +22,7 @@ gh pr create --title "Revert: CI/CD optimizations" --body "Emergency rollback of
 ## Identified Changes
 
 ### Modified Workflows
+
 1. `.github/workflows/claude-code-review.yml` - Added permissions, caching, Node.js setup
 2. `.github/workflows/claude.yml` - Added concurrency, permissions, caching
 3. `.github/workflows/deploy.yml` - Added permissions, concurrency, cache outputs
@@ -31,6 +33,7 @@ gh pr create --title "Revert: CI/CD optimizations" --body "Emergency rollback of
 8. `.github/workflows/reusable/security-scan.yml` - Added SARIF support, thresholds
 
 ### New Workflows (Creative Visualizations)
+
 1. `.github/workflows/workflow-performance-monitor.yml` - Flamegraph generation
 2. `.github/workflows/ascii-art-performance.yml` - ASCII performance reports
 3. `.github/workflows/performance-badges.yml` - Dynamic SVG badges
@@ -39,6 +42,7 @@ gh pr create --title "Revert: CI/CD optimizations" --body "Emergency rollback of
 6. `.github/workflows/3d-city-skyline.yml` - 3D performance visualization
 
 ### New Configuration Files
+
 1. `.yamllint.yml` - YAML linting configuration
 2. `.pre-commit-config.yaml` - Pre-commit hooks for validation
 3. `.github/test-harness/test-workflows.sh` - Local testing script
@@ -46,9 +50,11 @@ gh pr create --title "Revert: CI/CD optimizations" --body "Emergency rollback of
 ## Rollback Procedures by Issue Type
 
 ### Issue: Workflow Syntax Errors
+
 **Symptoms**: Workflows fail to start, "Invalid workflow file" errors
 
 **Fix**:
+
 ```bash
 # Validate syntax locally
 yamllint .github/workflows/*.yml
@@ -61,12 +67,15 @@ git push
 ```
 
 ### Issue: Permission Errors
+
 **Symptoms**: "Resource not accessible by integration" errors
 
 **Fix**:
+
 1. Check if the workflow has appropriate permissions
 2. Ensure repository settings allow GitHub Actions
 3. If needed, temporarily add broader permissions:
+
 ```yaml
 permissions:
   contents: write
@@ -75,9 +84,11 @@ permissions:
 ```
 
 ### Issue: Cache Problems
+
 **Symptoms**: Cache restore failures, out of space errors
 
 **Fix**:
+
 ```bash
 # Clear all caches via GitHub UI or API
 gh api -X DELETE /repos/$OWNER/$REPO/actions/caches
@@ -87,11 +98,14 @@ gh api /repos/$OWNER/$REPO/actions/caches --jq '.actions_caches[] | select(.key 
 ```
 
 ### Issue: Parallel Job Conflicts
+
 **Symptoms**: Resource conflicts, race conditions
 
 **Fix**:
+
 1. Reduce parallelization in matrix strategies
 2. Add stricter concurrency controls:
+
 ```yaml
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -99,9 +113,11 @@ concurrency:
 ```
 
 ### Issue: Performance Degradation
+
 **Symptoms**: Workflows running slower than before
 
 **Fix**:
+
 1. Disable new visualizations temporarily
 2. Review cache hit rates
 3. Reduce matrix job counts
@@ -121,6 +137,7 @@ git push
 ## Monitoring During Rollback
 
 1. **Check Active Runs**:
+
    ```bash
    gh run list --workflow=<workflow-name>
    ```
@@ -137,6 +154,7 @@ git push
 ## Post-Rollback Actions
 
 1. **Document Issues**:
+
    ```markdown
    ## Rollback Report - [Date]
    
@@ -156,6 +174,7 @@ git push
    ```
 
 2. **Create Fix Branch**:
+
    ```bash
    git checkout -b fix/cicd-issues
    # Apply fixes
@@ -163,6 +182,7 @@ git push
    ```
 
 3. **Test Thoroughly**:
+
    ```bash
    # Run local tests
    ./.github/test-harness/test-workflows.sh
@@ -196,6 +216,7 @@ After fixing issues:
 ## Emergency Contacts
 
 If you need assistance:
+
 1. Check GitHub Actions documentation
 2. Review the original optimization report at `reports/ci-cd-expert.json`
 3. Consult the verification workflow logs
@@ -204,6 +225,7 @@ If you need assistance:
 ## Prevention Checklist
 
 Before future CI/CD changes:
+
 - [ ] Run pre-commit hooks locally
 - [ ] Test with `verify-ci-changes.yml` workflow
 - [ ] Review changes in a separate branch

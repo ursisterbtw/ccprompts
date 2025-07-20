@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const SafetyValidator = require('./safety-validator');
 
 // Color output for better readability
 const colors = {
@@ -27,13 +28,21 @@ class PromptValidator {
   constructor() {
     this.errors = [];
     this.warnings = [];
+    this.commandRegistry = {
+      version: '1.0.0',
+      last_updated: new Date().toISOString(),
+      commands: {},
+      categories: {},
+      phases: [],
+      validation_results: null
+    };
     this.stats = {
       totalFiles: 0,
       validFiles: 0,
       commandFiles: 0,
       promptFiles: 0,
       securityIssues: 0,
-      qualityScores: 0
+      qualityScores: []
     };
   }
 
@@ -280,8 +289,29 @@ class PromptValidator {
     return qualityScore;
   }
 
-  // Enhanced command structure validation
+  // Enhanced command structure validation with metadata extraction
   validateCommandStructure(content, filename) {
+    // Extract command metadata
+    const metadata = this.extractCommandMetadata(content, filename);
+    
+    // Store in registry
+    if (metadata) {
+      this.commandRegistry.commands[metadata.id] = metadata;
+      
+      // Update category tracking
+      if (!this.commandRegistry.categories[metadata.category]) {
+        this.commandRegistry.categories[metadata.category] = {
+          id: metadata.category,
+          name: metadata.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          description: `${metadata.category} commands`,
+          phase: metadata.phase,
+          command_count: 0,
+          completion_percentage: 0
+        };
+      }
+      this.commandRegistry.categories[metadata.category].command_count++;
+    }
+    
     // Commands should have at least a description
     const hasDescription = content.includes('## Description') || 
                           content.includes('# ') || 
@@ -313,6 +343,191 @@ class PromptValidator {
     }
   }
 
+  // Extract command metadata from content
+  extractCommandMetadata(content, filename) {
+    const relativePath = path.relative(process.cwd(), filename);
+    const commandName = path.basename(filename, '.md');
+    
+    // Extract title from first heading
+    const titleMatch = content.match(/^#\s+(.+)$/m);
+    const title = titleMatch ? titleMatch[1].trim() : commandName;
+    
+    // Extract description from ## Description section or first paragraph
+    let description = this.extractMarkdownSection(content, '## Description');
+    if (!description) {
+      // Fallback to first paragraph after title
+      const paragraphs = content.split('\n\n');
+      description = paragraphs.find(p => p.trim() && !p.startsWith('#') && p.length > 50);
+    }
+    description = description ? description.substring(0, 200).trim() + '...' : `${commandName} command`;
+    
+    // Determine category and phase from file path
+    const category = this.extractCategoryFromPath(relativePath);
+    const phase = this.extractPhaseFromCategory(category);
+    
+    // Extract usage pattern
+    const usageSection = this.extractMarkdownSection(content, '## Usage');
+    const usageMatch = usageSection ? usageSection.match(/`\/?([^`]+)`/) : null;
+    const usage = usageMatch ? usageMatch[1] : `/${commandName}`;
+    
+    // Extract parameters
+    const parameters = this.extractParameters(content);
+    
+    // Extract examples
+    const examples = this.extractExamples(content);
+    
+    // Determine safety level
+    const safetyLevel = this.determineSafetyLevel(content);
+    
+    return {
+      id: commandName,
+      name: title,
+      category: category,
+      phase: phase,
+      description: description,
+      usage: usage,
+      parameters: parameters,
+      examples: examples,
+      dependencies: [],
+      safety_level: safetyLevel,
+      claude_code_version: '>=1.0.0',
+      file_path: relativePath,
+      last_modified: new Date().toISOString()
+    };
+  }
+  
+  // Extract category from file path
+  extractCategoryFromPath(filePath) {
+    if (filePath.includes('01-project-initialization')) {
+      return 'project-setup';
+    }
+    if (filePath.includes('02-code-analysis')) {
+      return 'analysis';
+    }
+    if (filePath.includes('03-refactoring')) {
+      return 'development';
+    }
+    if (filePath.includes('04-testing')) {
+      return 'testing';
+    }
+    if (filePath.includes('05-documentation')) {
+      return 'documentation';
+    }
+    if (filePath.includes('06-git-workflows')) {
+      return 'git';
+    }
+    if (filePath.includes('07-multi-file-operations')) {
+      return 'operations';
+    }
+    if (filePath.includes('08-mcp-integration')) {
+      return 'integration';
+    }
+    if (filePath.includes('09-build-deployment')) {
+      return 'deployment';
+    }
+    if (filePath.includes('10-security-compliance')) {
+      return 'security';
+    }
+    if (filePath.includes('commands')) {
+      return 'command';
+    }
+    return 'utility';
+  }
+  
+  // Map category to phase number
+  extractPhaseFromCategory(category) {
+    const phaseMap = {
+      'project-setup': 1,
+      'analysis': 2,
+      'development': 3,
+      'testing': 5,
+      'documentation': 7,
+      'git': 6,
+      'operations': 3,
+      'integration': 8,
+      'deployment': 6,
+      'security': 4,
+      'command': 1,
+      'utility': 8
+    };
+    return phaseMap[category] || 8;
+  }
+  
+  // Extract parameters from Parameters section
+  extractParameters(content) {
+    const parametersSection = this.extractMarkdownSection(content, '## Parameters');
+    if (!parametersSection) {
+      return [];
+    }
+    
+    const parameters = [];
+    const paramLines = parametersSection.split('\n').filter(line => line.trim());
+    
+    paramLines.forEach(line => {
+      const paramMatch = line.match(/[-*]\s*`?([^`\s:]+)`?\s*:?\s*(.+)/); 
+      if (paramMatch) {
+        parameters.push({
+          name: paramMatch[1],
+          type: 'string',
+          required: !line.includes('optional'),
+          description: paramMatch[2].trim()
+        });
+      }
+    });
+    
+    return parameters;
+  }
+  
+  // Extract examples from Examples section
+  extractExamples(content) {
+    const examplesSection = this.extractMarkdownSection(content, '## Examples');
+    if (!examplesSection) {
+      return [];
+    }
+    
+    const examples = [];
+    const codeBlocks = examplesSection.match(/```[\s\S]*?```/g) || [];
+    
+    codeBlocks.forEach((block, index) => {
+      const command = block.replace(/```[\w]*\n?|```/g, '').trim();
+      if (command) {
+        examples.push({
+          title: `Example ${index + 1}`,
+          command: command,
+          description: `Usage example ${index + 1}`,
+          expected_outcome: 'Command execution with expected results'
+        });
+      }
+    });
+    
+    return examples;
+  }
+  
+  // Determine safety level based on content
+  determineSafetyLevel(content) {
+    const dangerousPatterns = [
+      /rm\s+-rf/i,
+      /sudo/i,
+      /chmod\s+[0-7]{3}/i,
+      /delete|destroy|remove/i,
+      /docker.*--privileged/i
+    ];
+    
+    const cautionPatterns = [
+      /install|download/i,
+      /network|curl|wget/i,
+      /file.*write|modify/i
+    ];
+    
+    if (dangerousPatterns.some(pattern => pattern.test(content))) {
+      return 'dangerous';
+    }
+    if (cautionPatterns.some(pattern => pattern.test(content))) {
+      return 'caution';
+    }
+    return 'safe';
+  }
+  
   // Determine prompt type with better heuristics
   determinePromptType(filename, content) {
     if (filename.includes('commands/')) {
@@ -466,24 +681,50 @@ class PromptValidator {
   // Enhanced validation with performance tracking
   async validate() {
     const startTime = Date.now();
+    const performanceMetrics = {
+      discovery_time: 0,
+      validation_time: 0,
+      registry_generation_time: 0,
+      file_processing_times: [],
+      memory_usage: process.memoryUsage()
+    };
+    
     log('blue', '🧪 Starting comprehensive ccprompts validation...\n');
 
     const projectRoot = process.cwd();
+    const discoveryStart = Date.now();
     const markdownFiles = this.findMarkdownFiles(projectRoot);
+    performanceMetrics.discovery_time = Date.now() - discoveryStart;
 
-    log('blue', `Found ${markdownFiles.length} markdown files to validate\n`);
-
-    // Validate each file
+    log('blue', `Found ${markdownFiles.length} markdown files to validate`);
+    log('cyan', `📊 Discovery: ${performanceMetrics.discovery_time}ms`);
+    
+    // Validate each file with performance tracking
+    const validationStart = Date.now();
     for (const file of markdownFiles) {
+      const fileStart = Date.now();
       await this.validateFile(file);
+      performanceMetrics.file_processing_times.push({
+        file: file,
+        duration: Date.now() - fileStart
+      });
     }
+    performanceMetrics.validation_time = Date.now() - validationStart;
 
     // Additional system-level validations
     this.validateSystemIntegrity();
+    
+    // Generate command registry with performance tracking
+    const registryStart = Date.now();
+    await this.generateCommandRegistry();
+    performanceMetrics.registry_generation_time = Date.now() - registryStart;
 
-    // Report results
+    // Run Dagger safety validation
+    await this.runSafetyValidation(performanceMetrics);
+
+    // Report results with performance metrics
     const duration = Date.now() - startTime;
-    this.reportResults(duration);
+    this.reportResults(duration, performanceMetrics);
     
     // Return exit code based on errors
     return this.errors.length === 0 ? 0 : 1;
@@ -552,7 +793,7 @@ class PromptValidator {
   }
 
   // Enhanced reporting with metrics
-  reportResults(duration) {
+  reportResults(duration, performanceMetrics = null) {
     log('blue', '\n📊 Validation Results');
     log('blue', '==================');
     
@@ -608,6 +849,175 @@ class PromptValidator {
     }
     
     log('cyan', `   Overall quality grade: ${grade} (${overallScore.toFixed(1)}/100)`);
+    
+    // Performance metrics reporting
+    if (performanceMetrics) {
+      log('blue', '\n⚡ Performance Metrics:');
+      log('cyan', `   File discovery: ${performanceMetrics.discovery_time}ms`);
+      log('cyan', `   Validation time: ${performanceMetrics.validation_time}ms`);
+      log('cyan', `   Registry generation: ${performanceMetrics.registry_generation_time}ms`);
+      
+      const avgFileTime = performanceMetrics.file_processing_times.length > 0 
+        ? (performanceMetrics.file_processing_times.reduce((sum, f) => sum + f.duration, 0) / performanceMetrics.file_processing_times.length).toFixed(1)
+        : 0;
+      log('cyan', `   Average file processing: ${avgFileTime}ms`);
+      
+      const memoryAfter = process.memoryUsage();
+      const memoryDelta = ((memoryAfter.heapUsed - performanceMetrics.memory_usage.heapUsed) / 1024 / 1024).toFixed(1);
+      log('cyan', `   Memory usage: ${(memoryAfter.heapUsed / 1024 / 1024).toFixed(1)}MB (Δ${memoryDelta}MB)`);
+      
+      // Safety validation metrics
+      if (performanceMetrics.safety_validation_time !== undefined) {
+        log('cyan', `   Safety validation: ${performanceMetrics.safety_validation_time}ms`);
+        if (performanceMetrics.safety_commands_analyzed > 0) {
+          log('cyan', `   Commands analyzed: ${performanceMetrics.safety_commands_analyzed}`);
+          log('cyan', `   Dangerous patterns: ${performanceMetrics.safety_dangerous_commands || 0}`);
+          log('cyan', `   Container tests: ${performanceMetrics.safety_container_tests || 0}`);
+          log('cyan', `   Dagger available: ${performanceMetrics.dagger_available ? '✅' : '❌'}`);
+        }
+      }
+      
+      // Performance targets validation
+      const discoveryTarget = 100; // ms
+      const validationTarget = 2000; // ms for all files
+      log('cyan', `   Discovery target: ${performanceMetrics.discovery_time < discoveryTarget ? '✅' : '❌'} (<${discoveryTarget}ms)`);
+      log('cyan', `   Validation target: ${performanceMetrics.validation_time < validationTarget ? '✅' : '❌'} (<${validationTarget}ms)`);
+    }
+    
+    // Report registry stats
+    const commandCount = Object.keys(this.commandRegistry.commands).length;
+    const categoryCount = Object.keys(this.commandRegistry.categories).length;
+    if (commandCount > 0) {
+      log('blue', '\n📋 Command Registry:');
+      log('cyan', `   Commands discovered: ${commandCount}`);
+      log('cyan', `   Categories: ${categoryCount}`);
+      log('cyan', `   Registry saved to: .claude/command-registry.json`);
+    }
+  }
+  
+  // Generate and save command registry
+  async generateCommandRegistry() {
+    try {
+      // Finalize validation results
+      this.commandRegistry.validation_results = {
+        last_run: new Date().toISOString(),
+        total_files: this.stats.totalFiles,
+        valid_files: this.stats.validFiles,
+        errors: this.errors.map(error => ({ message: error, severity: 'error' })),
+        warnings: this.warnings.map(warning => ({ message: warning, severity: 'warning' })),
+        security_issues: this.errors.filter(e => e.includes('SECURITY')),
+        quality_metrics: this.stats.qualityScores
+      };
+      
+      // Generate phase information
+      const phases = {};
+      Object.values(this.commandRegistry.commands).forEach(cmd => {
+        if (!phases[cmd.phase]) {
+          phases[cmd.phase] = {
+            id: cmd.phase,
+            name: this.getPhaseNameById(cmd.phase),
+            description: this.getPhaseDescriptionById(cmd.phase),
+            commands: []
+          };
+        }
+        phases[cmd.phase].commands.push(cmd.id);
+      });
+      this.commandRegistry.phases = Object.values(phases).sort((a, b) => a.id - b.id);
+      
+      // Create .claude directory if it doesn't exist
+      const claudeDir = path.join(process.cwd(), '.claude');
+      if (!fs.existsSync(claudeDir)) {
+        fs.mkdirSync(claudeDir, { recursive: true });
+      }
+      
+      // Save registry to file
+      const registryPath = path.join(claudeDir, 'command-registry.json');
+      fs.writeFileSync(registryPath, JSON.stringify(this.commandRegistry, null, 2));
+      
+      log('green', `✅ Command registry generated: ${registryPath}`);
+      
+    } catch (error) {
+      this.warnings.push(`Failed to generate command registry: ${error.message}`);
+    }
+  }
+  
+  // Get phase name by ID
+  getPhaseNameById(phaseId) {
+    const phaseNames = {
+      1: 'Initial Workflow',
+      2: 'Project Setup', 
+      3: 'Development',
+      4: 'Security & Compliance',
+      5: 'Testing & Quality',
+      6: 'Deployment & Operations',
+      7: 'Collaboration & Management',
+      8: 'Utilities & Analytics'
+    };
+    return phaseNames[phaseId] || `Phase ${phaseId}`;
+  }
+  
+  // Get phase description by ID
+  getPhaseDescriptionById(phaseId) {
+    const descriptions = {
+      1: 'Initial project workflow and analysis commands',
+      2: 'Project initialization and setup automation',
+      3: 'Core development and refactoring tools',
+      4: 'Security auditing and compliance validation', 
+      5: 'Testing automation and quality assurance',
+      6: 'Deployment pipelines and operational tools',
+      7: 'Team collaboration and project management',
+      8: 'Utility commands and analytics tools'
+    };
+    return descriptions[phaseId] || `Phase ${phaseId} commands`;
+  }
+
+  /**
+   * Run Dagger safety validation on commands
+   */
+  async runSafetyValidation(performanceMetrics) {
+    const safetyStart = Date.now();
+    
+    try {
+      log('blue', '\n🛡️  Running Dagger safety validation...');
+      
+      const safetyValidator = new SafetyValidator();
+      const safetyReport = await safetyValidator.validateAllCommands();
+      
+      // Integrate safety results into main validation
+      if (safetyReport.errors.length > 0) {
+        this.errors = this.errors.concat(safetyReport.errors);
+      }
+      
+      if (safetyReport.warnings.length > 0) {
+        this.warnings = this.warnings.concat(safetyReport.warnings);
+      }
+      
+      // Add safety metrics to performance tracking
+      performanceMetrics.safety_validation_time = Date.now() - safetyStart;
+      performanceMetrics.safety_commands_analyzed = safetyReport.summary.totalCommands;
+      performanceMetrics.safety_dangerous_commands = safetyReport.summary.dangerousCommands;
+      performanceMetrics.safety_container_tests = safetyReport.summary.containerTests;
+      performanceMetrics.dagger_available = safetyReport.daggerAvailable;
+      
+      log('cyan', `🛡️  Safety validation completed in ${performanceMetrics.safety_validation_time}ms`);
+      
+      if (safetyReport.summary.dangerousCommands > 0) {
+        log('yellow', `⚠️  Found ${safetyReport.summary.dangerousCommands} commands with dangerous patterns`);
+      }
+      
+      if (safetyReport.daggerAvailable && safetyReport.summary.containerTests > 0) {
+        log('green', `✅ Validated ${safetyReport.summary.containerTests} commands in Dagger containers`);
+      } else if (!safetyReport.daggerAvailable) {
+        log('yellow', '⚠️  Dagger not available - install from https://dagger.io for container validation');
+      }
+      
+    } catch (error) {
+      this.warnings.push(`Safety validation failed: ${error.message}`);
+      performanceMetrics.safety_validation_time = Date.now() - safetyStart;
+      performanceMetrics.safety_error = error.message;
+      
+      log('yellow', `⚠️  Safety validation encountered an error: ${error.message}`);
+    }
   }
 }
 

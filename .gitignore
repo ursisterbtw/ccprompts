@@ -20,4 +20,4 @@ __pycache__/
 *.pyc
 .vscode/settings.json
 .idea/
-
+coverage/
