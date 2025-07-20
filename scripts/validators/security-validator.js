@@ -3,6 +3,8 @@
  * Scans for hardcoded secrets, vulnerabilities, and security anti-patterns
  */
 
+const safetyPatterns = require('../config/safety-patterns');
+
 class SecurityValidator {
   constructor() {
     this.securityIssues = [];
@@ -69,14 +71,8 @@ class SecurityValidator {
       });
     });
 
-    // Check for dangerous operations in prompts
-    const dangerousPatterns = [
-      { pattern: /rm\s+-rf\s+\//gi, message: 'Dangerous rm -rf command on root' },
-      { pattern: /curl.*\|\s*sh/gi, message: 'Pipe to shell from curl (security risk)' },
-      { pattern: /wget.*\|\s*bash/gi, message: 'Pipe to shell from wget (security risk)' },
-      { pattern: /eval\s*\(/gi, message: 'Use of eval() function' },
-      { pattern: /exec\s*\(/gi, message: 'Use of exec() function' }
-    ];
+    // Check for dangerous operations using centralized patterns
+    const dangerousPatterns = safetyPatterns.getAllPatterns();
 
     dangerousPatterns.forEach(({ pattern, message }) => {
       if (pattern.test(combinedCode)) {

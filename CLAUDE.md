@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with th
 
 ## Project Overview
 
-This repository contains a collection of Claude Code-specific developer commands and prompts. The project includes **38 production-ready commands** across **8 strategic phases**, helping teams with AI-assisted development through automation, learning resources, and quality assurance tools.
+This repository contains a collection of Claude Code-specific developer commands and prompts. The project includes **40 production-ready commands** across **8 strategic phases**, helping teams with AI-assisted development through automation, learning resources, and quality assurance tools.
 
 ## Command Ecosystem
 
-### **38 Commands Across 8 Strategic Phases**
+### **40 Commands Across 8 Strategic Phases**
 
 ```tree
 📁 Phase 1: Initial Workflow (2 commands)
@@ -103,7 +103,7 @@ ccprompts/
 │       └── compliance-automation.md  # Regulatory compliance
 
 ├── .claude/                          # Complete command ecosystem
-│   ├── commands/                     # All 38 slash commands
+│   ├── commands/                     # All 40 slash commands
 │   │   ├── [Phase 1: Category Commands]
 │   │   │   ├── bootstrap-project.md
 │   │   │   ├── audit-security.md
@@ -320,7 +320,7 @@ Commands adapt to project characteristics, technology stacks, and team needs, pr
 
 ### **5. Integrated Command System**
 
-The 38 commands work together as a system supporting discovery, implementation, and learning.
+The 40 commands work together as a system supporting discovery, implementation, and learning.
 
 ## Advanced Usage Patterns
 
@@ -402,7 +402,7 @@ The 38 commands work together as a system supporting discovery, implementation, 
 
 ---
 
-**This repository provides tools for AI-assisted development with a focus on automation, learning, and team capability building. The 38 commands extend Claude Code's capabilities to support development workflows and team collaboration.**
+**This repository provides tools for AI-assisted development with a focus on automation, learning, and team capability building. The 40 commands extend Claude Code's capabilities to support development workflows and team collaboration.**
 
 ## Containerized Safety System
 
