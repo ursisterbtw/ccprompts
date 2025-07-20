@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const SafetyValidator = require('./safety-validator');
+const safetyPatterns = require('./config/safety-patterns');
 
 // Color output for better readability
 const colors = {
@@ -359,7 +360,12 @@ class PromptValidator {
       const paragraphs = content.split('\n\n');
       description = paragraphs.find(p => p.trim() && !p.startsWith('#') && p.length > 50);
     }
-    description = description ? description.substring(0, 200).trim() + '...' : `${commandName} command`;
+    if (description) {
+      const trimmed = description.substring(0, 200).trim();
+      description = description.length > 200 ? trimmed + '...' : trimmed;
+    } else {
+      description = `${commandName} command`;
+    }
     
     // Determine category and phase from file path
     const category = this.extractCategoryFromPath(relativePath);
@@ -505,27 +511,7 @@ class PromptValidator {
   
   // Determine safety level based on content
   determineSafetyLevel(content) {
-    const dangerousPatterns = [
-      /rm\s+-rf/i,
-      /sudo/i,
-      /chmod\s+[0-7]{3}/i,
-      /delete|destroy|remove/i,
-      /docker.*--privileged/i
-    ];
-    
-    const cautionPatterns = [
-      /install|download/i,
-      /network|curl|wget/i,
-      /file.*write|modify/i
-    ];
-    
-    if (dangerousPatterns.some(pattern => pattern.test(content))) {
-      return 'dangerous';
-    }
-    if (cautionPatterns.some(pattern => pattern.test(content))) {
-      return 'caution';
-    }
-    return 'safe';
+    return safetyPatterns.classifySafetyLevel(content, true);
   }
   
   // Determine prompt type with better heuristics

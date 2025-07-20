@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync, spawn } = require('child_process');
+const safetyPatterns = require('./config/safety-patterns');
 
 class SafetyValidator {
   constructor() {
@@ -23,6 +24,11 @@ class SafetyValidator {
       warnings: [],
       validationTime: 0
     };
+    /**
+     * Cached result of Dagger availability check
+     * @type {boolean|undefined}
+     */
+    this._daggerAvailable = undefined;
   }
 
   /**
@@ -42,64 +48,12 @@ class SafetyValidator {
    * Analyze command content for dangerous patterns
    */
   analyzeDangerousPatterns(content, filename) {
-    const dangerousPatterns = [
-      {
-        pattern: /rm\s+-rf\s+[\/\$]/gi,
-        severity: 'critical',
-        message: 'Recursive file deletion with system paths'
-      },
-      {
-        pattern: /sudo\s+(?!apt|npm|pip)/gi,
-        severity: 'high',
-        message: 'Sudo execution with non-package managers'
-      },
-      {
-        pattern: /chmod\s+[0-7]{3}\s+[\/\$]/gi,
-        severity: 'medium',
-        message: 'File permission changes on system paths'
-      },
-      {
-        pattern: /curl\s+.*\|\s*(?:bash|sh|zsh)/gi,
-        severity: 'critical',
-        message: 'Pipe curl output to shell execution'
-      },
-      {
-        pattern: /wget\s+.*\|\s*(?:bash|sh|zsh)/gi,
-        severity: 'critical',
-        message: 'Pipe wget output to shell execution'
-      },
-      {
-        pattern: /eval\s*\(\s*\$\(/gi,
-        severity: 'high',
-        message: 'Dynamic command evaluation'
-      },
-      {
-        pattern: /docker\s+.*--privileged/gi,
-        severity: 'high',
-        message: 'Docker privileged mode execution'
-      },
-      {
-        pattern: /systemctl\s+(?:start|stop|restart|enable|disable)/gi,
-        severity: 'medium',
-        message: 'System service management'
-      },
-      {
-        pattern: /(?:>|>>)\s*\/(?:etc|usr|var|bin|sbin)/gi,
-        severity: 'high',
-        message: 'File redirection to system directories'
-      },
-      {
-        pattern: /npm\s+install\s+.*-g/gi,
-        severity: 'low',
-        message: 'Global npm package installation'
-      }
-    ];
-
     const findings = [];
     const codeBlocks = this.extractCodeBlocks(content);
+    const allPatterns = safetyPatterns.getAllPatterns();
 
     codeBlocks.forEach((block, index) => {
-      dangerousPatterns.forEach(({ pattern, severity, message }) => {
+      allPatterns.forEach(({ pattern, severity, message }) => {
         const matches = block.match(pattern);
         if (matches) {
           findings.push({
@@ -137,7 +91,10 @@ class SafetyValidator {
    * Validate a command using Dagger container
    */
   async validateCommandInContainer(command, filename) {
-    if (!this.checkDaggerAvailability()) {
+    if (this._daggerAvailable === undefined) {
+      this._daggerAvailable = this.checkDaggerAvailability();
+    }
+    if (!this._daggerAvailable) {
       return {
         success: false,
         error: 'Dagger not available',

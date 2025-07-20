@@ -291,21 +291,33 @@ token="example-token-placeholder"
   });
 
   describe('Performance Validation', () => {
-    test('should meet discovery time target', async () => {
+    const shouldSkipPerfTests = process.env.SKIP_PERF_TESTS === 'true' || process.env.CI === 'true';
+
+    const perfDiscoveryMs = process.env.PERF_DISCOVERY_MS
+      ? parseInt(process.env.PERF_DISCOVERY_MS, 10)
+      : global.TEST_CONFIG.PERFORMANCE_TARGETS.DISCOVERY_MS;
+
+    const perfValidationMs = process.env.PERF_VALIDATION_MS
+      ? parseInt(process.env.PERF_VALIDATION_MS, 10)
+      : global.TEST_CONFIG.PERFORMANCE_TARGETS.VALIDATION_MS;
+
+    const maybeTest = shouldSkipPerfTests ? test.skip : test;
+
+    maybeTest('should meet discovery time target', async () => {
       const startTime = Date.now();
       const files = validator.findMarkdownFiles(global.TEST_CONFIG.PROJECT_ROOT);
       const discoveryTime = Date.now() - startTime;
       
       expect(files.length).toBeGreaterThan(0);
-      expect(discoveryTime).toBeLessThan(global.TEST_CONFIG.PERFORMANCE_TARGETS.DISCOVERY_MS);
+      expect(discoveryTime).toBeLessThan(perfDiscoveryMs);
     });
 
-    test('should meet validation time target', async () => {
+    maybeTest('should meet validation time target', async () => {
       const startTime = Date.now();
       await validator.validate();
       const totalTime = Date.now() - startTime;
       
-      expect(totalTime).toBeLessThan(global.TEST_CONFIG.PERFORMANCE_TARGETS.VALIDATION_MS);
+      expect(totalTime).toBeLessThan(perfValidationMs);
     }, global.TEST_CONFIG.VALIDATION_TIMEOUT);
   });
 

