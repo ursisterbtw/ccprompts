@@ -13,13 +13,13 @@
     "mcp_enabled": true,
     "mcp_timeout": 30000,
     "mcp_retry": 3,
-    "validation": {
-      "enabled": true,
-      "strict_mode": false,
-      "command_count_validation": true,
-      "expected_command_count": 40
-    },
-    "performance": {
+  "validation": {
+    "enabled": true,
+    "strict_mode": false,
+    "command_count_validation": true,
+    "expected_command_count": 70
+  },
+  "performance": {
       "discovery_timeout": 100,
       "validation_timeout": 2000,
       "cache_enabled": true
@@ -64,5 +64,45 @@
     "08-mcp-integration",
     "09-build-deployment",
     "10-security-compliance"
-  ]
+  ],
+  "command_phases": [
+    "00-initial-workflow",
+    "01-project-setup",
+    "02-development",
+    "03-security",
+    "04-testing",
+    "05-deployment",
+    "06-collaboration",
+    "07-utilities",
+    "08-extras",
+    "09-agentic-capabilities",
+    "10-ai-native-development",
+    "11-enterprise-scale"
+  ],
+  "agentic_features": {
+    "mcp_integration": {
+      "enabled": true,
+      "server_discovery": true,
+      "auto_installation": true,
+      "security_validation": true
+    },
+    "multi_agent": {
+      "orchestration": true,
+      "parallel_execution": true,
+      "context_sharing": true,
+      "quality_assurance": true
+    },
+    "ai_native_development": {
+      "pair_programming": true,
+      "code_understanding": true,
+      "predictive_development": true,
+      "architecture_assistance": true
+    },
+    "enterprise_features": {
+      "governance": true,
+      "compliance": true,
+      "scalability": true,
+      "audit_trails": true
+    }
+  }
 }
