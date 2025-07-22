@@ -10,12 +10,9 @@
 
 </div>
 
-# ccprompts – practical claude code commands and prompts
+# ccprompts – comprehensive claude code command ecosystem
 
-**ccprompts** is a collection of structured prompt templates for common development tasks.
-The templates are organized into 10 categories covering the software development lifecycle,
-from project initialization to security compliance. Each prompt includes validation and can be
-used directly with Claude Code or adapted for your own workflows.
+**ccprompts** is a comprehensive collection of 70 production-ready Claude Code commands organized into 11 strategic phases covering the complete software development lifecycle. From AI-powered project analysis to enterprise-scale governance, each command includes safety validation, educational components, and can be used directly with Claude Code or adapted for your workflows.
 
 > **⚠️ Development Notice**: This repository is under active development. Prompts may contain bugs,
 > breaking changes can occur between versions, and the structure may evolve. Use with caution in
@@ -25,25 +22,39 @@ used directly with Claude Code or adapted for your own workflows.
 
 ## What's included
 
-**10 categories of development prompts:**
+**70 Commands Across 11 Strategic Phases:**
 
-- Project initialization & documentation
-- Code analysis & security audits
-- Refactoring & performance optimization
-- Testing & quality assurance
-- Documentation generation
-- Git workflows & automation
-- Multi-file operations
-- MCP integration
-- Build & deployment pipelines
-- Security & compliance
+### **Phase 00-08: Core Development Lifecycle (40 commands)**
+- **00-02**: Project setup, analysis, and refactoring
+- **03-05**: Testing, documentation, and Git workflows  
+- **06-08**: Multi-file operations, MCP integration, and deployment
+
+### **Phase 09: Advanced Agentic Capabilities (12 commands)**
+- MCP server discovery and configuration
+- Multi-agent orchestration and coordination
+- Context management and semantic understanding
+- Agent specialization and workflow automation
+
+### **Phase 10: AI-Native Development (10 commands)**
+- Advanced AI pair programming and semantic understanding
+- Predictive development and proactive suggestions
+- Intelligent code generation and debugging
+- AI-assisted testing and refactoring
+
+### **Phase 11: Enterprise & Scale (8 commands)**
+- Multi-repository coordination and governance
+- Advanced analytics and organizational knowledge management
+- Enterprise compliance automation and resource management
+- Team coordination and performance optimization at scale
 
 **Key features:**
 
-- **Validated prompts** – Built-in validation ensures prompt quality and security
-- **Plain Markdown** – Simple format with minimal YAML headers, easy to modify
-- **Safety system** – Containerized execution for potentially dangerous commands via Dagger
-- **No dependencies** – Pure text files with Node.js tooling for validation
+- **70 Production-Ready Commands** – Complete command ecosystem for enterprise development
+- **Modern Agentic Capabilities** – MCP integration, multi-agent coordination, AI-native development
+- **Enterprise-Scale Features** – Governance, compliance, analytics, and resource management
+- **Safety-First Design** – Containerized execution, validation, and rollback procedures
+- **Educational Components** – Every command teaches while it automates
+- **XML-Structured Format** – Consistent role, activation, instructions, and output format
 
 ---
 
@@ -62,36 +73,51 @@ npm run validate
 ls prompts/*/*.md | less
 ```
 
-### Adding a new prompt
+### Adding a new command
 
-1. Copy `prompts/01-project-initialization/claude-md-generator.md` to your desired folder.
-2. Update the YAML header and content – keep the required `<role>`, `<activation>`, and `<instructions>` sections.
-3. Run `npm run validate` before committing. Zero errors = good to go.
+1. Copy an existing command from `.claude/commands/` to your desired phase folder.
+2. Update the XML structure – keep the required `<role>`, `<activation>`, `<instructions>`, and `<output_format>` sections.
+3. Include safety validation steps and educational components.
+4. Run `npm run validate` before committing. Zero errors = good to go.
 
 ---
 
-## Repository layout (trimmed)
+## Repository layout
 
 ```text
-prompts/               # Organized by phase (01–10)
+.claude/
+├── commands/          # 70 commands across 11 phases (00-11)
+│   ├── 00-08/        # Core development lifecycle (40 commands)
+│   ├── 09-agentic-capabilities/  # Advanced agentic features (12 commands)
+│   ├── 10-ai-native-development/ # AI-native development (10 commands)
+│   └── 11-enterprise-scale/      # Enterprise & scale (8 commands)
+├── workflows/         # Automated workflow definitions
+└── config.json       # Command ecosystem configuration
+
+prompts/               # 20 organized prompt categories (01-10)
 scripts/               # Safety system + validation utilities
 src/                   # Dagger safety container module
-dagger.json            # Dagger configuration
-SAFETY.md              # Containerized safety system guide
-.github/workflows/     # CI / deployment pipelines
-README.md              # This file
-LICENSE                # MIT
+PLANNING.md            # Comprehensive design and acceptance criteria
+TASKS.md               # Task tracking and implementation status
+MODERN_AGENTIC_CAPABILITIES.md  # Research and implementation guide
 ```
 
 ---
 
 ## Usage Examples
 
-### Browse and use prompts
+### Browse and use commands
 
 ```bash
-cat prompts/02-code-analysis/security-quality-audit.md
-# Copy-paste the YAML and instructions into your Claude workflow or automation tool
+# Explore the command ecosystem
+cat .claude/commands/09-agentic-capabilities/mcp-discover.md
+cat .claude/commands/10-ai-native-development/ai-pair-program.md
+cat .claude/commands/11-enterprise-scale/governance.md
+
+# Use commands directly with Claude Code
+/mcp-discover install filesystem --path=/project/data
+/ai-pair-program advanced typescript --context-aware
+/governance policy organization soc2 --enforce-automatically
 ```
 
 ### Safe command execution
