@@ -1,4 +1,6 @@
-# WORKFLOW CONTINUATION PRIMER
+# continue_explore_plan_code
+
+## WORKFLOW CONTINUATION PRIMER
 
 ## Purpose: Rehydrate state after context loss and resume the Explore→Plan→Code→Test→Report pipeline WITHOUT duplicating prior work.
 
