@@ -1,14 +1,17 @@
 # PLANNING.md - ccprompts Modern Agentic Expansion
 
 ## Title
+
 Expand ccprompts from 40 to 70 commands with modern agentic capabilities, MCP integration, and enterprise-scale features
 
 ## Objective
+
 Transform ccprompts into a comprehensive 70-command ecosystem that leverages Model Context Protocol (MCP), multi-agent orchestration, AI-native development patterns, and enterprise governance capabilities while maintaining backward compatibility and security-first design principles.
 
 ## Context / Constraints
 
 ### Current State
+
 - **40 production-ready commands** across 8 phases (00-08)
 - Established XML-structured command format with role, activation, instructions, and output sections
 - Safety-first approach with containerized execution via Dagger
@@ -16,6 +19,7 @@ Transform ccprompts into a comprehensive 70-command ecosystem that leverages Mod
 - Compliance support for SOC2, GDPR, HIPAA
 
 ### Technical Constraints
+
 - Must maintain existing command structure and XML format
 - All new commands must include safety validation and rollback procedures
 - Educational components required in every command
@@ -24,6 +28,7 @@ Transform ccprompts into a comprehensive 70-command ecosystem that leverages Mod
 - Existing toolchain: npm, Jest, markdownlint, Dagger
 
 ### Business Constraints
+
 - Backward compatibility with existing 40 commands
 - Production-ready quality standards
 - Team-oriented design for collaboration
@@ -45,24 +50,28 @@ Transform ccprompts into a comprehensive 70-command ecosystem that leverages Mod
 ### New Architecture: 70 Commands Across 11 Phases
 
 **Phase 09: Advanced Agentic Capabilities (12 commands)**
+
 - MCP server integration and discovery
 - Multi-agent orchestration and coordination
 - Context management and semantic understanding
 - Agent specialization and workflow automation
 
 **Phase 10: AI-Native Development (10 commands)**
+
 - Advanced AI pair programming
 - Semantic code understanding and generation
 - Predictive development and optimization
 - AI-assisted debugging and testing
 
 **Phase 11: Enterprise & Scale (8 commands)**
+
 - Multi-repository coordination
 - Enterprise governance and compliance
 - Advanced analytics and reporting
 - Organizational knowledge management
 
 ### Integration Strategy
+
 - **MCP Protocol**: Leverage 1000+ available MCP servers for extended capabilities
 - **Multi-Agent**: Implement sophisticated agent coordination patterns
 - **Context Awareness**: Deep semantic understanding across all operations
@@ -71,6 +80,7 @@ Transform ccprompts into a comprehensive 70-command ecosystem that leverages Mod
 ## Data / Types
 
 ### Command Structure (Maintained)
+
 ```xml
 <role>
 System: You are an expert [domain] specialist...
@@ -90,6 +100,7 @@ User requests: /command-name [parameters]
 ```
 
 ### New Configuration Schema
+
 ```json
 {
   "version": "2.0.0",
@@ -110,6 +121,7 @@ User requests: /command-name [parameters]
 ## Algorithm / Flow
 
 ### Implementation Sequence
+
 1. **Planning Phase** - Create PLANNING.md and TASKS.md
 2. **Directory Structure** - Create new phase directories (09-11)
 3. **Command Implementation** - Systematic creation of all 30 new commands
@@ -118,6 +130,7 @@ User requests: /command-name [parameters]
 6. **Quality Assurance** - Lint, validate, and test all components
 
 ### Command Creation Pattern
+
 ```bash
 # For each new command:
 1. Create .md file with XML structure
@@ -156,12 +169,14 @@ User requests: /command-name [parameters]
 ## Performance
 
 ### Targets
+
 - Command discovery: <500ms for 70 commands
 - Individual command execution: <2s initialization
 - Memory usage: <100MB for command metadata
 - File operations: Maintain existing performance baselines
 
 ### Monitoring
+
 - Command usage analytics via /prompt-stats
 - Performance metrics collection
 - Error rate tracking for new commands
@@ -169,6 +184,7 @@ User requests: /command-name [parameters]
 ## Security & Validation
 
 ### Security Requirements
+
 - All new commands include input validation
 - Audit trails for enterprise commands
 - Secret management and redaction
@@ -176,6 +192,7 @@ User requests: /command-name [parameters]
 - MCP server security validation
 
 ### Validation Pipeline
+
 ```bash
 npm run validate          # Validate all prompts/commands
 npm run lint             # Check markdown formatting  
@@ -186,12 +203,14 @@ npm run check-links      # Verify all markdown links
 ## Observability
 
 ### Logging Strategy
+
 - Structured logs for command execution
 - Performance metrics collection
 - Error tracking and alerting
 - Usage analytics and patterns
 
 ### Metrics
+
 - Command adoption rates
 - Success/failure ratios
 - Performance benchmarks
@@ -200,18 +219,22 @@ npm run check-links      # Verify all markdown links
 ## Rollout / Migration
 
 ### Phase 1: Core Infrastructure (T01-T02)
+
 - Create planning documents
 - Establish task tracking
 
 ### Phase 2: Command Implementation (T03-T05)
+
 - Create all 30 new commands systematically
 - Validate structure and functionality
 
 ### Phase 3: Integration & Documentation (T06-T08)
+
 - Update documentation and configuration
 - Comprehensive testing and validation
 
 ### Rollback Plan
+
 - Git-based rollback to previous 40-command state
 - Configuration rollback mechanisms
 - Command deactivation capabilities
@@ -219,12 +242,14 @@ npm run check-links      # Verify all markdown links
 ## Documentation Updates
 
 ### Files to Update
+
 - **README.md**: New 70-command architecture overview
 - **CLAUDE.md**: Updated command ecosystem documentation
 - **.claude/config.json**: Configuration schema updates
 - **Command discovery**: Integration with existing /list-prompts system
 
 ### New Documentation
+
 - **MODERN_AGENTIC_CAPABILITIES.md**: Research and implementation guide
 - **Phase-specific READMEs**: Documentation for each new phase
 
@@ -239,20 +264,24 @@ npm run check-links      # Verify all markdown links
 ## Execution Report History
 
 ### [2025-01-22] Initial Planning Phase
+
 **Context**: Expanding ccprompts from 40 to 70 commands with modern agentic capabilities
 **Actions Taken**:
+
 - Created comprehensive PLANNING.md with design overview
 - Established task tracking system with 8 primary tasks
 - Analyzed existing command structure and patterns
 - Researched MCP ecosystem and modern agentic development patterns
 
 **Decisions Made**:
+
 - Maintain existing XML command structure for consistency
 - Implement 3 new phases (09-11) with 30 additional commands
 - Prioritize MCP integration and multi-agent capabilities
 - Maintain backward compatibility with existing 40 commands
 
 **Next Steps**:
+
 - Create detailed TASKS.md with atomic task breakdown
 - Begin systematic implementation of new commands
 - Establish directory structure for new phases
