@@ -1,0 +1,376 @@
+name: Code Quality Enhancement
+description: Comprehensive code quality analysis and improvement workflow
+version: "1.0"
+category: development
+complexity: intermediate
+estimated_time: "3-6 hours"
+author: ccprompts-quality-team
+created: "2025-01-21"
+
+metadata:
+  tags: [quality, refactoring, testing, performance, technical-debt]
+  suitable_for: [active-development, maintenance, legacy-improvement]
+  prerequisites: [git-access, development-environment, testing-framework]
+  success_rate: 89%
+
+parameters:
+  quality_target:
+    type: string
+    description: "Target quality level to achieve"
+    options: [basic, standard, high, excellent]
+    default: standard
+    required: true
+
+  coverage_target:
+    type: number
+    description: "Target test coverage percentage"
+    min: 50
+    max: 95
+    default: 80
+    required: true
+
+  refactor_scope:
+    type: string
+    description: "Scope of refactoring to perform"
+    options: [critical, moderate, comprehensive, conservative]
+    default: moderate
+    required: true
+
+  performance_focus:
+    type: boolean
+    description: "Include performance optimization"
+    default: true
+    required: false
+
+  include_documentation:
+    type: boolean
+    description: "Update documentation as part of quality improvement"
+    default: true
+    required: false
+
+  auto_fix_safe_issues:
+    type: boolean
+    description: "Automatically fix safe, low-risk issues"
+    default: true
+    required: false
+
+variables:
+  quality_baseline: null
+  review_report: null
+  debt_report: null
+  test_report: null
+  performance_report: null
+  improvement_metrics: null
+
+steps:
+  - id: current_state_analysis
+    name: "Current State Analysis"
+    prompt: analyze-project
+    description: "Analyze current code quality and establish baseline"
+    inputs:
+      focus: quality
+      include_metrics: true
+      generate_baseline: true
+    outputs:
+      quality_baseline: "$.quality_assessment"
+    timeout: 20m
+    success_criteria:
+      - quality_baseline.completeness > 85%
+      - quality_baseline.metrics_collected == true
+
+  - id: code_review_analysis
+    name: "Comprehensive Code Review"
+    prompt: code-review
+    description: "Detailed code analysis for quality issues"
+    depends_on: [current_state_analysis]
+    inputs:
+      scope: full
+      depth: thorough
+      focus: [quality, maintainability, readability]
+      include_suggestions: true
+    outputs:
+      review_report: "$.code_analysis"
+    timeout: 75m
+    success_criteria:
+      - review_report.files_analyzed > 90%
+      - review_report.suggestions_generated == true
+
+  - id: technical_debt_assessment
+    name: "Technical Debt Assessment"
+    prompt: tech-debt
+    description: "Identify and prioritize technical debt"
+    parallel_with: [test_coverage_analysis]
+    depends_on: [current_state_analysis]
+    inputs:
+      scope: prioritize
+      include_impact_analysis: true
+      generate_roadmap: true
+    outputs:
+      debt_report: "$.debt_analysis"
+    timeout: 45m
+    success_criteria:
+      - debt_report.debt_items_identified > 0
+      - debt_report.priorities_assigned == true
+
+  - id: test_coverage_analysis
+    name: "Test Coverage Analysis"
+    prompt: test
+    description: "Analyze current test coverage and identify gaps"
+    parallel_with: [technical_debt_assessment]
+    depends_on: [current_state_analysis]
+    inputs:
+      action: analyze
+      target_coverage: "${coverage_target}"
+      include_quality_metrics: true
+    outputs:
+      test_report: "$.test_analysis"
+    timeout: 30m
+    success_criteria:
+      - test_report.coverage_measured == true
+      - test_report.gaps_identified == true
+
+  - id: performance_profiling
+    name: "Performance Profiling"
+    prompt: optimize
+    description: "Profile application performance and identify bottlenecks"
+    condition: "${performance_focus} == true"
+    depends_on: [current_state_analysis]
+    inputs:
+      action: analyze
+      scope: performance
+      include_benchmarks: true
+    outputs:
+      performance_report: "$.performance_analysis"
+    timeout: 45m
+    success_criteria:
+      - performance_report.profiling_complete == true
+      - performance_report.bottlenecks_identified == true
+
+  - id: automated_fixes
+    name: "Automated Safe Fixes"
+    prompt: quick-fix
+    description: "Apply automated fixes for safe, low-risk issues"
+    condition: "${auto_fix_safe_issues} == true"
+    depends_on: [code_review_analysis]
+    inputs:
+      scope: safe_only
+      findings: "${review_report}"
+      auto_apply: true
+    timeout: 30m
+    rollback_on_failure: true
+    success_criteria:
+      - safe_fixes_applied > 0
+
+  - id: refactoring_implementation
+    name: "Code Refactoring"
+    prompt: refactor
+    description: "Implement code refactoring based on analysis"
+    depends_on: [code_review_analysis, technical_debt_assessment]
+    inputs:
+      scope: "${refactor_scope}"
+      findings: "${review_report}"
+      debt_priorities: "${debt_report}"
+      preserve_behavior: true
+    timeout: 180m
+    approval_required: true
+    rollback_on_failure: true
+    success_criteria:
+      - refactoring_complete == true
+      - behavior_preserved == true
+
+  - id: test_enhancement
+    name: "Test Suite Enhancement"
+    prompt: test
+    description: "Enhance test suite to meet coverage and quality targets"
+    depends_on: [test_coverage_analysis]
+    parallel_with: [refactoring_implementation]
+    inputs:
+      action: enhance
+      target_coverage: "${coverage_target}"
+      focus_areas: "${test_report.gap_areas}"
+      include_integration_tests: true
+    timeout: 120m
+    success_criteria:
+      - test_coverage >= "${coverage_target}"
+      - new_tests_created > 0
+
+  - id: performance_optimization
+    name: "Performance Optimization"
+    prompt: optimize
+    description: "Implement performance optimizations"
+    condition: "${performance_focus} == true"
+    depends_on: [performance_profiling, refactoring_implementation]
+    inputs:
+      action: implement
+      findings: "${performance_report}"
+      conservative_approach: true
+    timeout: 90m
+    success_criteria:
+      - performance_improvements_applied == true
+      - benchmarks_improved > 0
+
+  - id: documentation_update
+    name: "Documentation Update"
+    prompt: document
+    description: "Update documentation to reflect quality improvements"
+    condition: "${include_documentation} == true"
+    depends_on: [refactoring_implementation, test_enhancement]
+    inputs:
+      action: update
+      changes_summary: "${review_report.changes}"
+      include_architecture: true
+    timeout: 45m
+    success_criteria:
+      - documentation_updated == true
+      - architecture_docs_current == true
+
+  - id: quality_validation
+    name: "Quality Validation"
+    prompt: code-review
+    description: "Validate quality improvements against baseline"
+    depends_on: [refactoring_implementation, test_enhancement]
+    inputs:
+      scope: validation
+      baseline: "${quality_baseline}"
+      focus: improvement_verification
+    outputs:
+      improvement_metrics: "$.improvement_assessment"
+    timeout: 30m
+    success_criteria:
+      - quality_score_improved == true
+      - improvement_metrics.overall_improvement > 20%
+
+  - id: final_health_check
+    name: "Final Health Check"
+    prompt: health-check
+    description: "Comprehensive health check after improvements"
+    depends_on: [quality_validation]
+    inputs:
+      scope: comprehensive
+      compare_to_baseline: true
+      baseline: "${quality_baseline}"
+    timeout: 15m
+    success_criteria:
+      - all_health_checks_passed == true
+      - quality_target_achieved == true
+
+error_handling:
+  default_strategy: pause_for_review
+  rollback_strategy: selective
+  notification_channels: [console, log, team]
+  
+  step_specific:
+    refactoring_implementation:
+      on_failure: rollback_and_pause
+      approval_required_for_retry: true
+      max_rollback_attempts: 2
+    
+    test_enhancement:
+      on_failure: continue_with_warning
+      required_for_completion: true
+    
+    performance_optimization:
+      on_failure: skip_and_continue
+      required_for_completion: false
+
+success_criteria:
+  overall:
+    - code_quality_score > 85%
+    - test_coverage >= "${coverage_target}%"
+    - technical_debt_reduced > 30%
+    - all_tests_passing == true
+    - quality_target_achieved == true
+  
+  performance:
+    - performance_improved > 20% (if performance_focus)
+    - no_performance_regressions == true
+  
+  maintainability:
+    - code_complexity_reduced == true
+    - documentation_coverage > 80%
+    - refactoring_successful == true
+
+quality_gates:
+  pre_refactoring:
+    - all_tests_passing == true
+    - git_working_directory_clean == true
+    - backup_created == true
+  
+  post_refactoring:
+    - all_tests_still_passing == true
+    - no_breaking_changes == true
+    - quality_metrics_improved == true
+  
+  final_validation:
+    - target_quality_level_achieved == true
+    - no_regressions_detected == true
+    - team_approval_received == true
+
+post_execution:
+  cleanup:
+    - remove_temporary_files: true
+    - archive_analysis_reports: true
+    - clean_build_artifacts: true
+  
+  reporting:
+    - generate_improvement_summary: true
+    - create_before_after_comparison: true
+    - update_quality_metrics: true
+    - document_lessons_learned: true
+  
+  follow_up:
+    - schedule_quality_review: true
+    - plan_next_improvement_cycle: true
+    - update_team_practices: true
+
+notifications:
+  on_start:
+    message: "Starting code quality enhancement workflow (target: ${quality_target})"
+    channels: [console, team]
+  
+  on_major_improvement:
+    message: "Significant quality improvement achieved: ${improvement_details}"
+    channels: [console, team, management]
+    include_metrics: true
+  
+  on_completion:
+    message: "Quality enhancement completed. Improvement: ${improvement_metrics.overall_improvement}%"
+    channels: [console, team]
+    include_summary: true
+    include_next_steps: true
+  
+  on_failure:
+    message: "Quality enhancement failed at step: ${failed_step}"
+    channels: [console, team]
+    include_troubleshooting: true
+
+metrics:
+  track:
+    - quality_score_improvement
+    - test_coverage_increase
+    - technical_debt_reduction
+    - performance_improvement
+    - code_complexity_reduction
+    - documentation_coverage_increase
+  
+  benchmarks:
+    - average_quality_improvement: "35%"
+    - typical_coverage_increase: "25 percentage points"
+    - average_debt_reduction: "40%"
+    - typical_execution_time: "4.5 hours"
+    - success_rate: "89%"
+
+integration:
+  quality_tools:
+    - static_analysis: [SonarQube, CodeClimate, ESLint]
+    - test_coverage: [Coverage.py, Istanbul, JaCoCo]
+    - performance: [Lighthouse, WebPageTest, JMeter]
+  
+  development_tools:
+    - version_control: [Git, GitHub, GitLab]
+    - ci_cd: [GitHub_Actions, Jenkins, GitLab_CI]
+    - project_management: [Jira, Linear, GitHub_Issues]
+  
+  communication:
+    - team_chat: [Slack, Teams, Discord]
+    - documentation: [Confluence, Notion, GitBook]

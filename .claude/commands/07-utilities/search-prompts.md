@@ -59,15 +59,54 @@ docker AND setup                  # Boolean AND
 docker OR kubernetes              # Boolean OR
 docker NOT compose                # Boolean NOT
 
+Fuzzy Search:
+docker~                          # Fuzzy match (finds "dokcer", "doker")
+"security audit"~2               # Phrase with 2-word distance
+setup~0.8                        # Similarity threshold (80%)
+
 Field-Specific Search:
 title:"security audit"            # Search only in titles
 category:testing                  # Filter by category
 complexity:advanced               # Filter by complexity
 tags:python,flask                 # Search in tags
+author:team-lead                  # Filter by author/creator
+updated:>2024-01-01              # Recently updated prompts
 
 Wildcards and Regex:
 docker*                          # Wildcard search
 /security.*audit/                # Regex pattern search
+?ecurity                         # Single character wildcard
+
+Range Queries:
+complexity:[intermediate TO advanced]  # Complexity range
+time:[1 TO 4]                         # Time range (hours)
+rating:[4 TO 5]                       # Rating range
+```
+
+### Auto-Completion and Suggestions
+
+The search system provides intelligent auto-completion:
+
+```
+Type: "sec"
+Suggestions:
+- security
+- security-audit
+- security-hardening
+- secure-deployment
+
+Type: "perf"
+Suggestions:
+- performance
+- performance-optimization
+- performance-testing
+- performance-monitoring
+
+Type: "docker k"
+Suggestions:
+- docker kubernetes
+- docker kubernetes deployment
+- docker kubernetes security
 ```
 
 ## Search Scopes
@@ -201,17 +240,90 @@ Structured output suitable for processing:
 
 ### Search History
 
-- Maintains search history with timestamp and context
-- Suggests related searches based on history
-- Identifies search patterns and frequently used terms
-- Provides search analytics and optimization suggestions
+- **Persistent History**: Maintains search history with timestamp and context
+- **Related Suggestions**: Suggests related searches based on history patterns
+- **Pattern Recognition**: Identifies frequently used terms and search combinations
+- **Analytics**: Provides search analytics and optimization suggestions
+- **Quick Recall**: Access recent searches with up/down arrows or `/search-prompts --history`
 
-### Saved Searches
+```bash
+# View search history
+/search-prompts --history
 
-- Save complex queries for repeated use
-- Create search alerts for new prompts matching criteria
-- Share saved searches with team members
-- Schedule periodic search updates
+# Repeat last search
+/search-prompts --last
+
+# Search from history by index
+/search-prompts --history 3
+
+# Clear search history
+/search-prompts --clear-history
+```
+
+### Search History Examples
+
+```
+Recent Searches:
+1. "docker kubernetes security" (2 hours ago) - 8 results
+2. "performance optimization database" (1 day ago) - 12 results  
+3. "testing automation ci/cd" (2 days ago) - 15 results
+4. "code review best practices" (3 days ago) - 6 results
+5. "security audit compliance" (1 week ago) - 9 results
+
+Suggested based on history:
+- "docker security hardening" (combines #1 patterns)
+- "database performance testing" (combines #2, #3 patterns)
+- "automated security testing" (combines #3, #5 patterns)
+```
+
+### Saved Searches and Favorites
+
+- **Save Complex Queries**: Store frequently used search patterns
+- **Search Alerts**: Get notified when new prompts match saved criteria
+- **Team Sharing**: Share saved searches with team members
+- **Scheduled Updates**: Periodic search updates for evolving needs
+- **Favorites**: Quick access to most useful prompts
+
+```bash
+# Save current search
+/search-prompts "docker security" --save "docker-security-queries"
+
+# List saved searches
+/search-prompts --saved
+
+# Execute saved search
+/search-prompts --load "docker-security-queries"
+
+# Create search alert
+/search-prompts "new kubernetes" --alert weekly
+
+# Add to favorites
+/search-prompts "security-audit" --favorite
+
+# View favorites
+/search-prompts --favorites
+```
+
+### Saved Search Management
+
+```
+Saved Searches:
+1. "docker-security-queries": "docker AND (security OR hardening)"
+2. "performance-suite": "performance OR optimization OR profiling"
+3. "testing-automation": "test* AND (ci OR automation OR pipeline)"
+4. "team-workflows": "category:collaboration OR role:manager"
+
+Search Alerts:
+- "new-security": Weekly digest of new security-related prompts
+- "python-updates": Daily updates for Python-related prompts
+- "devops-tools": Monthly summary of new DevOps prompts
+
+Favorites (Quick Access):
+⭐ security-audit.md - OWASP compliance scanning
+⭐ performance-optimization.md - Bottleneck identification
+⭐ code-review.md - AI-powered analysis
+⭐ docker-security.md - Container hardening
+```
 
 ### Search Analytics
 

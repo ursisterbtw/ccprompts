@@ -1,0 +1,379 @@
+name: Comprehensive Security Audit
+description: Complete security assessment and hardening workflow
+version: "1.0"
+category: security
+complexity: advanced
+estimated_time: "4-8 hours"
+author: ccprompts-security-team
+created: "2025-01-21"
+
+metadata:
+  tags: [security, audit, compliance, hardening, vulnerability]
+  suitable_for: [production, pre-production, compliance-review]
+  prerequisites: [project-access, security-tools, admin-permissions]
+  success_rate: 87%
+  compliance_frameworks: [SOC2, GDPR, HIPAA, PCI-DSS, ISO27001]
+
+parameters:
+  audit_scope:
+    type: string
+    description: "Scope of security audit"
+    options: [dependencies, codebase, infrastructure, configuration, full]
+    default: full
+    required: true
+
+  compliance_standards:
+    type: array
+    description: "Required compliance standards"
+    options: [SOC2, GDPR, HIPAA, PCI-DSS, ISO27001, NIST]
+    default: [SOC2]
+    required: false
+
+  environment:
+    type: string
+    description: "Target environment for audit"
+    options: [development, staging, production, all]
+    default: production
+    required: true
+
+  paranoia_level:
+    type: string
+    description: "Depth and thoroughness of security checks"
+    options: [standard, thorough, paranoid, forensic]
+    default: thorough
+    required: false
+
+  include_penetration_testing:
+    type: boolean
+    description: "Include automated penetration testing"
+    default: false
+    required: false
+
+  generate_compliance_report:
+    type: boolean
+    description: "Generate formal compliance report"
+    default: true
+    required: false
+
+variables:
+  baseline_report: null
+  vulnerability_report: null
+  dependency_report: null
+  code_security_report: null
+  compliance_score: null
+  risk_assessment: null
+
+steps:
+  - id: security_baseline
+    name: "Security Baseline Assessment"
+    prompt: health-check
+    description: "Establish current security posture baseline"
+    inputs:
+      focus: security
+      environment: "${environment}"
+      comprehensive: true
+    outputs:
+      baseline_report: "$.security_baseline"
+    timeout: 20m
+    success_criteria:
+      - baseline_report.completeness > 90%
+
+  - id: vulnerability_scanning
+    name: "Vulnerability Scanning"
+    prompt: audit-security
+    description: "Comprehensive vulnerability assessment"
+    depends_on: [security_baseline]
+    inputs:
+      scope: "${audit_scope}"
+      depth: "${paranoia_level}"
+      environment: "${environment}"
+      include_zero_day: true
+    outputs:
+      vulnerability_report: "$.vulnerability_assessment"
+    timeout: 90m
+    retry_policy:
+      max_attempts: 2
+      backoff: linear
+    success_criteria:
+      - vulnerability_report.scan_completeness > 95%
+
+  - id: dependency_analysis
+    name: "Dependency Security Analysis"
+    prompt: analyze-dependencies
+    description: "Analyze third-party dependencies for vulnerabilities"
+    parallel_with: [code_security_scan]
+    inputs:
+      include_transitive: true
+      check_licenses: true
+      vulnerability_databases: [NVD, OSV, GitHub]
+    outputs:
+      dependency_report: "$.dependency_analysis"
+    timeout: 45m
+    success_criteria:
+      - dependency_report.coverage > 98%
+
+  - id: code_security_scan
+    name: "Code Security Analysis"
+    prompt: code-review
+    description: "Static analysis for security vulnerabilities in code"
+    parallel_with: [dependency_analysis]
+    inputs:
+      focus: security
+      depth: thorough
+      include_secrets_scan: true
+      check_patterns: [injection, xss, csrf, auth_bypass]
+    outputs:
+      code_security_report: "$.code_security"
+    timeout: 60m
+    success_criteria:
+      - code_security_report.files_scanned > 95%
+
+  - id: infrastructure_security
+    name: "Infrastructure Security Assessment"
+    prompt: audit-security
+    description: "Assess infrastructure and configuration security"
+    condition: "${audit_scope}" in ["infrastructure", "full"]
+    depends_on: [vulnerability_scanning]
+    inputs:
+      scope: infrastructure
+      include_network: true
+      include_containers: true
+      include_cloud_config: true
+    timeout: 75m
+    success_criteria:
+      - infrastructure_scan_complete == true
+
+  - id: penetration_testing
+    name: "Automated Penetration Testing"
+    prompt: audit-security
+    description: "Automated penetration testing and exploitation attempts"
+    condition: "${include_penetration_testing} == true"
+    depends_on: [vulnerability_scanning, code_security_scan]
+    inputs:
+      mode: penetration_testing
+      scope: limited
+      safe_mode: true
+    timeout: 120m
+    approval_required: true
+    success_criteria:
+      - penetration_test_complete == true
+
+  - id: compliance_validation
+    name: "Compliance Standards Validation"
+    prompt: comply
+    description: "Validate against required compliance standards"
+    depends_on: [vulnerability_scanning, dependency_analysis, code_security_scan]
+    inputs:
+      standards: "${compliance_standards}"
+      environment: "${environment}"
+      generate_evidence: true
+    outputs:
+      compliance_score: "$.compliance_assessment"
+    timeout: 90m
+    success_criteria:
+      - compliance_score.overall_score > 80%
+
+  - id: risk_assessment
+    name: "Security Risk Assessment"
+    prompt: analyze-project
+    description: "Comprehensive security risk analysis and prioritization"
+    depends_on: [vulnerability_scanning, dependency_analysis, code_security_scan]
+    inputs:
+      focus: security_risk
+      vulnerability_data: "${vulnerability_report}"
+      dependency_data: "${dependency_report}"
+      code_data: "${code_security_report}"
+    outputs:
+      risk_assessment: "$.risk_analysis"
+    timeout: 30m
+    success_criteria:
+      - risk_assessment.completeness > 90%
+
+  - id: security_hardening
+    name: "Security Hardening Implementation"
+    prompt: harden
+    description: "Implement security hardening measures"
+    depends_on: [compliance_validation, risk_assessment]
+    inputs:
+      environment: "${environment}"
+      findings: "${vulnerability_report}"
+      compliance_requirements: "${compliance_standards}"
+      risk_priorities: "${risk_assessment}"
+      auto_fix_safe: true
+    timeout: 150m
+    approval_required: true
+    rollback_on_failure: true
+    success_criteria:
+      - critical_vulnerabilities_fixed > 90%
+      - high_vulnerabilities_fixed > 75%
+
+  - id: incident_response_prep
+    name: "Incident Response Preparation"
+    prompt: incident-response
+    description: "Prepare incident response procedures and playbooks"
+    condition: "${environment}" == "production"
+    depends_on: [security_hardening]
+    inputs:
+      scope: security
+      environment: "${environment}"
+      include_playbooks: true
+      integrate_monitoring: true
+    timeout: 45m
+    success_criteria:
+      - incident_response_plan_created == true
+      - playbooks_validated == true
+
+  - id: security_verification
+    name: "Security Verification Scan"
+    prompt: audit-security
+    description: "Verify security improvements and validate fixes"
+    depends_on: [security_hardening]
+    inputs:
+      scope: verification
+      baseline: "${baseline_report}"
+      focus_areas: "${risk_assessment.high_priority_areas}"
+    timeout: 45m
+    retry_policy:
+      max_attempts: 3
+      backoff: exponential
+    success_criteria:
+      - verification_scan_complete == true
+      - improvement_verified == true
+
+  - id: compliance_reporting
+    name: "Compliance Report Generation"
+    prompt: comply
+    description: "Generate formal compliance documentation and reports"
+    condition: "${generate_compliance_report} == true"
+    depends_on: [security_verification, incident_response_prep]
+    inputs:
+      action: generate_report
+      standards: "${compliance_standards}"
+      evidence_package: true
+      executive_summary: true
+    timeout: 30m
+    success_criteria:
+      - compliance_report_generated == true
+      - evidence_package_complete == true
+
+error_handling:
+  default_strategy: pause_for_review
+  rollback_strategy: selective
+  notification_channels: [console, log, security_team]
+  
+  step_specific:
+    vulnerability_scanning:
+      on_timeout: extend_timeout
+      max_timeout_extensions: 1
+    
+    penetration_testing:
+      on_failure: continue_with_warning
+      required_for_completion: false
+    
+    security_hardening:
+      on_failure: rollback_and_pause
+      approval_required_for_retry: true
+
+success_criteria:
+  overall:
+    - vulnerability_scan_complete == true
+    - critical_vulnerabilities <= 0
+    - high_vulnerabilities <= 3
+    - compliance_score.overall_score > 80%
+    - security_hardening_applied == true
+  
+  critical:
+    - no_active_exploits_found == true
+    - authentication_secure == true
+    - data_encryption_verified == true
+    - access_controls_validated == true
+
+risk_thresholds:
+  critical:
+    action: immediate_escalation
+    criteria:
+      - active_exploits_found > 0
+      - critical_vulnerabilities > 0
+      - compliance_score < 60%
+  
+  high:
+    action: priority_remediation
+    criteria:
+      - high_vulnerabilities > 5
+      - compliance_score < 80%
+      - security_score < 70%
+  
+  medium:
+    action: scheduled_remediation
+    criteria:
+      - medium_vulnerabilities > 20
+      - compliance_score < 90%
+
+post_execution:
+  cleanup:
+    - sanitize_sensitive_logs: true
+    - archive_evidence: true
+    - remove_temporary_files: true
+  
+  reporting:
+    - generate_executive_summary: true
+    - create_remediation_plan: true
+    - update_security_metrics: true
+    - notify_stakeholders: true
+  
+  follow_up:
+    - schedule_remediation_tracking: true
+    - plan_next_audit: true
+    - update_security_policies: true
+
+notifications:
+  on_start:
+    message: "Starting comprehensive security audit for ${environment} environment"
+    channels: [console, security_team]
+    priority: normal
+  
+  on_critical_finding:
+    message: "CRITICAL: Security vulnerability found - ${finding_details}"
+    channels: [console, security_team, management]
+    priority: critical
+    immediate: true
+  
+  on_completion:
+    message: "Security audit completed. Overall score: ${compliance_score.overall_score}%"
+    channels: [console, security_team, management]
+    include_summary: true
+    include_recommendations: true
+  
+  on_failure:
+    message: "Security audit failed at step: ${failed_step}"
+    channels: [console, security_team]
+    priority: high
+    include_troubleshooting: true
+
+metrics:
+  track:
+    - vulnerabilities_found_by_severity
+    - compliance_scores_by_standard
+    - remediation_time
+    - false_positive_rate
+    - security_improvement_score
+  
+  benchmarks:
+    - average_execution_time: "6.5 hours"
+    - typical_vulnerability_count: "12 medium, 3 high, 0 critical"
+    - average_compliance_score: "87%"
+    - success_rate: "87%"
+
+integration:
+  security_tools:
+    - vulnerability_scanners: [Nessus, OpenVAS, Qualys]
+    - code_analysis: [SonarQube, Checkmarx, Veracode]
+    - dependency_check: [Snyk, OWASP, GitHub]
+  
+  compliance_platforms:
+    - evidence_collection: [Vanta, Drata, SecureFrame]
+    - reporting: [GRC_platforms, custom_dashboards]
+  
+  notification_systems:
+    - incident_management: [PagerDuty, Opsgenie]
+    - communication: [Slack, Teams, Email]

@@ -16,6 +16,31 @@ allowed-tools: Read, Bash(find:*), Bash(grep:*)
 
 Filter: **$ARGUMENTS** (e.g., "security", "development", "advanced", "team")
 
+### Advanced Filtering Options
+
+- **Category**: `category:security`, `category:development`, `category:testing`
+- **Difficulty**: `level:beginner`, `level:intermediate`, `level:advanced`, `level:expert`
+- **Technology**: `tech:python`, `tech:javascript`, `tech:docker`, `tech:kubernetes`
+- **Role**: `role:developer`, `role:devops`, `role:security`, `role:manager`
+- **Time**: `time:quick`, `time:short`, `time:medium`, `time:long`
+- **Team Size**: `team:solo`, `team:small`, `team:medium`, `team:enterprise`
+
+### Filter Examples
+
+```bash
+# Find beginner security commands
+/project:list-prompts level:beginner category:security
+
+# Show quick DevOps commands for small teams
+/project:list-prompts time:quick role:devops team:small
+
+# Find Python-related development commands
+/project:list-prompts tech:python category:development
+
+# Show all advanced commands
+/project:list-prompts level:advanced
+```
+
 ## 🔍 Command Discovery System
 
 ### 1. Command Categories Overview
@@ -83,26 +108,51 @@ Filter: **$ARGUMENTS** (e.g., "security", "development", "advanced", "team")
 
 ### By Complexity Level
 
-- **Beginner**: Basic commands for getting started
-- **Intermediate**: Standard development workflows
-- **Advanced**: Complex multi-step operations
-- **Expert**: Specialized enterprise workflows
+- **Beginner** (`level:beginner`): Basic commands for getting started
+  - analyze-project, validate-environment, health-check, list-prompts
+- **Intermediate** (`level:intermediate`): Standard development workflows
+  - refactor, test, code-review, pre-commit, deploy, backup
+- **Advanced** (`level:advanced`): Complex multi-step operations
+  - audit-security, harden, setup-ci, migrate, optimize, tech-debt
+- **Expert** (`level:expert`): Specialized enterprise workflows
+  - comply, incident-response, modernize, workflow-builder
 
 ### By Technology Stack
 
-- **Web Development**: React, Vue, Angular, Node.js
-- **Backend Development**: APIs, databases, microservices
-- **Mobile Development**: React Native, Flutter, native apps
-- **DevOps**: Infrastructure, deployment, monitoring
-- **Data Science**: Python, R, Jupyter, ML pipelines
+- **Web Development** (`tech:web`): React, Vue, Angular, Node.js
+  - refactor, optimize, test, code-review, deploy
+- **Backend Development** (`tech:backend`): APIs, databases, microservices
+  - audit-security, migrate, monitor, backup, setup-ci
+- **Mobile Development** (`tech:mobile`): React Native, Flutter, native apps
+  - test, code-review, deploy, optimize
+- **DevOps** (`tech:devops`): Infrastructure, deployment, monitoring
+  - setup-ci, deploy, monitor, backup, harden, migrate
+- **Data Science** (`tech:data`): Python, R, Jupyter, ML pipelines
+  - analyze-project, optimize, backup, monitor
 
 ### By Team Role
 
-- **Developers**: Code-focused commands
-- **DevOps Engineers**: Infrastructure and deployment
-- **Security Engineers**: Security and compliance
-- **Product Managers**: Planning and coordination
-- **Team Leads**: Management and oversight
+- **Developers** (`role:developer`): Code-focused commands
+  - refactor, code-review, test, optimize, debug-session, quick-fix
+- **DevOps Engineers** (`role:devops`): Infrastructure and deployment
+  - setup-ci, deploy, monitor, backup, migrate, harden
+- **Security Engineers** (`role:security`): Security and compliance
+  - audit-security, harden, comply, incident-response
+- **Product Managers** (`role:manager`): Planning and coordination
+  - daily-standup, sprint-planning, release-notes, analyze-project
+- **Team Leads** (`role:lead`): Management and oversight
+  - tech-debt, workflow-builder, prompt-stats, health-check
+
+### By Time Investment
+
+- **Quick Wins** (`time:quick`): 15-60 minutes
+  - health-check, validate-environment, quick-fix, list-prompts, search-prompts
+- **Short Projects** (`time:short`): 2-8 hours
+  - refactor, test, code-review, pre-commit, backup
+- **Medium Projects** (`time:medium`): 1-3 days
+  - audit-security, setup-ci, deploy, migrate, optimize
+- **Long-term Programs** (`time:long`): 1+ weeks
+  - modernize, comply, tech-debt, workflow-builder
 
 ## 🎯 Smart Command Recommendations
 
@@ -122,30 +172,133 @@ Based on your current project:
 - **Optimization paths**: Efficient workflow combinations
 - **Learning progressions**: Skill-building command sequences
 
-## 📚 Command Documentation
+## 📚 Command Documentation & Metadata
 
-### Command Metadata
+### Detailed Command Information
 
-```
-Command: /project:bootstrap-project
-Category: Foundation
-Complexity: Intermediate
-Dependencies: git, npm/pip/cargo
-Estimated Time: 5-15 minutes
-Team Impact: High (shared setup)
-```
+#### Foundation Commands (`category:foundation`)
 
-### Usage Examples
+**analyze-project** (`level:beginner`, `time:quick`, `role:all`)
+- **Purpose**: Comprehensive project analysis and technology stack detection
+- **Dependencies**: None
+- **Estimated Time**: 15-30 minutes
+- **Team Impact**: High (shared understanding)
+- **Technologies**: All stacks
+- **Example**: `/project:analyze-project full-report`
 
+**validate-environment** (`level:beginner`, `time:quick`, `role:developer`)
+- **Purpose**: Development environment validation and setup verification
+- **Dependencies**: Project-specific tools
+- **Estimated Time**: 10-20 minutes
+- **Team Impact**: Medium (individual setup)
+- **Technologies**: All stacks
+- **Example**: `/project:validate-environment comprehensive`
+
+#### Development Commands (`category:development`)
+
+**refactor** (`level:intermediate`, `time:short`, `role:developer`)
+- **Purpose**: Safe multi-file refactoring with automated testing
+- **Dependencies**: git, language-specific tools
+- **Estimated Time**: 2-6 hours
+- **Team Impact**: High (code changes)
+- **Technologies**: All programming languages
+- **Example**: `/project:refactor extract-service user-management`
+
+**code-review** (`level:intermediate`, `time:short`, `role:developer,lead`)
+- **Purpose**: AI-powered code analysis with educational explanations
+- **Dependencies**: git
+- **Estimated Time**: 1-3 hours
+- **Team Impact**: High (quality improvement)
+- **Technologies**: All programming languages
+- **Example**: `/project:code-review pr-123 security thorough`
+
+**optimize** (`level:advanced`, `time:medium`, `role:developer,devops`)
+- **Purpose**: Performance optimization and bottleneck resolution
+- **Dependencies**: Profiling tools, monitoring
+- **Estimated Time**: 1-3 days
+- **Team Impact**: High (performance gains)
+- **Technologies**: All stacks
+- **Example**: `/project:optimize database-queries production`
+
+#### Security Commands (`category:security`)
+
+**audit-security** (`level:advanced`, `time:medium`, `role:security,lead`)
+- **Purpose**: OWASP-compliant security scanning and vulnerability assessment
+- **Dependencies**: Security scanning tools
+- **Estimated Time**: 4-8 hours
+- **Team Impact**: Critical (security posture)
+- **Technologies**: All stacks
+- **Example**: `/project:audit-security full-codebase paranoid`
+
+**harden** (`level:advanced`, `time:medium`, `role:security,devops`)
+- **Purpose**: Security hardening workflows and configuration
+- **Dependencies**: Security tools, infrastructure access
+- **Estimated Time**: 1-2 days
+- **Team Impact**: Critical (security improvement)
+- **Technologies**: Infrastructure, containers, cloud
+- **Example**: `/project:harden production enterprise`
+
+#### Testing Commands (`category:testing`)
+
+**test** (`level:intermediate`, `time:short`, `role:developer`)
+- **Purpose**: Comprehensive test generation and automation
+- **Dependencies**: Testing frameworks
+- **Estimated Time**: 2-4 hours
+- **Team Impact**: High (quality assurance)
+- **Technologies**: All programming languages
+- **Example**: `/project:test unit-integration coverage-90`
+
+**pre-commit** (`level:intermediate`, `time:short`, `role:developer,lead`)
+- **Purpose**: Quality gates and validation automation
+- **Dependencies**: git, linting tools
+- **Estimated Time**: 1-2 hours
+- **Team Impact**: High (code quality)
+- **Technologies**: All stacks
+- **Example**: `/project:pre-commit strict security-scan`
+
+#### Deployment Commands (`category:deployment`)
+
+**setup-ci** (`level:advanced`, `time:medium`, `role:devops,lead`)
+- **Purpose**: CI/CD pipeline automation and configuration
+- **Dependencies**: CI/CD platform access
+- **Estimated Time**: 1-3 days
+- **Team Impact**: Critical (deployment automation)
+- **Technologies**: All stacks, cloud platforms
+- **Example**: `/project:setup-ci github-actions professional`
+
+**deploy** (`level:advanced`, `time:medium`, `role:devops`)
+- **Purpose**: Production deployment workflows and automation
+- **Dependencies**: Infrastructure access, deployment tools
+- **Estimated Time**: 4-8 hours
+- **Team Impact**: Critical (production changes)
+- **Technologies**: Cloud platforms, containers
+- **Example**: `/project:deploy production blue-green`
+
+### Usage Examples by Scenario
+
+#### New Project Setup
 ```bash
-# Quick project setup
-/project:bootstrap-project web-app typescript
+/project:analyze-project
+/project:validate-environment
+/project:setup-ci github-actions
+/project:harden development
+/project:pre-commit standard
+```
 
-# Security-focused analysis
-/project:audit-security dependencies
+#### Security Audit Workflow
+```bash
+/project:audit-security full-scan
+/project:harden production
+/project:comply soc2
+/project:incident-response prepare
+```
 
-# Team coordination
-/project:daily-standup slack team-alpha
+#### Code Quality Improvement
+```bash
+/project:code-review current-branch
+/project:refactor improve-structure
+/project:test increase-coverage
+/project:optimize performance
 ```
 
 ## 🔗 Integration Discovery
@@ -169,13 +322,42 @@ Team Impact: High (shared setup)
 
 ```bash
 # Find security-related commands
+/project:list-prompts category:security
 /project:list-prompts security
 
 # Show beginner-friendly commands
+/project:list-prompts level:beginner
 /project:list-prompts beginner
 
 # Filter by technology
+/project:list-prompts tech:typescript
 /project:list-prompts typescript
+
+# Combine multiple filters
+/project:list-prompts level:intermediate role:developer time:short
+
+# Search by keywords
+/project:list-prompts "code quality"
+/project:list-prompts "performance optimization"
+```
+
+### Sorting Options
+
+- **Alphabetical**: Default sorting by command name
+- **Popularity**: Most frequently used commands first
+- **Recent**: Recently added or updated commands
+- **Relevance**: Best match for current project context
+- **Complexity**: Sorted by difficulty level
+
+```bash
+# Sort by popularity
+/project:list-prompts sort:popularity
+
+# Sort by recent updates
+/project:list-prompts sort:recent
+
+# Sort by relevance to current project
+/project:list-prompts sort:relevance
 ```
 
 ### Interactive Command Explorer
@@ -233,3 +415,50 @@ Discover and navigate the complete command ecosystem with intelligent filtering 
 - **Small Team**: 2-10 developers, coordination and standards
 - **Medium Team**: 10-50 developers, process and governance
 - **Enterprise**: 50+ developers, compliance and scale
+
+## Implementation
+
+```xml
+<role>
+You are an expert command discovery specialist with deep knowledge of command ecosystems, intelligent filtering, and user experience design. You specialize in comprehensive command browsing and discovery systems.
+</role>
+
+<activation>
+CLAUDE.CONFIG:
+  extended_thinking: "always"
+  permission_mode: "acceptEdits"
+  allowed_tools: ["Read", "Write", "Edit", "Bash", "LS", "Grep", "Glob"]
+</activation>
+
+<instructions>
+1. Analyze and assess current state:
+   - Evaluate existing command ecosystem and organization
+   - Identify discovery and navigation opportunities
+   - Assess current command categorization and metadata
+   - Review user experience and accessibility requirements
+
+2. Implement comprehensive discovery solutions:
+   - Design intelligent command filtering and search systems
+   - Create categorization and tagging workflows
+   - Establish recommendation and suggestion engines
+   - Set up command analytics and usage tracking
+
+3. Provide actionable recommendations:
+   - Generate specific command discovery improvement plans
+   - Create prioritized implementation roadmaps with timelines
+   - Provide command organization best practices and guidelines
+   - Establish success metrics and validation criteria
+
+4. Facilitate command ecosystem excellence:
+   - Create feedback loops and discovery optimization systems
+   - Implement learning and adaptation mechanisms
+   - Establish maintenance and evolution processes
+   - Build team command discovery capability and knowledge sharing
+
+5. Ensure usability and accessibility:
+   - Validate discovery implementations against user needs
+   - Ensure command accessibility and discoverability standards
+   - Create comprehensive command ecosystem documentation
+   - Establish accountability and continuous improvement measures
+</instructions>
+```

@@ -613,8 +613,8 @@ Key strengths of this implementation:
 8. Follow-up and monitoring procedures
 
 The command balances immediate problem-solving with long-term capability building, making it valuable for both crisis response and continuous improvement.
-</instructions>
-</xml>
+</thinking>
+```
 
 ```6. **Monitoring & Follow-up** - Post-resolution monitoring and escalation procedures
 

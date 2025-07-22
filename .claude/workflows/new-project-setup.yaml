@@ -1,0 +1,273 @@
+name: New Project Setup
+description: Complete project initialization and foundation setup
+version: "1.0"
+category: foundation
+complexity: intermediate
+estimated_time: "2-4 hours"
+author: ccprompts-team
+created: "2025-01-21"
+
+metadata:
+  tags: [setup, initialization, foundation, bootstrap]
+  suitable_for: [startup, new-team, greenfield]
+  prerequisites: [git, development-environment]
+  success_rate: 92%
+
+parameters:
+  project_type:
+    type: string
+    description: "Type of project being created"
+    options: [web-app, api, mobile, desktop, library, microservice]
+    default: web-app
+    required: true
+
+  tech_stack:
+    type: string
+    description: "Primary technology stack"
+    options: [python, javascript, typescript, java, go, rust, csharp]
+    default: typescript
+    required: true
+
+  team_size:
+    type: string
+    description: "Expected team size"
+    options: [solo, small, medium, large]
+    default: small
+    required: true
+
+  compliance_level:
+    type: string
+    description: "Required compliance level"
+    options: [basic, standard, enterprise, regulated]
+    default: standard
+    required: false
+
+  include_security:
+    type: boolean
+    description: "Include security hardening steps"
+    default: true
+    required: false
+
+  setup_ci_cd:
+    type: boolean
+    description: "Setup CI/CD pipeline"
+    default: true
+    required: false
+
+variables:
+  project_profile: null
+  validation_results: null
+  security_baseline: null
+  quality_score: null
+
+steps:
+  - id: project_analysis
+    name: "Project Analysis"
+    prompt: analyze-project
+    description: "Analyze project requirements and context"
+    inputs:
+      scope: initialization
+      project_type: "${project_type}"
+      tech_stack: "${tech_stack}"
+    outputs:
+      project_profile: "$.analysis_result"
+    timeout: 15m
+    retry_policy:
+      max_attempts: 2
+      backoff: exponential
+    success_criteria:
+      - project_profile.completeness > 80%
+
+  - id: environment_validation
+    name: "Environment Validation"
+    prompt: validate-environment
+    description: "Validate development environment setup"
+    inputs:
+      tech_stack: "${tech_stack}"
+      comprehensive: true
+    outputs:
+      validation_results: "$.validation_report"
+    parallel_with: [project_bootstrap]
+    timeout: 10m
+    success_criteria:
+      - validation_results.all_tools_available == true
+
+  - id: project_bootstrap
+    name: "Project Bootstrap"
+    prompt: comprehensive-bootstrap
+    description: "Initialize project structure and configuration"
+    depends_on: [project_analysis]
+    inputs:
+      project_type: "${project_type}"
+      stack: "${tech_stack}"
+      team_size: "${team_size}"
+      profile: "${project_profile}"
+    timeout: 30m
+    rollback_on_failure: true
+    success_criteria:
+      - project_structure_created == true
+      - configuration_files_generated == true
+
+  - id: security_baseline
+    name: "Security Baseline"
+    prompt: harden
+    description: "Establish security baseline and hardening"
+    condition: "${include_security} == true"
+    depends_on: [project_bootstrap]
+    inputs:
+      level: "${compliance_level}"
+      environment: development
+      project_type: "${project_type}"
+    outputs:
+      security_baseline: "$.security_report"
+    timeout: 45m
+    success_criteria:
+      - security_baseline.critical_issues == 0
+      - security_baseline.score > 75%
+
+  - id: quality_gates
+    name: "Quality Gates Setup"
+    prompt: pre-commit
+    description: "Setup code quality gates and validation"
+    depends_on: [project_bootstrap]
+    inputs:
+      strictness: standard
+      tech_stack: "${tech_stack}"
+      team_size: "${team_size}"
+    timeout: 20m
+    success_criteria:
+      - pre_commit_hooks_installed == true
+      - quality_checks_configured == true
+
+  - id: documentation_foundation
+    name: "Documentation Foundation"
+    prompt: document
+    description: "Generate initial project documentation"
+    depends_on: [project_bootstrap]
+    parallel_with: [testing_setup]
+    inputs:
+      type: auto-generated
+      project_profile: "${project_profile}"
+      include_api_docs: true
+    timeout: 30m
+    success_criteria:
+      - readme_generated == true
+      - api_docs_created == true
+
+  - id: testing_setup
+    name: "Testing Framework Setup"
+    prompt: test
+    description: "Setup testing framework and initial tests"
+    depends_on: [quality_gates]
+    parallel_with: [documentation_foundation]
+    inputs:
+      coverage_target: 70
+      type: unit-integration
+      tech_stack: "${tech_stack}"
+    timeout: 45m
+    success_criteria:
+      - testing_framework_configured == true
+      - sample_tests_created == true
+
+  - id: ci_cd_setup
+    name: "CI/CD Pipeline Setup"
+    prompt: setup-ci
+    description: "Setup continuous integration and deployment"
+    condition: "${setup_ci_cd} == true"
+    depends_on: [quality_gates, testing_setup]
+    inputs:
+      platform: github
+      environment: development
+      tech_stack: "${tech_stack}"
+      include_security_scan: "${include_security}"
+    timeout: 60m
+    success_criteria:
+      - pipeline_created == true
+      - initial_build_successful == true
+
+  - id: health_check
+    name: "Project Health Check"
+    prompt: health-check
+    description: "Comprehensive project health validation"
+    depends_on: [documentation_foundation, testing_setup]
+    inputs:
+      scope: comprehensive
+      include_security: "${include_security}"
+    outputs:
+      quality_score: "$.overall_score"
+    timeout: 15m
+    success_criteria:
+      - quality_score > 80%
+      - all_critical_checks_passed == true
+
+error_handling:
+  default_strategy: pause_for_review
+  rollback_strategy: selective
+  notification_channels: [console, log]
+  
+  step_specific:
+    project_bootstrap:
+      on_failure: rollback_and_retry
+      max_rollback_attempts: 1
+    
+    security_baseline:
+      on_failure: continue_with_warning
+      required_for_completion: false
+    
+    ci_cd_setup:
+      on_failure: skip_and_continue
+      required_for_completion: false
+
+success_criteria:
+  overall:
+    - project_structure_created == true
+    - quality_gates_active == true
+    - documentation_generated == true
+    - tests_configured == true
+    - health_score > 75%
+  
+  optional:
+    - security_baseline_established == true (if include_security)
+    - ci_cd_pipeline_active == true (if setup_ci_cd)
+
+post_execution:
+  cleanup:
+    - remove_temporary_files: true
+    - archive_logs: true
+  
+  reporting:
+    - generate_summary_report: true
+    - update_project_metrics: true
+    - notify_team: true
+  
+  next_steps:
+    - suggest_immediate_actions: true
+    - recommend_learning_paths: true
+    - schedule_follow_up_reviews: true
+
+notifications:
+  on_start:
+    message: "Starting new project setup workflow for ${project_type} project"
+    channels: [console]
+  
+  on_completion:
+    message: "Project setup completed successfully. Quality score: ${quality_score}%"
+    channels: [console, log]
+    include_summary: true
+  
+  on_failure:
+    message: "Project setup failed at step: ${failed_step}. Check logs for details."
+    channels: [console, log, alert]
+    include_troubleshooting: true
+
+metrics:
+  track:
+    - execution_time
+    - step_success_rates
+    - quality_scores
+    - user_satisfaction
+  
+  benchmarks:
+    - average_execution_time: "3.2 hours"
+    - typical_quality_score: "85%"
+    - success_rate: "92%"
