@@ -1,474 +1,245 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with this repository.
+This file provides guidance to Claude Code when working with the ccprompts repository - a comprehensive collection of 70 production-ready commands across 12 strategic development phases.
 
 ## Project Overview
 
-This repository contains a comprehensive collection of Claude Code-specific developer commands and prompts. The project includes **70 production-ready commands** across **11 strategic phases**, helping teams with AI-assisted development through automation, learning resources, quality assurance tools, and enterprise-scale capabilities.
+**ccprompts** is a sophisticated ecosystem for AI-assisted software development featuring:
 
-## Command Ecosystem
-
-### **70 Commands Across 11 Strategic Phases**
-
-```tree
-📁 Phase 00-02: Initial Workflow & Setup (10 commands)
-   ├── /analyze-project     # AI-powered project assessment
-   ├── /intelligent-chain   # Natural language workflow automation
-   ├── /document           # Auto-generated documentation
-   ├── /learn              # Interactive skill development
-   ├── /mcp                # MCP server integration and testing
-   └── /new-feature        # Feature implementation workflow
-
-🛠️ Phase 03-05: Development & Quality (12 commands)
-   ├── /backup             # Backup strategies
-   ├── /debug-session      # Advanced troubleshooting
-   ├── /migrate            # Database and system migrations
-   ├── /optimize           # Performance optimization
-   ├── /refactor           # Safe multi-file transformations
-   ├── /monitor            # Production monitoring setup
-   ├── /test               # Test automation
-   └── /troubleshoot       # Systematic debugging assistance
-
-🚀 Phase 06-08: Deployment & Operations (18 commands)
-   ├── /deploy             # Production deployment workflows
-   ├── /git                # Advanced Git operations and workflows
-   ├── /pre-commit         # Quality gates and validation
-   ├── /setup-ci           # CI/CD pipeline automation
-   ├── /code-review        # AI-powered code analysis
-   ├── /daily-standup      # Team coordination automation
-   ├── /release-notes      # Multi-audience communication
-   ├── /sprint-planning    # Sprint management
-   ├── /tech-debt          # Technical debt optimization
-   ├── /best-practices     # Technology-specific guidance
-   ├── /knowledge-base     # Organizational knowledge management
-   ├── /modernize          # Legacy system modernization
-   ├── /health-check       # System health checks
-   ├── /list-prompts       # Command discovery and browsing
-   ├── /prompt-stats       # Usage analytics and metrics
-   ├── /quick-fix          # Targeted issue resolution
-   ├── /search-prompts     # Content search
-   ├── /smart-suggest      # Contextual recommendations
-   ├── /validate-environment # Environment verification
-   └── /workflow-builder   # Visual workflow creation
-
-🤖 Phase 09: Advanced Agentic Capabilities (12 commands)
-   ├── /mcp-discover       # MCP server discovery and integration
-   ├── /agent-orchestrate  # Multi-agent coordination and workflows
-   ├── /context-manager    # Advanced context management and semantic understanding
-   ├── /agent-specialize   # Agent role specialization and capability assignment
-   ├── /workflow-automate  # Multi-step workflow automation with agent coordination
-   ├── /mcp-configure      # Advanced MCP server configuration and management
-   ├── /agent-communicate  # Inter-agent communication and coordination protocols
-   ├── /context-persist    # Context persistence and retrieval across sessions
-   ├── /agent-learn        # Agent learning and adaptation from project patterns
-   ├── /mcp-extend         # Custom MCP server development and extension
-   ├── /agent-monitor      # Agent performance monitoring and optimization
-   └── /workflow-visual    # Visual workflow builder for agent orchestration
-
-🧠 Phase 10: AI-Native Development (10 commands)
-   ├── /ai-pair-program    # Advanced AI pair programming and collaboration
-   ├── /semantic-understand # Deep semantic code understanding and analysis
-   ├── /predictive-dev     # Predictive development and proactive suggestions
-   ├── /code-generate      # Advanced AI-powered code generation
-   ├── /ai-debug           # AI-assisted debugging and error resolution
-   ├── /test-intelligent   # Intelligent test generation and optimization
-   ├── /refactor-semantic  # Semantic-aware refactoring and optimization
-   ├── /pattern-detect     # Pattern detection and architectural analysis
-   ├── /ai-mentor          # AI mentoring and skill development guidance
-   └── /code-explain       # Advanced code explanation and documentation
-
-🏢 Phase 11: Enterprise & Scale (8 commands)
-   ├── /multi-repo         # Multi-repository coordination and management
-   ├── /governance         # Enterprise governance and policy enforcement
-   ├── /analytics-advanced # Advanced analytics and reporting dashboard
-   ├── /knowledge-org      # Organizational knowledge management system
-   ├── /compliance-enterprise # Enterprise compliance automation and auditing
-   ├── /scale-optimize     # Performance optimization at enterprise scale
-   ├── /team-coordinate    # Advanced team coordination and communication
-   └── /resource-manage    # Resource management and capacity planning
-```
+- **70 slash commands** organized across 12 development phases (00-11)  
+- **Containerized safety system** using Dagger for secure execution
+- **Multi-dimensional validation** with quality scoring and security scanning
+- **Advanced agentic capabilities** including MCP integration and agent orchestration
+- **Enterprise features** for governance, compliance, and multi-repo coordination
 
 ## Repository Architecture
 
-```
-ccprompts/
-├── prompts/                           # 20 organized prompt categories
-│   ├── 01-project-initialization/     # Bootstrap & CLAUDE.md generation
-│   │   ├── comprehensive-bootstrap.md  # Complete project setup
-│   │   └── claude-md-generator.md     # Project guidance creation
-│   ├── 02-code-analysis/             # Security audits & dependency analysis
-│   │   ├── security-quality-audit.md  # OWASP compliance scanning
-│   │   └── dependency-analysis.md     # Vulnerability assessment
-│   ├── 03-refactoring/               # Modernization & performance optimization
-│   │   ├── codebase-modernization.md  # Legacy code transformation
-│   │   └── performance-optimization.md # Bottleneck resolution
-│   ├── 04-testing/                   # Test suite generation & mutation testing
-│   │   ├── test-suite-generation.md   # Test suite creation
-│   │   └── mutation-testing.md       # Quality validation
-│   ├── 05-documentation/             # Documentation & knowledge management
-│   │   ├── interactive-documentation.md # Auto-generated docs
-│   │   └── knowledge-base-generation.md # Team knowledge systems
-│   ├── 06-git-workflows/             # Git automation & repository management
-│   │   ├── advanced-git-automation.md # Workflow optimization
-│   │   └── repository-optimization.md # Performance tuning
-│   ├── 07-multi-file-operations/     # Cross-codebase refactoring
-│   │   ├── consistency-validation.md  # Pattern enforcement
-│   │   └── cross-codebase-refactoring.md # Safe transformations
-│   ├── 08-mcp-integration/           # MCP server configuration & testing
-│   │   ├── mcp-custom-server.md       # Custom server development
-│   │   └── advanced-tool-chains.md   # Tool integration
-│   ├── 09-build-deployment/          # CI/CD pipelines & Infrastructure as Code
-│   │   ├── comprehensive-cicd.md      # CI/CD pipeline setup
-│   │   └── infrastructure-as-code.md  # IaC automation
-│   └── 10-security-compliance/       # Security hardening & compliance
-│       ├── security-hardening.md     # Production security
-│       └── compliance-automation.md  # Regulatory compliance
+### Core Directories
 
-├── .claude/                          # Complete command ecosystem
-│   ├── commands/                     # All 40 slash commands
-│   │   ├── [Phase 1: Category Commands]
-│   │   │   ├── bootstrap-project.md
-│   │   │   ├── audit-security.md
-│   │   │   ├── refactor.md
-│   │   │   ├── test.md
-│   │   │   ├── document.md
-│   │   │   ├── setup-ci.md
-│   │   │   ├── deploy.md
-│   │   │   └── optimize.md
-│   │   ├── [Phase 2: Workflow Commands]
-│   │   │   ├── backup.md
-│   │   │   ├── migrate.md
-│   │   │   ├── monitor.md
-│   │   │   ├── comply.md
-│   │   │   ├── modernize.md
-│   │   │   └── harden.md
-│   │   ├── [Phase 3: Context-Aware Commands]
-│   │   │   ├── analyze-project.md
-│   │   │   ├── health-check.md
-│   │   │   ├── quick-fix.md
-│   │   │   ├── smart-suggest.md
-│   │   │   └── validate-environment.md
-│   │   ├── [Phase 4: Utility Commands]
-│   │   │   ├── list-prompts.md
-│   │   │   ├── search-prompts.md
-│   │   │   ├── workflow-builder.md
-│   │   │   ├── prompt-stats.md
-│   │   │   ├── export-config.md
-│   │   │   └── debug-session.md
-│   │   ├── [Phase 5: Developer Lifecycle Commands]
-│   │   │   ├── pre-commit.md
-│   │   │   ├── incident-response.md
-│   │   │   ├── code-review.md
-│   │   │   ├── daily-standup.md
-│   │   │   ├── release-notes.md
-│   │   │   ├── sprint-planning.md
-│   │   │   └── tech-debt.md
-│   │   └── [Phase 6: Learning Commands]
-│   │       ├── learn.md
-│   │       ├── best-practices.md
-│   │       ├── troubleshoot.md
-│   │       └── knowledge-base.md
-│   ├── workflows/                    # Automated workflow definitions
-│   │   ├── full-development-cycle.yaml
-│   │   ├── security-hardening.yaml
-│   │   ├── legacy-modernization.yaml
-│   │   └── team-onboarding.yaml
-│   └── config.json                   # Project configuration
+- **`.claude/`** - Command ecosystem hub with 70 slash commands across 12 phases
+  - `commands/` - Organized command structure (00-initial-workflow through 11-enterprise-scale)
+  - `config.json` - System configuration expecting exactly 70 commands
+  - `workflows/` - Automated workflow definitions and orchestration
+  - `mcp-servers/` - Model Context Protocol server configurations
 
-├── scripts/                          # Safety and validation tools
-│   ├── safe-run.sh                   # Containerized command execution
-│   ├── quick-safe.sh                 # Quick safety aliases
-│   └── validate-prompts.js           # Prompt validation
-├── src/                              # Dagger safety container module
-│   ├── index.ts                      # TypeScript safety functions
-│   └── package.json                  # Dagger module dependencies
-├── dagger.json                       # Dagger configuration
-├── SAFETY.md                         # Containerized safety system guide
-├── README.md                         # Project guide
-├── CLAUDE.md                         # This guidance file
-├── CC-SDK-Guide.md                   # Advanced Claude Code SDK reference
-└── .gitignore                        # Optimized for .claude directory
-```
+- **`prompts/`** - Structured prompt library with 20 categories (01-10)
+  - XML-formatted prompts with role/activation/instructions/output sections
+  - Educational focus with comprehensive examples and learning components
+  - Enterprise-grade security, compliance, and governance integration
 
-## Key Features
+- **`scripts/`** - Validation and safety infrastructure
+  - `validate-prompts.js` - Multi-dimensional validation system
+  - `safe-run.sh` - Containerized command execution wrapper
+  - `safety-validator.js` - Advanced safety pattern detection
+  - `validators/` - Modular validation components
 
-### **🤖 AI-Powered Features**
+- **`src/`** - Dagger TypeScript safety container module
+  - `index.ts` - Safety container system for isolated command execution
+  - Uses Ubuntu 22.04 base with development tools and resource limits
 
-- **Contextual Adaptation**: Commands adjust to project characteristics
-- **Pattern Recognition**: Detection of code patterns, issues, and opportunities
-- **Analytics**: Identify potential issues and optimization opportunities
-- **Learning Integration**: Commands include educational components
+- **`tests/`** - Comprehensive Jest testing suite (30s timeouts)
+- **`docs/`** - Multi-level documentation including developer guides
 
-### **🔗 Ecosystem Integration**
+## Essential Commands
 
-- **Command Chaining**: Commands work together for complex multi-step operations
-- **Workflow Automation**: Visual workflow builder for custom processes
-- **Team Collaboration**: Features for team coordination
-- **Tool Integration**: Support for CI/CD, monitoring, and collaboration tools
-
-### **📈 Continuous Learning & Growth**
-
-- **Interactive Tutorials**: Hands-on learning integrated with real project work
-- **Skill Development**: Learning paths and skill building
-- **Knowledge Management**: Documentation and knowledge sharing
-- **Best Practices**: Updated recommendations
-
-### **🛡️ Safety & Compliance**
-
-- **Atomic Operations**: All changes are versioned, tested, and reversible
-- **Security Features**: Built-in security scanning and compliance checking
-- **Quality Checks**: Automated quality assurance with customizable thresholds
-- **Audit Trails**: Detailed logging for compliance
-- **Containerized Safety**: Isolated execution of dangerous commands via Dagger containers
-
-## Command Discovery & Usage
-
-### **Quick Access Patterns**
+### Development Workflow
 
 ```bash
-# Instant project setup and analysis
-/analyze-project
-/new-feature web-app typescript cloud
-/health-check full
+# Core validation and testing (Jest may have compatibility issues)
+npm run validate           # Validates prompts and command structure (expects 70 commands currently)
+npm run lint               # Markdownlint on prompts and documentation  
+npm run lint:fix           # Auto-fixes markdown formatting issues
+npm run check-links        # Validates markdown links across documentation
+npm run ci                 # Full CI pipeline (validate + lint + link check)
 
-# Development workflow automation
-/pre-commit strict
-/code-review pr security thorough
-/daily-standup prepare team slack
+# Safety system operations
+npm run safety-validate    # Dagger-based safety validation of 70 commands
+./scripts/safe-run.sh      # Execute commands safely in isolated containers
+./scripts/quick-safe.sh    # Quick safety aliases for common operations
 
-# Learning and skill development
-/learn react advanced project
-/best-practices security javascript project
-/troubleshoot error production critical
-
-# Discovery and management
-/list-prompts security advanced
-/search-prompts "performance optimization"
-/workflow-builder create
+# Security and quality assurance
+npm run security-scan      # Security-only validation of prompts
+npm run precommit          # Pre-commit hook validation
 ```
 
-### **Command Ecosystem Navigation**
+**Note**: Current Jest configuration has compatibility issues with Node.js v24.1.0. Validation system works independently.
 
-1. **Start with Discovery**: Use `/analyze-project` and `/list-prompts` to understand current state
-2. **Build Foundation**: Use `/new-feature` and `/harden` for solid project setup
-3. **Establish Quality**: Implement `/pre-commit`, `/code-review`, and `/best-practices`
-4. **Enable Learning**: Use `/learn` and `/troubleshoot` for continuous development
-5. **Scale Operations**: Leverage `/workflow-builder` and `/sprint-planning` for team coordination
+## Command Ecosystem Structure
 
-### **Workflow Integration Examples**
+The project implements **70 commands across 12 phases**:
 
-#### **Complete Project Setup Workflow**
+```
+Phase 00: Initial Workflow (2 commands) - analyze-project, intelligent-chain
+Phase 01: Project Setup (3 commands) - document, learn, mcp  
+Phase 02: Development (5 commands) - backup, debug-session, migrate, optimize, refactor
+Phase 03: Security (4 commands) - audit-security, comply, harden, incident-response
+Phase 04: Testing (2 commands) - test, troubleshoot
+Phase 05: Deployment (4 commands) - deploy, git, pre-commit, setup-ci
+Phase 06: Collaboration (4 commands) - code-review, daily-standup, monitor, tech-debt
+Phase 07: Utilities (10 commands) - Various productivity and management tools
+Phase 08: Extras (4 commands) - health-check, modernize, new-feature, workflow-builder
+Phase 09: Agentic Capabilities (12 commands) - MCP integration and agent orchestration
+Phase 10: AI-Native Development (10 commands) - Semantic understanding and AI pairing
+Phase 11: Enterprise Scale (8 commands) - Multi-repo coordination and governance
+```
+
+Commands follow XML-structured format with role, activation, instructions, and output sections.
+
+## Safety & Security Systems
+
+### Containerized Safety Architecture (3-Layer System)
+
+1. **Pattern Detection**: Automatic identification of dangerous commands
+2. **Container Isolation**: Dagger-based throwaway Ubuntu 22.04 containers  
+3. **Safety Validation**: Comprehensive rollback and verification procedures
+
+### Safety Features
+
+- **Read-only project mounting**: Source code protected during execution
+- **Resource limits**: Memory and CPU constraints prevent abuse
+- **Network restrictions**: Limited outbound access for security
+- **Automatic cleanup**: Containers destroyed after execution
+- **Pattern classification**: 46 safe commands, 24 flagged as dangerous
+
+### Dangerous Command Patterns Detected
+
+- Sudo execution with non-package managers
+- File system modifications (rm -rf, chmod, chown)
+- Network operations requiring container isolation
+- System-level commands and privilege escalation
+
+Safety validation achieves **65.7% safety rate** with 517 container validations in ~3.5 seconds.
+
+## Testing & Validation Framework
+
+### Multi-Dimensional Validation System
+
+- **Structural Validation**: XML format compliance, required sections
+- **Security Scanning**: Secret detection, dangerous pattern identification
+- **Quality Scoring**: Educational value, completeness, example quality (27.1/100 current grade)  
+- **Safety Validation**: Dagger container testing with rollback verification
+- **Performance Metrics**: Discovery <100ms ✅, validation <2s ✅
+
+### Quality Metrics (Current State)
+
+- **Command Count**: 70/70 commands discovered ✅
+- **Success Rate**: 95.0% structural validation
+- **Error Rate**: 42.9% requiring attention
+- **Security Score**: FAIL - requires remediation
+- **Validation Performance**: Discovery 3ms, total validation 28ms
+
+### Configuration Requirements
+
+- **Node.js**: >=18.0.0 (package.json requirement)
+- **Jest**: ^29.7.0 (with 30-second test timeouts)
+- **Dagger**: v18.12 for safety container system
+- **Command Validation**: Expects exactly 70 commands (configurable in config.json)
+
+## Advanced Capabilities
+
+### Model Context Protocol (MCP) Integration
+
+- **1000+ MCP servers** available for extended capabilities
+- **Automatic discovery** and security validation of MCP servers
+- **Context persistence** across sessions with memory management
+- **Multi-agent orchestration** through MCP server coordination
+
+### Agentic Features (Phase 09-11)
+
+- **Agent Communication**: Inter-agent messaging and coordination
+- **Context Management**: Persistent learning and context retention
+- **Workflow Automation**: Visual workflow builder and execution
+- **Semantic Understanding**: Deep code analysis and pattern detection
+- **Predictive Development**: Proactive suggestions and optimization
+- **Enterprise Governance**: SOC2, GDPR, HIPAA compliance automation
+
+### AI-Native Development Capabilities
+
+- **AI Pair Programming**: Real-time code collaboration and suggestions
+- **Intelligent Debugging**: Context-aware error analysis and resolution
+- **Code Generation**: Automated code creation with quality assurance
+- **Architecture Assistance**: Design pattern recognition and recommendations
+
+## Technology Stack
+
+### Core Dependencies
+
+- **Node.js ≥18.0.0**: Required runtime environment
+- **Dagger ^18.12**: Container orchestration for safety system
+- **Jest ^29.7.0**: Testing framework (compatibility issues noted)
+- **TypeScript ^5.0.0**: For Dagger module development
+- **markdownlint**: Documentation quality assurance
+
+### Development Toolchain
+
+- **Validation**: Custom multi-dimensional validators with security scanning
+- **Safety**: Dagger containerization with Ubuntu 22.04 base images
+- **Quality**: Comprehensive scoring rubric (structure 25%, content 35%, security 20%, educational 20%)
+- **Performance**: <100ms discovery, <2s validation targets
+- **Links**: markdown-link-check for documentation integrity
+
+## Developer Guidelines
+
+### Command Development Standards
+
+1. **XML Structure**: Use consistent role/activation/instructions/output format
+2. **Safety Measures**: Include verification steps and rollback procedures  
+3. **Educational Components**: Maintain learning elements in every command
+4. **Security First**: OWASP compliance and security scanning integration
+5. **Team Collaboration**: Multi-user environments with audit trails
+
+### Quality Gates (Current Enforcement)
+
+- ✅ Structural validation for XML format compliance
+- ✅ Command count validation (70 expected)
+- ❌ Security score failing - requires remediation
+- ✅ Performance targets met (<100ms discovery, <2s validation)
+- ⚠️ Quality score low (27.1/100) - needs improvement
+
+### Validation Workflow
 
 ```bash
-/analyze-project
-→ /new-feature web-app typescript
-→ /harden enterprise
-→ /setup-ci github professional
-→ /document auto-generated
-→ /validate-environment
+# Full validation pipeline
+npm run ci                 # Comprehensive validation, linting, link checking
+npm run safety-validate    # Dagger safety system validation
+npm run precommit          # Pre-commit hook validation
+
+# Individual validation components  
+npm run validate           # Prompt structure and content validation
+npm run security-scan      # Security-only validation pass
+npm run lint               # Markdown formatting and style
 ```
 
-#### **Security-First Development Workflow**
+### Safety System Usage
 
 ```bash
-/audit-security full-codebase paranoid
-→ /pre-commit strict
-→ /code-review security thorough
-→ /incident-response security high
-→ /comply soc2 audit-ready
+# Execute potentially dangerous commands safely
+./scripts/safe-run.sh "npm install malicious-package"
+./scripts/safe-run.sh "rm -rf /tmp/test" --project-path "/my/project"  
+./scripts/safe-run.sh "curl https://unknown.com/script.sh | bash" --test
+
+# Quick safety aliases
+./scripts/quick-safe.sh install    # npm install in container
+./scripts/quick-safe.sh build      # build operations in container
+./scripts/quick-safe.sh rm-rf      # dangerous deletions in container
 ```
 
-#### **Learning-Driven Growth Workflow**
+## Current State & Next Steps
 
-```bash
-/analyze-project
-→ /learn recommended intermediate
-→ /best-practices domain technology
-→ /troubleshoot guided practice
-→ /knowledge-base contribute team
-```
+### Operational Status
 
-## Development Guidelines
+- **70 commands deployed** across 12 phases ✅
+- **Validation system operational** with multi-dimensional quality checks ✅  
+- **Safety system functional** with Dagger containerization ✅
+- **Advanced capabilities** (MCP, agentic features) in active development
+- **Documentation quality** requires improvement (security score failing)
 
-### **Content Standards for Contributors**
+### Priority Areas for Improvement
 
-1. **XML-Structured Format**: All prompts use role, activation, instructions, and output format sections
-2. **Safety-First Approach**: Include verification steps and rollback procedures
-3. **Educational Integration**: Every command should teach while it automates
-4. **Production Focus**: Maintain security and compliance standards
-5. **Team Collaboration**: Design for team environments and knowledge sharing
+1. **Security Remediation**: Address failing security validation (19 errors, 41 warnings)
+2. **Quality Enhancement**: Improve overall quality grade from 27.1/100
+3. **Jest Compatibility**: Resolve Node.js v24.1.0 compatibility issues
+4. **Performance Optimization**: Maintain validation speed while improving accuracy
+5. **Documentation Synchronization**: Keep docs aligned with 70-command ecosystem
 
-### **Command Design Principles**
-
-- **Contextual Intelligence**: Commands adapt to specific project characteristics
-- **Progressive Enhancement**: Start with analysis before making modifications
-- **Multi-Agent Coordination**: Enable complex workflows through command chaining
-- **Compliance Automation**: Built-in SOC2, GDPR, HIPAA considerations
-- **Documentation First**: Always update knowledge files before major changes
-
-### **Quality Assurance Requirements**
-
-```bash
-# Validate markdown formatting
-markdownlint prompts/**/*.md .claude/commands/*.md
-
-# Check for broken links
-markdown-link-check prompts/**/*.md .claude/commands/*.md
-
-# Verify prompt XML structure
-xmllint --noout prompts/**/*.md .claude/commands/*.md
-
-# Test command functionality
-/debug-session commands configuration diagnostic
-```
-
-## Key Innovations
-
-### **1. Modular Architecture**
-
-Commands work independently or can be combined, allowing teams to adopt features gradually.
-
-### **2. Educational Components**
-
-Commands include educational elements to support skill development alongside automation.
-
-### **3. Compliance Support**
-
-Built-in support for SOC2, GDPR, HIPAA, and other regulatory frameworks, with automated compliance checking and audit trail generation.
-
-### **4. Contextual Adaptation**
-
-Commands adapt to project characteristics, technology stacks, and team needs, providing relevant recommendations and workflows.
-
-### **5. Integrated Command System**
-
-The 40 commands work together as a system supporting discovery, implementation, and learning.
-
-## Advanced Usage Patterns
-
-### **Team Leadership**
-
-- **Project Health Monitoring**: Continuous assessment using `/health-check` and `/prompt-stats`
-- **Team Skill Development**: Coordinated learning paths via `/learn` and `/knowledge-base`
-- **Process Optimization**: Data-driven improvements through `/workflow-builder` and analytics
-- **Compliance Management**: Automated regulatory compliance via `/comply` and `/audit-security`
-
-### **Senior Developer Productivity**
-
-- **Code Review**: AI-powered analysis with `/code-review` and educational explanations
-- **Technical Debt Management**: ROI-based prioritization using `/tech-debt` and `/optimize`
-- **Knowledge Sharing**: Automated documentation via `/document` and `/knowledge-base`
-- **Continuous Integration**: CI/CD via `/setup-ci` and `/deploy`
-
-### **Growing Developer Support**
-
-- **Interactive Learning**: Hands-on tutorials via `/learn` integrated with real project work
-- **Debugging Assistance**: Systematic troubleshooting via `/troubleshoot` with skill development
-- **Best Practice Guidance**: Recommendations via `/best-practices`
-- **Collaborative Development**: Team coordination via `/daily-standup` and `/sprint-planning`
-
-## Technology Integration
-
-### **Multi-Language Support**
-
-- **Primary**: Python, TypeScript, JavaScript, Go, Rust, Java, C#, PHP, Ruby
-- **Frameworks**: React, Vue, Angular, Django, FastAPI, Express, Spring Boot, Rails
-- **Infrastructure**: Docker, Kubernetes, Terraform, AWS, GCP, Azure
-- **Development Tools**: Git, GitHub Actions, GitLab CI, Jenkins, VS Code, JetBrains
-
-### **Platform Integration**
-
-- **Collaboration**: Slack, Teams, Jira, Confluence, Notion, Linear
-- **Monitoring**: DataDog, New Relic, Grafana, Prometheus, Splunk
-- **Security**: Snyk, Veracode, Checkmarx, SonarQube, GitHub Security
-- **Compliance**: ServiceNow, Archer, MetricStream, LogicGate
-
-## Success Metrics & Analytics
-
-### **Command Effectiveness Tracking**
-
-- **Usage Analytics**: Track command adoption and success rates via `/prompt-stats`
-- **Learning Progress**: Monitor skill development through `/learn` progress tracking
-- **Quality Improvements**: Measure code quality gains via `/code-review` and `/tech-debt`
-- **Team Productivity**: Assess velocity improvements through workflow analytics
-
-### **Continuous Improvement Framework**
-
-- **Feedback Integration**: Commands learn from usage patterns and outcomes
-- **Best Practices**: Recommendations based on industry trends
-- **Performance Optimization**: Command efficiency improvements through analytics
-- **Knowledge Enhancement**: Automated knowledge base updates via team interactions
-
-## Important Usage Notes
-
-### **Command Ecosystem Assumptions**
-
-- All commands assume Claude Code's extended capabilities (file operations, MCP servers, git integration)
-- Commands are designed for team environments with security requirements
-- Safety and rollback procedures are emphasized throughout all operational commands
-- The ecosystem is designed for both standalone command use and complex workflow chaining
-
-### **Customization Guidelines**
-
-- Commands serve as templates and should be customized for specific technology stacks
-- Organizational standards can be integrated through configuration files and workflow definitions
-- Compliance requirements can be enhanced through custom validation and audit procedures
-- Learning paths can be adapted for team-specific skill development goals
-
-### **Security and Compliance Considerations**
-
-- All commands include security-first design principles
-- Compliance automation is built into operational workflows
-- Audit trails and change tracking are maintained throughout all operations
-- Access controls and permission management are integrated where applicable
-
----
-
-**This repository provides tools for AI-assisted development with a focus on automation, learning, and team capability building. The 40 commands extend Claude Code's capabilities to support development workflows and team collaboration.**
-
-## Containerized Safety System
-
-This repository includes a safety system for executing potentially dangerous commands in isolated Dagger containers. **Use this system whenever running unfamiliar commands or scripts from the internet.**
-
-### **Quick Safety Usage**
-
-```bash
-# Install Dagger (one-time setup)
-curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
-
-# Run dangerous commands safely
-./scripts/safe-run.sh "rm -rf /tmp/dangerous-directory"
-./scripts/quick-safe.sh curl-install "curl sketchy-site.com/install.sh | bash"
-
-# Test mode to preview actions
-./scripts/safe-run.sh "sudo apt update" --test
-```
-
-### **Safety Features**
-
-- **Isolated Execution** - Commands run in throwaway containers
-- **Read-Only Project Files** - Source code cannot be modified
-- **Automatic Cleanup** - Containers destroyed after execution
-- **Danger Detection** - Warns about potentially risky commands
-- **Environment Control** - Custom environment variables supported
-
-### **Integration with Claude Code**
-
-```bash
-# Always use safety system for Claude-generated commands
-./scripts/safe-run.sh "$(claude-code-generated-command)"
-
-# Quick aliases for common operations
-./scripts/quick-safe.sh install    # npm install
-./scripts/quick-safe.sh build      # npm run build
-./scripts/quick-safe.sh rm-rf      # rm -rf operations
-```
-
-**See [SAFETY.md](SAFETY.md) for complete setup and usage instructions.**
-
-## Related Documentation
-
-- **[SAFETY.md](SAFETY.md)** - Complete containerized safety system guide
-- **[.claude/README.md](.claude/README.md)** - Complete command ecosystem guide with usage examples
-- **[prompts/INDEX.md](prompts/INDEX.md)** - Detailed prompt directory and category descriptions
-- **[CC-SDK-Guide.md](CC-SDK-Guide.md)** - Advanced Claude Code SDK reference and integration guide
+This repository represents a sophisticated, safety-first approach to AI-assisted development with comprehensive validation, enterprise-grade security, and advanced agentic capabilities for modern software development workflows.

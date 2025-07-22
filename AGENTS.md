@@ -4,11 +4,13 @@
 
 ```bash
 npm test                    # Run all tests (Jest + validation)
-npm run test:jest -- path/to/test.js  # Run single test file
+npm run test:jest -- tests/validation.test.js  # Run single test file
+npm run test:validate       # Run validation only (expects 70 commands)
 npm run lint               # Check markdown formatting
 npm run lint:fix           # Auto-fix markdown issues
 npm run validate           # Validate all prompts/commands
 npm run security-scan      # Security-only validation
+npm run safety-validate    # Run Dagger safety validation
 npm run check-links        # Verify all markdown links
 npm run ci                 # Full CI suite (validate + lint + links)
 ```
@@ -24,3 +26,7 @@ npm run ci                 # Full CI suite (validate + lint + links)
 - **Security**: Never emit secrets/keys, validate all inputs, justify dangerous ops
 - **Commits**: Atomic with conventional format: `<type>(scope): imperative summary`
 - **File structure**: Follow existing patterns in .claude/commands/ and prompts/
+- **Test timeout**: 30s for validation tests (Jest config)
+- **Coverage**: Minimum 40% lines, 35% branches, 45% functions
+- **XML format**: Commands use XML with role/activation/instructions/output sections
+- **Validation**: Expects exactly 70 commands (configurable via EXPECTED_COMMAND_COUNT)

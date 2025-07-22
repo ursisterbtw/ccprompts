@@ -12,7 +12,7 @@
 
 # ccprompts – comprehensive claude code command ecosystem
 
-**ccprompts** is a comprehensive collection of 70 production-ready Claude Code commands organized into 11 strategic phases covering the complete software development lifecycle. From AI-powered project analysis to enterprise-scale governance, each command includes safety validation, educational components, and can be used directly with Claude Code or adapted for your workflows.
+**ccprompts** is a comprehensive collection of 70 production-ready Claude Code commands organized into 12 strategic phases covering the complete software development lifecycle. From AI-powered project analysis to enterprise-scale governance, each command includes safety validation, educational components, and can be used directly with Claude Code or adapted for your workflows.
 
 > **⚠️ Development Notice**: This repository is under active development. Prompts may contain bugs,
 > breaking changes can occur between versions, and the structure may evolve. Use with caution in
@@ -22,9 +22,9 @@
 
 ## What's included
 
-**70 Commands Across 11 Strategic Phases:**
+**70 Commands Across 12 Strategic Phases:**
 
-### **Phase 00-08: Core Development Lifecycle (40 commands)**
+### **Phase 00-08: Core Development Lifecycle (38 commands)**
 
 - **00-02**: Project setup, analysis, and refactoring
 - **03-05**: Testing, documentation, and Git workflows  
@@ -90,8 +90,8 @@ ls prompts/*/*.md | less
 
 ```text
 .claude/
-├── commands/          # 70 commands across 11 phases (00-11)
-│   ├── 00-08/        # Core development lifecycle (40 commands)
+├── commands/          # 70 commands across 12 phases (00-11)
+│   ├── 00-08/        # Core development lifecycle (38 commands)
 │   ├── 09-agentic-capabilities/  # Advanced agentic features (12 commands)
 │   ├── 10-ai-native-development/ # AI-native development (10 commands)
 │   └── 11-enterprise-scale/      # Enterprise & scale (8 commands)
