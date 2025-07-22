@@ -1,4 +1,6 @@
-# WORKFLOW: Explore → Plan → Code → Test → Report
+# explore_plan_code
+
+WORKFLOW: Explore → Plan → Code → Test → Report
 
 ## MANDATORY ARTIFACTS: PLANNING.md, TASKS.md (always create or update)
 
