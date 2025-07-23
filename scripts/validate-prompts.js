@@ -542,10 +542,11 @@ class PromptValidator {
       
       this.stats.totalFiles++;
 
-      // Determine file type
-      const isCommand = filePath.includes('.claude/commands/');
-      const isPrompt = filePath.includes('prompts/') && !filePath.includes('INDEX.md') && 
-                      !filePath.includes('README.md') && filePath.endsWith('.md');
+      // Determine file type using relative path
+      const relativePath = path.relative(process.cwd(), filePath);
+      const isCommand = relativePath.includes('.claude/commands/');
+      const isPrompt = relativePath.startsWith('prompts/') && !relativePath.includes('INDEX.md') && 
+                      !relativePath.includes('README.md') && relativePath.endsWith('.md');
       const isDocumentation = this.isDocumentationFile(filePath);
 
       // Security validation for all files

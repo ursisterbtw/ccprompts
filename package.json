@@ -4,10 +4,10 @@
   "description": "Comprehensive collection of Claude Code-specific developer commands and prompts",
   "main": "scripts/validate-prompts.js",
   "scripts": {
-    "test": "jest && EXPECTED_COMMAND_COUNT=40 node scripts/validate-prompts.js",
+    "test": "jest && EXPECTED_COMMAND_COUNT=70 node scripts/validate-prompts.js",
     "test:jest": "jest",
-    "test:validate": "EXPECTED_COMMAND_COUNT=40 node scripts/validate-prompts.js",
-    "validate": "EXPECTED_COMMAND_COUNT=40 node scripts/validate-prompts.js",
+    "test:validate": "EXPECTED_COMMAND_COUNT=70 node scripts/validate-prompts.js",
+    "validate": "EXPECTED_COMMAND_COUNT=70 node scripts/validate-prompts.js",
     "lint": "markdownlint prompts/**/*.md .claude/commands/**/*.md README.md CLAUDE.md CC-SDK-Guide.md",
     "lint:fix": "markdownlint prompts/**/*.md .claude/commands/**/*.md README.md CLAUDE.md CC-SDK-Guide.md --fix",
     "check-links": "find . -name '*.md' -not -path './node_modules/*' | xargs markdown-link-check --config .github/markdown-link-check.json",

@@ -135,7 +135,7 @@ Detailed Debug Analysis: Connection Issues
 ├── Write Access: ❌ Permission denied for src/ directory
 │   ├── Owner: root (expected: user)
 │   ├── Permissions: drwxr-xr-x (expected: drwxrwxr-x)
-│   └── Fix Command: sudo chown -R user:user src/
+│   └── Fix: Request admin assistance or use proper permission management
 ├── Tool Execution: ✅ Bash, Git, npm available
 └── Environment Variables: ✅ All required variables set
 
@@ -318,8 +318,8 @@ Resolution Steps:
    → ls -la | grep username
    
 3. Fix permissions if needed
-   → sudo chown -R username:username directory/
-   → chmod -R 755 directory/
+   → Request admin assistance for ownership changes
+   → Use proper permission management tools
    
 4. Verify tool availability
    → which git, docker, npm, etc.
