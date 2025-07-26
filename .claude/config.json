@@ -17,7 +17,7 @@
     "enabled": true,
     "strict_mode": false,
     "command_count_validation": true,
-    "expected_command_count": 70
+    "expected_command_count": 73
   },
   "performance": {
       "discovery_timeout": 100,
