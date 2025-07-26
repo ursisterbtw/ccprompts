@@ -9,7 +9,7 @@ const path = require('path');
 // Global test configuration
 global.TEST_CONFIG = {
   PROJECT_ROOT: process.cwd(),
-  EXPECTED_COMMAND_COUNT: 40,
+  EXPECTED_COMMAND_COUNT: 73,
   VALIDATION_TIMEOUT: 30000,
   PERFORMANCE_TARGETS: {
     DISCOVERY_MS: 100,
@@ -98,7 +98,7 @@ global.testUtils = {
 
 // Set environment variables for testing
 process.env.NODE_ENV = 'test';
-process.env.EXPECTED_COMMAND_COUNT = '40';
+process.env.EXPECTED_COMMAND_COUNT = '73';
 
 // Global setup
 beforeAll(() => {

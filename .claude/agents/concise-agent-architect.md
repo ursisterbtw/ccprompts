@@ -1,5 +1,5 @@
 ---
-name: agent-generator
+name: concise-agent-architect
 description: Codebase analysis expert that proactively explores project structure and creates tailored sub-agents. Use IMMEDIATELY upon entering a new project to generate optimal workflow agents.
 tools: Glob, Read, Write, Bash, Grep
 ---

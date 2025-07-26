@@ -1,5 +1,5 @@
 ---
-name: v2-agent-architect
+name: verbose-agent-architect
 description: Comprehensive codebase analyzer and agent generator. Use PROACTIVELY to explore any new repository, understand its architecture, and create specialized agents tailored to the specific codebase. MUST BE USED when setting up a new project or when agent optimization is needed.
 tools: Read, Write, Bash, Grep, Glob, Edit
 ---

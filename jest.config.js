@@ -21,10 +21,22 @@ module.exports = {
   ],
   coverageThreshold: {
     global: {
-      branches: 35,
-      functions: 45,
-      lines: 40,
-      statements: 40
+      branches: 50,
+      functions: 60,
+      lines: 55,
+      statements: 55
+    },
+    './scripts/validate-prompts.js': {
+      branches: 80,
+      functions: 90,
+      lines: 85,
+      statements: 85
+    },
+    './scripts/safety-validator.js': {
+      branches: 75,
+      functions: 85,
+      lines: 80,
+      statements: 80
     }
   },
   
@@ -36,8 +48,8 @@ module.exports = {
   // Setup and teardown
   setupFilesAfterEnv: ['<rootDir>/tests/setup.js'],
   
-  // Test timeout (30 seconds for validation tests)
-  testTimeout: 30000,
+  // Test timeout (45 seconds for comprehensive validation tests)
+  testTimeout: 45000,
   
   // Verbose output
   verbose: true,
@@ -48,6 +60,16 @@ module.exports = {
     '/node_modules/',
     '/coverage/',
     '/dist/',
-    '/build/'
-  ]
+    '/build/',
+    '/scripts/validators/node_modules/'
+  ],
+
+  // Environment variables for testing
+  setupFiles: ['<rootDir>/tests/jest-env-setup.js'],
+
+  // Test result processors
+  reporters: ['default'],
+
+  // Global teardown
+  globalTeardown: '<rootDir>/tests/jest-teardown.js'
 };
