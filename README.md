@@ -12,9 +12,9 @@
 
 # ccprompts – claude code command collection
 
-**ccprompts** is a collection of 73 Claude Code commands and 21 structured prompts for software development workflows. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs.
+**ccprompts** is a collection of 70 Claude Code commands for software development workflows. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs.
 
-> **⚠️ Development Notice**: This repository is under active development. Prompts may contain bugs,
+> **⚠️ Development Notice**: This repository is under active development. Commands may contain bugs,
 > breaking changes can occur between versions, and the structure may evolve. Use with caution in
 > production environments.
 
@@ -22,13 +22,13 @@
 
 ## What's included
 
-**73 Commands Across 12 Phases:**
+**70 Commands Across 12 Phases:**
 
-### **Phase 00-08: Core Development (38 commands)**
+### **Phase 00-08: Core Development (35 commands)**
 
 - **00-02**: Project setup, analysis, and refactoring (10 commands)
 - **03-05**: Security, testing, and deployment (10 commands)  
-- **06-08**: Collaboration, utilities, and extras (18 commands)
+- **06-08**: Collaboration, utilities, and extras (15 commands)
 
 ### **Phase 09: Agentic Capabilities (12 commands)**
 
@@ -48,16 +48,9 @@
 - Compliance automation and resource management
 - Team coordination tools
 
-**21 Prompts Across 10 Categories:**
-
-- **01-04**: Project initialization, code analysis, refactoring, and testing (8 prompts)
-- **05-08**: Documentation, Git workflows, multi-file operations, and MCP integration (8 prompts)
-- **09-10**: Build/deployment and security/compliance (5 prompts)
-
 **Features:**
 
-- 73 commands for development workflows
-- 21 structured prompts for specialized tasks
+- 70 commands for development workflows
 - MCP integration and multi-agent coordination
 - Containerized execution with safety validation
 - Agent creation system with template wizard
@@ -72,13 +65,12 @@
 git clone https://github.com/ursisterbtw/ccprompts.git
 cd ccprompts
 
-# Validate all prompts
+# Validate all commands
 npm ci
 npm run validate
 
-# Browse available commands and prompts
+# Browse available commands
 ls .claude/commands/*/*.md | less
-ls prompts/*/*.md | less
 ```
 
 ### Adding a new command

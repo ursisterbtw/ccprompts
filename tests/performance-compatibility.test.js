@@ -6,15 +6,15 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync, spawn } = require('child_process');
-const PromptValidator = require('../scripts/validate-prompts');
+const CommandValidator = require('../scripts/validate-commands');
 const SafetyValidator = require('../scripts/safety-validator');
 
 describe('Performance and Compatibility Tests', () => {
-  let promptValidator;
+  let commandValidator;
   let safetyValidator;
 
   beforeAll(() => {
-    promptValidator = new PromptValidator();
+    commandValidator = new CommandValidator();
     safetyValidator = new SafetyValidator();
   });
 
@@ -95,7 +95,7 @@ describe('Performance and Compatibility Tests', () => {
       
       for (let i = 0; i < iterations; i++) {
         const startTime = process.hrtime.bigint();
-        promptValidator.findMarkdownFiles(global.TEST_CONFIG.PROJECT_ROOT);
+        commandValidator.findMarkdownFiles(global.TEST_CONFIG.PROJECT_ROOT);
         const endTime = process.hrtime.bigint();
         
         const durationMs = Number(endTime - startTime) / 1000000;
@@ -123,11 +123,11 @@ describe('Performance and Compatibility Tests', () => {
         const startTime = Date.now();
         
         // Simulate validation of subset
-        const allFiles = promptValidator.findMarkdownFiles(global.TEST_CONFIG.PROJECT_ROOT);
+        const allFiles = commandValidator.findMarkdownFiles(global.TEST_CONFIG.PROJECT_ROOT);
         const subset = allFiles.slice(0, testCase.fileCount);
         
         for (const file of subset) {
-          await promptValidator.validateFile(file);
+          await commandValidator.validateFile(file);
         }
         
         const duration = Date.now() - startTime;
@@ -231,11 +231,11 @@ describe('Performance and Compatibility Tests', () => {
       };
       
       try {
-        await promptValidator.validate();
+        await commandValidator.validate();
         
         // Should complete despite some errors
-        expect(promptValidator.errors.length).toBeGreaterThan(0);
-        expect(promptValidator.warnings.length).toBeGreaterThanOrEqual(0);
+        expect(commandValidator.errors.length).toBeGreaterThan(0);
+        expect(commandValidator.warnings.length).toBeGreaterThanOrEqual(0);
       } finally {
         // Restore original function
         fs.readFileSync = originalReadFile;
@@ -268,7 +268,7 @@ describe('Performance and Compatibility Tests', () => {
       const startMemory = process.memoryUsage();
       const startCpu = process.cpuUsage();
       
-      await promptValidator.validate();
+      await commandValidator.validate();
       
       const endTime = Date.now();
       const endMemory = process.memoryUsage();

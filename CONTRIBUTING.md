@@ -122,7 +122,7 @@ npm run security-scan      # Security checks
 
 ```bash
 # Quick validation during development
-node scripts/validate-prompts.js
+node scripts/validate-commands.js
 
 # Test specific command sections
 grep -l "## Examples" .claude/commands/*.md
@@ -219,7 +219,7 @@ ccprompts/
 
 ### Development Resources
 
-- **Validation Guide**: `scripts/validate-prompts.js`
+- **Validation Guide**: `scripts/validate-commands.js`
 - **Command Template**: `.claude/commands/TEMPLATE.md`
 - **Prompt Template**: `prompts/TEMPLATE.md`
 - **CI/CD Workflows**: `.github/workflows/`

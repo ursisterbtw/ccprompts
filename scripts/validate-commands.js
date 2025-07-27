@@ -2,7 +2,7 @@
 
 /**
  * Comprehensive validation script for ccprompts ecosystem
- * Validates XML structure, prompt quality, command consistency, and security
+ * Validates command structure, quality, consistency, and security
  */
 
 const fs = require('fs');
@@ -25,7 +25,7 @@ const log = (color, message) => {
   console.log(`${colors[color]}${message}${colors.reset}`);
 };
 
-class PromptValidator {
+class CommandValidator {
   constructor() {
     this.errors = [];
     this.warnings = [];
@@ -41,7 +41,6 @@ class PromptValidator {
       totalFiles: 0,
       validFiles: 0,
       commandFiles: 0,
-      promptFiles: 0,
       securityIssues: 0,
       qualityScores: []
     };
@@ -194,9 +193,9 @@ class PromptValidator {
     return true;
   }
 
-  // Enhanced prompt quality validation with scoring
-  validatePromptQuality(content, filename, promptType = null) {
-    const detectedType = promptType || this.determinePromptType(filename, content);
+  // Enhanced command quality validation with scoring
+  validateCommandQuality(content, filename, commandType = null) {
+    const detectedType = commandType || this.determineCommandType(filename, content);
     let qualityScore = 100;
     
     const qualityChecks = {
@@ -205,13 +204,13 @@ class PromptValidator {
           name: 'Minimum content length',
           test: c => c.length > 500,
           weight: 15,
-          message: 'Content too short - prompts should be comprehensive'
+          message: 'Content too short - commands should be comprehensive'
         },
         {
           name: 'Has examples section',
           test: c => c.toLowerCase().includes('example'),
           weight: 20,
-          message: 'Missing examples - prompts should include usage examples'
+          message: 'Missing examples - commands should include usage examples'
         },
         {
           name: 'Has clear instructions',
@@ -514,8 +513,8 @@ class PromptValidator {
     return safetyPatterns.classifySafetyLevel(content, true);
   }
   
-  // Determine prompt type with better heuristics
-  determinePromptType(filename, content) {
+  // Determine command type with better heuristics
+  determineCommandType(filename, content) {
     if (filename.includes('commands/')) {
       return 'command';
     }
@@ -545,30 +544,23 @@ class PromptValidator {
       // Determine file type using relative path
       const relativePath = path.relative(process.cwd(), filePath);
       const isCommand = relativePath.includes('.claude/commands/');
-      const isPrompt = relativePath.startsWith('prompts/') && !relativePath.includes('INDEX.md') && 
-                      !relativePath.includes('README.md') && relativePath.endsWith('.md');
       const isDocumentation = this.isDocumentationFile(filePath);
 
       // Security validation for all files
       this.validateSecurity(content, filename);
 
-      // Only validate commands and prompts for structure
+      // Only validate commands for structure
       if (isCommand) {
         this.stats.commandFiles++;
         this.validateCommandStructure(content, filename);
-        // Skip XML validation for commands - they use YAML/markdown format
-      } else if (isPrompt) {
-        this.stats.promptFiles++;
-        this.validateXMLStructure(content, filename);
-        this.validatePromptQuality(content, filename);
       } else {
         // Skip validation for documentation and other files
         return;
       }
 
-      // Basic validation for commands and prompts only
-      if (isCommand || isPrompt) {
-        // Common validations for command and prompt files
+      // Basic validation for commands only
+      if (isCommand) {
+        // Common validations for command files
         if (content.trim().length === 0) {
           this.errors.push(`${filename}: File is empty`);
           return;
@@ -601,7 +593,6 @@ class PromptValidator {
       'LICENSE.md',
       'CC-SDK-Guide.md',
       '.claude/README.md',
-      'prompts/INDEX.md'
     ];
     
     const githubFiles = [
@@ -625,12 +616,13 @@ class PromptValidator {
       return true;
     }
     
-    // Also exclude any file that's not a command or prompt
-    const isCommand = filePath.includes('.claude/commands/');
-    const isPrompt = filePath.includes('prompts/') && !relativePath.includes('INDEX.md');
+    // Also exclude any file that's not a command
+    const normalizedPath = path.normalize(filePath);
+    const relativePath = path.relative(process.cwd(), normalizedPath);
+    const isCommand = relativePath.startsWith('.claude/commands/');
     
-    // If it's not a command or prompt file, treat it as documentation
-    if (!isCommand && !isPrompt) {
+    // If it's not a command file, treat it as documentation
+    if (!isCommand) {
       return true;
     }
     
@@ -786,7 +778,6 @@ class PromptValidator {
     
     log('green', `✅ Total files processed: ${this.stats.totalFiles}`);
     log('green', `✅ Command files: ${this.stats.commandFiles}`);
-    log('green', `✅ Prompt files: ${this.stats.promptFiles}`);
     log('green', `✅ Valid files: ${this.stats.validFiles}`);
     log('cyan', `⏱️  Validation completed in ${duration}ms`);
 
@@ -1010,7 +1001,7 @@ class PromptValidator {
 
 // Run validation if called directly
 if (require.main === module) {
-  const validator = new PromptValidator();
+  const validator = new CommandValidator();
   validator.validate().then(exitCode => {
     process.exit(exitCode);
   }).catch(error => {
@@ -1019,4 +1010,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = PromptValidator;
+module.exports = CommandValidator;
