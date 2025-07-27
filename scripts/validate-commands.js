@@ -617,7 +617,9 @@ class CommandValidator {
     }
     
     // Also exclude any file that's not a command
-    const isCommand = filePath.includes('.claude/commands/');
+    const normalizedPath = path.normalize(filePath);
+    const relativePath = path.relative(process.cwd(), normalizedPath);
+    const isCommand = relativePath.startsWith('.claude/commands/');
     
     // If it's not a command file, treat it as documentation
     if (!isCommand) {
