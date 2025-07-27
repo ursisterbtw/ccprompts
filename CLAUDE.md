@@ -48,7 +48,7 @@ This file provides guidance to Claude Code when working with the ccprompts repos
 
 ```bash
 # Core validation and testing (Jest may have compatibility issues)
-npm run validate           # Validates prompts and command structure (expects 73 commands currently)
+npm run validate           # Validates command structure (expects 70 commands currently)
 npm run lint               # Markdownlint on prompts and documentation  
 npm run lint:fix           # Auto-fixes markdown formatting issues
 npm run check-links        # Validates markdown links across documentation
@@ -78,7 +78,7 @@ Phase 03: Security (4 commands) - audit-security, comply, harden, incident-respo
 Phase 04: Testing (2 commands) - test, troubleshoot
 Phase 05: Deployment (4 commands) - deploy, git, pre-commit, setup-ci
 Phase 06: Collaboration (4 commands) - code-review, daily-standup, monitor, tech-debt
-Phase 07: Utilities (10 commands) - best-practices, knowledge-base, list-prompts, prompt-stats, quick-fix, release-notes, search-prompts, smart-suggest, sprint-planning, validate-environment
+Phase 07: Utilities (6 commands) - best-practices, knowledge-base, quick-fix, release-notes, sprint-planning, validate-environment
 Phase 08: Extras (4 commands) - health-check, modernize, new-feature, workflow-builder
 Phase 09: Agentic Capabilities (12 commands) - agent-communicate, agent-learn, agent-monitor, agent-orchestrate, agent-specialize, context-manager, context-persist, mcp-configure, mcp-discover, mcp-extend, workflow-automate, workflow-visual
 Phase 10: AI-Native Development (10 commands) - ai-debug, ai-mentor, ai-pair-program, code-explain, code-generate, pattern-detect, predictive-dev, refactor-semantic, semantic-understand, test-intelligent
@@ -86,25 +86,6 @@ Phase 11: Enterprise Scale (8 commands) - analytics-advanced, compliance-enterpr
 ```
 
 Commands follow markdown format. Additional legacy commands: 1_explore_plan_code.md, 2_continue_explore_plan_code.md, 3_sync_plan_tasks.md, agent_init.md, cursor_rules_generator.md
-
-## Prompt Library Structure
-
-The prompts directory contains **21 structured prompts across 10 categories**:
-
-```
-01-project-initialization (2): claude-md-generator, comprehensive-bootstrap
-02-code-analysis (2): dependency-analysis, security-quality-audit
-03-refactoring (2): codebase-modernization, performance-optimization
-04-testing (2): mutation-testing, test-suite-generation
-05-documentation (2): documentation-generator, knowledge-base-creation
-06-git-workflows (2): advanced-git-automation, repository-migration
-07-multi-file-operations (2): codebase-refactoring-engine, consistency-validator
-08-mcp-integration (2): advanced-mcp-configuration, mcp-testing-framework
-09-build-deployment (2): comprehensive-cicd, infrastructure-as-code
-10-security-compliance (2): compliance-automation, security-hardening
-```
-
-Plus INDEX.md for navigation.
 
 ## Agent Creation System
 
@@ -284,7 +265,7 @@ npm run safety-validate    # Dagger safety system validation
 npm run precommit          # Pre-commit hook validation
 
 # Individual validation components  
-npm run validate           # Prompt structure and content validation
+npm run validate           # Command structure and content validation
 npm run security-scan      # Security-only validation pass
 npm run lint               # Markdown formatting and style
 ```

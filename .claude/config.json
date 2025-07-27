@@ -1,7 +1,7 @@
 {
   "project": {
     "name": "ccprompts",
-    "description": "Comprehensive Claude Code Developer Prompts Collection",
+    "description": "Comprehensive Claude Code Developer Commands Collection",
     "version": "1.0.0"
   },
   "settings": {
@@ -17,7 +17,7 @@
     "enabled": true,
     "strict_mode": false,
     "command_count_validation": true,
-    "expected_command_count": 73
+    "expected_command_count": 70
   },
   "performance": {
       "discovery_timeout": 100,
@@ -36,7 +36,6 @@
     "pr_template": true
   },
   "directories": {
-    "prompts": "prompts/",
     "commands": ".claude/commands/",
     "workflows": ".claude/workflows/"
   },
@@ -47,24 +46,11 @@
       "github": "Repository operations and PR management",
       "markdown-processor": "Documentation processing",
       "documentation-generator": "Auto-generated docs",
-      "prompt-validator": "Prompt quality validation",
       "code-quality": "Code analysis and metrics",
       "sequential-thinking": "Enhanced reasoning",
       "memory": "Context persistence"
     }
   },
-  "prompt_categories": [
-    "01-project-initialization",
-    "02-code-analysis", 
-    "03-refactoring",
-    "04-testing",
-    "05-documentation",
-    "06-git-workflows",
-    "07-multi-file-operations",
-    "08-mcp-integration",
-    "09-build-deployment",
-    "10-security-compliance"
-  ],
   "command_phases": [
     "00-initial-workflow",
     "01-project-setup",

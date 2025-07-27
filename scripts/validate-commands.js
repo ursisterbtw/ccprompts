@@ -41,7 +41,6 @@ class PromptValidator {
       totalFiles: 0,
       validFiles: 0,
       commandFiles: 0,
-      promptFiles: 0,
       securityIssues: 0,
       qualityScores: []
     };
@@ -545,29 +544,22 @@ class PromptValidator {
       // Determine file type using relative path
       const relativePath = path.relative(process.cwd(), filePath);
       const isCommand = relativePath.includes('.claude/commands/');
-      const isPrompt = relativePath.startsWith('prompts/') && !relativePath.includes('INDEX.md') && 
-                      !relativePath.includes('README.md') && relativePath.endsWith('.md');
       const isDocumentation = this.isDocumentationFile(filePath);
 
       // Security validation for all files
       this.validateSecurity(content, filename);
 
-      // Only validate commands and prompts for structure
+      // Only validate commands for structure
       if (isCommand) {
         this.stats.commandFiles++;
         this.validateCommandStructure(content, filename);
-        // Skip XML validation for commands - they use YAML/markdown format
-      } else if (isPrompt) {
-        this.stats.promptFiles++;
-        this.validateXMLStructure(content, filename);
-        this.validatePromptQuality(content, filename);
       } else {
         // Skip validation for documentation and other files
         return;
       }
 
-      // Basic validation for commands and prompts only
-      if (isCommand || isPrompt) {
+      // Basic validation for commands only
+      if (isCommand) {
         // Common validations for command and prompt files
         if (content.trim().length === 0) {
           this.errors.push(`${filename}: File is empty`);
@@ -601,7 +593,6 @@ class PromptValidator {
       'LICENSE.md',
       'CC-SDK-Guide.md',
       '.claude/README.md',
-      'prompts/INDEX.md'
     ];
     
     const githubFiles = [
@@ -627,10 +618,9 @@ class PromptValidator {
     
     // Also exclude any file that's not a command or prompt
     const isCommand = filePath.includes('.claude/commands/');
-    const isPrompt = filePath.includes('prompts/') && !relativePath.includes('INDEX.md');
     
-    // If it's not a command or prompt file, treat it as documentation
-    if (!isCommand && !isPrompt) {
+    // If it's not a command file, treat it as documentation
+    if (!isCommand) {
       return true;
     }
     
@@ -786,7 +776,6 @@ class PromptValidator {
     
     log('green', `✅ Total files processed: ${this.stats.totalFiles}`);
     log('green', `✅ Command files: ${this.stats.commandFiles}`);
-    log('green', `✅ Prompt files: ${this.stats.promptFiles}`);
     log('green', `✅ Valid files: ${this.stats.validFiles}`);
     log('cyan', `⏱️  Validation completed in ${duration}ms`);
 
