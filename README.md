@@ -10,9 +10,9 @@
 
 </div>
 
-# ccprompts – comprehensive claude code command ecosystem
+# ccprompts – claude code command collection
 
-**ccprompts** is a comprehensive collection of 73 production-ready Claude Code commands organized into 12 strategic phases covering the complete software development lifecycle. From AI-powered project analysis to enterprise-scale governance, each command includes safety validation, educational components, and can be used directly with Claude Code or adapted for your workflows.
+**ccprompts** is a collection of 73 Claude Code commands and 21 structured prompts for software development workflows. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs.
 
 > **⚠️ Development Notice**: This repository is under active development. Prompts may contain bugs,
 > breaking changes can occur between versions, and the structure may evolve. Use with caution in
@@ -22,43 +22,46 @@
 
 ## What's included
 
-**73 Commands Across 12 Strategic Phases:**
+**73 Commands Across 12 Phases:**
 
-### **Phase 00-08: Core Development Lifecycle (38 commands)**
+### **Phase 00-08: Core Development (38 commands)**
 
-- **00-02**: Project setup, analysis, and refactoring
-- **03-05**: Testing, documentation, and Git workflows  
-- **06-08**: Multi-file operations, MCP integration, and deployment
+- **00-02**: Project setup, analysis, and refactoring (10 commands)
+- **03-05**: Security, testing, and deployment (10 commands)  
+- **06-08**: Collaboration, utilities, and extras (18 commands)
 
-### **Phase 09: Advanced Agentic Capabilities (12 commands)**
+### **Phase 09: Agentic Capabilities (12 commands)**
 
 - MCP server discovery and configuration
 - Multi-agent orchestration and coordination
-- Context management and semantic understanding
-- Agent specialization and workflow automation
+- Context management and workflow automation
 
 ### **Phase 10: AI-Native Development (10 commands)**
 
-- Advanced AI pair programming and semantic understanding
-- Predictive development and proactive suggestions
-- Intelligent code generation and debugging
-- AI-assisted testing and refactoring
+- AI pair programming and code understanding
+- Code generation and debugging assistance
+- Testing and refactoring tools
 
-### **Phase 11: Enterprise & Scale (8 commands)**
+### **Phase 11: Enterprise Scale (8 commands)**
 
-- Multi-repository coordination and governance
-- Advanced analytics and organizational knowledge management
-- Enterprise compliance automation and resource management
-- Team coordination and performance optimization at scale
+- Multi-repository coordination
+- Compliance automation and resource management
+- Team coordination tools
 
-**Key features:**
+**21 Prompts Across 10 Categories:**
 
-- **73 Production-Ready Commands** – Complete command ecosystem for enterprise development
-- **Modern Agentic Capabilities** – MCP integration, multi-agent coordination, AI-native development
-- **Enterprise-Scale Features** – Governance, compliance, analytics, and resource management
-- **Safety-First Design** – Containerized execution, validation, and rollback procedures
-- **Educational Components** – Every command teaches while it automates
-- **XML-Structured Format** – Consistent role, activation, instructions, and output format
+- **01-04**: Project initialization, code analysis, refactoring, and testing (8 prompts)
+- **05-08**: Documentation, Git workflows, multi-file operations, and MCP integration (8 prompts)
+- **09-10**: Build/deployment and security/compliance (5 prompts)
+
+**Features:**
+
+- 73 commands for development workflows
+- 21 structured prompts for specialized tasks
+- MCP integration and multi-agent coordination
+- Containerized execution with safety validation
+- Agent creation system with template wizard
+- Dagger-based safety container system
 
 ---
 
@@ -73,16 +76,29 @@ cd ccprompts
 npm ci
 npm run validate
 
-# Browse available prompts
+# Browse available commands and prompts
+ls .claude/commands/*/*.md | less
 ls prompts/*/*.md | less
 ```
 
 ### Adding a new command
 
 1. Copy an existing command from `.claude/commands/` to your desired phase folder.
-2. Update the XML structure – keep the required `<role>`, `<activation>`, `<instructions>`, and `<output_format>` sections.
-3. Include safety validation steps and educational components.
-4. Run `npm run validate` before committing. Zero errors = good to go.
+2. Update the structure and content for your specific use case.
+3. Include safety validation steps.
+4. Run `npm run validate` before committing.
+
+### Creating specialized agents
+
+The repository includes an agent creation system using `templates/SUB_AGENT_TEMPLATE.md`:
+
+1. Use the `agent-template-wizard` agent to create new specialized agents
+2. Provide domain expertise and specific capabilities needed
+3. Wizard automatically fills template placeholders with consistent structure
+4. Generated agents follow 7-step methodology with proper categorization
+5. Agents include examples, color coding, and validation approaches
+
+The template system ensures consistent agent structure while allowing domain-specific customization.
 
 ---
 
@@ -91,19 +107,40 @@ ls prompts/*/*.md | less
 ```text
 .claude/
 ├── commands/          # 73 commands across 12 phases (00-11)
-│   ├── 00-08/        # Core development lifecycle (38 commands)
-│   ├── 09-agentic-capabilities/  # Advanced agentic features (12 commands)
-│   ├── 10-ai-native-development/ # AI-native development (10 commands)
-│   └── 11-enterprise-scale/      # Enterprise & scale (8 commands)
+│   ├── 00-initial-workflow/     # Project analysis and workflow (2 commands)
+│   ├── 01-project-setup/        # Documentation, learning, MCP (3 commands)
+│   ├── 02-development/          # Backup, debug, optimize, refactor (5 commands)
+│   ├── 03-security/             # Security auditing and compliance (4 commands)
+│   ├── 04-testing/              # Testing and troubleshooting (2 commands)
+│   ├── 05-deployment/           # Deployment and CI/CD (4 commands)
+│   ├── 06-collaboration/        # Code review and team workflow (4 commands)
+│   ├── 07-utilities/            # Productivity and management tools (10 commands)
+│   ├── 08-extras/               # Health checks and modernization (4 commands)
+│   ├── 09-agentic-capabilities/ # MCP and agent orchestration (12 commands)
+│   ├── 10-ai-native-development/ # AI-powered development tools (10 commands)
+│   └── 11-enterprise-scale/     # Governance and multi-repo (8 commands)
+├── agents/            # Agent templates and configurations
+├── deprecated/        # Legacy agent files
 ├── workflows/         # Automated workflow definitions
 └── config.json       # Command ecosystem configuration
 
-prompts/               # 20 organized prompt categories (01-10)
+prompts/               # 21 prompts across 10 categories (01-10)
+├── 01-project-initialization/   # Project setup and bootstrapping
+├── 02-code-analysis/           # Dependency and security analysis
+├── 03-refactoring/             # Code modernization and optimization
+├── 04-testing/                 # Test generation and mutation testing
+├── 05-documentation/           # Documentation generation
+├── 06-git-workflows/           # Advanced Git automation
+├── 07-multi-file-operations/   # Codebase-wide operations
+├── 08-mcp-integration/         # MCP configuration and testing
+├── 09-build-deployment/        # CI/CD and infrastructure
+└── 10-security-compliance/     # Security and compliance automation
+
 scripts/               # Safety system + validation utilities
 src/                   # Dagger safety container module
-PLANNING.md            # Comprehensive design and acceptance criteria
-TASKS.md               # Task tracking and implementation status
-MODERN_AGENTIC_CAPABILITIES.md  # Research and implementation guide
+templates/             # Sub-agent template files
+tests/                 # Jest testing suite
+docs/                  # Multi-level documentation
 ```
 
 ---

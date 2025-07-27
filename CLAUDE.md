@@ -1,16 +1,17 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code when working with the ccprompts repository - a comprehensive collection of 73 production-ready commands across 12 strategic development phases.
+This file provides guidance to Claude Code when working with the ccprompts repository - a collection of development commands and prompts for software development workflows.
 
 ## Project Overview
 
-**ccprompts** is a sophisticated ecosystem for AI-assisted software development featuring:
+**ccprompts** contains:
 
-- **73 slash commands** organized across 12 development phases (00-11)  
+- **73 slash commands** organized across 12 development phases (00-11) in `.claude/commands/`
+- **21 structured prompts** organized across 10 categories (01-10) in `prompts/`
 - **Containerized safety system** using Dagger for secure execution
 - **Multi-dimensional validation** with quality scoring and security scanning
-- **Advanced agentic capabilities** including MCP integration and agent orchestration
-- **Enterprise features** for governance, compliance, and multi-repo coordination
+- **Agent creation system** with template wizard for specialized agents
+- **MCP integration** and multi-agent coordination features
 
 ## Repository Architecture
 
@@ -20,12 +21,13 @@ This file provides guidance to Claude Code when working with the ccprompts repos
   - `commands/` - Organized command structure (00-initial-workflow through 11-enterprise-scale)
   - `config.json` - System configuration expecting exactly 73 commands
   - `workflows/` - Automated workflow definitions and orchestration
-  - `mcp-servers/` - Model Context Protocol server configurations
+  - `agents/` - Agent template and configuration files
+  - `deprecated/` - Deprecated agent files and legacy components
 
-- **`prompts/`** - Structured prompt library with 20 categories (01-10)
-  - XML-formatted prompts with role/activation/instructions/output sections
-  - Educational focus with comprehensive examples and learning components
+- **`prompts/`** - Structured prompt library with 21 prompts across 10 categories (01-10)
+  - Markdown-formatted prompts with comprehensive examples and learning components
   - Enterprise-grade security, compliance, and governance integration
+  - Categories: project-initialization, code-analysis, refactoring, testing, documentation, git-workflows, multi-file-operations, mcp-integration, build-deployment, security-compliance
 
 - **`scripts/`** - Validation and safety infrastructure
   - `validate-prompts.js` - Multi-dimensional validation system
@@ -76,14 +78,91 @@ Phase 03: Security (4 commands) - audit-security, comply, harden, incident-respo
 Phase 04: Testing (2 commands) - test, troubleshoot
 Phase 05: Deployment (4 commands) - deploy, git, pre-commit, setup-ci
 Phase 06: Collaboration (4 commands) - code-review, daily-standup, monitor, tech-debt
-Phase 07: Utilities (10 commands) - Various productivity and management tools
+Phase 07: Utilities (10 commands) - best-practices, knowledge-base, list-prompts, prompt-stats, quick-fix, release-notes, search-prompts, smart-suggest, sprint-planning, validate-environment
 Phase 08: Extras (4 commands) - health-check, modernize, new-feature, workflow-builder
-Phase 09: Agentic Capabilities (12 commands) - MCP integration and agent orchestration
-Phase 10: AI-Native Development (10 commands) - Semantic understanding and AI pairing
-Phase 11: Enterprise Scale (8 commands) - Multi-repo coordination and governance
+Phase 09: Agentic Capabilities (12 commands) - agent-communicate, agent-learn, agent-monitor, agent-orchestrate, agent-specialize, context-manager, context-persist, mcp-configure, mcp-discover, mcp-extend, workflow-automate, workflow-visual
+Phase 10: AI-Native Development (10 commands) - ai-debug, ai-mentor, ai-pair-program, code-explain, code-generate, pattern-detect, predictive-dev, refactor-semantic, semantic-understand, test-intelligent
+Phase 11: Enterprise Scale (8 commands) - analytics-advanced, compliance-enterprise, governance, knowledge-org, multi-repo, resource-manage, scale-optimize, team-coordinate
 ```
 
-Commands follow XML-structured format with role, activation, instructions, and output sections.
+Commands follow markdown format. Additional legacy commands: 1_explore_plan_code.md, 2_continue_explore_plan_code.md, 3_sync_plan_tasks.md, agent_init.md, cursor_rules_generator.md
+
+## Prompt Library Structure
+
+The prompts directory contains **21 structured prompts across 10 categories**:
+
+```
+01-project-initialization (2): claude-md-generator, comprehensive-bootstrap
+02-code-analysis (2): dependency-analysis, security-quality-audit
+03-refactoring (2): codebase-modernization, performance-optimization
+04-testing (2): mutation-testing, test-suite-generation
+05-documentation (2): documentation-generator, knowledge-base-creation
+06-git-workflows (2): advanced-git-automation, repository-migration
+07-multi-file-operations (2): codebase-refactoring-engine, consistency-validator
+08-mcp-integration (2): advanced-mcp-configuration, mcp-testing-framework
+09-build-deployment (2): comprehensive-cicd, infrastructure-as-code
+10-security-compliance (2): compliance-automation, security-hardening
+```
+
+Plus INDEX.md for navigation.
+
+## Agent Creation System
+
+The repository includes a template-based agent creation system for generating specialized sub-agents with consistent structure and capabilities.
+
+### SUB_AGENT_TEMPLATE.md Structure
+
+The template file at `templates/SUB_AGENT_TEMPLATE.md` defines the standard format for all agents:
+
+**Frontmatter Section:**
+- `name`: Agent identifier
+- `description`: Primary use case with examples showing context, user request, assistant response, and commentary
+- `color`: Visual categorization (blue/green/yellow/red/purple/orange/pink/cyan)
+
+**Agent Definition:**
+- Domain expertise declaration
+- 7-step workflow methodology:
+  1. Analysis step with specific considerations
+  2. Identification of key factors
+  3. Action techniques across 4 categories
+  4. Implementation guidelines
+  5. Trade-offs and decision factors
+  6. Validation and verification approach
+  7. Metrics and measurement methods
+
+**Specialization Areas:**
+- Response characteristics and technical details
+- Context factors for solution recommendations
+- 5-point focus area framework for reviews
+- Solution format and impact assessment requirements
+
+### Agent-Template-Wizard Integration
+
+The `agent-template-wizard` agent works with this template to:
+- Fill all placeholder values with agent-specific content
+- Ensure proper frontmatter formatting and naming conventions
+- Validate color assignments by category
+- Apply consistent structure across all generated agents
+- Handle template compliance from creation
+
+### Color Categorization System
+
+- **Development agents**: blue
+- **Operations agents**: green  
+- **Data/AI agents**: yellow
+- **Creative agents**: purple
+- **Business agents**: orange
+- **Specialized agents**: red
+
+### Usage Workflow
+
+1. Use the agent-template-wizard to create new agents
+2. Provide specific domain expertise and capabilities
+3. Wizard fills template placeholders automatically
+4. Generated agent follows consistent 7-step methodology
+5. Agent includes proper categorization and examples
+
+This system ensures all agents maintain consistent structure while providing domain-specific expertise.
 
 ## Safety & Security Systems
 
