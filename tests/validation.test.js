@@ -5,13 +5,13 @@
 
 const fs = require('fs');
 const path = require('path');
-const PromptValidator = require('../scripts/validate-prompts');
+const CommandValidator = require('../scripts/validate-commands');
 
 describe('ccprompts Validation System', () => {
   let validator;
   
   beforeEach(() => {
-    validator = new PromptValidator();
+    validator = new CommandValidator();
   });
   
   afterEach(() => {
@@ -273,7 +273,7 @@ token="example-token-placeholder"
         hasExamples: true
       });
       
-      const score = validator.validatePromptQuality(highQualityContent, 'test.md', 'command');
+      const score = validator.validateCommandQuality(highQualityContent, 'test.md', 'command');
       expect(score).toBeGreaterThan(80);
     });
 
@@ -285,7 +285,7 @@ token="example-token-placeholder"
         hasExamples: false
       });
       
-      const score = validator.validatePromptQuality(lowQualityContent, 'test.md', 'command');
+      const score = validator.validateCommandQuality(lowQualityContent, 'test.md', 'command');
       expect(score).toBeLessThan(50);
     });
   });

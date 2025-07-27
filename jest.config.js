@@ -26,7 +26,7 @@ module.exports = {
       lines: 55,
       statements: 55
     },
-    './scripts/validate-prompts.js': {
+    './scripts/validate-commands.js': {
       branches: 80,
       functions: 90,
       lines: 85,

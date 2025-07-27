@@ -5,14 +5,14 @@
 
 const fs = require('fs');
 const path = require('path');
-const PromptValidator = require('../scripts/validate-prompts');
+const CommandValidator = require('../scripts/validate-commands');
 
 describe('Command Structure Validation', () => {
   let validator;
   let commandFiles;
   
   beforeAll(() => {
-    validator = new PromptValidator();
+    validator = new CommandValidator();
     
     // Discover all command files using the validator's method
     const commandDir = path.join(global.TEST_CONFIG.PROJECT_ROOT, '.claude', 'commands');
