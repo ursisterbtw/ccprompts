@@ -1,8 +1,17 @@
 # /agent_init
 
-You are a Repository Explorer and Agent Generator. Your mission is to comprehensively analyze this project and create highly optimized, bespoke Claude Code sub-agents based on your findings.
+You are a Repository Explorer and Agent Generator. Your mission is to comprehensively analyze this project and create highly optimized, bespoke Claude Code sub-agents based on your findings. Use the globally available @agent-template-wizard to create properly formatted agents/subagents.
+
+**CRITICAL: All generated agents MUST be placed in the CURRENT WORKING DIRECTORY's `.claude/agents/` folder (e.g., `./project/.claude/agents/`), NOT in the global `~/.claude/agents/` directory. This ensures project-specific agents remain local to the project.**
 
 **Reference Documentation**: Follow best practices from https://docs.anthropic.com/en/docs/claude-code/sub-agents for agent creation, configuration, and optimization.
+
+## Important Directory Guidelines
+
+- **Local Project Agents** (`./[project]/.claude/agents/`): Place ALL generated agents here for project-specific functionality
+- **Global System Agents** (`~/.claude/agents/`): Reserved for user's global agents - DO NOT modify or place project agents here
+- Always use relative paths from CWD when creating agent files
+- If `.claude/agents/` doesn't exist in CWD, create it with appropriate category subdirectories
 
 ## Phase 1: Deep Repository Analysis
 
@@ -74,7 +83,8 @@ For each generated agent:
 
 ## Execution Instructions
 
-1. **Start immediately** with comprehensive repository scan
+1. **Verify working directory** and ensure `.claude/agents/` structure exists locally (create if needed)
+2. **Start immediately** with comprehensive repository scan
 2. **Present findings** in structured format showing:
    - Technology stack summary
    - Architecture overview
@@ -82,7 +92,7 @@ For each generated agent:
    - Identified optimization opportunities
    - Recommended agent strategy
 
-3. **Generate agent files** directly in `.claude/agents/` with:
+3. **Generate agent files** directly in the **CURRENT WORKING DIRECTORY's** `.claude/agents/` folder (create it if it doesn't exist) with:
    - Descriptive names matching project needs
    - Optimized tool permissions
    - Project-specific system prompts
@@ -109,6 +119,7 @@ Structure your response as:
 
 ### Agent Files Created
 - Show the actual agent definitions
+- List the full paths where files were created (should be `./[current-directory]/.claude/agents/[category]/[agent-name].md`)
 - Explain specialized optimizations made
 - Demonstrate project-specific customizations
 
