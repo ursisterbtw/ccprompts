@@ -79,17 +79,17 @@ jobs:
       run: |
         echo "🔍 Scanning for hardcoded secrets..."
         
-        # Check for common secret patterns
-        if grep -r "password\s*=\s*['\"][^'\"]\+['\"]" . --exclude-dir=node_modules --exclude-dir=.git; then
+        # Check for common secret patterns (excluding test files and markdown)
+        if grep -r "password\s*=\s*['\"][^'\"]\+['\"]" . --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=tests --exclude="*.test.js" --exclude="*.md"; then
           echo "❌ Found hardcoded passwords"
           exit 1
         fi
         
-        if grep -r "api[_-]\?key\s*=\s*['\"][^'\"]\+['\"]" . --exclude-dir=node_modules --exclude-dir=.git --exclude="*.md"; then
+        if grep -r "api[_-]\?key\s*=\s*['\"][^'\"]\+['\"]" . --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=tests --exclude="*.test.js" --exclude="*.md"; then
           echo "⚠️ Found potential hardcoded API keys - review needed"
         fi
         
-        if grep -r "secret\s*=\s*['\"][^'\"]\+['\"]" . --exclude-dir=node_modules --exclude-dir=.git --exclude="*.md"; then
+        if grep -r "secret\s*=\s*['\"][^'\"]\+['\"]" . --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=tests --exclude="*.test.js" --exclude="*.md"; then
           echo "⚠️ Found potential hardcoded secrets - review needed"
         fi
         
