@@ -41,11 +41,6 @@ Creates comprehensive, maintainable documentation and knowledge systems:
 - **Knowledge Base**: `/document knowledge-base wiki` - Comprehensive organizational knowledge system
 - **Operational Runbooks**: `/document runbook markdown` - Step-by-step operational procedures
 
-## Related Prompts
-
-- `prompts/05-documentation/documentation-generator.md` - Comprehensive documentation creation
-- `prompts/05-documentation/knowledge-base-creation.md` - Searchable knowledge systems
-- `prompts/01-project-initialization/claude-md-generator.md` - CLAUDE.md documentation
 
 ## 📓 CLAUDE.md Template Automation (migrated from legacy CLAUDE.md Generator prompt)
 

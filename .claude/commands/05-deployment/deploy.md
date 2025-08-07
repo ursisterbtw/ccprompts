@@ -40,10 +40,6 @@ Implements sophisticated CI/CD pipelines and infrastructure automation:
 - **Canary Releases**: `/deploy prod canary` - Gradual rollout with monitoring
 - **Zero-Downtime Updates**: `/deploy prod zero-downtime` - Production updates without downtime
 
-## Related Prompts
-
-- `prompts/09-build-deployment/comprehensive-cicd.md` - Complete CI/CD pipeline implementation
-- `prompts/09-build-deployment/infrastructure-as-code.md` - Terraform, Kubernetes, and container automation
 
 ## 🏗️ Infrastructure as Code Templates (migrated from legacy IaC prompt)
 

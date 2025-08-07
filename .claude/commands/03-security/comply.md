@@ -41,11 +41,6 @@ Implements comprehensive compliance automation and security hardening:
 - **Multi-Framework**: `/comply iso27001 thorough` - ISO 27001 compliance automation
 - **Basic Compliance**: `/comply soc2 basic` - Essential compliance measures
 
-## Related Prompts
-
-- `prompts/10-security-compliance/compliance-automation.md` - Automated compliance monitoring frameworks
-- `prompts/10-security-compliance/security-hardening.md` - Comprehensive security hardening implementation
-- `prompts/02-code-analysis/security-quality-audit.md` - Security vulnerability assessment
 
 ## 📜 Compliance Automation Framework (migrated from legacy Compliance Automation prompt)
 

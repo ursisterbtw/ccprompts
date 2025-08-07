@@ -94,8 +94,6 @@ class MainValidator {
       // Track command vs prompt files
       if (filename.includes('.claude/commands/')) {
         this.stats.commandFiles++;
-      } else if (filename.includes('prompts/')) {
-        this.stats.promptFiles++;
       }
       
       // Run all validators using table-driven approach

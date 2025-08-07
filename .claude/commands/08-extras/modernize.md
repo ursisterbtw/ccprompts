@@ -55,12 +55,6 @@ Executes a comprehensive legacy modernization workflow that chains multiple prom
 - **Old-Backend**: 3-6 weeks  
 - **Full-Stack**: 6-12 weeks
 
-## Related Prompts
-
-- `prompts/02-code-analysis/security-quality-audit.md`
-- `prompts/03-refactoring/codebase-modernization.md`
-- `prompts/04-testing/test-suite-generation.md`
-- `prompts/05-documentation/documentation-generator.md`
 
 ```xml
 <role>

@@ -62,12 +62,6 @@ Executes a comprehensive security hardening workflow that implements multiple se
 - **Paranoid**: 6-10 weeks
 - **Compliance**: 4-8 weeks (varies by framework)
 
-## Related Prompts
-
-- `prompts/02-code-analysis/security-quality-audit.md`
-- `prompts/10-security-compliance/security-hardening.md`
-- `prompts/10-security-compliance/compliance-automation.md`
-- `prompts/09-build-deployment/comprehensive-cicd.md`
 
 ```xml
 <role>

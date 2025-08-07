@@ -15,7 +15,6 @@ body:
       description: What type of component has the bug?
       options:
         - Command (.claude/commands/)
-        - Prompt (prompts/)
         - Validation Script
         - GitHub Workflow
         - Documentation

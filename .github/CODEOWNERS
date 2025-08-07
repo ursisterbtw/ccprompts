@@ -13,8 +13,6 @@
 .claude/commands/ @ursisterbtw
 .claude/workflows/ @ursisterbtw
 
-# Prompt collection - ensure quality standards
-prompts/ @ursisterbtw
 
 # Documentation - maintain consistency and accuracy
 README.md @ursisterbtw

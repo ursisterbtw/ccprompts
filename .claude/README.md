@@ -320,18 +320,9 @@ User-specific settings that override global configuration for local development.
 
 ### **Related Directories**
 
-- **`../prompts/`**: Source prompt templates organized by category
 - **`../README.md`**: Main repository documentation and usage guide
 - **`../CLAUDE.md`**: Project-specific guidance for Claude Code
 - **`../CC-SDK-Guide.md`**: Advanced Claude Code SDK reference
-
-### **Command-Prompt Relationships**
-
-Each command in this directory corresponds to specific prompts in the main `prompts/` directory:
-
-- **Category Commands** → `prompts/01-project-initialization/` through `prompts/10-security-compliance/`
-- **Specialized Commands** → Advanced MCP integration and Git workflow prompts
-- **Learning Commands** → Documentation and knowledge management prompts
 
 ## 📊 Usage Analytics & Optimization
 

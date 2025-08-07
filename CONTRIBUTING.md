@@ -61,25 +61,10 @@ Thank you for your interest in contributing to this collection of Claude Code-sp
 
   ```
 
-#### Adding New Prompts
+#### Adding New Commands
 
-- Place prompts in appropriate `prompts/` subdirectories
-- Follow XML structure:
-
-  ```xml
-  <role>
-  Your role description
-  </role>
-
-  <activation>
-  CLAUDE.CONFIG:
-    setting: "value"
-  </activation>
-
-  <instructions>
-  Step-by-step instructions
-  </instructions>
-  ```
+- Place commands in appropriate `.claude/commands/` subdirectories
+- Follow markdown structure with clear instructions and examples
 
 ### 3. Validation Requirements
 
@@ -173,7 +158,6 @@ grep -l "## Examples" .claude/commands/*.md
 ```
 ccprompts/
 ├── .claude/commands/           # Slash command documentation
-├── prompts/XX-category/        # Prompt collections by category
 ├── scripts/                    # Validation and tooling
 └── .github/workflows/          # CI/CD configuration
 ```
@@ -221,7 +205,6 @@ ccprompts/
 
 - **Validation Guide**: `scripts/validate-commands.js`
 - **Command Template**: `.claude/commands/TEMPLATE.md`
-- **Prompt Template**: `prompts/TEMPLATE.md`
 - **CI/CD Workflows**: `.github/workflows/`
 
 ### Troubleshooting
@@ -235,7 +218,7 @@ ccprompts/
    npm run validate | grep "❌ Errors"
 
    # Fix common issues
-   grep -l "Missing XML sections" prompts/**/*.md
+   grep -l "Missing sections" .claude/commands/**/*.md
    ```
 
 2. **Link Check Failures**

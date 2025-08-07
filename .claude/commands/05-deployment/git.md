@@ -40,10 +40,6 @@ Implements sophisticated Git workflows and repository management:
 - **Git Automation**: `/git automation enterprise` - Hooks, automated workflows, and branch management
 - **Repository Analytics**: `/git analytics advanced` - Commit analysis, code churn metrics, team insights
 
-## Related Prompts
-
-- `prompts/06-git-workflows/advanced-git-automation.md` - Sophisticated Git workflow implementation
-- `prompts/06-git-workflows/repository-migration.md` - Repository optimization and migration procedures
 
 ## 🛠️ Repository Migration & Advanced Automation (migrated from legacy Git workflow prompts)
 

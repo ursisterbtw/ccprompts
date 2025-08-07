@@ -41,11 +41,6 @@ Performs comprehensive security and quality analysis:
 
 This will load the deep security audit prompt with paranoid security focus for the entire codebase.
 
-## Related Prompts
-
-- `prompts/02-code-analysis/security-quality-audit.md`
-- `prompts/02-code-analysis/dependency-analysis.md`
-- `prompts/10-security-compliance/security-hardening.md`
 
 ## ⬆️ Dependency & License Health (migrated from legacy Dependency Analysis prompt)
 

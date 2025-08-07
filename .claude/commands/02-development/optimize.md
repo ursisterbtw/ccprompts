@@ -64,12 +64,6 @@ Executes systematic optimization workflows targeting specific improvement areas:
 - **Maintainability**: 3-6 weeks
 - **Cost**: 2-3 weeks
 
-## Related Prompts
-
-- `prompts/03-refactoring/performance-optimization.md`
-- `prompts/10-security-compliance/security-hardening.md`
-- `prompts/03-refactoring/codebase-modernization.md`
-- `prompts/02-code-analysis/security-quality-audit.md`
 
 ## 🚀 Full-Stack Performance Toolkit (migrated from legacy Performance Optimization prompt)
 

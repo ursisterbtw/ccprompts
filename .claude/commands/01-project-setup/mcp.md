@@ -41,10 +41,6 @@ Configures and tests MCP server integrations for enhanced Claude Code capabiliti
 - **Testing Framework**: `/mcp test custom` - Comprehensive MCP server testing and validation
 - **Troubleshooting**: `/mcp troubleshoot github` - Debug and resolve MCP integration issues
 
-## Related Prompts
-
-- `prompts/08-mcp-integration/advanced-mcp-configuration.md` - Comprehensive MCP server setup and configuration
-- `prompts/08-mcp-integration/mcp-testing-framework.md` - MCP server testing and validation strategies
 
 ## 🔧 Advanced MCP Configuration & Testing (migrated from legacy MCP prompts)
 

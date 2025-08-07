@@ -62,12 +62,6 @@ Executes a comprehensive feature development workflow following best practices:
 - **Full-Stack + Comprehensive**: 3-5 weeks
 - **Microservice + TDD**: 4-6 weeks
 
-## Related Prompts
-
-- `prompts/01-project-initialization/claude-md-generator.md`
-- `prompts/04-testing/test-suite-generation.md`
-- `prompts/02-code-analysis/security-quality-audit.md`
-- `prompts/05-documentation/documentation-generator.md`
 
 ```xml
 <role>

@@ -3,47 +3,47 @@ description: Complete workflow from project setup to deployment
 version: "1.0"
 
 steps:
-  - name: "Project Bootstrap"
-    prompt: "prompts/01-project-initialization/comprehensive-bootstrap.md"
+  - name: "Analyze Project"
+    command: "/analyze-project"
     inputs:
       project_type: "${PROJECT_TYPE}"
       language: "${PRIMARY_LANGUAGE}"
       deployment_target: "${DEPLOYMENT_TARGET}"
     
-  - name: "Generate CLAUDE.md"
-    prompt: "prompts/01-project-initialization/claude-md-generator.md"
-    depends_on: ["Project Bootstrap"]
+  - name: "Document Project"
+    command: "/document"
+    depends_on: ["Analyze Project"]
     
   - name: "Security Audit"
-    prompt: "prompts/02-code-analysis/security-quality-audit.md"
+    command: "/audit-security"
     inputs:
       analysis_depth: "maximum"
       security_focus: "paranoid"
     
-  - name: "Dependency Analysis"
-    prompt: "prompts/02-code-analysis/dependency-analysis.md"
+  - name: "Optimize Dependencies"
+    command: "/optimize"
     parallel_with: ["Security Audit"]
     
   - name: "Test Suite Setup"
-    prompt: "prompts/04-testing/test-suite-generation.md"
+    command: "/test"
     inputs:
       coverage_target: 90
       test_framework_preference: "modern"
-    depends_on: ["Security Audit", "Dependency Analysis"]
+    depends_on: ["Security Audit", "Optimize Dependencies"]
     
   - name: "CI/CD Pipeline"
-    prompt: "prompts/09-build-deployment/comprehensive-cicd.md"
+    command: "/setup-ci"
     inputs:
       deployment_safety: "maximum"
       rollback_enabled: true
     depends_on: ["Test Suite Setup"]
     
   - name: "Documentation Generation"
-    prompt: "prompts/05-documentation/documentation-generator.md"
+    command: "/document"
     depends_on: ["CI/CD Pipeline"]
     
   - name: "Security Hardening"
-    prompt: "prompts/10-security-compliance/security-hardening.md"
+    command: "/harden"
     inputs:
       security_level: "paranoid"
       compliance_frameworks: ["SOC2", "GDPR"]

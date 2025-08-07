@@ -33,7 +33,6 @@ ccprompts/
 │   ├── commands/              # Phase-organized slash commands (00-11)
 │   ├── workflows/             # Automated workflow definitions
 │   └── config.json           # System configuration
-├── prompts/                   # Categorized prompt library (01-10)
 ├── scripts/                   # Validation and safety systems
 ├── src/                       # Dagger containerization module
 ├── docs/                      # Documentation and guides
@@ -605,7 +604,7 @@ describe('Command Structure Validation', () => {
   });
   
   test('XML structure is valid', () => {
-    const promptFiles = glob.sync('prompts/**/*.md');  
+    const commandFiles = glob.sync('.claude/commands/**/*.md');  
     promptFiles.forEach(file => {
       const content = fs.readFileSync(file, 'utf8');
       expect(validateXMLStructure(content)).toBe(true);

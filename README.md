@@ -115,13 +115,6 @@ The template system ensures consistent agent structure while allowing domain-spe
 ├── deprecated/        # Legacy agent files
 ├── workflows/         # Automated workflow definitions
 └── config.json       # Command ecosystem configuration
-
-prompts/               # 21 prompts across 10 categories (01-10)
-├── 01-project-initialization/   # Project setup and bootstrapping
-├── 02-code-analysis/           # Dependency and security analysis
-├── 03-refactoring/             # Code modernization and optimization
-├── 04-testing/                 # Test generation and mutation testing
-├── 05-documentation/           # Documentation generation
 ├── 06-git-workflows/           # Advanced Git automation
 ├── 07-multi-file-operations/   # Codebase-wide operations
 ├── 08-mcp-integration/         # MCP configuration and testing
@@ -185,7 +178,7 @@ Pull requests are welcome! Please:
 
 1. Run the validator and ensure no errors.
 2. Follow conventional commit messages (`feat: …`, `fix: …`, etc.).
-3. Keep prompts clear and focused—avoid unnecessary complexity.
+3. Keep commands clear and focused—avoid unnecessary complexity.
 
 ---
 

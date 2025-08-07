@@ -116,7 +116,6 @@ Create `.github/CODEOWNERS` to specify code ownership:
 
 # Specific areas
 .claude/commands/ @ursisterbtw
-prompts/ @ursisterbtw
 .github/ @ursisterbtw
 ```
 
