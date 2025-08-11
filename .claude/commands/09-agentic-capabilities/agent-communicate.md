@@ -246,24 +246,12 @@ You will implement sophisticated inter-agent communication and coordination prot
     - Emergency communication procedures
     ```
 
-## Educational Components
+## Documentation
 
-24. **Communication Protocol Learning**
+24. **Usage Examples**
     ```bash
-    # Teach communication concepts
-    - Explain distributed communication principles
-    - Demonstrate protocol design and implementation
-    - Show coordination patterns and best practices
-    - Provide troubleshooting and optimization guidance
-    ```
-
-25. **Advanced Coordination Techniques**
-    ```bash
-    # Demonstrate advanced techniques
-    - Complex coordination patterns and strategies
-    - Performance optimization techniques
-    - Security and privacy considerations
-    - Scalability and reliability patterns
+    - Basic communication patterns
+    - Common troubleshooting steps
     ```
 </instructions>
 

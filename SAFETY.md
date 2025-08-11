@@ -2,7 +2,7 @@
 
 A simple, reproducible system for running potentially dangerous commands in isolated Dagger containers.
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 # Install Dagger (if not already installed)
@@ -19,7 +19,7 @@ cd src && npm install
 ./scripts/quick-safe.sh curl-install "curl https://example.com/script.sh | bash"
 ```
 
-## 🛡️ System Components
+## System Components
 
 ### Core Files
 
@@ -37,7 +37,7 @@ cd src && npm install
 - **Automatic cleanup** - Containers destroyed after execution
 - **Environment control** - Custom environment variables supported
 
-## 📋 Usage Examples
+## Usage Examples
 
 ### Basic Command Execution
 
@@ -87,7 +87,7 @@ dagger call dev-container
 dagger call test-command --command "npm test" --cleanup true
 ```
 
-## 🔍 Safety Features
+## Safety Features
 
 ### Automatic Danger Detection
 
@@ -109,7 +109,7 @@ The system automatically detects potentially dangerous command patterns:
 - **No privilege escalation** - No sudo or root access
 - **Resource limits** - Memory and CPU constraints
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
@@ -142,7 +142,7 @@ baseContainer(): Container {
 }
 ```
 
-## 🧪 Testing the System
+## Testing the System
 
 ### Test Installation
 
@@ -180,7 +180,7 @@ dagger version
 ./scripts/quick-safe.sh build --test
 ```
 
-## 🚨 When to Use This System
+## When to Use This System
 
 ### Always Use for These Commands
 
@@ -198,7 +198,7 @@ dagger version
 - **Git operations** - `git clean -fd`, `git reset --hard`
 - **Test suites** - potentially destructive tests
 
-## 🛠️ Troubleshooting
+## Troubleshooting
 
 ### Common Issues
 
@@ -236,7 +236,7 @@ dagger version
 ./scripts/safe-run.sh "your-command" --test
 ```
 
-## 📝 Best Practices
+## Best Practices
 
 1. **Always test first** - Use `--test` flag for new commands
 2. **Use quick aliases** - Leverage `quick-safe.sh` for common operations
@@ -244,7 +244,7 @@ dagger version
 4. **Keep containers updated** - Regularly update base images
 5. **Customize as needed** - Modify containers for your specific use case
 
-## 🔐 Security Considerations
+## Security Considerations
 
 - Containers run with minimal privileges
 - Network access is limited but not completely blocked
@@ -253,7 +253,7 @@ dagger version
 - Environment variables can be controlled
 - No persistent storage by default
 
-## 🎯 Integration with Claude Code
+## Integration with Claude Code
 
 This system integrates with Claude Code workflows:
 
