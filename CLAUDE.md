@@ -1,299 +1,157 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code when working with the ccprompts repository - a collection of development commands for software development workflows.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
 
-**ccprompts** contains:
+**ccprompts** is a collection of 70+ Claude Code slash commands for software development workflows, featuring:
 
-- **70 slash commands** organized across 12 development phases (00-11) in `.claude/commands/`
-- **Containerized safety system** using Dagger for secure execution
-- **Multi-dimensional validation** with quality scoring and security scanning
-- **Agent creation system** with template wizard for specialized agents
-- **MCP integration** and multi-agent coordination features
-
-## Repository Architecture
-
-### Core Directories
-
-- **`.claude/`** - Command ecosystem hub with 70 slash commands across 12 phases
-  - `commands/` - Organized command structure (00-initial-workflow through 11-enterprise-scale)
-  - `config.json` - System configuration
-  - `workflows/` - Automated workflow definitions and orchestration
-  - `agents/` - Agent template and configuration files
-  - `deprecated/` - Deprecated agent files and legacy components
-
-- **`scripts/`** - Validation and safety infrastructure
-  - `validate-commands.js` - Command validation system
-  - `safe-run.sh` - Containerized command execution wrapper
-  - `safety-validator.js` - Advanced safety pattern detection
-  - `validators/` - Modular validation components
-
-- **`src/`** - Dagger TypeScript safety container module
-  - `index.ts` - Safety container system for isolated command execution
-  - Uses Ubuntu 22.04 base with development tools and resource limits
-
-- **`tests/`** - Comprehensive Jest testing suite (30s timeouts)
-- **`docs/`** - Multi-level documentation including developer guides
+- **Comprehensive command ecosystem** across 12 development phases (00-11)
+- **Dagger-based safety system** for secure execution of potentially dangerous commands
+- **Multi-dimensional validation** with quality, security, and performance metrics
+- **Agent template system** for creating specialized sub-agents
+- **MCP integration** and workflow automation capabilities
 
 ## Essential Commands
 
-### Development Workflow
+### Core Development Commands
 
 ```bash
-# Core validation and testing (Jest may have compatibility issues)
-npm run validate           # Validates command structure (expects 70 commands currently)
-npm run lint               # Markdownlint on documentation  
-npm run lint:fix           # Auto-fixes markdown formatting issues
-npm run check-links        # Validates markdown links across documentation
-npm run ci                 # Full CI pipeline (validate + lint + link check)
+# Validation and quality assurance
+npm run validate              # Validates all 70+ commands (expects exact count)
+npm run ci                    # Full pipeline: validate + lint + link-check
+npm run lint                  # Markdownlint on all documentation
+npm run lint:fix              # Auto-fix markdown formatting
+npm run check-links           # Validate all markdown links
 
-# Safety system operations
-npm run safety-validate    # Dagger-based safety validation of commands
-./scripts/safe-run.sh      # Execute commands safely in isolated containers
-./scripts/quick-safe.sh    # Quick safety aliases for common operations
+# Security and safety
+npm run security-scan         # Security-focused validation only
+npm run safety-validate       # Dagger container safety system
+npm run precommit             # Pre-commit validation hooks
 
-# Security and quality assurance
-npm run security-scan      # Security-only validation
-npm run precommit          # Pre-commit hook validation
+# Testing (Jest compatibility issues with Node 24+)
+npm run test:jest             # Jest test suite (may fail on newer Node.js)
+npm run test:validate         # Command validation only
 ```
 
-**Note**: Current Jest configuration has compatibility issues with Node.js v24.1.0. Validation system works independently.
+### Safety System Operations
 
-## Command Ecosystem Structure
+```bash
+# Execute dangerous commands safely in Dagger containers
+./scripts/safe-run.sh "rm -rf dangerous-path" --test
+./scripts/safe-run.sh "npm install untrusted-package" --project-path "/my/project"
 
-The project implements **70 commands across 12 phases**:
-
-```
-Phase 00: Initial Workflow (2 commands) - analyze-project, intelligent-chain
-Phase 01: Project Setup (3 commands) - document, learn, mcp  
-Phase 02: Development (5 commands) - backup, debug-session, migrate, optimize, refactor
-Phase 03: Security (4 commands) - audit-security, comply, harden, incident-response
-Phase 04: Testing (2 commands) - test, troubleshoot
-Phase 05: Deployment (4 commands) - deploy, git, pre-commit, setup-ci
-Phase 06: Collaboration (4 commands) - code-review, daily-standup, monitor, tech-debt
-Phase 07: Utilities (6 commands) - best-practices, knowledge-base, quick-fix, release-notes, sprint-planning, validate-environment
-Phase 08: Extras (4 commands) - health-check, modernize, new-feature, workflow-builder
-Phase 09: Agentic Capabilities (12 commands) - agent-communicate, agent-learn, agent-monitor, agent-orchestrate, agent-specialize, context-manager, context-persist, mcp-configure, mcp-discover, mcp-extend, workflow-automate, workflow-visual
-Phase 10: AI-Native Development (10 commands) - ai-debug, ai-mentor, ai-pair-program, code-explain, code-generate, pattern-detect, predictive-dev, refactor-semantic, semantic-understand, test-intelligent
-Phase 11: Enterprise Scale (8 commands) - analytics-advanced, compliance-enterprise, governance, knowledge-org, multi-repo, resource-manage, scale-optimize, team-coordinate
+# Quick safety shortcuts
+./scripts/quick-safe.sh install    # Safe npm install
+./scripts/quick-safe.sh build      # Safe build operations
+./scripts/quick-safe.sh rm-rf      # Safe file deletion
 ```
 
-Commands follow markdown format. Additional legacy commands: 1_explore_plan_code.md, 2_continue_explore_plan_code.md, 3_sync_plan_tasks.md, agent_init.md, cursor_rules_generator.md
+## Architecture Overview
 
-## Agent Creation System
+### Command Organization (12 Phases, 70+ Commands)
 
-The repository includes a template-based agent creation system for generating specialized sub-agents with consistent structure and capabilities.
+```
+.claude/commands/
+├── 00-initial-workflow/      # Project analysis & intelligent chaining (2)
+├── 01-project-setup/         # Documentation, learning, MCP setup (3)
+├── 02-development/           # Backup, debug, migrate, optimize, refactor (5)
+├── 03-security/              # Security auditing & compliance (4)
+├── 04-testing/               # Testing & troubleshooting (2)
+├── 05-deployment/            # CI/CD & deployment (4)
+├── 06-collaboration/         # Code review & team workflows (4)
+├── 07-utilities/             # Development utilities & best practices (6+)
+├── 08-extras/                # Health checks & modernization (4)
+├── 09-agentic-capabilities/  # MCP & agent orchestration (12)
+├── 10-ai-native-development/ # AI-powered development tools (10)
+└── 11-enterprise-scale/      # Governance & multi-repo (8)
+```
 
-### SUB_AGENT_TEMPLATE.md Structure
+### Core Infrastructure
 
-The template file at `templates/SUB_AGENT_TEMPLATE.md` defines the standard format for all agents:
+- **`scripts/validate-commands.js`** - Multi-dimensional validation engine
+- **`src/index.ts`** - Dagger TypeScript safety container system
+- **`scripts/safety-validator.js`** - Command safety pattern detection
+- **`templates/SUB_AGENT_TEMPLATE.md`** - Standardized agent creation template
+- **`.claude/settings.json`** - Claude Code permissions and environment config
 
-**Frontmatter Section:**
-- `name`: Agent identifier
-- `description`: Primary use case with examples showing context, user request, assistant response, and commentary
-- `color`: Visual categorization (blue/green/yellow/red/purple/orange/pink/cyan)
+### Safety Container System (Dagger-Based)
 
-**Agent Definition:**
-- Domain expertise declaration
-- 7-step workflow methodology:
-  1. Analysis step with specific considerations
-  2. Identification of key factors
-  3. Action techniques across 4 categories
-  4. Implementation guidelines
-  5. Trade-offs and decision factors
-  6. Validation and verification approach
-  7. Metrics and measurement methods
+The project uses a sophisticated 3-layer safety system:
 
-**Specialization Areas:**
-- Response characteristics and technical details
-- Context factors for solution recommendations
-- 5-point focus area framework for reviews
-- Solution format and impact assessment requirements
+1. **Pattern Detection** - Identifies dangerous commands automatically
+2. **Container Isolation** - Ubuntu 22.04 containers with resource limits  
+3. **Rollback Validation** - Comprehensive verification and cleanup
 
-### Agent-Template-Wizard Integration
+Key safety features:
+- Read-only project mounting protects source code
+- Automatic container cleanup after execution
+- Network restrictions and resource constraints
+- 65.7% safety rate across 517+ container validations
 
-The `agent-template-wizard` agent works with this template to:
-- Fill all placeholder values with agent-specific content
-- Ensure proper frontmatter formatting and naming conventions
-- Validate color assignments by category
-- Apply consistent structure across all generated agents
-- Handle template compliance from creation
+## Key Development Patterns
 
-### Color Categorization System
+### Command Structure
 
-- **Development agents**: blue
-- **Operations agents**: green  
-- **Data/AI agents**: yellow
-- **Creative agents**: purple
-- **Business agents**: orange
-- **Specialized agents**: red
+All commands follow a consistent markdown structure:
+- Clear usage examples with `/command-name` syntax
+- Comprehensive descriptions with auto-detection capabilities
+- Safety measures and verification steps included
+- Educational components for learning
 
-### Usage Workflow
+### Agent Template System
 
-1. Use the agent-template-wizard to create new agents
-2. Provide specific domain expertise and capabilities
-3. Wizard fills template placeholders automatically
-4. Generated agent follows consistent 7-step methodology
-5. Agent includes proper categorization and examples
+Creating new agents:
+1. Use the `agent-template-wizard` agent
+2. Provide domain expertise and capabilities  
+3. Wizard fills `SUB_AGENT_TEMPLATE.md` placeholders automatically
+4. Follows 7-step methodology with proper categorization
+5. Color-coded by category (blue=dev, green=ops, yellow=data/AI, etc.)
 
-This system ensures all agents maintain consistent structure while providing domain-specific expertise.
+### Validation Requirements
 
-## Safety & Security Systems
-
-### Containerized Safety Architecture (3-Layer System)
-
-1. **Pattern Detection**: Automatic identification of dangerous commands
-2. **Container Isolation**: Dagger-based throwaway Ubuntu 22.04 containers  
-3. **Safety Validation**: Comprehensive rollback and verification procedures
-
-### Safety Features
-
-- **Read-only project mounting**: Source code protected during execution
-- **Resource limits**: Memory and CPU constraints prevent abuse
-- **Network restrictions**: Limited outbound access for security
-- **Automatic cleanup**: Containers destroyed after execution
-- **Pattern classification**: 46 safe commands, 24 flagged as dangerous
-
-### Dangerous Command Patterns Detected
-
-- Sudo execution with non-package managers
-- File system modifications (rm -rf, chmod, chown)
-- Network operations requiring container isolation
-- System-level commands and privilege escalation
-
-Safety validation achieves **65.7% safety rate** with 517 container validations in ~3.5 seconds.
-
-## Testing & Validation Framework
-
-### Multi-Dimensional Validation System
-
-- **Structural Validation**: XML format compliance, required sections
-- **Security Scanning**: Secret detection, dangerous pattern identification
-- **Quality Scoring**: Educational value, completeness, example quality (27.1/100 current grade)  
-- **Safety Validation**: Dagger container testing with rollback verification
-- **Performance Metrics**: Discovery <100ms ✅, validation <2s ✅
-
-### Quality Metrics (Current State)
-
-- **Command Count**: 70/70 commands discovered ✅
-- **Success Rate**: 95.0% structural validation
-- **Error Rate**: 42.9% requiring attention
-- **Security Score**: FAIL - requires remediation
-- **Validation Performance**: Discovery 3ms, total validation 28ms
-
-### Configuration Requirements
-
-- **Node.js**: >=18.0.0 (package.json requirement)
-- **Jest**: ^29.7.0 (with 30-second test timeouts)
-- **Dagger**: v18.12 for safety container system
-- **Command Validation**: Expects exactly 70 commands (configurable in config.json)
-
-## Advanced Capabilities
-
-### Model Context Protocol (MCP) Integration
-
-- **1000+ MCP servers** available for extended capabilities
-- **Automatic discovery** and security validation of MCP servers
-- **Context persistence** across sessions with memory management
-- **Multi-agent orchestration** through MCP server coordination
-
-### Agentic Features (Phase 09-11)
-
-- **Agent Communication**: Inter-agent messaging and coordination
-- **Context Management**: Persistent learning and context retention
-- **Workflow Automation**: Visual workflow builder and execution
-- **Semantic Understanding**: Deep code analysis and pattern detection
-- **Predictive Development**: Proactive suggestions and optimization
-- **Enterprise Governance**: SOC2, GDPR, HIPAA compliance automation
-
-### AI-Native Development Capabilities
-
-- **AI Pair Programming**: Real-time code collaboration and suggestions
-- **Intelligent Debugging**: Context-aware error analysis and resolution
-- **Code Generation**: Automated code creation with quality assurance
-- **Architecture Assistance**: Design pattern recognition and recommendations
+The system expects exactly 70 commands and validates:
+- **Structure**: XML/markdown format compliance
+- **Security**: Secret detection, dangerous pattern identification  
+- **Quality**: Educational value, completeness, examples (scoring rubric)
+- **Performance**: <100ms discovery, <2s validation targets
+- **Safety**: Dagger container testing with rollback verification
 
 ## Technology Stack
 
-### Core Dependencies
+### Runtime Requirements
+- **Node.js ≥18.0.0** (package.json engine requirement)
+- **Dagger ^18.12** for safety container orchestration
+- **Jest ^29.7.0** (known compatibility issues with Node 24+)
 
-- **Node.js ≥18.0.0**: Required runtime environment
-- **Dagger ^18.12**: Container orchestration for safety system
-- **Jest ^29.7.0**: Testing framework (compatibility issues noted)
-- **TypeScript ^5.0.0**: For Dagger module development
-- **markdownlint**: Documentation quality assurance
+### Development Tools
+- **markdownlint** for documentation quality
+- **markdown-link-check** for link validation
+- **Custom validators** in `scripts/validators/` directory
+- **TypeScript ^5.0.0** for Dagger module development
 
-### Development Toolchain
+## Current Quality Metrics
 
-- **Validation**: Custom multi-dimensional validators with security scanning
-- **Safety**: Dagger containerization with Ubuntu 22.04 base images
-- **Quality**: Comprehensive scoring rubric (structure 25%, content 35%, security 20%, educational 20%)
-- **Performance**: <100ms discovery, <2s validation targets
-- **Links**: markdown-link-check for documentation integrity
+Based on validation system output:
+- ✅ **70/70 commands** discovered and validated
+- ✅ **95.0% structural** validation success rate
+- ❌ **Security score failing** (requires remediation)  
+- ⚠️  **Quality score 27.1/100** (needs improvement)
+- ✅ **Performance targets met** (3ms discovery, 28ms total validation)
 
-## Developer Guidelines
+## Known Issues & Limitations
 
-### Command Development Standards
+1. **Jest Compatibility**: Test suite has issues with Node.js v24+
+2. **Security Validation**: Currently failing security checks (19 errors, 41 warnings)
+3. **Quality Scoring**: Low educational value scores across commands
+4. **Documentation Sync**: Some outdated command counts in documentation
 
-1. **XML Structure**: Use consistent role/activation/instructions/output format
-2. **Safety Measures**: Include verification steps and rollback procedures  
-3. **Educational Components**: Maintain learning elements in every command
-4. **Security First**: OWASP compliance and security scanning integration
-5. **Team Collaboration**: Multi-user environments with audit trails
+## MCP Integration & Advanced Features
 
-### Quality Gates (Current Enforcement)
+- **1000+ MCP servers** available for extended capabilities
+- **Context persistence** across development sessions
+- **Multi-agent orchestration** through workflow automation
+- **AI-native development** tools for code generation and analysis
+- **Enterprise governance** features for compliance and scale
 
-- ✅ Structural validation for XML format compliance
-- ✅ Command count validation (70 expected)
-- ❌ Security score failing - requires remediation
-- ✅ Performance targets met (<100ms discovery, <2s validation)
-- ⚠️ Quality score low (27.1/100) - needs improvement
-
-### Validation Workflow
-
-```bash
-# Full validation pipeline
-npm run ci                 # Comprehensive validation, linting, link checking
-npm run safety-validate    # Dagger safety system validation
-npm run precommit          # Pre-commit hook validation
-
-# Individual validation components  
-npm run validate           # Command structure and content validation
-npm run security-scan      # Security-only validation pass
-npm run lint               # Markdown formatting and style
-```
-
-### Safety System Usage
-
-```bash
-# Execute potentially dangerous commands safely
-./scripts/safe-run.sh "npm install malicious-package"
-./scripts/safe-run.sh "rm -rf /tmp/test" --project-path "/my/project"  
-./scripts/safe-run.sh "curl https://unknown.com/script.sh | bash" --test
-
-# Quick safety aliases
-./scripts/quick-safe.sh install    # npm install in container
-./scripts/quick-safe.sh build      # build operations in container
-./scripts/quick-safe.sh rm-rf      # dangerous deletions in container
-```
-
-## Current State & Next Steps
-
-### Operational Status
-
-- **70 commands deployed** across 12 phases ✅
-- **Validation system operational** with multi-dimensional quality checks ✅  
-- **Safety system functional** with Dagger containerization ✅
-- **Advanced capabilities** (MCP, agentic features) in active development
-- **Documentation quality** requires improvement (security score failing)
-
-### Priority Areas for Improvement
-
-1. **Security Remediation**: Address failing security validation (19 errors, 41 warnings)
-2. **Quality Enhancement**: Improve overall quality grade from 27.1/100
-3. **Jest Compatibility**: Resolve Node.js v24.1.0 compatibility issues
-4. **Performance Optimization**: Maintain validation speed while improving accuracy
-5. **Documentation Synchronization**: Keep docs aligned with 70-command ecosystem
-
-This repository represents a sophisticated, safety-first approach to AI-assisted development with comprehensive validation, enterprise-grade security, and advanced agentic capabilities for modern software development workflows.
+This repository represents a sophisticated, safety-first approach to AI-assisted development with comprehensive validation, containerized execution, and enterprise-grade security features.
