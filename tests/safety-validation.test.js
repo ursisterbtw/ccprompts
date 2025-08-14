@@ -126,8 +126,8 @@ console.log("second block");
 
       const blocks = safetyValidator.extractCodeBlocks(content);
       expect(blocks).toHaveLength(2);
-      expect(blocks[0]).toContain('echo "first block"');
-      expect(blocks[1]).toContain('console.log("second block")');
+      expect(blocks[0].content).toContain('echo "first block"');
+      expect(blocks[1].content).toContain('console.log("second block")');
     });
 
     test('should handle empty content', () => {

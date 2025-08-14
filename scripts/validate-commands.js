@@ -328,7 +328,11 @@ class CommandValidator {
     }
     
     const category = this.extractCategoryFromPath(relativePath);
-    const phase = this.extractPhaseFromCategory(category);
+    // Prefer phase derived from folder prefix (e.g., .claude/commands/09-agentic-capabilities/)
+    const derivedPhase = this.extractPhaseFromPath(relativePath);
+    const phase = derivedPhase !== null && derivedPhase !== undefined
+      ? derivedPhase
+      : this.extractPhaseFromCategory(category);
     
     const usageSection = this.extractMarkdownSection(content, '## Usage');
     const usageMatch = usageSection ? usageSection.match(/`\/?([^`]+)`/) : null;
@@ -353,6 +357,27 @@ class CommandValidator {
       file_path: relativePath,
       last_modified: new Date().toISOString()
     };
+  }
+
+  /**
+   * Extract phase number from the file path based on directory prefix.
+   * Example: .claude/commands/09-agentic-capabilities/foo.md -> 9
+   * Returns null if no phase prefix is found.
+   */
+  extractPhaseFromPath(filePath) {
+    try {
+      const normalized = filePath.replace(/\\/g, '/');
+      const match = normalized.match(/\.claude\/commands\/(\d{2})-[^/]+/);
+      if (match) {
+        const phaseNum = parseInt(match[1], 10);
+        if (!Number.isNaN(phaseNum)) {
+          return phaseNum; // 0..11 as encoded in folder name
+        }
+      }
+    } catch (_) {
+      // ignore and fall back
+    }
+    return null;
   }
   
   extractCategoryFromPath(filePath) {
