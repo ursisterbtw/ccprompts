@@ -2,7 +2,7 @@
 
 **Complete guide to workflow patterns and automation in the ccprompts ecosystem**
 
-This document provides comprehensive guidance on creating, managing, and optimizing workflows using the 70-command ccprompts ecosystem, from simple command chains to complex multi-agent orchestrations.
+This document provides guidance on creating, managing, and optimizing workflows using the 70-command ccprompts ecosystem, from simple command chains to complex multi-agent orchestrations.
 
 ---
 
@@ -863,4 +863,4 @@ recovery_strategies:
 
 ---
 
-This comprehensive workflow guide provides the foundation for creating, managing, and optimizing complex development workflows using the ccprompts ecosystem. The patterns and examples can be adapted for specific project needs, team structures, and organizational requirements.
+This workflow guide provides the foundation for creating, managing, and optimizing complex development workflows using the ccprompts ecosystem. The patterns and examples can be adapted for specific project needs, team structures, and organizational requirements.

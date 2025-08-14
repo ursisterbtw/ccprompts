@@ -153,7 +153,7 @@ Next-generation AI-powered development features:
 
 ### **Phase 10: AI-Native Development (10 commands)**
 
-Cutting-edge AI-assisted development capabilities:
+AI-assisted development capabilities:
 
 #### `/ai-pair-program`
 
@@ -421,4 +421,4 @@ Enhanced error reporting includes:
 
 ---
 
-This API reference provides comprehensive documentation for integrating and using the ccprompts command ecosystem. For specific implementation examples and advanced usage patterns, see the individual command documentation in `.claude/commands/`.
+This API reference provides documentation for integrating and using the ccprompts command ecosystem. For specific implementation examples and advanced usage patterns, see the individual command documentation in `.claude/commands/`.

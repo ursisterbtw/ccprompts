@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides a comprehensive rollback strategy for the CI/CD optimizations implemented in this repository. Use this guide if any issues arise after deploying the workflow changes.
+This document provides a rollback strategy for the CI/CD optimizations implemented in this repository. Use this guide if any issues arise after deploying the workflow changes.
 
 ## Quick Rollback (Emergency)
 

@@ -10,15 +10,9 @@ class SecurityValidator {
     this.securityIssues = [];
   }
 
-  // Enhanced security scanning
   validateSecurity(content, filename) {
     this.securityIssues = [];
     
-    // Only scan actual code, not examples or placeholders
-    // Match all code block formats:
-    // - ```language\ncode\n```
-    // - ```\ncode\n```
-    // - Indented code blocks (4+ spaces)
     const fencedBlocks = content.match(/```(?:[a-zA-Z0-9_+-]*\n)?[\s\S]*?```/g) || [];
     const indentedBlocks = content.match(/(?:^|\n)((?:    |\t).*(?:\n(?:    |\t).*)*)/gm) || [];
     
@@ -56,7 +50,6 @@ class SecurityValidator {
     securityPatterns.forEach(({ pattern, message, skipIfIncludes }) => {
       const matches = combinedCode.match(pattern) || [];
       matches.forEach(match => {
-        // Check if it's a placeholder or example
         const shouldSkip = skipIfIncludes?.some(skip => 
           match.toLowerCase().includes(skip.toLowerCase())
         );
@@ -71,7 +64,6 @@ class SecurityValidator {
       });
     });
 
-    // Check for dangerous operations using centralized patterns
     const dangerousPatterns = safetyPatterns.getAllPatterns();
 
     dangerousPatterns.forEach(({ pattern, message }) => {

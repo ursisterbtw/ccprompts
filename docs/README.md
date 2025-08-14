@@ -6,7 +6,7 @@ This directory contains documentation for the ccprompts project - a collection o
 
 ---
 
-## 📚 Documentation Overview
+## Documentation Overview
 
 ### **Quick Start**
 

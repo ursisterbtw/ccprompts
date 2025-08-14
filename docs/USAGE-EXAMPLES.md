@@ -372,7 +372,7 @@ This guide provides practical examples, tutorials, and workflow patterns for usi
 #### Advanced Tool Chains
 
 ```bash
-# Build sophisticated tool chains
+# Build advanced tool chains
 /agent-orchestrate --tools=["mcp-servers","apis","databases","cloud-services"]
 → /workflow-automate --complexity=advanced --coordination=intelligent
 → /context-manager --advanced=true --semantic-understanding=deep
@@ -472,4 +472,4 @@ This guide provides practical examples, tutorials, and workflow patterns for usi
 
 ---
 
-This comprehensive guide demonstrates real-world usage of the ccprompts ecosystem. Each example can be customized based on specific project requirements, technology stacks, and organizational needs. The commands work together as a cohesive system while remaining flexible for individual use cases.
+This guide demonstrates real-world usage of the ccprompts ecosystem. Each example can be customized based on specific project requirements, technology stacks, and organizational needs. The commands work together as a cohesive system while remaining flexible for individual use cases.

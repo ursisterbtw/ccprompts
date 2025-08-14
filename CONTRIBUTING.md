@@ -79,17 +79,10 @@ All contributions must pass:
 
 #### Commands (37+ files)
 
-- ✅ Required sections: Usage, Description, Parameters, Examples
-- ✅ Clear parameter documentation with types and defaults
-- ✅ Realistic examples showing different use cases
-- ✅ Brief but comprehensive examples sections
-
-#### Prompts (19+ files)
-
-- ✅ Required XML structure: `<role>`, `<activation>`, `<instructions>`
-- ✅ Domain-appropriate activation configurations
-- ✅ Comprehensive examples sections
-- ✅ Output requirements clearly defined
+- Required sections: Usage, Description, Parameters, Examples
+- Clear parameter documentation with types and defaults
+- Realistic examples showing different use cases
+- Brief but comprehensive examples sections
 
 ## Testing
 

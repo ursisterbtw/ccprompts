@@ -11,12 +11,10 @@ class FileUtils {
     this.excludePatterns = excludePatterns;
   }
 
-  // Find all markdown files recursively
   findMarkdownFiles(directory) {
     const files = [];
     
     const walk = (dir) => {
-      // Skip excluded directories
       const dirName = path.basename(dir);
       if (this.excludePatterns.some(pattern => dirName.includes(pattern))) {
         return;
@@ -44,7 +42,6 @@ class FileUtils {
     return files;
   }
 
-  // Read file content with error handling
   readFileContent(filepath) {
     try {
       return fs.readFileSync(filepath, 'utf8');
@@ -53,24 +50,20 @@ class FileUtils {
     }
   }
 
-  // Get relative path from project root
   getRelativePath(filepath, rootDir) {
     return path.relative(rootDir, filepath);
   }
 
-  // Check if path matches any exclude pattern (by segment or RegExp)
   shouldExclude(filepath) {
     const segments = filepath.split(path.sep);
     return this.excludePatterns.some(pattern => {
       if (pattern instanceof RegExp) {
         return pattern.test(filepath);
       }
-      // Match full path segments only
       return segments.includes(pattern);
     });
   }
 
-  // Update exclude patterns
   setExcludePatterns(patterns) {
     this.excludePatterns = patterns;
   }

@@ -2,7 +2,7 @@
 
 Follow these steps to implement the branch protection rules before making the repository public.
 
-## 🚀 Quick Setup (Recommended)6
+## Quick Setup (Recommended)
 
 ### 1. Push All Files First
 
@@ -24,12 +24,12 @@ git push origin main
 
 **Protect matching branches:**
 
-- ✅ Require a pull request before merging
+- Require a pull request before merging
   - Required number of reviewers: **1**
-  - ✅ Dismiss stale PR approvals when new commits are pushed
-  - ✅ Require review from code owners
-- ✅ Require status checks to pass before merging
-  - ✅ Require branches to be up to date before merging
+  - Dismiss stale PR approvals when new commits are pushed
+  - Require review from code owners
+- Require status checks to pass before merging
+  - Require branches to be up to date before merging
   - **Required status checks:**
     - `validate-markdown`
     - `validate-commands`
@@ -37,10 +37,10 @@ git push origin main
     - `security-scan`
     - `quality-gates`
     - `check-branch-name`
-- ✅ Require conversation resolution before merging
-- ✅ Require signed commits
-- ✅ Require linear history
-- ✅ Include administrators
+- Require conversation resolution before merging
+- Require signed commits
+- Require linear history
+- Include administrators
 - ❌ Allow force pushes
 - ❌ Allow deletions
 

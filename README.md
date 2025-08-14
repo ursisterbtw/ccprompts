@@ -14,7 +14,7 @@
 
 **ccprompts** is a collection of 70 Claude Code commands for software development workflows. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs.
 
-> **⚠️ Development Notice**: This repository is under active development. Commands may contain bugs,
+> **Development Notice**: This repository is under active development. Commands may contain bugs,
 > breaking changes can occur between versions, and the structure may evolve. Use with caution in
 > production environments.
 
@@ -86,7 +86,7 @@ The repository includes an agent creation system using `templates/SUB_AGENT_TEMP
 
 1. Use the `agent-template-wizard` agent to create new specialized agents
 2. Provide domain expertise and specific capabilities needed
-3. Wizard automatically fills template placeholders with consistent structure
+3. Wizard fills template placeholders with consistent structure
 4. Generated agents follow 7-step methodology with proper categorization
 5. Agents include examples, color coding, and validation approaches
 
@@ -98,7 +98,7 @@ The template system ensures consistent agent structure while allowing domain-spe
 
 ```text
 .claude/
-├── commands/          # 73 commands across 12 phases (00-11)
+├── commands/          # 70 commands across 12 phases (00-11)
 │   ├── 00-initial-workflow/     # Project analysis and workflow (2 commands)
 │   ├── 01-project-setup/        # Documentation, learning, MCP (3 commands)
 │   ├── 02-development/          # Backup, debug, optimize, refactor (5 commands)
@@ -160,7 +160,7 @@ curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
 ./scripts/safe-run.sh "rm -rf /tmp/test" --test
 ```
 
-**See [SAFETY.md](SAFETY.md) for complete safety system documentation.**
+**See [SAFETY.md](SAFETY.md) for safety system documentation.**
 
 ---
 
@@ -174,7 +174,7 @@ curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
 
 ## Contributing
 
-Pull requests are welcome! Please:
+Pull requests are welcome. Please:
 
 1. Run the validator and ensure no errors.
 2. Follow conventional commit messages (`feat: …`, `fix: …`, etc.).

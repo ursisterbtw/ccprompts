@@ -127,7 +127,7 @@ npm run setup-dev
 #!/bin/bash
 npm run validate
 if [ $? -ne 0 ]; then
-  echo "❌ Validation failed. Please fix issues before committing."
+  echo "Validation failed. Please fix issues before committing."
   exit 1
 fi
 ```
@@ -506,7 +506,7 @@ if [ $? -ne 0 ]; then exit 1; fi
 npm run validate:quality
 if [ $? -ne 0 ]; then exit 1; fi
 
-echo "✅ All validations passed"
+echo "All validations passed"
 ```
 
 #### Continuous Integration
@@ -1312,7 +1312,7 @@ npm version $TYPE --no-git-tag-version
 # 2. Run comprehensive validation
 npm test
 if [ $? -ne 0 ]; then
-  echo "❌ Tests failed. Aborting release."
+  echo "Tests failed. Aborting release."
   exit 1
 fi
 
@@ -1333,7 +1333,7 @@ git push origin main --tags
 # 7. Create GitHub release
 gh release create "v$VERSION" --generate-notes
 
-echo "✅ Release $VERSION completed successfully"
+echo "Release $VERSION completed successfully"
 ```
 
 ### **Monitoring and Analytics**
@@ -1467,4 +1467,4 @@ echo "Documentation QA complete"
 
 ---
 
-This comprehensive developer guide provides the foundation for contributing to and extending the ccprompts ecosystem. The architecture supports both individual contributions and enterprise-scale customization while maintaining security, quality, and educational value.
+This developer guide provides the foundation for contributing to and extending the ccprompts ecosystem. The architecture supports both individual contributions and enterprise-scale customization while maintaining security, quality, and educational value.

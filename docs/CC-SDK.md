@@ -1,4 +1,4 @@
-# Claude Code SDK comprehensive guide
+# Claude Code SDK Guide
 
 Claude Code SDK is Anthropic's **extensible CLI-based agentic coding tool** that enables Claude to work as an autonomous development assistant capable of understanding entire codebases, performing multi-file operations, and executing complex development workflows directly in your terminal. Unlike regular Claude API usage, it features automatic context gathering, built-in file operations, git integration, and a permission-based security system - making it a useful tool for automated code review, refactoring, and development tasks.
 

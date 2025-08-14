@@ -11,7 +11,6 @@ const { execSync } = require('child_process');
 const SafetyValidator = require('./safety-validator');
 const safetyPatterns = require('./config/safety-patterns');
 
-// Color output for better readability
 const colors = {
   green: '\x1b[32m',
   red: '\x1b[31m',
@@ -46,13 +45,10 @@ class CommandValidator {
     };
   }
 
-  // Extract markdown section by heading
   extractMarkdownSection(content, heading) {
-    // Try to match section with content until next heading of same or higher level
     const headingLevel = heading.match(/^#+/)?.[0].length || 2;
     const escapedHeading = heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     
-    // Build regex to match content until next heading at same or higher level
     let nextHeadingPattern = '';
     for (let i = 1; i <= headingLevel; i++) {
       if (i > 1) {
@@ -70,13 +66,7 @@ class CommandValidator {
     return match ? match[1].trim() : null;
   }
 
-  // Enhanced security scanning
   validateSecurity(content, filename) {
-    // Only scan actual code, not examples or placeholders
-    // Match all code block formats:
-    // - ```language\ncode\n```
-    // - ```\ncode\n```
-    // - Indented code blocks (4+ spaces)
     const fencedBlocks = content.match(/```(?:[a-zA-Z0-9_+-]*\n)?[\s\S]*?```/g) || [];
     const indentedBlocks = content.match(/(?:^|\n)((?:    |\t).*(?:\n(?:    |\t).*)*)/gm) || [];
     
@@ -113,7 +103,6 @@ class CommandValidator {
       const matches = combinedCode.match(pattern) || [];
       
       matches.forEach(match => {
-        // Skip if it's clearly a placeholder or example
         if (skipIfIncludes && skipIfIncludes.some(skip => match.toLowerCase().includes(skip.toLowerCase()))) {
           return;
         }
@@ -124,7 +113,6 @@ class CommandValidator {
     });
   }
 
-  // Enhanced XML structure validation with better error reporting
   validateXMLStructure(content, filename) {
     const requiredSections = ['<role>', '<activation>', '<instructions>'];
     const missingSections = [];
@@ -140,12 +128,10 @@ class CommandValidator {
       return false;
     }
 
-    // Remove code blocks and inline code to avoid false positives with XML-like content in examples
     const contentWithoutCodeBlocks = content
-      .replace(/```[\s\S]*?```/g, '')  // Remove code blocks
-      .replace(/`[^`]*`/g, '');        // Remove inline code
+      .replace(/```[\s\S]*?```/g, '')
+      .replace(/`[^`]*`/g, '');
     
-    // Enhanced stack-based XML tag validation
     const tagStack = [];
     const xmlTagRegex = /<\/?([a-zA-Z][a-zA-Z0-9_-]*)(?:\s[^>]*)?>|<!--[\s\S]*?-->/g;
     let match;
@@ -153,19 +139,16 @@ class CommandValidator {
     let lastIndex = 0;
     
     while ((match = xmlTagRegex.exec(contentWithoutCodeBlocks)) !== null) {
-      // Calculate line number for better error reporting
       const currentLineNum = content.substring(lastIndex, match.index).split('\n').length - 1 + lineNumber;
       lastIndex = match.index;
       
       const fullTag = match[0];
       const tagName = match[1];
       
-      // Skip comments and self-closing tags
       if (fullTag.startsWith('<!--') || fullTag.endsWith('/>') || fullTag.startsWith('<?')) {
         continue;
       }
       
-      // Closing tag
       if (fullTag.startsWith('</')) {
         if (tagStack.length === 0) {
           this.errors.push(`${filename}:${currentLineNum}: Unexpected closing tag: ${fullTag}`);
@@ -177,14 +160,11 @@ class CommandValidator {
           this.errors.push(`${filename}:${currentLineNum}: Mismatched XML tags - expected </${expectedTag}>, found </${tagName}>`);
           return false;
         }
-      } 
-      // Opening tag
-      else {
+      } else {
         tagStack.push(tagName);
       }
     }
     
-    // Check for unclosed tags
     if (tagStack.length > 0) {
       this.errors.push(`${filename}: Unclosed XML tags: ${tagStack.join(', ')}`);
       return false;
@@ -193,7 +173,6 @@ class CommandValidator {
     return true;
   }
 
-  // Enhanced command quality validation with scoring
   validateCommandQuality(content, filename, commandType = null) {
     const detectedType = commandType || this.determineCommandType(filename, content);
     let qualityScore = 100;
@@ -280,7 +259,6 @@ class CommandValidator {
       }
     });
 
-    // Aggregate quality scores
     if (!this.stats.qualityScores) {
       this.stats.qualityScores = [];
     }
@@ -289,16 +267,12 @@ class CommandValidator {
     return qualityScore;
   }
 
-  // Enhanced command structure validation with metadata extraction
   validateCommandStructure(content, filename) {
-    // Extract command metadata
     const metadata = this.extractCommandMetadata(content, filename);
     
-    // Store in registry
     if (metadata) {
       this.commandRegistry.commands[metadata.id] = metadata;
       
-      // Update category tracking
       if (!this.commandRegistry.categories[metadata.category]) {
         this.commandRegistry.categories[metadata.category] = {
           id: metadata.category,
@@ -312,7 +286,6 @@ class CommandValidator {
       this.commandRegistry.categories[metadata.category].command_count++;
     }
     
-    // Commands should have at least a description
     const hasDescription = content.includes('## Description') || 
                           content.includes('# ') || 
                           content.match(/^description:/m);
@@ -321,7 +294,6 @@ class CommandValidator {
       this.errors.push(`${filename}: Command file missing description`);
     }
     
-    // Warn about missing sections but don't error
     const recommendedSections = ['## Usage', '## Parameters', '## Examples'];
     const missingSections = recommendedSections.filter(section => 
       !content.includes(section)
@@ -331,31 +303,25 @@ class CommandValidator {
       this.warnings.push(`${filename}: Consider adding sections: ${missingSections.join(', ')}`);
     }
 
-    // Validate usage format
     if (content.includes('## Usage') && !content.includes('```')) {
       this.warnings.push(`${filename}: Usage section should include command format example`);
     }
 
-    // Validate examples are comprehensive
     const examplesSection = this.extractMarkdownSection(content, '## Examples');
     if (examplesSection !== null && examplesSection.length < 200) {
       this.warnings.push(`${filename}: Examples section appears too brief`);
     }
   }
 
-  // Extract command metadata from content
   extractCommandMetadata(content, filename) {
     const relativePath = path.relative(process.cwd(), filename);
     const commandName = path.basename(filename, '.md');
     
-    // Extract title from first heading
     const titleMatch = content.match(/^#\s+(.+)$/m);
     const title = titleMatch ? titleMatch[1].trim() : commandName;
     
-    // Extract description from ## Description section or first paragraph
     let description = this.extractMarkdownSection(content, '## Description');
     if (!description) {
-      // Fallback to first paragraph after title
       const paragraphs = content.split('\n\n');
       description = paragraphs.find(p => p.trim() && !p.startsWith('#') && p.length > 50);
     }
@@ -366,22 +332,15 @@ class CommandValidator {
       description = `${commandName} command`;
     }
     
-    // Determine category and phase from file path
     const category = this.extractCategoryFromPath(relativePath);
     const phase = this.extractPhaseFromCategory(category);
     
-    // Extract usage pattern
     const usageSection = this.extractMarkdownSection(content, '## Usage');
     const usageMatch = usageSection ? usageSection.match(/`\/?([^`]+)`/) : null;
     const usage = usageMatch ? usageMatch[1] : `/${commandName}`;
     
-    // Extract parameters
     const parameters = this.extractParameters(content);
-    
-    // Extract examples
     const examples = this.extractExamples(content);
-    
-    // Determine safety level
     const safetyLevel = this.determineSafetyLevel(content);
     
     return {
@@ -401,7 +360,6 @@ class CommandValidator {
     };
   }
   
-  // Extract category from file path
   extractCategoryFromPath(filePath) {
     if (filePath.includes('01-project-initialization')) {
       return 'project-setup';
@@ -439,7 +397,6 @@ class CommandValidator {
     return 'utility';
   }
   
-  // Map category to phase number
   extractPhaseFromCategory(category) {
     const phaseMap = {
       'project-setup': 1,
@@ -458,7 +415,6 @@ class CommandValidator {
     return phaseMap[category] || 8;
   }
   
-  // Extract parameters from Parameters section
   extractParameters(content) {
     const parametersSection = this.extractMarkdownSection(content, '## Parameters');
     if (!parametersSection) {
@@ -483,7 +439,6 @@ class CommandValidator {
     return parameters;
   }
   
-  // Extract examples from Examples section
   extractExamples(content) {
     const examplesSection = this.extractMarkdownSection(content, '## Examples');
     if (!examplesSection) {
@@ -508,12 +463,10 @@ class CommandValidator {
     return examples;
   }
   
-  // Determine safety level based on content
   determineSafetyLevel(content) {
     return safetyPatterns.classifySafetyLevel(content, true);
   }
   
-  // Determine command type with better heuristics
   determineCommandType(filename, content) {
     if (filename.includes('commands/')) {
       return 'command';
@@ -533,7 +486,6 @@ class CommandValidator {
     return 'default';
   }
 
-  // Process individual file with enhanced validation
   async validateFile(filePath) {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
@@ -541,26 +493,20 @@ class CommandValidator {
       
       this.stats.totalFiles++;
 
-      // Determine file type using relative path
       const relativePath = path.relative(process.cwd(), filePath);
       const isCommand = relativePath.includes('.claude/commands/');
       const isDocumentation = this.isDocumentationFile(filePath);
 
-      // Security validation for all files
       this.validateSecurity(content, filename);
 
-      // Only validate commands for structure
       if (isCommand) {
         this.stats.commandFiles++;
         this.validateCommandStructure(content, filename);
       } else {
-        // Skip validation for documentation and other files
         return;
       }
 
-      // Basic validation for commands only
       if (isCommand) {
-        // Common validations for command files
         if (content.trim().length === 0) {
           this.errors.push(`${filename}: File is empty`);
           return;
@@ -570,7 +516,6 @@ class CommandValidator {
           this.warnings.push(`${filename}: No main heading found`);
         }
 
-        // Check for consistent line endings
         if (content.includes('\r\n')) {
           this.warnings.push(`${filename}: Uses CRLF line endings (should be LF)`);
         }
@@ -583,7 +528,6 @@ class CommandValidator {
     }
   }
 
-  // Determine if a file is documentation and should be excluded from strict validation
   isDocumentationFile(filePath) {
     const documentationFiles = [
       'README.md',
@@ -606,21 +550,17 @@ class CommandValidator {
     
     const relativePath = path.relative(process.cwd(), filePath);
     
-    // Check if it's a known documentation file
     if (documentationFiles.some(doc => relativePath.endsWith(doc))) {
       return true;
     }
     
-    // Check if it's a GitHub template file
     if (githubFiles.some(github => relativePath.includes(github))) {
       return true;
     }
     
-    // Also exclude any file that's not a command
     const normalizedPath = path.normalize(filePath);
     const isCommand = relativePath.startsWith('.claude/commands/');
     
-    // If it's not a command file, treat it as documentation
     if (!isCommand) {
       return true;
     }
@@ -628,7 +568,6 @@ class CommandValidator {
     return false;
   }
 
-  // Find all markdown files with exclusions
   findMarkdownFiles(directory) {
     const files = [];
     const excludePatterns = ['.git', 'node_modules', '.vscode', '.idea', 'dist', 'build'];
@@ -642,12 +581,17 @@ class CommandValidator {
         }
         
         const fullPath = path.join(dir, item);
-        const stat = fs.statSync(fullPath);
         
-        if (stat.isDirectory()) {
-          traverse(fullPath);
-        } else if (item.endsWith('.md')) {
-          files.push(fullPath);
+        try {
+          const stat = fs.statSync(fullPath);
+          
+          if (stat.isDirectory()) {
+            traverse(fullPath);
+          } else if (item.endsWith('.md')) {
+            files.push(fullPath);
+          }
+        } catch (error) {
+          return;
         }
       });
     }
@@ -656,7 +600,6 @@ class CommandValidator {
     return files;
   }
 
-  // Enhanced validation with performance tracking
   async validate() {
     const startTime = Date.now();
     const performanceMetrics = {
@@ -677,7 +620,6 @@ class CommandValidator {
     log('blue', `Found ${markdownFiles.length} markdown files to validate`);
     log('cyan', `📊 Discovery: ${performanceMetrics.discovery_time}ms`);
     
-    // Validate each file with performance tracking
     const validationStart = Date.now();
     for (const file of markdownFiles) {
       const fileStart = Date.now();
@@ -689,35 +631,27 @@ class CommandValidator {
     }
     performanceMetrics.validation_time = Date.now() - validationStart;
 
-    // Additional system-level validations
     this.validateSystemIntegrity();
     
-    // Generate command registry with performance tracking
     const registryStart = Date.now();
     await this.generateCommandRegistry();
     performanceMetrics.registry_generation_time = Date.now() - registryStart;
 
-    // Run Dagger safety validation
     await this.runSafetyValidation(performanceMetrics);
 
-    // Report results with performance metrics
     const duration = Date.now() - startTime;
     this.reportResults(duration, performanceMetrics);
     
-    // Return exit code based on errors
     return this.errors.length === 0 ? 0 : 1;
   }
 
-  // System integrity validation
   validateSystemIntegrity() {
     try {
-      // Check package.json structure
       const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
       if (!packageJson.scripts || !packageJson.scripts.validate) {
         this.warnings.push('package.json: Missing validate script');
       }
 
-      // Check for required configuration files
       const requiredFiles = ['.gitignore', 'README.md', 'CONTRIBUTING.md'];
       requiredFiles.forEach(file => {
         if (!fs.existsSync(file)) {
@@ -725,14 +659,12 @@ class CommandValidator {
         }
       });
 
-      // Validate command count matches documentation
       const commandDir = path.join(process.cwd(), '.claude', 'commands');
       const expectedCommandCount = process.env.EXPECTED_COMMAND_COUNT
         ? parseInt(process.env.EXPECTED_COMMAND_COUNT, 10)
         : null;
 
       if (fs.existsSync(commandDir)) {
-        // Count all .md files recursively in subdirectories
         const countMarkdownFiles = (dir) => {
           let count = 0;
           const items = fs.readdirSync(dir);
@@ -770,7 +702,6 @@ class CommandValidator {
     }
   }
 
-  // Enhanced reporting with metrics
   reportResults(duration, performanceMetrics = null) {
     log('blue', '\n📊 Validation Results');
     log('blue', '==================');
@@ -799,7 +730,6 @@ class CommandValidator {
       log('green', '\n🎉 All validations passed!');
     }
 
-    // Generate enhanced metrics
     log('blue', '\n📈 Quality Metrics:');
     const successRate = ((this.stats.validFiles / this.stats.totalFiles) * 100).toFixed(1);
     const errorRate = ((this.errors.length / this.stats.totalFiles) * 100).toFixed(1);
@@ -810,7 +740,6 @@ class CommandValidator {
     log('cyan', `   Warning rate: ${warningRate}%`);
     log('cyan', `   Security score: ${this.stats.securityIssues === 0 ? '100%' : 'FAIL'}`);
     
-    // Quality grade (normalized by file count)
     const errorPenalty = Math.min(50, (this.errors.length / Math.max(1, this.stats.totalFiles)) * 100);
     const warningPenalty = Math.min(30, (this.warnings.length / Math.max(1, this.stats.totalFiles)) * 50);
     const overallScore = Math.max(0, 100 - errorPenalty - warningPenalty);
@@ -827,7 +756,6 @@ class CommandValidator {
     
     log('cyan', `   Overall quality grade: ${grade} (${overallScore.toFixed(1)}/100)`);
     
-    // Performance metrics reporting
     if (performanceMetrics) {
       log('blue', '\n⚡ Performance Metrics:');
       log('cyan', `   File discovery: ${performanceMetrics.discovery_time}ms`);
@@ -843,7 +771,6 @@ class CommandValidator {
       const memoryDelta = ((memoryAfter.heapUsed - performanceMetrics.memory_usage.heapUsed) / 1024 / 1024).toFixed(1);
       log('cyan', `   Memory usage: ${(memoryAfter.heapUsed / 1024 / 1024).toFixed(1)}MB (Δ${memoryDelta}MB)`);
       
-      // Safety validation metrics
       if (performanceMetrics.safety_validation_time !== undefined) {
         log('cyan', `   Safety validation: ${performanceMetrics.safety_validation_time}ms`);
         if (performanceMetrics.safety_commands_analyzed > 0) {
@@ -854,14 +781,12 @@ class CommandValidator {
         }
       }
       
-      // Performance targets validation
-      const discoveryTarget = 100; // ms
-      const validationTarget = 2000; // ms for all files
+      const discoveryTarget = 100;
+      const validationTarget = 2000;
       log('cyan', `   Discovery target: ${performanceMetrics.discovery_time < discoveryTarget ? '✅' : '❌'} (<${discoveryTarget}ms)`);
       log('cyan', `   Validation target: ${performanceMetrics.validation_time < validationTarget ? '✅' : '❌'} (<${validationTarget}ms)`);
     }
     
-    // Report registry stats
     const commandCount = Object.keys(this.commandRegistry.commands).length;
     const categoryCount = Object.keys(this.commandRegistry.categories).length;
     if (commandCount > 0) {
@@ -872,10 +797,8 @@ class CommandValidator {
     }
   }
   
-  // Generate and save command registry
   async generateCommandRegistry() {
     try {
-      // Finalize validation results
       this.commandRegistry.validation_results = {
         last_run: new Date().toISOString(),
         total_files: this.stats.totalFiles,
@@ -886,7 +809,6 @@ class CommandValidator {
         quality_metrics: this.stats.qualityScores
       };
       
-      // Generate phase information
       const phases = {};
       Object.values(this.commandRegistry.commands).forEach(cmd => {
         if (!phases[cmd.phase]) {
@@ -901,13 +823,11 @@ class CommandValidator {
       });
       this.commandRegistry.phases = Object.values(phases).sort((a, b) => a.id - b.id);
       
-      // Create .claude directory if it doesn't exist
       const claudeDir = path.join(process.cwd(), '.claude');
       if (!fs.existsSync(claudeDir)) {
         fs.mkdirSync(claudeDir, { recursive: true });
       }
       
-      // Save registry to file
       const registryPath = path.join(claudeDir, 'command-registry.json');
       fs.writeFileSync(registryPath, JSON.stringify(this.commandRegistry, null, 2));
       
@@ -918,7 +838,6 @@ class CommandValidator {
     }
   }
   
-  // Get phase name by ID
   getPhaseNameById(phaseId) {
     const phaseNames = {
       1: 'Initial Workflow',
@@ -933,7 +852,6 @@ class CommandValidator {
     return phaseNames[phaseId] || `Phase ${phaseId}`;
   }
   
-  // Get phase description by ID
   getPhaseDescriptionById(phaseId) {
     const descriptions = {
       1: 'Initial project workflow and analysis commands',
@@ -960,7 +878,6 @@ class CommandValidator {
       const safetyValidator = new SafetyValidator();
       const safetyReport = await safetyValidator.validateAllCommands();
       
-      // Integrate safety results into main validation
       if (safetyReport.errors.length > 0) {
         this.errors = this.errors.concat(safetyReport.errors);
       }
@@ -969,7 +886,6 @@ class CommandValidator {
         this.warnings = this.warnings.concat(safetyReport.warnings);
       }
       
-      // Add safety metrics to performance tracking
       performanceMetrics.safety_validation_time = Date.now() - safetyStart;
       performanceMetrics.safety_commands_analyzed = safetyReport.summary.totalCommands;
       performanceMetrics.safety_dangerous_commands = safetyReport.summary.dangerousCommands;
@@ -998,7 +914,6 @@ class CommandValidator {
   }
 }
 
-// Run validation if called directly
 if (require.main === module) {
   const validator = new CommandValidator();
   validator.validate().then(exitCode => {

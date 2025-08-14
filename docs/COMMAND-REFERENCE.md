@@ -693,7 +693,7 @@ Next-generation AI-powered development features using multi-agent coordination.
 
 ## Phase 10: AI-Native Development
 
-Cutting-edge AI-assisted development capabilities for next-generation programming.
+AI-assisted development capabilities for modern programming.
 
 ### `/ai-pair-program`
 
@@ -1058,4 +1058,4 @@ commands:
 
 ---
 
-This command reference provides comprehensive documentation for all 70 commands in the ccprompts ecosystem. Each command is designed to work independently or as part of larger workflows, with consistent parameter conventions and safety features throughout.
+This command reference provides documentation for all 70 commands in the ccprompts ecosystem. Each command is designed to work independently or as part of larger workflows, with consistent parameter conventions and safety features throughout.

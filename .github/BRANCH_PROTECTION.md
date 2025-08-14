@@ -8,12 +8,12 @@ This document outlines the recommended branch protection rules for the ccprompts
 
 1. **Require pull request reviews before merging**
    - Required approving reviews: **1**
-   - Dismiss stale PR approvals when new commits are pushed: **✅**
-   - Require review from code owners: **✅** (when CODEOWNERS file is added)
+   - Dismiss stale PR approvals when new commits are pushed: **Yes**
+   - Require review from code owners: **Yes** (when CODEOWNERS file is added)
    - Restrict who can dismiss pull request reviews: **Repository administrators**
 
 2. **Require status checks to pass before merging**
-   - Require branches to be up to date before merging: **✅**
+   - Require branches to be up to date before merging: **Yes**
    - Required status checks:
      - `validate-markdown`
      - `validate-commands`
@@ -21,11 +21,11 @@ This document outlines the recommended branch protection rules for the ccprompts
      - `security-scan`
      - `quality-gates`
 
-3. **Require conversation resolution before merging**: **✅**
+3. **Require conversation resolution before merging**: **Yes**
 
-4. **Require signed commits**: **✅** (recommended for public repos)
+4. **Require signed commits**: **Yes** (recommended for public repos)
 
-5. **Require linear history**: **✅** (keeps clean git history)
+5. **Require linear history**: **Yes** (keeps clean git history)
 
 6. **Restrictions**
    - Restrict pushes that create files: **No restrictions**
@@ -34,7 +34,7 @@ This document outlines the recommended branch protection rules for the ccprompts
 
 ### Administrative Settings
 
-1. **Include administrators**: **✅** (admins must follow rules too)
+1. **Include administrators**: **Yes** (admins must follow rules too)
 2. **Allow force pushes**: **❌**
 3. **Allow deletions**: **❌**
 
@@ -44,18 +44,18 @@ This document outlines the recommended branch protection rules for the ccprompts
 
 1. **Require pull request reviews before merging**
    - Required approving reviews: **1**
-   - Dismiss stale PR approvals when new commits are pushed: **✅**
+   - Dismiss stale PR approvals when new commits are pushed: **Yes**
    - Require review from code owners: **No** (more flexible for development)
 
 2. **Require status checks to pass before merging**
-   - Require branches to be up to date before merging: **✅**
+   - Require branches to be up to date before merging: **Yes**
    - Required status checks:
      - `validate-markdown`
      - `validate-commands`
      - `validate-config`
      - `security-scan`
 
-3. **Require conversation resolution before merging**: **✅**
+3. **Require conversation resolution before merging**: **Yes**
 
 4. **Allow force pushes**: **❌**
 5. **Allow deletions**: **❌**

@@ -24,10 +24,6 @@ class SafetyValidator {
       warnings: [],
       validationTime: 0
     };
-    /**
-     * Cached result of Dagger availability check
-     * @type {boolean|undefined}
-     */
     this._daggerAvailable = undefined;
   }
 
@@ -62,7 +58,7 @@ class SafetyValidator {
             pattern: pattern.source,
             severity,
             message,
-            matches: matches.slice(0, 3), // Limit to first 3 matches
+            matches: matches.slice(0, 3),
             codeSnippet: block.substring(0, 100) + (block.length > 100 ? '...' : '')
           });
         }
@@ -105,14 +101,13 @@ class SafetyValidator {
     try {
       const startTime = Date.now();
       
-      // Use safe-run.sh script to validate command in container
       const safeRunScript = path.join(this.projectRoot, 'scripts', 'safe-run.sh');
       
       const result = execSync(
         `"${safeRunScript}" "${command}" --test`,
         { 
           encoding: 'utf8',
-          timeout: 10000, // 10 second timeout for safety checks
+          timeout: 10000,
           cwd: this.projectRoot
         }
       );
@@ -202,13 +197,11 @@ class SafetyValidator {
       const content = fs.readFileSync(filePath, 'utf8');
       this.safetyResults.totalCommands++;
 
-      // Analyze dangerous patterns
       const dangerousFindings = this.analyzeDangerousPatterns(content, filename);
       
       if (dangerousFindings.length > 0) {
         this.safetyResults.dangerousCommands++;
         
-        // Log findings
         dangerousFindings.forEach(finding => {
           const message = `${filename} [${finding.severity}]: ${finding.message} - "${finding.codeSnippet}"`;
           
@@ -219,7 +212,6 @@ class SafetyValidator {
           }
         });
 
-        // Container validation for dangerous commands
         const codeBlocks = this.extractCodeBlocks(content);
         for (const block of codeBlocks) {
           if (block.length > 0) {
@@ -274,9 +266,6 @@ class SafetyValidator {
     };
   }
 
-  /**
-   * Print colored console output
-   */
   log(color, message) {
     const colors = {
       red: '\x1b[31m',
@@ -308,14 +297,12 @@ class SafetyValidator {
     
     this.log('cyan', `Found ${commandFiles.length} command files to validate`);
 
-    // Validate each command file
     for (const filePath of commandFiles) {
       await this.validateFile(filePath);
     }
 
     this.safetyResults.validationTime = Date.now() - startTime;
 
-    // Generate and display report
     const report = this.generateReport();
     this.displayReport(report);
 
@@ -342,7 +329,6 @@ class SafetyValidator {
           }
         }
       } catch (error) {
-        // Directory doesn't exist or is not accessible
         return;
       }
     };
@@ -361,7 +347,6 @@ class SafetyValidator {
     this.log('blue', '\n🛡️  Safety Validation Report');
     this.log('blue', '=========================');
     
-    // Summary
     this.log('green', `✅ Total commands analyzed: ${report.summary.totalCommands}`);
     this.log('green', `✅ Safe commands: ${report.summary.safeCommands}`);
     
@@ -381,7 +366,6 @@ class SafetyValidator {
       this.log('cyan', '   Install Dagger from https://dagger.io for full safety validation');
     }
 
-    // Errors
     if (report.errors.length > 0) {
       this.log('red', `\n💥 Safety Errors (${report.errors.length}):`);
       report.errors.slice(0, 10).forEach(error => {
@@ -393,7 +377,6 @@ class SafetyValidator {
       }
     }
 
-    // Warnings
     if (report.warnings.length > 0) {
       this.log('yellow', `\n⚠️  Safety Warnings (${report.warnings.length}):`);
       report.warnings.slice(0, 5).forEach(warning => {
@@ -407,7 +390,6 @@ class SafetyValidator {
   }
 }
 
-// CLI execution
 if (require.main === module) {
   const validator = new SafetyValidator();
   
