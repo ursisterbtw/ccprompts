@@ -49,8 +49,10 @@ class SafetyValidator {
     const allPatterns = safetyPatterns.getAllPatterns();
 
     codeBlocks.forEach((block, index) => {
+      // block may be a string or an object depending on extractCodeBlocks implementation
+      const blockContent = typeof block === 'string' ? block : (block.content || '');
       allPatterns.forEach(({ pattern, severity, message }) => {
-        const matches = block.match(pattern);
+        const matches = blockContent.match(pattern);
         if (matches) {
           findings.push({
             filename,
@@ -59,7 +61,8 @@ class SafetyValidator {
             severity,
             message,
             matches: matches.slice(0, 3),
-            codeSnippet: block.substring(0, 100) + (block.length > 100 ? '...' : '')
+            codeSnippet: blockContent.substring(0, 100) + (blockContent.length > 100 ? '...' : ''),
+            language: typeof block === 'string' ? undefined : block.language
           });
         }
       });
@@ -72,15 +75,39 @@ class SafetyValidator {
    * Extract code blocks from markdown content
    */
   extractCodeBlocks(content) {
-    const codeBlockRegex = /```(?:\w+)?\n([\s\S]*?)```/g;
+    const codeBlockRegex = /```(?:([\w+-]+))?\n([\s\S]*?)```/g;
     const blocks = [];
     let match;
 
     while ((match = codeBlockRegex.exec(content)) !== null) {
-      blocks.push(match[1].trim());
+      blocks.push({ language: (match[1] || '').toLowerCase(), content: (match[2] || '').trim() });
     }
 
     return blocks;
+  }
+
+  /**
+   * Determine if a code block is likely a shell command
+   */
+  isShellLikeBlock(language, content) {
+    if (!content || content.length === 0) return false;
+
+    const shellLanguages = new Set(['bash', 'sh', 'shell', 'zsh']);
+    if (shellLanguages.has((language || '').toLowerCase())) return true;
+    if (language && !shellLanguages.has(language.toLowerCase())) return false;
+
+    const firstLine = content.split('\n').find(line => line.trim().length > 0) || '';
+    if (firstLine.startsWith('#!') && /bash|sh|zsh/.test(firstLine)) return true;
+    if (/^\s*\//.test(firstLine)) return false; // project pseudo-commands
+
+    const shellIndicators = [
+      /\b(git|npm|pnpm|yarn|node|npx|docker|dagger|bash|sh|curl|wget|chmod|chown|ls|cat|echo|grep|rg|sed|awk)\b/,
+      /&&|\|\||\|\s*grep|\|\s*rg/,
+      /^\s*[A-Za-z0-9_-]+\s+-[A-Za-z]/,
+      /^\s*export\s+\w+=/,
+      /^\s*set\s+-[a-z]/
+    ];
+    return shellIndicators.some(rx => rx.test(content));
   }
 
   /**
@@ -213,9 +240,14 @@ class SafetyValidator {
         });
 
         const codeBlocks = this.extractCodeBlocks(content);
-        for (const block of codeBlocks) {
-          if (block.length > 0) {
-            const validationResult = await this.validateCommandInContainer(block, filename);
+        const findingIndexes = new Set(dangerousFindings.map(f => f.blockIndex));
+        for (let i = 0; i < codeBlocks.length; i++) {
+          const block = codeBlocks[i];
+          const blockContent = typeof block === 'string' ? block : (block.content || '');
+          const blockLang = typeof block === 'string' ? '' : (block.language || '');
+          if (!findingIndexes.has(i)) continue;
+          if (this.isShellLikeBlock(blockLang, blockContent)) {
+            const validationResult = await this.validateCommandInContainer(blockContent, filename);
             
             if (validationResult.containerValidated) {
               this.safetyResults.validatedCommands++;

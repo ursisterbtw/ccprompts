@@ -68,7 +68,7 @@ Advanced debugging and troubleshooting system for Claude Code:
 
 ### Quick Diagnostic Summary
 
-```
+```text
 Claude Code Debug Report
 ========================
 Generated: 2024-01-15 14:30:00 UTC
@@ -100,7 +100,7 @@ Recommendations:
 
 ### Detailed Diagnostic Report
 
-```
+```text
 Detailed Debug Analysis: Connection Issues
 =========================================
 
@@ -155,7 +155,7 @@ Detailed Debug Analysis: Connection Issues
 
 ### Performance Profiling
 
-```
+```text
 Performance Analysis Report  
 ==========================
 
@@ -231,7 +231,7 @@ Issues requiring external action:
 
 ### Connection Problems
 
-```
+```text
 Issue: MCP Server Connection Failed
 ===================================
 
@@ -267,7 +267,7 @@ Prevention:
 
 ### Performance Issues
 
-```
+```text
 Issue: Slow Response Times
 =========================
 
@@ -300,7 +300,7 @@ Optimization Strategies:
 
 ### Tool Access Problems
 
-```
+```bash
 Issue: Tool Permission Denied
 ============================
 

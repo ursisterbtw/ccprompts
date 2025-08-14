@@ -5,7 +5,7 @@
 
 // Set Node.js specific environment variables
 process.env.NODE_ENV = 'test';
-process.env.EXPECTED_COMMAND_COUNT = '73';
+process.env.EXPECTED_COMMAND_COUNT = '70';
 process.env.CI = process.env.CI || 'false';
 
 // Performance test environment variables

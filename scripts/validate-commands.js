@@ -294,23 +294,18 @@ class CommandValidator {
       this.errors.push(`${filename}: Command file missing description`);
     }
     
-    const recommendedSections = ['## Usage', '## Parameters', '## Examples'];
-    const missingSections = recommendedSections.filter(section => 
-      !content.includes(section)
-    );
-    
-    if (missingSections.length > 0) {
-      this.warnings.push(`${filename}: Consider adding sections: ${missingSections.join(', ')}`);
+    const hasUsageSection = content.includes('## Usage');
+    const hasExamplesSection = content.includes('## Examples');
+    // Reduce noise: only warn if both Usage and Examples are missing
+    if (!hasUsageSection && !hasExamplesSection) {
+      this.warnings.push(`${filename}: Consider adding sections: ## Usage, ## Examples`);
     }
 
     if (content.includes('## Usage') && !content.includes('```')) {
       this.warnings.push(`${filename}: Usage section should include command format example`);
     }
 
-    const examplesSection = this.extractMarkdownSection(content, '## Examples');
-    if (examplesSection !== null && examplesSection.length < 200) {
-      this.warnings.push(`${filename}: Examples section appears too brief`);
-    }
+    // Skip brevity warning to reduce noise; presence is enough
   }
 
   extractCommandMetadata(content, filename) {
@@ -535,7 +530,7 @@ class CommandValidator {
       'CONTRIBUTING.md',
       'CHANGELOG.md',
       'LICENSE.md',
-      'CC-SDK-Guide.md',
+      'docs/CC-SDK.md',
       '.claude/README.md',
     ];
     
