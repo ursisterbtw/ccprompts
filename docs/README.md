@@ -2,7 +2,7 @@
 
 **Documentation for the Claude Code command collection**
 
-This directory contains documentation for the ccprompts project - a collection of 73 Claude Code commands organized into 12 phases for software development workflows.
+This directory contains documentation for the ccprompts project - a collection of 70 Claude Code commands organized into 12 phases for software development workflows.
 
 ---
 
@@ -15,7 +15,7 @@ This directory contains documentation for the ccprompts project - a collection o
 
 ### **Reference Documentation**
 
-- **[API-REFERENCE.md](API-REFERENCE.md)** - API specifications for all 73 commands
+- **[API-REFERENCE.md](API-REFERENCE.md)** - API specifications for all 70 commands
 - **[COMMAND-REFERENCE.md](COMMAND-REFERENCE.md)** - Command documentation with parameters
 - **[WORKFLOW-GUIDE.md](WORKFLOW-GUIDE.md)** - Workflow patterns and automation
 
@@ -37,6 +37,7 @@ This directory contains documentation for the ccprompts project - a collection o
 1. Start with **[README.md](../README.md)** for project overview
 2. Browse **[USAGE-EXAMPLES.md](USAGE-EXAMPLES.md)** for practical examples
 3. Reference **[COMMAND-REFERENCE.md](COMMAND-REFERENCE.md)** for specific commands
+4. For ideas/feedback, use **[GitHub Issues](https://github.com/ursisterbtw/ccprompts/issues)**
 
 ### **For Developers**
 
@@ -56,7 +57,7 @@ This directory contains documentation for the ccprompts project - a collection o
 
 ### **API Reference (API-REFERENCE.md)**
 
-Specifications for the 73-command collection including:
+Specifications for the 70-command collection including:
 
 - Command structure standards
 - Phase organization (00-11)
@@ -215,14 +216,15 @@ Development documentation including:
 
 ### **Command Collection**
 
-- **73 Commands** across 12 phases
+- **70 Commands** across 12 phases
 - **21 Prompts** across 10 categories
 - Safety validation and rollback capabilities
 - Agent creation system with template wizard
 
 ### **Documentation Coverage**
 
-- **API Reference**: Specification for all 73 commands
+- **API Reference**: Specification for all 70 commands
+- Community Discussions: use GitHub Issues for ideas and feedback
 - **Usage Examples**: Real-world scenarios and tutorials
 - **Workflow Guide**: Workflow patterns
 - **Developer Guide**: Development and integration documentation
@@ -253,7 +255,7 @@ Development documentation including:
 ### **Community Support**
 
 - **GitHub Issues**: [Report bugs or request features](https://github.com/ursisterbtw/ccprompts/issues)
-- **Discussions**: [Ask questions and share ideas](https://github.com/ursisterbtw/ccprompts/discussions)
+- Community Discussions: use GitHub Issues for questions and ideas
 - **Contributing**: See [CONTRIBUTING.md](../CONTRIBUTING.md) for contribution guidelines
 
 ---

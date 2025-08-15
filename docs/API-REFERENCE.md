@@ -62,6 +62,19 @@ Each command includes:
 ---
 
 ## Phase Organization
+## Command Categories
+
+Commands are grouped by phase-based categories that mirror the folder structure in `.claude/commands/`:
+
+- Initial Workflow & Setup (00-02)
+- Development & Quality (03-05)
+- Deployment & Operations (06-08)
+- Advanced Agentic Capabilities (09)
+- AI-Native Development (10)
+- Enterprise & Scale (11)
+
+Each command also carries metadata such as complexity, dependencies, and safety level, which can be used to filter commands for specific workflows.
+
 
 ### **Phase 00-02: Initial Workflow & Setup (10 commands)**
 

@@ -167,7 +167,7 @@ curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
 ## Community & Support
 
 - [Open an issue](https://github.com/ursisterbtw/ccprompts/issues) for bugs, feature requests, or questions
-- [Start a discussion](https://github.com/ursisterbtw/ccprompts/discussions) for ideas and feedback
+- Start a discussion by opening an issue for ideas and feedback
 - See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines
 
 ---

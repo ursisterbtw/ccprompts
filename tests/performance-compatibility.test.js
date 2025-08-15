@@ -73,7 +73,7 @@ describe('Performance and Compatibility Tests', () => {
 
     test('should handle JSON operations correctly', () => {
       const testData = {
-        commands: Array.from({length: 73}, (_, i) => ({
+        commands: Array.from({ length: global.TEST_CONFIG.EXPECTED_COMMAND_COUNT }, (_, i) => ({
           id: `command-${i}`,
           name: `Command ${i}`,
           phase: Math.floor(i / 6) + 1
@@ -83,7 +83,7 @@ describe('Performance and Compatibility Tests', () => {
       expect(() => {
         const jsonString = JSON.stringify(testData, null, 2);
         const parsed = JSON.parse(jsonString);
-        expect(parsed.commands).toHaveLength(73);
+        expect(parsed.commands).toHaveLength(global.TEST_CONFIG.EXPECTED_COMMAND_COUNT);
       }).not.toThrow();
     });
   });
