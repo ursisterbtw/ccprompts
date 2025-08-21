@@ -12,7 +12,7 @@
 
 # ccprompts – claude code command collection
 
-**ccprompts** is a collection of 70 Claude Code commands for software development workflows. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs.
+**ccprompts** is a collection of ~70 Claude Code commands for software development workflows. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs.
 
 > **Development Notice**: This repository is under active development. Commands may contain bugs,
 > breaking changes can occur between versions, and the structure may evolve. Use with caution in
@@ -22,12 +22,12 @@
 
 ## What's included
 
-**70 Commands Across 12 Phases:**
+**~70 Commands Across 12 Phases:**
 
 ### **Phase 00-08: Core Development (35 commands)**
 
 - **00-02**: Project setup, analysis, and refactoring (10 commands)
-- **03-05**: Security, testing, and deployment (10 commands)  
+- **03-05**: Security, testing, and deployment (10 commands)
 - **06-08**: Collaboration, utilities, and extras (15 commands)
 
 ### **Phase 09: Agentic Capabilities (12 commands)**
@@ -50,7 +50,7 @@
 
 **Features:**
 
-- 70 commands for development workflows
+- ~70 commands for development workflows
 - MCP integration and multi-agent coordination
 - Containerized execution with safety validation
 - Agent creation system with template wizard
@@ -98,7 +98,7 @@ The template system ensures consistent agent structure while allowing domain-spe
 
 ```text
 .claude/
-├── commands/          # 70 commands across 12 phases (00-11)
+├── commands/          # ~70 commands across 12 phases (00-11)
 │   ├── 00-initial-workflow/     # Project analysis and workflow (2 commands)
 │   ├── 01-project-setup/        # Documentation, learning, MCP (3 commands)
 │   ├── 02-development/          # Backup, debug, optimize, refactor (5 commands)
