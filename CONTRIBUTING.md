@@ -260,4 +260,4 @@ We're working toward these quality targets:
 | Prompt Coverage | 19 | 25+ |
 | Example Quality | Basic | Comprehensive |
 
-**Together, we're building the definitive resource for Claude Code development!** 🚀
+Together, we're building a comprehensive resource for Claude Code development.

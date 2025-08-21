@@ -363,7 +363,7 @@ Policy Landscape:
 - **System Integration**: [count] integrated governance systems
 - **Process Automation**: [percentage] of governance processes automated
 - **Reporting Automation**: [percentage] of reports automatically generated
-- **Workflow Integration**: [seamless|adequate|limited] workflow integration
+- **Workflow Integration**: [direct|adequate|limited] workflow integration
 
 ### Continuous Improvement
 - **Governance Maturity Growth**: [trend] in governance maturity over time

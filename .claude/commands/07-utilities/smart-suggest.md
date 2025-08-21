@@ -180,7 +180,7 @@ Recommendations consider dependencies and optimal ordering:
    Impact: Protect against data loss during rapid development
    Effort: 1 hour | Success Probability: 90%
 
-⚡ SHORT-TERM IMPROVEMENTS (This Week):
+Quick: SHORT-TERM IMPROVEMENTS (This Week):
 1. /test unit basic - Test coverage at 15% (target: 60%)
    Impact: Reduce debugging time, increase confidence
    Effort: 4-6 hours | Success Probability: 85%
@@ -189,7 +189,7 @@ Recommendations consider dependencies and optimal ordering:
    Impact: Enable frontend development, reduce communication overhead
    Effort: 2-3 hours | Success Probability: 90%
 
-🎯 STRATEGIC INITIATIVES (This Month):
+Target: STRATEGIC INITIATIVES (This Month):
 1. /setup-ci github basic - Manual deployment process
    Impact: Reduce deployment risk, enable faster iterations
    Effort: 1-2 days | Success Probability: 80%
@@ -212,7 +212,7 @@ Recommendations consider dependencies and optimal ordering:
    Impact: Proactive issue detection, reduce downtime
    Effort: 3-4 hours | Success Probability: 90%
 
-⚡ SHORT-TERM IMPROVEMENTS (This Week):
+Quick: SHORT-TERM IMPROVEMENTS (This Week):
 1. /refactor extract-services - Monolith showing scaling stress
    Impact: Improve maintainability, enable team scaling
    Effort: 1-2 weeks | Success Probability: 75%
@@ -221,7 +221,7 @@ Recommendations consider dependencies and optimal ordering:
    Impact: Faster code reviews, consistent quality standards
    Effort: 4-6 hours | Success Probability: 85%
 
-🎯 STRATEGIC INITIATIVES (This Quarter):
+Target: STRATEGIC INITIATIVES (This Quarter):
 1. /audit-security comprehensive - Preparing for enterprise customers
    Impact: Enable enterprise sales, reduce security risk
    Effort: 1-2 weeks | Success Probability: 80%
@@ -248,7 +248,7 @@ Recommendations consider dependencies and optimal ordering:
    Impact: Identify critical issues before they impact users
    Effort: 1-2 hours | Success Probability: 90%
 
-⚡ SHORT-TERM IMPROVEMENTS (This Sprint):
+Quick: SHORT-TERM IMPROVEMENTS (This Sprint):
 1. /tech-debt prioritize - Technical debt impacting velocity
    Impact: Improve development speed, reduce maintenance cost
    Effort: 1 week | Success Probability: 80%
@@ -257,7 +257,7 @@ Recommendations consider dependencies and optimal ordering:
    Impact: Improve test effectiveness, reduce regression risk
    Effort: 1-2 weeks | Success Probability: 75%
 
-🎯 STRATEGIC INITIATIVES (Next Quarter):
+Target: STRATEGIC INITIATIVES (Next Quarter):
 1. /modernize architecture - Microservices migration planning
    Impact: Improve scalability, enable team autonomy
    Effort: 3-6 months | Success Probability: 65%
@@ -284,7 +284,7 @@ Recommendations consider dependencies and optimal ordering:
    Impact: Pass compliance audit, avoid regulatory issues
    Effort: 1 day | Success Probability: 85%
 
-⚡ SHORT-TERM IMPROVEMENTS (This Sprint):
+Quick: SHORT-TERM IMPROVEMENTS (This Sprint):
 1. /harden production - Security hardening for financial data
    Impact: Reduce security risk, improve compliance posture
    Effort: 1-2 weeks | Success Probability: 80%
@@ -293,7 +293,7 @@ Recommendations consider dependencies and optimal ordering:
    Impact: Faster issue detection, improved reliability
    Effort: 1 week | Success Probability: 85%
 
-🎯 STRATEGIC INITIATIVES (Next Quarter):
+Target: STRATEGIC INITIATIVES (Next Quarter):
 1. /workflow-builder compliance - Automate compliance workflows
    Impact: Reduce compliance overhead, improve consistency
    Effort: 1-2 months | Success Probability: 75%

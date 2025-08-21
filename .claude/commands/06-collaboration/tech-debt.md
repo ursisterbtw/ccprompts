@@ -144,7 +144,7 @@ Admin Panel:
 ├── Business Impact: Low (internal tool)
 ├── Priority: Low
 
-🎯 Debt Trend Analysis:
+Target: Debt Trend Analysis:
 ├── Last Month: +2.3% (debt accumulated faster than resolved)
 ├── Last Quarter: +8.7% (significant accumulation during feature push)
 ├── Velocity Impact: -15% (estimated productivity loss)
@@ -157,7 +157,7 @@ Admin Panel:
 Code Quality Deep Dive
 ======================
 
-🔧 Code Complexity Issues (89 locations):
+Tool: Code Complexity Issues (89 locations):
 
 High Complexity Functions (15 functions):
 ├── calculatePaymentFees() - Cyclomatic Complexity: 23
@@ -216,7 +216,7 @@ Database Connection Boilerplate:
 Technical Debt ROI Analysis
 ==========================
 
-🎯 Priority Matrix (Impact vs Effort):
+Target: Priority Matrix (Impact vs Effort):
 
 Critical Priority (High Impact, Low-Medium Effort):
 ├── Authentication Service Refactoring
@@ -318,7 +318,7 @@ Compliance Risk (Risk Score: 5.2/10):
 6-Month Technical Debt Reduction Roadmap
 =======================================
 
-🎯 Overall Goal: Reduce debt ratio from 23.4% to 15% (target: <20%)
+Target: Overall Goal: Reduce debt ratio from 23.4% to 15% (target: <20%)
 
 Month 1: Critical Security & Stability (Focus: Risk Reduction)
 ├── Week 1-2: Authentication system security hardening
@@ -394,7 +394,7 @@ Sprint 24 Example Integration:
 │   ├── Documentation reduces future support burden
 │   └── Tests prevent bugs in upcoming auth changes
 
-🎯 Debt Selection Criteria:
+Target: Debt Selection Criteria:
 ├── Directly enables upcoming features (weight: 40%)
 ├── Reduces immediate business risk (weight: 30%)
 ├── Improves team velocity (weight: 20%)
@@ -503,7 +503,7 @@ Code Review Guidelines:
 ├── Knowledge Sharing: Explain reasoning behind debt concerns
 ├── Incremental Improvement: Encourage "leave code better than you found it"
 
-🎯 Cultural Changes:
+Target: Cultural Changes:
 
 Debt Ownership:
 ├── Each team member owns one debt category (architecture, testing, etc.)
@@ -544,7 +544,7 @@ Technical Debt Executive Summary
 ├── Customer Support Load: +23% (complexity-related tickets)
 ├── Security Risk: Medium (down from High in Q4)
 
-🎯 Q1 Achievements:
+Target: Q1 Achievements:
 ├── Debt Reduction: 6.8% (from 30.2% to 23.4%)
 ├── Critical Issues Resolved: 8 out of 12
 ├── Security Vulnerabilities: Reduced from 15 to 3
@@ -556,7 +556,7 @@ Technical Debt Executive Summary
 ├── Net Benefit: $24,300 (85% ROI in Q1 alone)
 ├── Projected Annual ROI: 340%
 
-🚀 Q2 Priorities:
+Action: Q2 Priorities:
 ├── Complete authentication system modernization
 ├── Reduce payment processing complexity by 60%
 ├── Achieve 85% automated test coverage

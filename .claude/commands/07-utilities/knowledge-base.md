@@ -632,7 +632,7 @@ Include specific file paths, configuration examples, and integration patterns fo
 
 ## Integration Commands
 
-This command works seamlessly with:
+This command works directly with:
 
 - `/document` - Generate specific documentation
 - `/analyze-project` - Assess knowledge needs

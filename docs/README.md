@@ -30,7 +30,7 @@ This directory contains documentation for the ccprompts project - a collection o
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### **For New Users**
 
@@ -53,7 +53,7 @@ This directory contains documentation for the ccprompts project - a collection o
 
 ---
 
-## 📖 Documentation Structure
+## Documentation Structure
 
 ### **API Reference (API-REFERENCE.md)**
 
@@ -190,7 +190,7 @@ Development documentation including:
 
 ---
 
-## 🔧 Development and Contributing
+## Tool: Development and Contributing
 
 ### **Setting Up Development Environment**
 

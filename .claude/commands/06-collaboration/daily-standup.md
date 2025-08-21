@@ -50,7 +50,7 @@ Team/Format: **$ARGUMENTS** (e.g., "slack", "jira-integration", "team-alpha", "r
 - Reviewed 2 pull requests for team members
 - Updated documentation for API endpoints
 
-🎯 **Today's Plan:**
+Target: **Today's Plan:**
 - Implement user permission system
 - Address performance issues in dashboard
 - Code review session with Sarah at 2 PM
@@ -113,7 +113,7 @@ If MCP GitHub server available:
 - **Documentation**: Comprehensive context sharing
 - **Follow-up actions**: Clear next steps
 
-## 🎯 Smart Recommendations
+## Target: Smart Recommendations
 
 ### Work Prioritization
 
@@ -170,7 +170,7 @@ If MCP GitHub server available:
 
 Generate intelligent, context-aware daily standup updates with team coordination and progress tracking!
 
-## 🚀 Advanced Standup Features (migrated from legacy extras command)
+## Action: Advanced Standup Features (migrated from legacy extras command)
 
 ### Standup Preparation
 
@@ -183,7 +183,7 @@ Personal Standup Update - TEMPLATE
 ✅ Yesterday's Accomplishments:
 - Summarize key completed tasks
 
-🎯 Today's Goals:
+Target: Today's Goals:
 - Outline main objectives for the day
 
 🚫 Blockers & Issues:
