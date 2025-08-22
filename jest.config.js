@@ -1,15 +1,15 @@
 module.exports = {
-  // Test environment
+  // test env
   testEnvironment: 'node',
   
-  // Test directories and patterns
+  // test dirs and patterns
   testMatch: [
     '**/tests/**/*.test.js',
     '**/tests/**/*.spec.js',
     '**/__tests__/**/*.js'
   ],
   
-  // Coverage configuration
+  // coverage config
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
@@ -40,21 +40,21 @@ module.exports = {
     }
   },
   
-  // Module and path configuration
+  // module and path config
   roots: ['<rootDir>'],
   modulePaths: ['<rootDir>'],
   moduleDirectories: ['node_modules', '<rootDir>'],
   
-  // Setup and teardown
+  // setup and teardown
   setupFilesAfterEnv: ['<rootDir>/tests/setup.js'],
   
-  // Test timeout (45 seconds for comprehensive validation tests)
+  // test timeout (45s for validation tests)
   testTimeout: 45000,
   
-  // Verbose output
+  // verbose output
   verbose: true,
   
-  // Transform configuration
+  // transform config
   transform: {},
   testPathIgnorePatterns: [
     '/node_modules/',
@@ -64,12 +64,12 @@ module.exports = {
     '/scripts/validators/node_modules/'
   ],
 
-  // Environment variables for testing
+  // env vars for testing
   setupFiles: ['<rootDir>/tests/jest-env-setup.js'],
 
-  // Test result processors
+  // test result processors
   reporters: ['default'],
 
-  // Global teardown
+  // global teardown
   globalTeardown: '<rootDir>/tests/jest-teardown.js'
 };

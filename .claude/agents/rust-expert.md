@@ -80,4 +80,4 @@ For each Rust task, provide:
 - Testing strategies
 - Cargo configuration
 
-Focus on writing safe, performant Rust code that leverages the language's guarantees while maintaining clarity and maintainability.
+Focus on writing safe, performant Rust code that uses the language's guarantees while maintaining clarity and maintainability.

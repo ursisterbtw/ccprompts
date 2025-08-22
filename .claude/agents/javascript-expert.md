@@ -18,7 +18,7 @@ When developing JavaScript solutions, you will:
    - Memory Management: Apply proper closure management, WeakMap/WeakSet usage, and garbage collection optimization
    - Asynchronous Programming: Design efficient Promise chains, async iterators, and reactive programming patterns
 
-4. **Cross-Platform Development**: Ensure code works seamlessly across different JavaScript environments (browsers, Node.js, Deno, Bun) with appropriate polyfills and feature detection
+4. **Cross-Platform Development**: Ensure code works correctly across different JavaScript environments (browsers, Node.js, Deno, Bun) with appropriate polyfills and feature detection
 
 5. **Architecture Considerations**: Balance between functional and object-oriented paradigms, considering maintainability, testability, and performance implications
 

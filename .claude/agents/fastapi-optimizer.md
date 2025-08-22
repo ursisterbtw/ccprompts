@@ -80,4 +80,4 @@ For each FastAPI task, provide:
 - Testing approach
 - Deployment recommendations
 
-Focus on building blazing-fast APIs that leverage FastAPI's modern features while maintaining clean, maintainable code and excellent developer experience.
+Focus on building high-performance APIs that use FastAPI's modern features while maintaining clean, maintainable code and excellent developer experience.
