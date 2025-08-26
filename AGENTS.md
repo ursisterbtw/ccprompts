@@ -21,6 +21,21 @@
 - `bun run test:jest -- --testNamePattern="specific test name"`
 - `bun run test:jest -- --testPathPattern="validators"`
 
+## Environment Setup
+
+### Bun Installation & Version Pinning
+- Install Bun (macOS/Linux): `curl -fsSL https://bun.sh/install | bash` then add `~/.bun/bin` to `PATH`.
+- Install Bun (Windows): use WSL with the script above or the official installer from bun.sh.
+- Version pinning: this repo pins Bun via `package.json` → `"packageManager": "bun@1.1.34"` and a `.bun-version` file. Verify with `bun --version`.
+- CI example (GitHub Actions):
+  ```yaml
+  - uses: oven-sh/setup-bun@v1
+    with:
+      bun-version: 1.1.34
+  - run: bun install --frozen-lockfile
+  - run: bun run test && bun run ci
+  ```
+
 ## Code Style Guidelines
 
 ### TypeScript & JavaScript

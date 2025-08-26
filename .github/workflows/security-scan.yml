@@ -21,7 +21,6 @@ on:
           - critical-only
 
 env:
-  NODE_VERSION: '20'
   SECURITY_SCAN_VERSION: v3
 
 permissions:
@@ -44,36 +43,27 @@ jobs:
       with:
         fetch-depth: 0
     
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
+    - name: Setup Bun (pinned)
+      uses: oven-sh/setup-bun@v1
       with:
-        node-version: ${{ env.NODE_VERSION }}
-        cache: 'npm'
-        cache-dependency-path: 'package-lock.json'
+        bun-version: 1.1.34
     
-    - name: Cache npm dependencies
+    - name: Cache Bun install cache
       uses: actions/cache@v4
-      id: npm-cache
+      id: bun-cache
       with:
-        path: ~/.npm
-        key: ${{ runner.os }}-npm-audit-${{ hashFiles('**/package-lock.json') }}
+        path: ~/.bun
+        key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
         restore-keys: |
-          ${{ runner.os }}-npm-audit-
-          ${{ runner.os }}-npm-
+          ${{ runner.os }}-bun-
     
     - name: Install dependencies
-      if: steps.npm-cache.outputs.cache-hit != 'true'
-      run: npm ci --prefer-offline --no-audit --progress=false
-    
-    - name: Run npm audit
-      run: |
-        npm audit --audit-level=moderate || true
-        npm audit --audit-level=high --json > audit-results.json || true
+      run: bun install --frozen-lockfile
     
     - name: Security scan with enhanced validator
       run: |
         echo "🛡️ Running comprehensive security validation..."
-        npm run security-scan || echo "Security scan not configured"
+        bun run security-scan || echo "Security scan not configured"
     
     - name: Check for hardcoded secrets
       run: |
