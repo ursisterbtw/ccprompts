@@ -43,14 +43,14 @@ cd src && bun install
 
 ```bash
 # Run npm/bun install safely
-./scripts/safe-run.sh "npm install"
+./scripts/safe-run.sh "bun install"
 ./scripts/safe-run.sh "bun install"
 
 # Execute with custom project path
 ./scripts/safe-run.sh "make install" --project-path "/path/to/project"
 
 # Add environment variables
-./scripts/safe-run.sh "npm run build" --env "NODE_ENV=production"
+./scripts/safe-run.sh "bun run build" --env "NODE_ENV=production"
 ./scripts/safe-run.sh "bun run build" --env "NODE_ENV=production"
 
 # Test mode (shows what would be executed)

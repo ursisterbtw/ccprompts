@@ -39,7 +39,7 @@ bun run test:validate         # Command validation only
 ```bash
 # Execute dangerous commands safely in Dagger containers
 ./scripts/safe-run.sh "rm -rf dangerous-path" --test
-./scripts/safe-run.sh "npm install untrusted-package" --project-path "/my/project"
+./scripts/safe-run.sh "bun add untrusted-package" --project-path "/my/project"
 ./scripts/safe-run.sh "bun install" --project-path "/my/project"
 
 # Quick safety shortcuts

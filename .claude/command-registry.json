@@ -1,0 +1,1569 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2025-08-26T23:31:06.010Z",
+  "commands": {
+    "analyze-project": {
+      "id": "analyze-project",
+      "name": "Analyze-Project Command",
+      "category": "command",
+      "phase": 0,
+      "description": "Performs intelligent project analysis and provides personalized recommendations:",
+      "usage": "/analyze-project",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/00-initial-workflow/analyze-project.md",
+      "last_modified": "2025-08-26T23:31:06.015Z"
+    },
+    "intelligent-chain": {
+      "id": "intelligent-chain",
+      "name": "Intelligent Command Chain",
+      "category": "command",
+      "phase": 0,
+      "description": "---\ndescription: Intelligent command chaining with natural language workflow automation\nallowed-tools: Bash(git:*), Read, Write, Edit, mcp__*\n---",
+      "usage": "/intelligent-chain",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/00-initial-workflow/intelligent-chain.md",
+      "last_modified": "2025-08-26T23:31:06.015Z"
+    },
+    "document": {
+      "id": "document",
+      "name": "Document Command",
+      "category": "command",
+      "phase": 1,
+      "description": "Creates comprehensive, maintainable documentation and knowledge systems:",
+      "usage": "/document",
+      "parameters": [
+        {
+          "name": "target",
+          "type": "string",
+          "required": true,
+          "description": "api, user, dev, architecture, runbook, knowledge-base"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/01-project-setup/document.md",
+      "last_modified": "2025-08-26T23:31:06.016Z"
+    },
+    "learn": {
+      "id": "learn",
+      "name": "Learn Command",
+      "category": "command",
+      "phase": 1,
+      "description": "Provides personalized learning paths and skill development for developers using Claude Code, with hands-on exercises and practical application integration. Creates customized learning experiences that...",
+      "usage": "/learn",
+      "parameters": [
+        {
+          "name": "**topic**",
+          "type": "string",
+          "required": true,
+          "description": "(required): The subject to learn"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/01-project-setup/learn.md",
+      "last_modified": "2025-08-26T23:31:06.016Z"
+    },
+    "mcp": {
+      "id": "mcp",
+      "name": "MCP Command",
+      "category": "command",
+      "phase": 1,
+      "description": "Configures and tests MCP server integrations for enhanced Claude Code capabilities:",
+      "usage": "/mcp",
+      "parameters": [
+        {
+          "name": "action",
+          "type": "string",
+          "required": true,
+          "description": "setup, test, configure, troubleshoot, develop"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/01-project-setup/mcp.md",
+      "last_modified": "2025-08-26T23:31:06.016Z"
+    },
+    "backup": {
+      "id": "backup",
+      "name": "Backup",
+      "category": "command",
+      "phase": 2,
+      "description": "Comprehensive backup solution that automatically detects and backs up critical project assets including code, databases, configurations, and dependencies.",
+      "usage": "/backup",
+      "parameters": [
+        {
+          "name": "strategy",
+          "type": "string",
+          "required": true,
+          "description": "full, incremental, differential, snapshot (default: full)"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/02-development/backup.md",
+      "last_modified": "2025-08-26T23:31:06.017Z"
+    },
+    "debug-session": {
+      "id": "debug-session",
+      "name": "Debug-Session Command",
+      "category": "command",
+      "phase": 2,
+      "description": "Advanced debugging and troubleshooting system for Claude Code:",
+      "usage": "/debug-session",
+      "parameters": [
+        {
+          "name": "issue-type",
+          "type": "string",
+          "required": true,
+          "description": "connection, performance, commands, workflows, prompts, tools, mcp"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/02-development/debug-session.md",
+      "last_modified": "2025-08-26T23:31:06.017Z"
+    },
+    "migrate": {
+      "id": "migrate",
+      "name": "Migrate",
+      "category": "command",
+      "phase": 2,
+      "description": "Intelligent migration system for databases, APIs, and infrastructure changes with automatic rollback capabilities and zero-downtime strategies.",
+      "usage": "/migrate",
+      "parameters": [
+        {
+          "name": "type",
+          "type": "string",
+          "required": true,
+          "description": "database, api, infrastructure, data (default: database)"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/02-development/migrate.md",
+      "last_modified": "2025-08-26T23:31:06.017Z"
+    },
+    "optimize": {
+      "id": "optimize",
+      "name": "Optimize Command",
+      "category": "command",
+      "phase": 2,
+      "description": "Executes systematic optimization workflows targeting specific improvement areas:",
+      "usage": "/optimize",
+      "parameters": [
+        {
+          "name": "target",
+          "type": "string",
+          "required": true,
+          "description": "performance, security, maintainability, cost, bundle-size, database"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/02-development/optimize.md",
+      "last_modified": "2025-08-26T23:31:06.017Z"
+    },
+    "refactor": {
+      "id": "refactor",
+      "name": "Safe Refactoring",
+      "category": "command",
+      "phase": 2,
+      "description": "---\ndescription: Safe multi-file refactoring with automated testing and rollback capability\nallowed-tools: Bash(git:*), Read, Write, Edit, MultiEdit, Bash(npm test:*), Bash(pytest:*)\n---",
+      "usage": "/refactor",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/02-development/refactor.md",
+      "last_modified": "2025-08-26T23:31:06.017Z"
+    },
+    "audit-security": {
+      "id": "audit-security",
+      "name": "Audit-Security Command",
+      "category": "command",
+      "phase": 3,
+      "description": "Performs comprehensive security and quality analysis:",
+      "usage": "/audit-security",
+      "parameters": [
+        {
+          "name": "scope",
+          "type": "string",
+          "required": true,
+          "description": "full-codebase, specific-module, new-features"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/03-security/audit-security.md",
+      "last_modified": "2025-08-26T23:31:06.018Z"
+    },
+    "comply": {
+      "id": "comply",
+      "name": "Comply Command",
+      "category": "command",
+      "phase": 3,
+      "description": "Implements comprehensive compliance automation and security hardening:",
+      "usage": "/comply",
+      "parameters": [
+        {
+          "name": "framework",
+          "type": "string",
+          "required": true,
+          "description": "soc2, gdpr, hipaa, pci, iso27001, custom"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/03-security/comply.md",
+      "last_modified": "2025-08-26T23:31:06.018Z"
+    },
+    "harden": {
+      "id": "harden",
+      "name": "Harden Command",
+      "category": "command",
+      "phase": 3,
+      "description": "Executes a comprehensive security hardening workflow that implements multiple security layers:",
+      "usage": "/harden",
+      "parameters": [
+        {
+          "name": "security-level",
+          "type": "string",
+          "required": true,
+          "description": "basic, enterprise, paranoid, compliance"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/03-security/harden.md",
+      "last_modified": "2025-08-26T23:31:06.018Z"
+    },
+    "incident-response": {
+      "id": "incident-response",
+      "name": "Incident-Response Command",
+      "category": "command",
+      "phase": 3,
+      "description": "Comprehensive incident response management system:",
+      "usage": "/incident-response",
+      "parameters": [
+        {
+          "name": "severity",
+          "type": "string",
+          "required": true,
+          "description": "critical, high, medium, low"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/03-security/incident-response.md",
+      "last_modified": "2025-08-26T23:31:06.018Z"
+    },
+    "test": {
+      "id": "test",
+      "name": "Comprehensive Testing",
+      "category": "testing",
+      "phase": 4,
+      "description": "---\ndescription: Comprehensive test generation and automation with coverage analysis\nallowed-tools: Bash(npm test:*), Bash(pytest:*), Bash(cargo test:*), Write, Edit, Read\n---",
+      "usage": "/test",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/04-testing/test.md",
+      "last_modified": "2025-08-26T23:31:06.018Z"
+    },
+    "troubleshoot": {
+      "id": "troubleshoot",
+      "name": "Troubleshoot Command",
+      "category": "testing",
+      "phase": 4,
+      "description": "Provides systematic debugging assistance and troubleshooting guidance for software development issues. Uses intelligent analysis to identify problems, guide resolution steps, and build team debugging...",
+      "usage": "/troubleshoot",
+      "parameters": [
+        {
+          "name": "**issue-type**",
+          "type": "string",
+          "required": true,
+          "description": "`error` | `performance` | `behavior` | `environment` | `security` | `deployment` | `integration`"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/04-testing/troubleshoot.md",
+      "last_modified": "2025-08-26T23:31:06.018Z"
+    },
+    "deploy": {
+      "id": "deploy",
+      "name": "Deploy Command",
+      "category": "command",
+      "phase": 5,
+      "description": "Implements sophisticated CI/CD pipelines and infrastructure automation:",
+      "usage": "/deploy",
+      "parameters": [
+        {
+          "name": "environment",
+          "type": "string",
+          "required": true,
+          "description": "dev, staging, prod, multi-cloud, hybrid"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/05-deployment/deploy.md",
+      "last_modified": "2025-08-26T23:31:06.018Z"
+    },
+    "git": {
+      "id": "git",
+      "name": "Git Command",
+      "category": "command",
+      "phase": 5,
+      "description": "Implements sophisticated Git workflows and repository management:",
+      "usage": "/git",
+      "parameters": [
+        {
+          "name": "operation",
+          "type": "string",
+          "required": true,
+          "description": "setup-flow, cleanup, migration, automation, analytics"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/05-deployment/git.md",
+      "last_modified": "2025-08-26T23:31:06.018Z"
+    },
+    "pre-commit": {
+      "id": "pre-commit",
+      "name": "Pre-Commit Command",
+      "category": "command",
+      "phase": 5,
+      "description": "Comprehensive pre-commit automation system:",
+      "usage": "/pre-commit",
+      "parameters": [
+        {
+          "name": "scope",
+          "type": "string",
+          "required": true,
+          "description": "staged, all-changes, full-project, affected-files"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/05-deployment/pre-commit.md",
+      "last_modified": "2025-08-26T23:31:06.019Z"
+    },
+    "setup-ci": {
+      "id": "setup-ci",
+      "name": "CI/CD Pipeline Setup",
+      "category": "command",
+      "phase": 5,
+      "description": "---\ndescription: Comprehensive CI/CD pipeline setup with security, testing, and deployment automation\nallowed-tools: Bash(git:*), Write, Edit, Read, mcp__github__*, mcp__gitlab__*\n---",
+      "usage": "/setup-ci",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/05-deployment/setup-ci.md",
+      "last_modified": "2025-08-26T23:31:06.019Z"
+    },
+    "code-review": {
+      "id": "code-review",
+      "name": "Code-Review Command",
+      "category": "command",
+      "phase": 6,
+      "description": "AI-powered code review system with multi-dimensional analysis:",
+      "usage": "/code-review",
+      "parameters": [
+        {
+          "name": "scope",
+          "type": "string",
+          "required": true,
+          "description": "pr, branch, commit, file, directory"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/06-collaboration/code-review.md",
+      "last_modified": "2025-08-26T23:31:06.019Z"
+    },
+    "daily-standup": {
+      "id": "daily-standup",
+      "name": "Daily Standup Automation",
+      "category": "command",
+      "phase": 6,
+      "description": "---\ndescription: Automated daily standup preparation with team coordination and progress tracking\nallowed-tools: Bash(git:*), Read, Write, mcp__slack__*, mcp__jira__*, mcp__github__*\n---",
+      "usage": "/daily-standup",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/06-collaboration/daily-standup.md",
+      "last_modified": "2025-08-26T23:31:06.019Z"
+    },
+    "monitor": {
+      "id": "monitor",
+      "name": "Monitor",
+      "category": "command",
+      "phase": 6,
+      "description": "Comprehensive monitoring setup that implements observability best practices including metrics, logs, traces, and alerts for production systems.",
+      "usage": "/monitor",
+      "parameters": [
+        {
+          "name": "component",
+          "type": "string",
+          "required": true,
+          "description": "app, infra, database, api, all (default: all)"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/06-collaboration/monitor.md",
+      "last_modified": "2025-08-26T23:31:06.019Z"
+    },
+    "tech-debt": {
+      "id": "tech-debt",
+      "name": "Tech-Debt Command",
+      "category": "command",
+      "phase": 6,
+      "description": "Comprehensive technical debt management and resolution system:",
+      "usage": "/tech-debt",
+      "parameters": [
+        {
+          "name": "action",
+          "type": "string",
+          "required": true,
+          "description": "assess, prioritize, plan, track, resolve, report"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/06-collaboration/tech-debt.md",
+      "last_modified": "2025-08-26T23:31:06.020Z"
+    },
+    "best-practices": {
+      "id": "best-practices",
+      "name": "Best-Practices Command",
+      "category": "command",
+      "phase": 7,
+      "description": "Provides comprehensive best practices analysis, recommendations, and enforcement for development workflows. Delivers authoritative, educational, and actionable guidance with automated detection and re...",
+      "usage": "/best-practices",
+      "parameters": [
+        {
+          "name": "domain",
+          "type": "string",
+          "required": true,
+          "description": "security, performance, testing, architecture, documentation, git, accessibility, maintainability"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/07-utilities/best-practices.md",
+      "last_modified": "2025-08-26T23:31:06.021Z"
+    },
+    "knowledge-base": {
+      "id": "knowledge-base",
+      "name": "Knowledge-Base Command",
+      "category": "command",
+      "phase": 7,
+      "description": "Comprehensive knowledge base management system that creates, maintains, and organizes organizational knowledge across multiple formats and platforms. Handles automated content extraction, intelligent...",
+      "usage": "/knowledge-base",
+      "parameters": [
+        {
+          "name": "**action**",
+          "type": "string",
+          "required": true,
+          "description": "create, update, search, organize, archive, analyze, extract, sync, backup, audit"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/07-utilities/knowledge-base.md",
+      "last_modified": "2025-08-26T23:31:06.021Z"
+    },
+    "quick-fix": {
+      "id": "quick-fix",
+      "name": "Quick-Fix Command",
+      "category": "command",
+      "phase": 7,
+      "description": "Delivers rapid, targeted solutions for common development problems:",
+      "usage": "/quick-fix",
+      "parameters": [
+        {
+          "name": "issue-type",
+          "type": "string",
+          "required": true,
+          "description": "security, performance, quality, dependencies, tests, docs, build"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/07-utilities/quick-fix.md",
+      "last_modified": "2025-08-26T23:31:06.021Z"
+    },
+    "release-notes": {
+      "id": "release-notes",
+      "name": "Release-Notes Command",
+      "category": "command",
+      "phase": 7,
+      "description": "Intelligent release note automation system:",
+      "usage": "/release-notes",
+      "parameters": [
+        {
+          "name": "version",
+          "type": "string",
+          "required": true,
+          "description": "auto, major, minor, patch, specific-version"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/07-utilities/release-notes.md",
+      "last_modified": "2025-08-26T23:31:06.021Z"
+    },
+    "smart-suggest": {
+      "id": "smart-suggest",
+      "name": "Smart-Suggest Command",
+      "category": "command",
+      "phase": 7,
+      "description": "Uses intelligent analysis to provide personalized prompt recommendations:",
+      "usage": "/smart-suggest",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/07-utilities/smart-suggest.md",
+      "last_modified": "2025-08-26T23:31:06.022Z"
+    },
+    "sprint-planning": {
+      "id": "sprint-planning",
+      "name": "Sprint-Planning Command",
+      "category": "command",
+      "phase": 7,
+      "description": "Comprehensive sprint planning automation and optimization system:",
+      "usage": "/sprint-planning",
+      "parameters": [
+        {
+          "name": "phase",
+          "type": "string",
+          "required": true,
+          "description": "preparation, estimation, planning, commitment, retrospective"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/07-utilities/sprint-planning.md",
+      "last_modified": "2025-08-26T23:31:06.022Z"
+    },
+    "validate-environment": {
+      "id": "validate-environment",
+      "name": "Validate-Environment Command",
+      "category": "command",
+      "phase": 7,
+      "description": "Performs comprehensive validation of the development environment and tooling:",
+      "usage": "/validate-environment",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/07-utilities/validate-environment.md",
+      "last_modified": "2025-08-26T23:31:06.022Z"
+    },
+    "health-check": {
+      "id": "health-check",
+      "name": "Health-Check Command",
+      "category": "command",
+      "phase": 8,
+      "description": "Performs systematic health assessment across all critical project dimensions:",
+      "usage": "/health-check",
+      "parameters": [
+        {
+          "name": "depth",
+          "type": "string",
+          "required": true,
+          "description": "quick, thorough, enterprise"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/08-extras/health-check.md",
+      "last_modified": "2025-08-26T23:31:06.022Z"
+    },
+    "modernize": {
+      "id": "modernize",
+      "name": "Modernize Command",
+      "category": "command",
+      "phase": 8,
+      "description": "Executes a comprehensive legacy modernization workflow that chains multiple prompts:",
+      "usage": "/modernize",
+      "parameters": [
+        {
+          "name": "legacy-type",
+          "type": "string",
+          "required": true,
+          "description": "monolith, legacy-frontend, old-backend, full-stack, microservice-migration"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/08-extras/modernize.md",
+      "last_modified": "2025-08-26T23:31:06.022Z"
+    },
+    "new-feature": {
+      "id": "new-feature",
+      "name": "New-Feature Command",
+      "category": "command",
+      "phase": 8,
+      "description": "Executes a comprehensive feature development workflow following best practices:",
+      "usage": "/new-feature",
+      "parameters": [
+        {
+          "name": "type",
+          "type": "string",
+          "required": true,
+          "description": "api, frontend, full-stack, microservice, integration"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/08-extras/new-feature.md",
+      "last_modified": "2025-08-26T23:31:06.022Z"
+    },
+    "workflow-builder": {
+      "id": "workflow-builder",
+      "name": "Workflow-Builder Command",
+      "category": "command",
+      "phase": 8,
+      "description": "Interactive workflow creation and management system:",
+      "usage": "/workflow-builder",
+      "parameters": [
+        {
+          "name": "action",
+          "type": "string",
+          "required": true,
+          "description": "create, edit, run, list, export, import, delete"
+        }
+      ],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/08-extras/workflow-builder.md",
+      "last_modified": "2025-08-26T23:31:06.023Z"
+    },
+    "agent-communicate": {
+      "id": "agent-communicate",
+      "name": "Agent Communicate - Inter-Agent Communication and Coordination Protocols",
+      "category": "command",
+      "phase": 9,
+      "description": "<role>\nSystem: You are an expert multi-agent communication specialist with deep expertise in agent coordination protocols, message passing systems, distributed agent architectures, and inter-agent col...",
+      "usage": "/agent-communicate",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/agent-communicate.md",
+      "last_modified": "2025-08-26T23:31:06.023Z"
+    },
+    "agent-learn": {
+      "id": "agent-learn",
+      "name": "Agent Learn - Agent Learning and Adaptation from Project Patterns",
+      "category": "command",
+      "phase": 9,
+      "description": "<role>\nSystem: You handle agent learning and adaptation from project patterns, user preferences, and development outcomes.\n</role>",
+      "usage": "/agent-learn",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/agent-learn.md",
+      "last_modified": "2025-08-26T23:31:06.024Z"
+    },
+    "agent-monitor": {
+      "id": "agent-monitor",
+      "name": "Agent Monitor - Agent Performance Monitoring and Optimization",
+      "category": "command",
+      "phase": 9,
+      "description": "<role>\nSystem: You are an expert agent monitoring and optimization specialist with deep expertise in multi-agent system observability, performance analysis, agent behavior monitoring, and system optim...",
+      "usage": "/agent-monitor",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/agent-monitor.md",
+      "last_modified": "2025-08-26T23:31:06.024Z"
+    },
+    "agent-orchestrate": {
+      "id": "agent-orchestrate",
+      "name": "Agent-Orchestrate Command",
+      "category": "command",
+      "phase": 9,
+      "description": "Enables sophisticated multi-agent coordination for complex development tasks:",
+      "usage": "/agent-orchestrate",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/agent-orchestrate.md",
+      "last_modified": "2025-08-26T23:31:06.024Z"
+    },
+    "agent-specialize": {
+      "id": "agent-specialize",
+      "name": "Agent Specialize - Agent Role Specialization and Capability Assignment",
+      "category": "command",
+      "phase": 9,
+      "description": "<role>\nSystem: You are an expert agent architecture specialist with deep expertise in multi-agent systems, role specialization, capability assignment, and agent coordination. You excel at designing sp...",
+      "usage": "/agent-specialize",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/agent-specialize.md",
+      "last_modified": "2025-08-26T23:31:06.025Z"
+    },
+    "context-manager": {
+      "id": "context-manager",
+      "name": "Context Manager - Advanced Context Management and Semantic Understanding",
+      "category": "command",
+      "phase": 9,
+      "description": "<role>\nSystem: You are an expert context management specialist with deep expertise in semantic understanding, knowledge graphs, conversation context, and AI-driven context persistence. You excel at ma...",
+      "usage": "/context-manager",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/context-manager.md",
+      "last_modified": "2025-08-26T23:31:06.025Z"
+    },
+    "context-persist": {
+      "id": "context-persist",
+      "name": "Context Persist - Context Persistence and Retrieval Across Sessions",
+      "category": "command",
+      "phase": 9,
+      "description": "<role>\nSystem: You are an expert context persistence specialist with deep expertise in session management, context serialization, knowledge retention, and cross-session continuity. You excel at mainta...",
+      "usage": "/context-persist",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/context-persist.md",
+      "last_modified": "2025-08-26T23:31:06.025Z"
+    },
+    "mcp-configure": {
+      "id": "mcp-configure",
+      "name": "MCP Configure - Advanced MCP Server Configuration and Management",
+      "category": "command",
+      "phase": 9,
+      "description": "<role>\nSystem: You are an expert Model Context Protocol (MCP) specialist with deep expertise in MCP server configuration, management, integration, and optimization. You excel at configuring MCP server...",
+      "usage": "/mcp-configure",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/mcp-configure.md",
+      "last_modified": "2025-08-26T23:31:06.025Z"
+    },
+    "mcp-discover": {
+      "id": "mcp-discover",
+      "name": "MCP-Discover Command",
+      "category": "command",
+      "phase": 9,
+      "description": "Leverages the 1000+ available MCP servers to extend Claude's agentic capabilities:",
+      "usage": "/mcp-discover",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/mcp-discover.md",
+      "last_modified": "2025-08-26T23:31:06.026Z"
+    },
+    "mcp-extend": {
+      "id": "mcp-extend",
+      "name": "MCP Extend - Custom MCP Server Development and Extension",
+      "category": "command",
+      "phase": 9,
+      "description": "<role>\nSystem: You are an expert MCP (Model Context Protocol) server developer with deep expertise in protocol implementation, server architecture, custom tool development, and MCP ecosystem integrati...",
+      "usage": "/mcp-extend",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/mcp-extend.md",
+      "last_modified": "2025-08-26T23:31:06.026Z"
+    },
+    "workflow-automate": {
+      "id": "workflow-automate",
+      "name": "Workflow Automate - Multi-Step Workflow Automation with Agent Coordination",
+      "category": "command",
+      "phase": 9,
+      "description": "<role>\nSystem: You are an expert workflow automation specialist with deep expertise in multi-agent orchestration, process automation, workflow design, and intelligent task coordination. You specialize...",
+      "usage": "/workflow-automate",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/workflow-automate.md",
+      "last_modified": "2025-08-26T23:31:06.026Z"
+    },
+    "workflow-visual": {
+      "id": "workflow-visual",
+      "name": "Workflow Visual - Visual Workflow Builder for Agent Orchestration",
+      "category": "command",
+      "phase": 9,
+      "description": "<role>\nSystem: You are an expert workflow visualization and design specialist with deep expertise in visual workflow builders, process modeling, agent orchestration design, and interactive workflow cr...",
+      "usage": "/workflow-visual",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/09-agentic-capabilities/workflow-visual.md",
+      "last_modified": "2025-08-26T23:31:06.027Z"
+    },
+    "ai-debug": {
+      "id": "ai-debug",
+      "name": "AI Debug - AI-Assisted Debugging and Error Resolution",
+      "category": "command",
+      "phase": 10,
+      "description": "<role>\nSystem: You provide AI assistance for debugging software issues and error resolution.\n</role>",
+      "usage": "/ai-debug",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/10-ai-native-development/ai-debug.md",
+      "last_modified": "2025-08-26T23:31:06.027Z"
+    },
+    "ai-mentor": {
+      "id": "ai-mentor",
+      "name": "AI Mentor - AI Mentoring and Skill Development Guidance",
+      "category": "command",
+      "phase": 10,
+      "description": "<role>\nSystem: You are an expert AI mentoring specialist with deep expertise in personalized learning, skill development, adaptive teaching, and intelligent tutoring systems. You excel at providing pe...",
+      "usage": "/ai-mentor",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/10-ai-native-development/ai-mentor.md",
+      "last_modified": "2025-08-26T23:31:06.027Z"
+    },
+    "ai-pair-program": {
+      "id": "ai-pair-program",
+      "name": "AI-Pair-Program Command",
+      "category": "command",
+      "phase": 10,
+      "description": "Provides sophisticated AI pair programming that goes beyond simple code completion:",
+      "usage": "/ai-pair-program",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/10-ai-native-development/ai-pair-program.md",
+      "last_modified": "2025-08-26T23:31:06.027Z"
+    },
+    "code-explain": {
+      "id": "code-explain",
+      "name": "Code Explain - Advanced Code Explanation and Documentation",
+      "category": "command",
+      "phase": 10,
+      "description": "<role>\nSystem: You are an expert code explanation and documentation specialist with deep expertise in code comprehension, natural language generation, technical writing, and intelligent documentation...",
+      "usage": "/code-explain",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/10-ai-native-development/code-explain.md",
+      "last_modified": "2025-08-26T23:31:06.028Z"
+    },
+    "code-generate": {
+      "id": "code-generate",
+      "name": "Code Generate - Advanced AI-Powered Code Generation",
+      "category": "command",
+      "phase": 10,
+      "description": "<role>\nSystem: You are a code generation specialist with expertise in automated code synthesis, template-based generation, and context-aware code creation. You generate maintainable code that follows...",
+      "usage": "/code-generate",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/10-ai-native-development/code-generate.md",
+      "last_modified": "2025-08-26T23:31:06.028Z"
+    },
+    "pattern-detect": {
+      "id": "pattern-detect",
+      "name": "Pattern Detect - Pattern Detection and Architectural Analysis",
+      "category": "command",
+      "phase": 10,
+      "description": "<role>\nSystem: You detect design patterns, architectural patterns, and anti-patterns in code.\n</role>",
+      "usage": "/pattern-detect",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/10-ai-native-development/pattern-detect.md",
+      "last_modified": "2025-08-26T23:31:06.028Z"
+    },
+    "predictive-dev": {
+      "id": "predictive-dev",
+      "name": "Predictive Dev - Predictive Development and Proactive Suggestions",
+      "category": "command",
+      "phase": 10,
+      "description": "<role>\nSystem: You are an expert predictive development specialist with deep expertise in machine learning for software development, predictive analytics, proactive development assistance, and intelli...",
+      "usage": "/predictive-dev",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/10-ai-native-development/predictive-dev.md",
+      "last_modified": "2025-08-26T23:31:06.029Z"
+    },
+    "refactor-semantic": {
+      "id": "refactor-semantic",
+      "name": "Refactor Semantic - Semantic-Aware Refactoring and Optimization",
+      "category": "command",
+      "phase": 10,
+      "description": "<role>\nSystem: You are an expert semantic refactoring specialist with deep expertise in code transformation, semantic-preserving refactoring, intelligent code optimization, and automated code improvem...",
+      "usage": "/refactor-semantic",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/10-ai-native-development/refactor-semantic.md",
+      "last_modified": "2025-08-26T23:31:06.029Z"
+    },
+    "semantic-understand": {
+      "id": "semantic-understand",
+      "name": "Semantic Understand - Deep Semantic Code Understanding and Analysis",
+      "category": "command",
+      "phase": 10,
+      "description": "<role>\nSystem: You are an expert semantic analysis and code understanding specialist with deep expertise in program analysis, semantic modeling, code comprehension, and architectural understanding. Yo...",
+      "usage": "/semantic-understand",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/10-ai-native-development/semantic-understand.md",
+      "last_modified": "2025-08-26T23:31:06.030Z"
+    },
+    "test-intelligent": {
+      "id": "test-intelligent",
+      "name": "Test Intelligent - Intelligent Test Generation and Optimization",
+      "category": "command",
+      "phase": 10,
+      "description": "<role>\nSystem: You are an expert intelligent testing specialist with deep expertise in automated test generation, AI-powered test optimization, intelligent test case design, and comprehensive test str...",
+      "usage": "/test-intelligent",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/10-ai-native-development/test-intelligent.md",
+      "last_modified": "2025-08-26T23:31:06.030Z"
+    },
+    "analytics-advanced": {
+      "id": "analytics-advanced",
+      "name": "Analytics Advanced - Advanced Analytics and Reporting Dashboard",
+      "category": "command",
+      "phase": 11,
+      "description": "<role>\nSystem: You create analytics dashboards and reporting systems for business intelligence.\n</role>",
+      "usage": "/analytics-advanced",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/11-enterprise-scale/analytics-advanced.md",
+      "last_modified": "2025-08-26T23:31:06.030Z"
+    },
+    "compliance-enterprise": {
+      "id": "compliance-enterprise",
+      "name": "Compliance Enterprise - Enterprise Compliance Automation and Auditing",
+      "category": "command",
+      "phase": 11,
+      "description": "<role>\nSystem: You handle enterprise compliance automation for regulatory frameworks like SOC2, GDPR, and HIPAA.\n</role>",
+      "usage": "/compliance-enterprise",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/11-enterprise-scale/compliance-enterprise.md",
+      "last_modified": "2025-08-26T23:31:06.030Z"
+    },
+    "governance": {
+      "id": "governance",
+      "name": "Governance - Enterprise Governance and Policy Enforcement",
+      "category": "command",
+      "phase": 11,
+      "description": "<role>\nSystem: You are an expert enterprise governance specialist with deep expertise in policy management, compliance automation, risk management, and organizational governance frameworks. You excel...",
+      "usage": "/governance",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/11-enterprise-scale/governance.md",
+      "last_modified": "2025-08-26T23:31:06.031Z"
+    },
+    "knowledge-org": {
+      "id": "knowledge-org",
+      "name": "Knowledge Org - Organizational Knowledge Management System",
+      "category": "command",
+      "phase": 11,
+      "description": "<role>\nSystem: You are an expert organizational knowledge management specialist with deep expertise in knowledge systems, information architecture, collaborative knowledge creation, and enterprise kno...",
+      "usage": "/knowledge-org",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/11-enterprise-scale/knowledge-org.md",
+      "last_modified": "2025-08-26T23:31:06.031Z"
+    },
+    "multi-repo": {
+      "id": "multi-repo",
+      "name": "Multi Repo - Multi-Repository Coordination and Management",
+      "category": "command",
+      "phase": 11,
+      "description": "<role>\nSystem: You are an expert multi-repository management specialist with deep expertise in distributed version control, cross-repository coordination, monorepo vs polyrepo strategies, and enterpri...",
+      "usage": "/multi-repo",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/11-enterprise-scale/multi-repo.md",
+      "last_modified": "2025-08-26T23:31:06.031Z"
+    },
+    "resource-manage": {
+      "id": "resource-manage",
+      "name": "Resource Manage - Resource Management and Capacity Planning",
+      "category": "command",
+      "phase": 11,
+      "description": "<role>\nSystem: You are an expert enterprise resource management and capacity planning specialist with deep expertise in resource optimization, capacity forecasting, workforce planning, and enterprise...",
+      "usage": "/resource-manage",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/11-enterprise-scale/resource-manage.md",
+      "last_modified": "2025-08-26T23:31:06.032Z"
+    },
+    "scale-optimize": {
+      "id": "scale-optimize",
+      "name": "Scale Optimize - Performance Optimization at Enterprise Scale",
+      "category": "command",
+      "phase": 11,
+      "description": "<role>\nSystem: You are an expert enterprise-scale performance optimization specialist with deep expertise in large-scale system optimization, distributed system performance, enterprise architecture op...",
+      "usage": "/scale-optimize",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/11-enterprise-scale/scale-optimize.md",
+      "last_modified": "2025-08-26T23:31:06.032Z"
+    },
+    "team-coordinate": {
+      "id": "team-coordinate",
+      "name": "Team Coordinate - Advanced Team Coordination and Communication",
+      "category": "command",
+      "phase": 11,
+      "description": "<role>\nSystem: You are an expert enterprise team coordination specialist with deep expertise in large-scale team management, cross-functional collaboration, distributed team coordination, and enterpri...",
+      "usage": "/team-coordinate",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "caution",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/11-enterprise-scale/team-coordinate.md",
+      "last_modified": "2025-08-26T23:31:06.032Z"
+    },
+    "1_explore_plan_code": {
+      "id": "1_explore_plan_code",
+      "name": "explore_plan_code",
+      "category": "command",
+      "phase": 1,
+      "description": "You will execute the following strict phased workflow. Never skip phases. Never hallucinate file paths.",
+      "usage": "/1_explore_plan_code",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/tasks/1_explore_plan_code.md",
+      "last_modified": "2025-08-26T23:31:06.033Z"
+    },
+    "2_continue_explore_plan_code": {
+      "id": "2_continue_explore_plan_code",
+      "name": "continue_explore_plan_code",
+      "category": "command",
+      "phase": 1,
+      "description": "================================================================\nPHASE R0: STATE RECONSTRUCTION\n1. Assert repo root (print absolute path).\n2. Verify existence of root-level PLANNING.md and TASKS.md....",
+      "usage": "/2_continue_explore_plan_code",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/tasks/2_continue_explore_plan_code.md",
+      "last_modified": "2025-08-26T23:31:06.033Z"
+    },
+    "3_sync_plan_tasks": {
+      "id": "3_sync_plan_tasks",
+      "name": "/sync_plan_w_tasks",
+      "category": "command",
+      "phase": 1,
+      "description": "READ:\n    ./PLANNING.md\n    ./TASKS.md\n    ./CLAUDE.md\n    ./README.md",
+      "usage": "/3_sync_plan_tasks",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/tasks/3_sync_plan_tasks.md",
+      "last_modified": "2025-08-26T23:31:06.033Z"
+    },
+    "agent_init": {
+      "id": "agent_init",
+      "name": "/agent_init",
+      "category": "command",
+      "phase": 1,
+      "description": "You are a Repository Explorer and Agent Generator. Your mission is to comprehensively analyze this project and create highly optimized, bespoke Claude Code sub-agents based on your findings. Use the g...",
+      "usage": "/agent_init",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/tasks/agent_init.md",
+      "last_modified": "2025-08-26T23:31:06.033Z"
+    },
+    "cursor_rules_generator": {
+      "id": "cursor_rules_generator",
+      "name": "cursor_rules_generator",
+      "category": "command",
+      "phase": 1,
+      "description": "**Prompt Title:** Repository Exploration and .cursor Rules Generation with Parallelized Subagents",
+      "usage": "/cursor_rules_generator",
+      "parameters": [],
+      "examples": [],
+      "dependencies": [],
+      "safety_level": "safe",
+      "claude_code_version": ">=1.0.0",
+      "file_path": ".claude/commands/tasks/cursor_rules_generator.md",
+      "last_modified": "2025-08-26T23:31:06.033Z"
+    }
+  },
+  "categories": {
+    "command": {
+      "id": "command",
+      "name": "Command",
+      "description": "command commands",
+      "phase": 0,
+      "command_count": 68,
+      "completion_percentage": 0
+    },
+    "testing": {
+      "id": "testing",
+      "name": "Testing",
+      "description": "testing commands",
+      "phase": 4,
+      "command_count": 2,
+      "completion_percentage": 0
+    }
+  },
+  "phases": [
+    {
+      "id": 0,
+      "name": "Phase 0",
+      "description": "Phase 0 commands",
+      "commands": [
+        "analyze-project",
+        "intelligent-chain"
+      ]
+    },
+    {
+      "id": 1,
+      "name": "Initial Workflow",
+      "description": "Initial project workflow and analysis commands",
+      "commands": [
+        "document",
+        "learn",
+        "mcp",
+        "1_explore_plan_code",
+        "2_continue_explore_plan_code",
+        "3_sync_plan_tasks",
+        "agent_init",
+        "cursor_rules_generator"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Project Setup",
+      "description": "Project initialization and setup automation",
+      "commands": [
+        "backup",
+        "debug-session",
+        "migrate",
+        "optimize",
+        "refactor"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Development",
+      "description": "Core development and refactoring tools",
+      "commands": [
+        "audit-security",
+        "comply",
+        "harden",
+        "incident-response"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Security & Compliance",
+      "description": "Security auditing and compliance validation",
+      "commands": [
+        "test",
+        "troubleshoot"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Testing & Quality",
+      "description": "Testing automation and quality assurance",
+      "commands": [
+        "deploy",
+        "git",
+        "pre-commit",
+        "setup-ci"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Deployment & Operations",
+      "description": "Deployment pipelines and operational tools",
+      "commands": [
+        "code-review",
+        "daily-standup",
+        "monitor",
+        "tech-debt"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Collaboration & Management",
+      "description": "Team collaboration and project management",
+      "commands": [
+        "best-practices",
+        "knowledge-base",
+        "quick-fix",
+        "release-notes",
+        "smart-suggest",
+        "sprint-planning",
+        "validate-environment"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Utilities & Analytics",
+      "description": "Utility commands and analytics tools",
+      "commands": [
+        "health-check",
+        "modernize",
+        "new-feature",
+        "workflow-builder"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Phase 9",
+      "description": "Phase 9 commands",
+      "commands": [
+        "agent-communicate",
+        "agent-learn",
+        "agent-monitor",
+        "agent-orchestrate",
+        "agent-specialize",
+        "context-manager",
+        "context-persist",
+        "mcp-configure",
+        "mcp-discover",
+        "mcp-extend",
+        "workflow-automate",
+        "workflow-visual"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Phase 10",
+      "description": "Phase 10 commands",
+      "commands": [
+        "ai-debug",
+        "ai-mentor",
+        "ai-pair-program",
+        "code-explain",
+        "code-generate",
+        "pattern-detect",
+        "predictive-dev",
+        "refactor-semantic",
+        "semantic-understand",
+        "test-intelligent"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Phase 11",
+      "description": "Phase 11 commands",
+      "commands": [
+        "analytics-advanced",
+        "compliance-enterprise",
+        "governance",
+        "knowledge-org",
+        "multi-repo",
+        "resource-manage",
+        "scale-optimize",
+        "team-coordinate"
+      ]
+    }
+  ],
+  "validation_results": {
+    "last_run": "2025-08-26T23:31:06.035Z",
+    "total_files": 100,
+    "valid_files": 70,
+    "errors": [],
+    "warnings": [
+      {
+        "message": ".claude/commands/00-initial-workflow/intelligent-chain.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/02-development/refactor.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/04-testing/test.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/05-deployment/setup-ci.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/06-collaboration/daily-standup.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/09-agentic-capabilities/agent-communicate.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/09-agentic-capabilities/agent-learn.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/09-agentic-capabilities/agent-monitor.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/09-agentic-capabilities/agent-specialize.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/09-agentic-capabilities/context-manager.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/09-agentic-capabilities/context-persist.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/09-agentic-capabilities/mcp-configure.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/09-agentic-capabilities/mcp-extend.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/09-agentic-capabilities/workflow-automate.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/09-agentic-capabilities/workflow-visual.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/10-ai-native-development/ai-debug.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/10-ai-native-development/ai-mentor.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/10-ai-native-development/code-generate.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/10-ai-native-development/pattern-detect.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/10-ai-native-development/predictive-dev.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/10-ai-native-development/refactor-semantic.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/10-ai-native-development/semantic-understand.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/10-ai-native-development/test-intelligent.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/11-enterprise-scale/analytics-advanced.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/11-enterprise-scale/compliance-enterprise.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/11-enterprise-scale/governance.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/11-enterprise-scale/multi-repo.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/11-enterprise-scale/resource-manage.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/11-enterprise-scale/scale-optimize.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/11-enterprise-scale/team-coordinate.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/tasks/1_explore_plan_code.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/tasks/2_continue_explore_plan_code.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/tasks/3_sync_plan_tasks.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/tasks/agent_init.md: Usage section should include command format example",
+        "severity": "warning"
+      },
+      {
+        "message": ".claude/commands/tasks/cursor_rules_generator.md: Consider adding sections: ## Usage, ## Examples",
+        "severity": "warning"
+      }
+    ],
+    "security_issues": [],
+    "quality_metrics": []
+  }
+}
