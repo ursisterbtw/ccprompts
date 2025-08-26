@@ -326,6 +326,7 @@ All potentially dangerous operations can be executed in isolated containers:
 
 # Quick safety aliases  
 ./scripts/quick-safe.sh install "npm install unknown-package"
+./scripts/quick-safe.sh install "bun install"
 ./scripts/quick-safe.sh rm-rf "rm -rf /tmp/dangerous-directory"
 ```
 

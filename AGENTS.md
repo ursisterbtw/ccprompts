@@ -3,23 +3,23 @@
 ## Build/Lint/Test Commands
 
 ### Core Commands
-- `npm run test` - Run Jest tests + validate all 70+ commands
-- `npm run test:jest` - Run Jest tests only
-- `npm run test:validate` - Run command validation only
-- `npm run validate` - Validate all 70+ commands (expects exact count)
-- `npm run lint` - Run markdownlint on documentation
-- `npm run lint:fix` - Auto-fix markdown formatting issues
-- `npm run ci` - Full pipeline: validate + lint + link-check
+- `bun run test` - Run Jest tests + validate all 70+ commands
+- `bun run test:jest` - Run Jest tests only
+- `bun run test:validate` - Run command validation only
+- `bun run validate` - Validate all 70+ commands (expects exact count)
+- `bun run lint` - Run markdownlint on documentation
+- `bun run lint:fix` - Auto-fix markdown formatting issues
+- `bun run ci` - Full pipeline: validate + lint + link-check
 
 ### Security & Safety
-- `npm run security-scan` - Security-focused validation only
-- `npm run safety-validate` - Dagger container safety system
+- `bun run security-scan` - Security-focused validation only
+- `bun run safety-validate` - Dagger container safety system
 - `./scripts/safe-run.sh "command"` - Execute dangerous commands safely
 
 ### Running Single Tests
-- `npm run test:jest -- tests/validators/file-utils.test.js`
-- `npm run test:jest -- --testNamePattern="specific test name"`
-- `npm run test:jest -- --testPathPattern="validators"`
+- `bun run test:jest -- tests/validators/file-utils.test.js`
+- `bun run test:jest -- --testNamePattern="specific test name"`
+- `bun run test:jest -- --testPathPattern="validators"`
 
 ## Code Style Guidelines
 

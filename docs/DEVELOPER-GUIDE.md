@@ -72,7 +72,7 @@ ccprompts/
 ```bash
 # Required tools
 node >= 18.0.0
-npm >= 9.0.0
+bun >= 1.1.0
 git >= 2.30.0
 
 # Claude Code CLI
@@ -83,6 +83,8 @@ dagger >= 0.18.12  # For containerized safety
 docker >= 20.10.0  # For container operations
 ```
 
+Note: This repo uses Bun for scripts. Replace `npm install` with `bun install` and `npm run <script>` with `bun run <script>` where applicable.
+
 ### **Initial Setup**
 
 ```bash
@@ -91,14 +93,14 @@ git clone https://github.com/ursisterbtw/ccprompts.git
 cd ccprompts
 
 # 2. Install dependencies
-npm install
+bun install
 
 # 3. Validate installation
-npm run validate
-npm test
+bun run validate
+bun run test
 
 # 4. Setup development hooks
-npm run setup-dev
+bun run setup-dev
 ```
 
 ### **Development Configuration**
@@ -125,7 +127,7 @@ npm run setup-dev
 ```bash
 # Pre-commit validation
 #!/bin/bash
-npm run validate
+bun run validate
 if [ $? -ne 0 ]; then
   echo "Validation failed. Please fix issues before committing."
   exit 1
@@ -255,14 +257,14 @@ cp .claude/commands/TEMPLATE.md .claude/commands/XX-phase/command-name.md
 $EDITOR .claude/commands/XX-phase/command-name.md
 
 # Validate during development
-npm run validate-single .claude/commands/XX-phase/command-name.md
+bun run validate-single .claude/commands/XX-phase/command-name.md
 ```
 
 #### 3. Testing Phase
 
 ```bash
 # Run comprehensive validation
-npm run validate
+bun run validate
 
 # Test safety validation
 ./scripts/safe-run.sh "/command-name test-parameters" --test
@@ -495,15 +497,15 @@ const securityChecks = {
 echo "Running pre-commit validation..."
 
 # Structure validation
-npm run validate:structure
+bun run validate:structure
 if [ $? -ne 0 ]; then exit 1; fi
 
 # Security scanning  
-npm run validate:security
+bun run validate:security
 if [ $? -ne 0 ]; then exit 1; fi
 
 # Quality scoring
-npm run validate:quality
+bun run validate:quality
 if [ $? -ne 0 ]; then exit 1; fi
 
 echo "All validations passed"
@@ -527,16 +529,16 @@ jobs:
           node-version: '18'
       
       - name: Install dependencies
-        run: npm ci
+        run: bun install
       
       - name: Run full validation suite
-        run: npm test
+        run: bun run test
       
       - name: Generate quality report
-        run: npm run quality-report
+        run: bun run quality-report
       
       - name: Security scanning
-        run: npm run security-scan
+        run: bun run security-scan
 ```
 
 ### **Quality Metrics and Reporting**
@@ -568,7 +570,7 @@ const qualityRubric = {
 
 ```bash
 # Generate comprehensive quality report
-npm run quality-report
+bun run quality-report
 
 # Output example:
 # Quality Report - ccprompts
@@ -628,7 +630,7 @@ describe('Safety System Validation', () => {
   });
   
   test('Safe commands pass validation', () => {
-    const safeCommands = ['ls', 'git status', 'npm test'];
+    const safeCommands = ['ls', 'git status', 'npm test', 'bun run test'];
     const safetyValidator = require('../scripts/safety-validator.js');
     
     safeCommands.forEach(command => {
@@ -663,31 +665,31 @@ describe('Integration Testing', () => {
 
 ```bash
 # Quick validation during development
-npm run test:quick
+bun run test:quick
 
 # Full test suite
-npm test
+bun run test
 
 # Specific test categories
-npm run test:structure
-npm run test:security  
-npm run test:integration
+bun run test:structure
+bun run test:security  
+bun run test:integration
 
 # Generate test coverage
-npm run test:coverage
+bun run test:coverage
 ```
 
 #### Performance Testing
 
 ```bash
 # Command execution performance
-npm run test:performance
+bun run test:performance
 
 # Memory usage analysis
-npm run test:memory
+bun run test:memory
 
 # Load testing for batch operations
-npm run test:load
+bun run test:load
 ```
 
 ---
@@ -724,19 +726,19 @@ jobs:
           cache: 'npm'
           
       - name: Install dependencies
-        run: npm ci
+        run: bun install
         
       - name: Lint and validate
-        run: npm run validate
+        run: bun run validate
         
       - name: Security scan
-        run: npm run security-scan
+        run: bun run security-scan
         
       - name: Run tests
-        run: npm test
+        run: bun run test
         
       - name: Generate coverage
-        run: npm run coverage
+        run: bun run coverage
         
       - name: Upload coverage
         uses: codecov/codecov-action@v3
@@ -782,10 +784,10 @@ jobs:
           node-version: '18'
           
       - name: Install dependencies
-        run: npm ci
+        run: bun install
         
       - name: Generate documentation
-        run: npm run docs:generate
+        run: bun run docs:generate
         
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -1030,8 +1032,8 @@ jobs:
       
       - name: Setup ccprompts
         run: |
-          npm ci
-          npm run validate
+          bun install
+          bun run validate
       
       - name: Execute command
         run: |
@@ -1310,17 +1312,17 @@ echo "Preparing release $VERSION ($TYPE)"
 npm version $TYPE --no-git-tag-version
 
 # 2. Run comprehensive validation
-npm test
+bun run test
 if [ $? -ne 0 ]; then
   echo "Tests failed. Aborting release."
   exit 1
 fi
 
 # 3. Generate changelog
-npm run changelog:generate
+bun run changelog:generate
 
 # 4. Update documentation
-npm run docs:generate
+bun run docs:generate
 
 # 5. Create release commit and tag
 git add .
@@ -1454,13 +1456,13 @@ echo "Running documentation quality assurance..."
 markdown-link-check docs/*.md
 
 # Validate code examples  
-npm run validate:code-examples
+bun run validate:code-examples
 
 # Check documentation completeness
 node scripts/check-doc-coverage.js
 
 # Generate documentation metrics
-npm run docs:metrics
+bun run docs:metrics
 
 echo "Documentation QA complete"
 ```

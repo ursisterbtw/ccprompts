@@ -208,7 +208,7 @@ Development documentation including:
 
 1. Follow [Documentation Standards](DEVELOPER-GUIDE.md#documentation-maintenance)
 2. Use established [Content Standards](../CONTRIBUTING.md#quality-standards)
-3. Run validation: `npm run validate`
+3. Run validation: `bun run validate`
 
 ---
 

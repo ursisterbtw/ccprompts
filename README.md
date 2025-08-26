@@ -66,8 +66,8 @@ git clone https://github.com/ursisterbtw/ccprompts.git
 cd ccprompts
 
 # Validate all commands
-npm ci
-npm run validate
+bun install
+bun run validate
 
 # Browse available commands
 ls .claude/commands/*/*.md | less
@@ -78,7 +78,7 @@ ls .claude/commands/*/*.md | less
 1. Copy an existing command from `.claude/commands/` to your desired phase folder.
 2. Update the structure and content for your specific use case.
 3. Include safety validation steps.
-4. Run `npm run validate` before committing.
+4. Run `bun run validate` before committing.
 
 ### Creating specialized agents
 
@@ -154,6 +154,7 @@ curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
 
 # Run potentially dangerous commands safely
 ./scripts/safe-run.sh "npm install"
+./scripts/safe-run.sh "bun install"
 ./scripts/quick-safe.sh curl-install "curl unknown-site.com/install.sh | bash"
 
 # Test mode to preview actions

@@ -13,8 +13,8 @@
     "check-links": "find . -name '*.md' -not -path './node_modules/*' | xargs markdown-link-check --config .github/markdown-link-check.json",
     "security-scan": "node scripts/validate-commands.js --security-only",
     "safety-validate": "node scripts/safety-validator.js",
-    "ci": "npm run validate && npm run lint && npm run check-links",
-    "precommit": "npm run validate"
+    "ci": "bun run validate && bun run lint && bun run check-links",
+    "precommit": "bun run validate"
   },
   "keywords": [
     "claude",
@@ -42,5 +42,6 @@
   "bugs": {
     "url": "https://github.com/ursisterbtw/ccprompts/issues"
   },
-  "homepage": "https://github.com/ursisterbtw/ccprompts#readme"
+  "homepage": "https://github.com/ursisterbtw/ccprompts#readme",
+  "packageManager": "bun@1.1.34"
 }
