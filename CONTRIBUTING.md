@@ -13,15 +13,15 @@ Thank you for your interest in contributing to this collection of Claude Code-sp
 
 2. **Install Dependencies**
 
-   ```bash
-   npm install
-   ```
+  ```bash
+  bun install
+  ```
 
 3. **Validate Your Changes**
 
-   ```bash
-   npm run validate
-   ```
+  ```bash
+  bun run validate
+  ```
 
 ## Development Workflow
 
@@ -70,9 +70,11 @@ Thank you for your interest in contributing to this collection of Claude Code-sp
 
 All contributions must pass:
 
-- **Markdown validation**: `npm run lint`
-- **Link checking**: `npm run check-links`
-- **Structure validation**: `npm run validate`
+- **Markdown validation**: `bun run lint`
+- **Link checking**: `bun run check-links`
+- **Structure validation**: `bun run validate`
+  
+  Note: If you prefer npm, the equivalents still work, but this repo standardizes on Bun.
 - **Security scanning**: Automated in CI/CD
 
 ### 4. Quality Standards
@@ -89,11 +91,11 @@ All contributions must pass:
 ### Run Full Validation Suite
 
 ```bash
-npm test                    # Full validation
-npm run validate           # Structure and content validation
-npm run lint               # Markdown linting
-npm run check-links        # Link validation
-npm run security-scan      # Security checks
+bun run test               # Full validation
+bun run validate           # Structure and content validation
+bun run lint               # Markdown linting
+bun run check-links        # Link validation
+bun run security-scan      # Security checks
 ```
 
 ### Local Development
@@ -111,7 +113,7 @@ grep -l "## Examples" .claude/commands/*.md
 ### Pull Request Process
 
 1. **Pre-submission Checklist**
-   - [ ] All validation passes (`npm test`)
+   - [ ] All validation passes (`bun run test`)
    - [ ] New commands have all required sections
    - [ ] New prompts have complete XML structure
    - [ ] Examples are realistic and comprehensive
@@ -131,7 +133,7 @@ grep -l "## Examples" .claude/commands/*.md
    - [ ] Validation enhancement
 
    ## Testing
-   - [ ] `npm test` passes
+   - [ ] `bun run test` passes
    - [ ] Manual testing completed
 
    ## Validation Results
@@ -208,7 +210,7 @@ ccprompts/
 
    ```bash
    # Check specific error types
-   npm run validate | grep "❌ Errors"
+   bun run validate | grep "❌ Errors"
 
    # Fix common issues
    grep -l "Missing sections" .claude/commands/**/*.md
@@ -221,7 +223,7 @@ ccprompts/
    markdown-link-check README.md
 
    # Update broken links
-   npm run check-links 2>&1 | grep "✖"
+   bun run check-links 2>&1 | grep "✖"
    ```
 
 3. **Missing Sections**

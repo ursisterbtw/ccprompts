@@ -9,7 +9,7 @@ A simple, reproducible system for running potentially dangerous commands in isol
 curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
 
 # Initialize the Dagger module
-cd src && npm install
+cd src && bun install
 
 # Run a potentially dangerous command safely
 ./scripts/safe-run.sh "rm -rf /tmp/test"
@@ -42,14 +42,16 @@ cd src && npm install
 ### Basic Command Execution
 
 ```bash
-# Run npm install safely
-./scripts/safe-run.sh "npm install"
+# Run npm/bun install safely
+./scripts/safe-run.sh "bun install"
+./scripts/safe-run.sh "bun install"
 
 # Execute with custom project path
 ./scripts/safe-run.sh "make install" --project-path "/path/to/project"
 
 # Add environment variables
-./scripts/safe-run.sh "npm run build" --env "NODE_ENV=production"
+./scripts/safe-run.sh "bun run build" --env "NODE_ENV=production"
+./scripts/safe-run.sh "bun run build" --env "NODE_ENV=production"
 
 # Test mode (shows what would be executed)
 ./scripts/safe-run.sh "rm -rf /" --test
@@ -85,6 +87,7 @@ dagger call dev-container
 
 # Test with cleanup
 dagger call test-command --command "npm test" --cleanup true
+dagger call test-command --command "bun run test" --cleanup true
 ```
 
 ## Safety Features
@@ -151,7 +154,7 @@ baseContainer(): Container {
 curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
 
 # Install TypeScript dependencies
-cd src && npm install
+cd src && bun install
 
 # Verify Dagger works
 dagger version
@@ -173,7 +176,7 @@ dagger version
 ### Test Quick Aliases
 
 ```bash
-# Test npm install
+# Test npm/bun install
 ./scripts/quick-safe.sh install --test
 
 # Test build process
@@ -184,7 +187,7 @@ dagger version
 
 ### Always Use for These Commands
 
-- **Package installations** - `npm install`, `pip install`, `gem install`
+- **Package installations** - `npm install`, `bun install`, `pip install`, `gem install`
 - **Build processes** - `make`, `cargo build`, `go build`
 - **File system operations** - `rm -rf`, `chmod -R`, `chown -R`
 - **Network scripts** - `curl | bash`, `wget | sh`
@@ -217,7 +220,7 @@ dagger version
 3. **TypeScript errors**
 
    ```bash
-   cd src && npm install
+   cd src && bun install
    ```
 
 4. **Container won't start**

@@ -18,20 +18,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # Validation and quality assurance
-npm run validate              # Validates all 70+ commands (expects exact count)
-npm run ci                    # Full pipeline: validate + lint + link-check
-npm run lint                  # Markdownlint on all documentation
-npm run lint:fix              # Auto-fix markdown formatting
-npm run check-links           # Validate all markdown links
+bun run validate              # Validates all 70+ commands (expects exact count)
+bun run ci                    # Full pipeline: validate + lint + link-check
+bun run lint                  # Markdownlint on all documentation
+bun run lint:fix              # Auto-fix markdown formatting
+bun run check-links           # Validate all markdown links
 
 # Security and safety
-npm run security-scan         # Security-focused validation only
-npm run safety-validate       # Dagger container safety system
-npm run precommit             # Pre-commit validation hooks
+bun run security-scan         # Security-focused validation only
+bun run safety-validate       # Dagger container safety system
+bun run precommit             # Pre-commit validation hooks
 
 # Testing (Jest compatibility issues with Node 24+)
-npm run test:jest             # Jest test suite (may fail on newer Node.js)
-npm run test:validate         # Command validation only
+bun run test:jest             # Jest test suite (may fail on newer Node.js)
+bun run test:validate         # Command validation only
 ```
 
 ### Safety System Operations
@@ -39,10 +39,11 @@ npm run test:validate         # Command validation only
 ```bash
 # Execute dangerous commands safely in Dagger containers
 ./scripts/safe-run.sh "rm -rf dangerous-path" --test
-./scripts/safe-run.sh "npm install untrusted-package" --project-path "/my/project"
+./scripts/safe-run.sh "bun add untrusted-package" --project-path "/my/project"
+./scripts/safe-run.sh "bun install" --project-path "/my/project"
 
 # Quick safety shortcuts
-./scripts/quick-safe.sh install    # Safe npm install
+./scripts/quick-safe.sh install    # Safe npm/bun install
 ./scripts/quick-safe.sh build      # Safe build operations
 ./scripts/quick-safe.sh rm-rf      # Safe file deletion
 ```
