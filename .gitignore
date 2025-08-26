@@ -11,6 +11,7 @@ dev/
 .claude/sessions/
 .claude/learning/progress.json
 .claude/learning/team-progress.json
+.claude/command-registry.json
 
 # Local development
 *.local
