@@ -3,6 +3,7 @@ secrets/
 .cursor/
 .windsurf/
 dev/
+src/
 
 # Claude Code specific
 .claude/cache/
