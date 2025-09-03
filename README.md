@@ -29,9 +29,9 @@ git clone https://github.com/ursisterbtw/ccprompts.git; and cd ccprompts; and bu
 
 ### Creating specialized agents
 
-The repository includes an agent creation system using `templates/SUB_AGENT_TEMPLATE.md`:
+The repository includes an agent creation system using [`templates/SUB_AGENT_TEMPLATE.md`](templates/SUB_AGENT_TEMPLATE.md):
 
-1. Use the `agent-template-wizard` agent to create new specialized agents
+1. Use the [`agent-template-wizard`](.claude/agents/agent-template-wizard.md) agent to create new specialized agents
 2. Provide domain expertise and specific capabilities needed
 3. Wizard fills template placeholders with consistent structure
 4. Generated agents follow 7-step methodology with proper categorization
