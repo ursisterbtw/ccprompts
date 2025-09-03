@@ -14,63 +14,10 @@
 
 **ccprompts** is a collection of ~70 Claude Code commands for software development workflows. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs.
 
-> **Development Notice**: This repository is under active development. Commands may contain bugs,
-> breaking changes can occur between versions, and the structure may evolve. Use with caution in
-> production environments.
-
----
-
-## What's included
-
-**~70 Commands Across 12 Phases:**
-
-### **Phase 00-08: Core Development (35 commands)**
-
-- **00-02**: Project setup, analysis, and refactoring (10 commands)
-- **03-05**: Security, testing, and deployment (10 commands)
-- **06-08**: Collaboration, utilities, and extras (15 commands)
-
-### **Phase 09: Agentic Capabilities (12 commands)**
-
-- MCP server discovery and configuration
-- Multi-agent orchestration and coordination
-- Context management and workflow automation
-
-### **Phase 10: AI-Native Development (10 commands)**
-
-- AI pair programming and code understanding
-- Code generation and debugging assistance
-- Testing and refactoring tools
-
-### **Phase 11: Enterprise Scale (8 commands)**
-
-- Multi-repository coordination
-- Compliance automation and resource management
-- Team coordination tools
-
-**Features:**
-
-- ~70 commands for development workflows
-- MCP integration and multi-agent coordination
-- Containerized execution with safety validation
-- Agent creation system with template wizard
-- Dagger-based safety container system
-
----
-
 ## Quick start
 
-```bash
-# Clone
-git clone https://github.com/ursisterbtw/ccprompts.git
-cd ccprompts
-
-# Validate all commands
-bun install
-bun run validate
-
-# Browse available commands
-ls .claude/commands/*/*.md | less
+```fish
+git clone https://github.com/ursisterbtw/ccprompts.git; and cd ccprompts; and bun i; and bun run validate
 ```
 
 ### Adding a new command
@@ -112,17 +59,12 @@ The template system ensures consistent agent structure while allowing domain-spe
 │   ├── 10-ai-native-development/ # AI-powered development tools (10 commands)
 │   └── 11-enterprise-scale/     # Governance and multi-repo (8 commands)
 ├── agents/            # Agent templates and configurations
-├── deprecated/        # Legacy agent files
 ├── workflows/         # Automated workflow definitions
-└── config.json       # Command ecosystem configuration
-├── 06-git-workflows/           # Advanced Git automation
-├── 07-multi-file-operations/   # Codebase-wide operations
-├── 08-mcp-integration/         # MCP configuration and testing
-├── 09-build-deployment/        # CI/CD and infrastructure
-└── 10-security-compliance/     # Security and compliance automation
+├── README.md
+├── settings.json
+└── command-registry.json
 
 scripts/               # Safety system + validation utilities
-src/                   # Dagger safety container module
 templates/             # Sub-agent template files
 tests/                 # Jest testing suite
 docs/                  # Multi-level documentation
@@ -132,15 +74,11 @@ docs/                  # Multi-level documentation
 
 ## Usage Examples
 
-### Browse and use commands
-
 ```bash
-# Explore the command ecosystem
 cat .claude/commands/09-agentic-capabilities/mcp-discover.md
 cat .claude/commands/10-ai-native-development/ai-pair-program.md
 cat .claude/commands/11-enterprise-scale/governance.md
 
-# Use commands directly with Claude Code
 /mcp-discover install filesystem --path=/project/data
 /ai-pair-program advanced typescript --context-aware
 /governance policy organization soc2 --enforce-automatically
@@ -149,19 +87,10 @@ cat .claude/commands/11-enterprise-scale/governance.md
 ### Safe command execution
 
 ```bash
-# Install Dagger (one-time setup)
-curl -L https://dl.dagger.io/dagger/install.sh | DAGGER_VERSION=18.12 sh
-
-# Run potentially dangerous commands safely
-./scripts/safe-run.sh "npm install"
-./scripts/safe-run.sh "bun install"
-./scripts/quick-safe.sh curl-install "curl unknown-site.com/install.sh | bash"
-
-# Test mode to preview actions
-./scripts/safe-run.sh "rm -rf /tmp/test" --test
+./scripts/safe-run.sh "command"
 ```
 
-**See [SAFETY.md](SAFETY.md) for safety system documentation.**
+See [SAFETY.md](SAFETY.md) for full safety system documentation.
 
 ---
 
@@ -180,6 +109,8 @@ Pull requests are welcome. Please:
 1. Run the validator and ensure no errors.
 2. Follow conventional commit messages (`feat: …`, `fix: …`, etc.).
 3. Keep commands clear and focused—avoid unnecessary complexity.
+
+> Development Notice: This repository is under active development. Commands may contain bugs, breaking changes can occur between versions, and the structure may evolve. Use with caution in production environments.
 
 ---
 
