@@ -11,9 +11,32 @@
 
 # ccprompts – claude code command collection
 
-**ccprompts** is a collection of ~70 Claude Code commands for software development workflows. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs.
+**ccprompts** is a collection of ~70 Claude Code commands for software development workflows with agent generation capabilities baked in. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs. The agent template system provides a wizard for creating specialized sub-agents (e.g., security auditors, systems architects) with standardized formatting and proper tool access configuration. For more info on subagents, see [subagents](https://docs.anthropic.com/en/docs/claude-code/sub-agents).
+
+> Development Notice: This repository is under active development. Commands may contain bugs, breaking changes can occur between versions, and the structure may evolve. Use with caution in production environments.
 
 ## Quick start
+
+### Prerequisites
+
+Install Dagger (required for the safety system):
+
+**Linux:**
+```bash
+curl -fsSL https://dl.dagger.io/dagger/install.sh | BIN_DIR=$HOME/.local/bin sh
+```
+
+**macOS:**
+```bash
+brew install dagger/tap/dagger
+```
+
+**Windows:**
+```powershell
+winget install Dagger.Cli
+```
+
+### Installation
 
 ```fish
 git clone https://github.com/ursisterbtw/ccprompts.git; and cd ccprompts; and bun i; and bun run validate
@@ -109,7 +132,6 @@ Pull requests are welcome. Please:
 2. Follow conventional commit messages (`feat: …`, `fix: …`, etc.).
 3. Keep commands clear and focused—avoid unnecessary complexity.
 
-> Development Notice: This repository is under active development. Commands may contain bugs, breaking changes can occur between versions, and the structure may evolve. Use with caution in production environments.
 
 ---
 
