@@ -11,7 +11,7 @@
 
 # ccprompts – claude code command collection
 
-**ccprompts** is a collection of ~70 Claude Code commands for software development workflows with agent generation capabilities baked in. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs. The agent template system provides a wizard for creating specialized sub-agents (e.g., security auditors, systems architects) with standardized formatting and proper tool access configuration. For more info on subagents, see [subagents](https://docs.anthropic.com/en/docs/claude-code/sub-agents).
+**ccprompts** is a collection of ~70 Claude Code commands for software development workflows with agent generation capabilities baked in. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs. The agent template system provides a wizard for creating specialized sub-agents (e.g., security auditors, systems architects) with standardized formatting and proper tool access. For more info on subagents, see [subagents](https://docs.anthropic.com/en/docs/claude-code/sub-agents).
 
 > Development Notice: This repository is under active development. Commands may contain bugs, breaking changes can occur between versions, and the structure may evolve. Use with caution in production environments.
 
