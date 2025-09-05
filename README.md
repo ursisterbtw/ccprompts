@@ -17,9 +17,9 @@
 
 ## Quick start
 
-### Prerequisites
+### Recommended Prerequisites
 
-Install Dagger (required for the safety system):
+Install Dagger (not *explicitly* required, but recommended to enable containerized command execution):
 
 **Linux:**
 ```bash
