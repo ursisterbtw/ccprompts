@@ -39,7 +39,7 @@ log_warn() {
 # Test 1: Check if all workflow files are valid YAML
 echo -e "${BLUE}Test 1: Validating YAML syntax${NC}"
 for workflow in .github/workflows/*.yml; do
-    if yq eval '.' "$workflow" > /dev/null 2>&1; then
+    if yq eval '.' "$workflow" >/dev/null 2>&1; then
         log_pass "$(basename "$workflow")"
     else
         log_fail "$(basename "$workflow") - Invalid YAML"
@@ -144,7 +144,7 @@ for workflow in "${CREATIVE_WORKFLOWS[@]}"; do
         has_checkout=$(grep -c "actions/checkout" ".github/workflows/$workflow" || echo 0)
         has_permissions=$(grep -c "permissions:" ".github/workflows/$workflow" || echo 0)
         has_steps=$(grep -c "steps:" ".github/workflows/$workflow" || echo 0)
-        
+
         if [ "$has_checkout" -gt 0 ] && [ "$has_permissions" -gt 0 ] && [ "$has_steps" -gt 0 ]; then
             log_pass "$workflow - All required components present"
         else
@@ -186,27 +186,27 @@ echo ""
 echo -e "${BLUE}Test 8: Performance optimization checks${NC}"
 for workflow in .github/workflows/*.yml; do
     optimizations=0
-    
+
     # Check for matrix strategy
     if grep -q "matrix:" "$workflow"; then
         ((optimizations++))
     fi
-    
+
     # Check for caching
     if grep -q "cache" "$workflow"; then
         ((optimizations++))
     fi
-    
+
     # Check for artifact retention
     if grep -q "retention-days:" "$workflow"; then
         ((optimizations++))
     fi
-    
+
     # Check for timeout-minutes
     if grep -q "timeout-minutes:" "$workflow"; then
         ((optimizations++))
     fi
-    
+
     if [ $optimizations -ge 2 ]; then
         log_pass "$(basename "$workflow") - Well optimized ($optimizations optimizations)"
     elif [ $optimizations -eq 1 ]; then

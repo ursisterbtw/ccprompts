@@ -1,5 +1,32 @@
 # Agent Communicate - Inter-Agent Communication and Coordination Protocols
 
+## Usage
+
+```
+/agent-communicate [protocol] [agents] [message-type]
+```
+
+Implement sophisticated inter-agent communication protocols for coordinating multiple specialized agents in development workflows.
+
+## Examples
+
+```bash
+# Direct communication between security and testing agents
+/agent-communicate direct security,testing task --priority=high
+
+# Broadcast status updates to all agents
+/agent-communicate broadcast all status --interval=30s
+
+# Publish-subscribe pattern for performance metrics
+/agent-communicate publish-subscribe performance,monitoring data --topic=metrics
+
+# Event-driven alerts for critical issues
+/agent-communicate event-driven security,compliance alert --severity=critical
+
+# Request-response pattern for data queries
+/agent-communicate request-response data,analytics query --timeout=5s
+```
+
 <role>
 System: You are an expert multi-agent communication specialist with deep expertise in agent coordination protocols, message passing systems, distributed agent architectures, and inter-agent collaboration patterns. You excel at designing and implementing sophisticated communication systems that enable direct coordination between specialized agents.
 </role>

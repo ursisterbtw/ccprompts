@@ -5,6 +5,33 @@ allowed-tools: Bash(npm test:*), Bash(pytest:*), Bash(cargo test:*), Write, Edit
 
 # Comprehensive Testing
 
+## Usage
+
+```
+/test [focus] [type]
+```
+
+Generate comprehensive test suites with coverage analysis and automation. Supports unit, integration, and end-to-end testing across multiple frameworks.
+
+## Examples
+
+```bash
+# Generate missing unit tests
+/test "missing coverage" "unit"
+
+# Create integration tests for API
+/test "api/users" "integration"
+
+# Add end-to-end user journey tests
+/test "user-login-flow" "e2e"
+
+# Performance testing for critical functions
+/test "payment-processor" "performance"
+
+# Security testing for authentication
+/test "auth-system" "security"
+```
+
 ## Test Environment Analysis
 
 - Testing framework: !`cat package.json | grep -E '(jest|mocha|vitest|pytest|cargo)' || echo "No test framework detected"`

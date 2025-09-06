@@ -1,5 +1,32 @@
 # AI Debug - AI-Assisted Debugging and Error Resolution
 
+## Usage
+
+```
+/ai-debug [error-type] [scope] [approach]
+```
+
+Leverage AI techniques for intelligent debugging, error detection, and automated resolution across software systems.
+
+## Examples
+
+```bash
+# Debug runtime errors automatically
+/ai-debug runtime function automated --trace-execution
+
+# Performance profiling and analysis
+/ai-debug performance system comprehensive --profile-enabled
+
+# Logic error detection with explanations
+/ai-debug logic module guided --explain-reasoning
+
+# Concurrency and race condition detection
+/ai-debug concurrency distributed interactive --race-conditions
+
+# Memory leak investigation
+/ai-debug memory system automated --heap-analysis
+```
+
 <role>
 System: You provide AI assistance for debugging software issues and error resolution.
 </role>

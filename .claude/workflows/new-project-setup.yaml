@@ -204,16 +204,16 @@ error_handling:
   default_strategy: pause_for_review
   rollback_strategy: selective
   notification_channels: [console, log]
-  
+
   step_specific:
     project_bootstrap:
       on_failure: rollback_and_retry
       max_rollback_attempts: 1
-    
+
     security_baseline:
       on_failure: continue_with_warning
       required_for_completion: false
-    
+
     ci_cd_setup:
       on_failure: skip_and_continue
       required_for_completion: false
@@ -225,7 +225,7 @@ success_criteria:
     - documentation_generated == true
     - tests_configured == true
     - health_score > 75%
-  
+
   optional:
     - security_baseline_established == true (if include_security)
     - ci_cd_pipeline_active == true (if setup_ci_cd)
@@ -234,12 +234,12 @@ post_execution:
   cleanup:
     - remove_temporary_files: true
     - archive_logs: true
-  
+
   reporting:
     - generate_summary_report: true
     - update_project_metrics: true
     - notify_team: true
-  
+
   next_steps:
     - suggest_immediate_actions: true
     - recommend_learning_paths: true
@@ -249,12 +249,12 @@ notifications:
   on_start:
     message: "Starting new project setup workflow for ${project_type} project"
     channels: [console]
-  
+
   on_completion:
     message: "Project setup completed successfully. Quality score: ${quality_score}%"
     channels: [console, log]
     include_summary: true
-  
+
   on_failure:
     message: "Project setup failed at step: ${failed_step}. Check logs for details."
     channels: [console, log, alert]
@@ -266,7 +266,7 @@ metrics:
     - step_success_rates
     - quality_scores
     - user_satisfaction
-  
+
   benchmarks:
     - average_execution_time: "3.2 hours"
     - typical_quality_score: "85%"

@@ -5,6 +5,33 @@ allowed-tools: Bash(git:*), Read, Write, mcp__slack__*, mcp__jira__*, mcp__githu
 
 # Daily Standup Automation
 
+## Usage
+
+```
+/daily-standup [team] [format]
+```
+
+Automate daily standup preparation with team coordination, progress tracking, and integration with collaboration tools.
+
+## Examples
+
+```bash
+# Slack-integrated standup
+/daily-standup "engineering-team" "slack"
+
+# JIRA-based progress tracking
+/daily-standup "scrum-team" "jira"
+
+# GitHub integration for code reviews
+/daily-standup "dev-team" "github"
+
+# Remote team coordination
+/daily-standup "remote-team" "comprehensive"
+
+# Quick daily summary
+/daily-standup "quick" "summary"
+```
+
 ## Team Context Analysis
 
 - Current branch: !`git branch --show-current`

@@ -5,6 +5,33 @@ allowed-tools: Bash(git:*), Read, Write, Edit, MultiEdit, Bash(npm test:*), Bash
 
 # Safe Refactoring
 
+## Usage
+
+```
+/refactor [target] [type]
+```
+
+Execute safe, multi-file refactoring with automated testing and rollback capabilities. Supports incremental changes with continuous validation.
+
+## Examples
+
+```bash
+# Modernize JavaScript to ES2024
+/refactor "utils.js" "modernize"
+
+# Refactor legacy API endpoints
+/refactor "api/v1/*" "architecture"
+
+# Extract reusable components
+/refactor "components/Dashboard.js" "extract-components"
+
+# Eliminate technical debt
+/refactor "src/services/*" "debt-reduction"
+
+# Database schema migration
+/refactor "database/schema" "migration"
+```
+
 ## Pre-Refactoring Analysis
 
 - Current branch: !`git branch --show-current`

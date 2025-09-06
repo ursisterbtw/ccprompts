@@ -5,6 +5,33 @@ allowed-tools: Bash(git:*), Read, Write, Edit, mcp__*
 
 # Intelligent Command Chain
 
+## Usage
+
+```
+/intelligent-chain [workflow-description]
+```
+
+Execute intelligent command sequences with natural language workflow automation. Automatically chains relevant commands based on intent analysis and project context.
+
+## Examples
+
+```bash
+# Feature development workflow
+/intelligent-chain "implement user authentication with JWT"
+
+# Bug fixing workflow
+/intelligent-chain "fix memory leak in payment processor"
+
+# Deployment preparation
+/intelligent-chain "prepare production release v2.1.0"
+
+# Code quality improvement
+/intelligent-chain "improve test coverage and security"
+
+# Performance optimization
+/intelligent-chain "optimize database queries and caching"
+```
+
 ## Context Analysis
 
 - Current project: !`pwd | xargs basename`
@@ -32,7 +59,7 @@ Based on the context above and your intent, I'll execute an intelligent sequence
 - `fix bug in user service` → locate → analyze → test → fix → validate
 - `deploy to production` → audit → test → backup → deploy → monitor
 
-### Quality Workflows  
+### Quality Workflows
 
 - `improve code quality` → analyze → refactor → test → document
 - `security hardening` → audit → harden → compliance → validate

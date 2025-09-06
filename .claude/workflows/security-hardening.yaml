@@ -9,24 +9,24 @@ workflows:
     triggers:
       - pattern: ["security baseline", "initial security", "new project security"]
       - context: ["project initialization", "security assessment"]
-    
+
     steps:
       - name: "Security Configuration Audit"
         command: "/project:audit-security configuration"
         condition: "always"
-        
+
       - name: "Dependency Vulnerability Scan"
         command: "/project:audit-security dependencies"
         condition: "on_success"
-        
+
       - name: "Infrastructure Hardening"
         command: "/project:harden infrastructure"
         condition: "on_success"
-        
+
       - name: "Access Control Setup"
         command: "/project:harden access-control"
         condition: "on_success"
-        
+
       - name: "Security Documentation"
         command: "/project:document security-policies"
         condition: "on_success"
@@ -37,24 +37,24 @@ workflows:
     triggers:
       - pattern: ["security check", "vulnerability scan", "compliance check"]
       - context: ["continuous monitoring", "regular assessment"]
-    
+
     steps:
       - name: "Automated Vulnerability Scan"
         command: "/project:audit-security automated"
         condition: "always"
-        
+
       - name: "Code Security Analysis"
         command: "/project:code-review security"
         condition: "on_success"
-        
+
       - name: "Configuration Drift Detection"
         command: "/project:harden validate"
         condition: "on_success"
-        
+
       - name: "Compliance Status Check"
         command: "/project:comply validate"
         condition: "on_success"
-        
+
       - name: "Security Metrics Update"
         command: "/project:monitor security-metrics"
         condition: "on_success"
@@ -65,28 +65,28 @@ workflows:
     triggers:
       - pattern: ["security incident", "breach", "vulnerability found"]
       - context: ["incident response", "emergency security"]
-    
+
     steps:
       - name: "Immediate Assessment"
         command: "/project:incident-response assess"
         condition: "always"
-        
+
       - name: "Containment Actions"
         command: "/project:incident-response contain"
         condition: "on_success"
-        
+
       - name: "Impact Analysis"
         command: "/project:audit-security impact"
         condition: "on_success"
-        
+
       - name: "Remediation Plan"
         command: "/project:incident-response remediate"
         condition: "on_success"
-        
+
       - name: "Recovery Validation"
         command: "/project:incident-response validate"
         condition: "on_success"
-        
+
       - name: "Post-Incident Review"
         command: "/project:incident-response review"
         condition: "on_success"
@@ -97,24 +97,24 @@ workflows:
     triggers:
       - pattern: ["compliance check", "audit preparation", "regulatory compliance"]
       - context: ["compliance", "audit", "regulatory"]
-    
+
     steps:
       - name: "SOC 2 Compliance Check"
         command: "/project:comply soc2"
         condition: "always"
-        
+
       - name: "GDPR Compliance Validation"
         command: "/project:comply gdpr"
         condition: "on_success"
-        
+
       - name: "Security Controls Audit"
         command: "/project:audit-security controls"
         condition: "on_success"
-        
+
       - name: "Compliance Report Generation"
         command: "/project:comply report"
         condition: "on_success"
-        
+
       - name: "Remediation Tracking"
         command: "/project:comply track-remediation"
         condition: "on_success"
@@ -131,7 +131,7 @@ security_frameworks:
     - insecure_deserialization
     - vulnerable_components
     - insufficient_logging
-    
+
   nist_cybersecurity:
     identify:
       - asset_management
@@ -160,14 +160,14 @@ compliance_mappings:
       - system_operations
       - change_management
       - risk_mitigation
-    
+
   gdpr:
     privacy_controls:
       - data_protection_by_design
       - consent_management
       - data_subject_rights
       - breach_notification
-    
+
   hipaa:
     healthcare_controls:
       - administrative_safeguards
@@ -186,7 +186,7 @@ automation_rules:
     medium_severity:
       action: "scheduled_remediation"
       timeline: "30_days"
-    
+
   compliance_monitoring:
     daily_checks:
       - access_control_validation

@@ -5,6 +5,33 @@ allowed-tools: Bash(git:*), Write, Edit, Read, mcp__github__*, mcp__gitlab__*
 
 # CI/CD Pipeline Setup
 
+## Usage
+
+```
+/setup-ci [platform] [project-type]
+```
+
+Set up comprehensive CI/CD pipelines with security, testing, and deployment automation across multiple platforms.
+
+## Examples
+
+```bash
+# GitHub Actions for Node.js
+/setup-ci "github-actions" "nodejs"
+
+# GitLab CI for Python project
+/setup-ci "gitlab-ci" "python"
+
+# Azure DevOps for .NET
+/setup-ci "azure-devops" "dotnet"
+
+# Jenkins pipeline for microservices
+/setup-ci "jenkins" "microservices"
+
+# Multi-environment deployment
+/setup-ci "github-actions" "full-stack" "multi-env"
+```
+
 ## Repository Analysis
 
 - Git hosting: !`git remote get-url origin 2>/dev/null | grep -o 'github\|gitlab\|bitbucket' | head -1`

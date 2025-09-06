@@ -9,39 +9,39 @@ steps:
       project_type: "${PROJECT_TYPE}"
       language: "${PRIMARY_LANGUAGE}"
       deployment_target: "${DEPLOYMENT_TARGET}"
-    
+
   - name: "Document Project"
     command: "/document"
     depends_on: ["Analyze Project"]
-    
+
   - name: "Security Audit"
     command: "/audit-security"
     inputs:
       analysis_depth: "maximum"
       security_focus: "paranoid"
-    
+
   - name: "Optimize Dependencies"
     command: "/optimize"
     parallel_with: ["Security Audit"]
-    
+
   - name: "Test Suite Setup"
     command: "/test"
     inputs:
       coverage_target: 90
       test_framework_preference: "modern"
     depends_on: ["Security Audit", "Optimize Dependencies"]
-    
+
   - name: "CI/CD Pipeline"
     command: "/setup-ci"
     inputs:
       deployment_safety: "maximum"
       rollback_enabled: true
     depends_on: ["Test Suite Setup"]
-    
+
   - name: "Documentation Generation"
     command: "/document"
     depends_on: ["CI/CD Pipeline"]
-    
+
   - name: "Security Hardening"
     command: "/harden"
     inputs:

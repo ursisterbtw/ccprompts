@@ -258,17 +258,17 @@ error_handling:
   default_strategy: pause_for_review
   rollback_strategy: selective
   notification_channels: [console, log, team]
-  
+
   step_specific:
     refactoring_implementation:
       on_failure: rollback_and_pause
       approval_required_for_retry: true
       max_rollback_attempts: 2
-    
+
     test_enhancement:
       on_failure: continue_with_warning
       required_for_completion: true
-    
+
     performance_optimization:
       on_failure: skip_and_continue
       required_for_completion: false
@@ -280,11 +280,11 @@ success_criteria:
     - technical_debt_reduced > 30%
     - all_tests_passing == true
     - quality_target_achieved == true
-  
+
   performance:
     - performance_improved > 20% (if performance_focus)
     - no_performance_regressions == true
-  
+
   maintainability:
     - code_complexity_reduced == true
     - documentation_coverage > 80%
@@ -295,12 +295,12 @@ quality_gates:
     - all_tests_passing == true
     - git_working_directory_clean == true
     - backup_created == true
-  
+
   post_refactoring:
     - all_tests_still_passing == true
     - no_breaking_changes == true
     - quality_metrics_improved == true
-  
+
   final_validation:
     - target_quality_level_achieved == true
     - no_regressions_detected == true
@@ -311,13 +311,13 @@ post_execution:
     - remove_temporary_files: true
     - archive_analysis_reports: true
     - clean_build_artifacts: true
-  
+
   reporting:
     - generate_improvement_summary: true
     - create_before_after_comparison: true
     - update_quality_metrics: true
     - document_lessons_learned: true
-  
+
   follow_up:
     - schedule_quality_review: true
     - plan_next_improvement_cycle: true
@@ -327,18 +327,18 @@ notifications:
   on_start:
     message: "Starting code quality enhancement workflow (target: ${quality_target})"
     channels: [console, team]
-  
+
   on_major_improvement:
     message: "Significant quality improvement achieved: ${improvement_details}"
     channels: [console, team, management]
     include_metrics: true
-  
+
   on_completion:
     message: "Quality enhancement completed. Improvement: ${improvement_metrics.overall_improvement}%"
     channels: [console, team]
     include_summary: true
     include_next_steps: true
-  
+
   on_failure:
     message: "Quality enhancement failed at step: ${failed_step}"
     channels: [console, team]
@@ -352,7 +352,7 @@ metrics:
     - performance_improvement
     - code_complexity_reduction
     - documentation_coverage_increase
-  
+
   benchmarks:
     - average_quality_improvement: "35%"
     - typical_coverage_increase: "25 percentage points"
@@ -365,12 +365,12 @@ integration:
     - static_analysis: [SonarQube, CodeClimate, ESLint]
     - test_coverage: [Coverage.py, Istanbul, JaCoCo]
     - performance: [Lighthouse, WebPageTest, JMeter]
-  
+
   development_tools:
     - version_control: [Git, GitHub, GitLab]
     - ci_cd: [GitHub_Actions, Jenkins, GitLab_CI]
     - project_management: [Jira, Linear, GitHub_Issues]
-  
+
   communication:
     - team_chat: [Slack, Teams, Discord]
     - documentation: [Confluence, Notion, GitBook]

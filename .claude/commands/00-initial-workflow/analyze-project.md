@@ -74,7 +74,7 @@ No parameters required. The command automatically detects project characteristic
 # Project Type: React TypeScript Web Application
 # Maturity Level: Early Development
 # Priority 1: /setup-ci github professional
-# Priority 2: /test unit comprehensive  
+# Priority 2: /test unit comprehensive
 # Priority 3: /audit-security full-codebase thorough
 # Quick Win: /document dev auto-generated
 ```

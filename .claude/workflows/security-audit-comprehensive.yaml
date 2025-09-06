@@ -76,7 +76,7 @@ steps:
       baseline_report: "$.security_baseline"
     timeout: 20m
     success_criteria:
-      - baseline_report.completeness > 90%
+      - "baseline_report.completeness > 90%"
 
   - id: vulnerability_scanning
     name: "Vulnerability Scanning"
@@ -95,7 +95,7 @@ steps:
       max_attempts: 2
       backoff: linear
     success_criteria:
-      - vulnerability_report.scan_completeness > 95%
+      - "vulnerability_report.scan_completeness > 95%"
 
   - id: dependency_analysis
     name: "Dependency Security Analysis"
@@ -110,7 +110,7 @@ steps:
       dependency_report: "$.dependency_analysis"
     timeout: 45m
     success_criteria:
-      - dependency_report.coverage > 98%
+      - "dependency_report.coverage > 98%"
 
   - id: code_security_scan
     name: "Code Security Analysis"
@@ -126,7 +126,7 @@ steps:
       code_security_report: "$.code_security"
     timeout: 60m
     success_criteria:
-      - code_security_report.files_scanned > 95%
+      - "code_security_report.files_scanned > 95%"
 
   - id: infrastructure_security
     name: "Infrastructure Security Assessment"
@@ -141,7 +141,7 @@ steps:
       include_cloud_config: true
     timeout: 75m
     success_criteria:
-      - infrastructure_scan_complete == true
+      - "infrastructure_scan_complete == true"
 
   - id: penetration_testing
     name: "Automated Penetration Testing"
@@ -156,7 +156,7 @@ steps:
     timeout: 120m
     approval_required: true
     success_criteria:
-      - penetration_test_complete == true
+      - "penetration_test_complete == true"
 
   - id: compliance_validation
     name: "Compliance Standards Validation"
@@ -171,7 +171,7 @@ steps:
       compliance_score: "$.compliance_assessment"
     timeout: 90m
     success_criteria:
-      - compliance_score.overall_score > 80%
+      - "compliance_score.overall_score > 80%"
 
   - id: risk_assessment
     name: "Security Risk Assessment"
@@ -187,7 +187,7 @@ steps:
       risk_assessment: "$.risk_analysis"
     timeout: 30m
     success_criteria:
-      - risk_assessment.completeness > 90%
+      - "risk_assessment.completeness > 90%"
 
   - id: security_hardening
     name: "Security Hardening Implementation"
@@ -204,8 +204,8 @@ steps:
     approval_required: true
     rollback_on_failure: true
     success_criteria:
-      - critical_vulnerabilities_fixed > 90%
-      - high_vulnerabilities_fixed > 75%
+      - "critical_vulnerabilities_fixed > 90%"
+      - "high_vulnerabilities_fixed > 75%"
 
   - id: incident_response_prep
     name: "Incident Response Preparation"
@@ -220,8 +220,8 @@ steps:
       integrate_monitoring: true
     timeout: 45m
     success_criteria:
-      - incident_response_plan_created == true
-      - playbooks_validated == true
+      - "incident_response_plan_created == true"
+      - "playbooks_validated == true"
 
   - id: security_verification
     name: "Security Verification Scan"
@@ -237,8 +237,8 @@ steps:
       max_attempts: 3
       backoff: exponential
     success_criteria:
-      - verification_scan_complete == true
-      - improvement_verified == true
+      - "verification_scan_complete == true"
+      - "improvement_verified == true"
 
   - id: compliance_reporting
     name: "Compliance Report Generation"
@@ -253,97 +253,97 @@ steps:
       executive_summary: true
     timeout: 30m
     success_criteria:
-      - compliance_report_generated == true
-      - evidence_package_complete == true
+      - "compliance_report_generated == true"
+      - "evidence_package_complete == true"
 
 error_handling:
   default_strategy: pause_for_review
   rollback_strategy: selective
   notification_channels: [console, log, security_team]
-  
+
   step_specific:
     vulnerability_scanning:
       on_timeout: extend_timeout
       max_timeout_extensions: 1
-    
+
     penetration_testing:
       on_failure: continue_with_warning
       required_for_completion: false
-    
+
     security_hardening:
       on_failure: rollback_and_pause
       approval_required_for_retry: true
 
 success_criteria:
   overall:
-    - vulnerability_scan_complete == true
-    - critical_vulnerabilities <= 0
-    - high_vulnerabilities <= 3
-    - compliance_score.overall_score > 80%
-    - security_hardening_applied == true
-  
+    - "vulnerability_scan_complete == true"
+    - "critical_vulnerabilities <= 0"
+    - "high_vulnerabilities <= 3"
+    - "compliance_score.overall_score > 80%"
+    - "security_hardening_applied == true"
+
   critical:
-    - no_active_exploits_found == true
-    - authentication_secure == true
-    - data_encryption_verified == true
-    - access_controls_validated == true
+    - "no_active_exploits_found == true"
+    - "authentication_secure == true"
+    - "data_encryption_verified == true"
+    - "access_controls_validated == true"
 
 risk_thresholds:
   critical:
     action: immediate_escalation
     criteria:
-      - active_exploits_found > 0
-      - critical_vulnerabilities > 0
-      - compliance_score < 60%
-  
+      - "active_exploits_found > 0"
+      - "critical_vulnerabilities > 0"
+      - "compliance_score < 60%"
+
   high:
     action: priority_remediation
     criteria:
-      - high_vulnerabilities > 5
-      - compliance_score < 80%
-      - security_score < 70%
-  
+      - "high_vulnerabilities > 5"
+      - "compliance_score < 80%"
+      - "security_score < 70%"
+
   medium:
     action: scheduled_remediation
     criteria:
-      - medium_vulnerabilities > 20
-      - compliance_score < 90%
+      - "medium_vulnerabilities > 20"
+      - "compliance_score < 90%"
 
 post_execution:
   cleanup:
-    - sanitize_sensitive_logs: true
-    - archive_evidence: true
-    - remove_temporary_files: true
-  
+    - "sanitize_sensitive_logs: true"
+    - "archive_evidence: true"
+    - "remove_temporary_files: true"
+
   reporting:
-    - generate_executive_summary: true
-    - create_remediation_plan: true
-    - update_security_metrics: true
-    - notify_stakeholders: true
-  
+    - "generate_executive_summary: true"
+    - "create_remediation_plan: true"
+    - "update_security_metrics: true"
+    - "notify_stakeholders: true"
+
   follow_up:
-    - schedule_remediation_tracking: true
-    - plan_next_audit: true
-    - update_security_policies: true
+    - "schedule_remediation_tracking: true"
+    - "plan_next_audit: true"
+    - "update_security_policies: true"
 
 notifications:
   on_start:
     message: "Starting comprehensive security audit for ${environment} environment"
     channels: [console, security_team]
     priority: normal
-  
+
   on_critical_finding:
     message: "CRITICAL: Security vulnerability found - ${finding_details}"
     channels: [console, security_team, management]
     priority: critical
     immediate: true
-  
+
   on_completion:
     message: "Security audit completed. Overall score: ${compliance_score.overall_score}%"
     channels: [console, security_team, management]
     include_summary: true
     include_recommendations: true
-  
+
   on_failure:
     message: "Security audit failed at step: ${failed_step}"
     channels: [console, security_team]
@@ -352,28 +352,28 @@ notifications:
 
 metrics:
   track:
-    - vulnerabilities_found_by_severity
-    - compliance_scores_by_standard
-    - remediation_time
-    - false_positive_rate
-    - security_improvement_score
-  
+    - "vulnerabilities_found_by_severity"
+    - "compliance_scores_by_standard"
+    - "remediation_time"
+    - "false_positive_rate"
+    - "security_improvement_score"
+
   benchmarks:
-    - average_execution_time: "6.5 hours"
-    - typical_vulnerability_count: "12 medium, 3 high, 0 critical"
-    - average_compliance_score: "87%"
-    - success_rate: "87%"
+    - "average_execution_time: \"6.5 hours\""
+    - "typical_vulnerability_count: \"12 medium, 3 high, 0 critical\""
+    - "average_compliance_score: \"87%\""
+    - "success_rate: \"87%\""
 
 integration:
   security_tools:
-    - vulnerability_scanners: [Nessus, OpenVAS, Qualys]
-    - code_analysis: [SonarQube, Checkmarx, Veracode]
-    - dependency_check: [Snyk, OWASP, GitHub]
-  
+    - "vulnerability_scanners: [Nessus, OpenVAS, Qualys]"
+    - "code_analysis: [SonarQube, Checkmarx, Veracode]"
+    - "dependency_check: [Snyk, OWASP, GitHub]"
+
   compliance_platforms:
-    - evidence_collection: [Vanta, Drata, SecureFrame]
-    - reporting: [GRC_platforms, custom_dashboards]
-  
+    - "evidence_collection: [Vanta, Drata, SecureFrame]"
+    - "reporting: [GRC_platforms, custom_dashboards]"
+
   notification_systems:
-    - incident_management: [PagerDuty, Opsgenie]
-    - communication: [Slack, Teams, Email]
+    - "incident_management: [PagerDuty, Opsgenie]"
+    - "communication: [Slack, Teams, Email]"
