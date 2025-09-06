@@ -13,7 +13,7 @@ class QualityScorer {
   validatePromptQuality(content, filename, promptType = null) {
     this.qualityIssues = [];
     this.qualityScore = 100;
-    
+
     // Length checks
     if (content.length < 500) {
       this.qualityIssues.push(`${filename}: Content too brief (${content.length} chars)`);
@@ -37,8 +37,8 @@ class QualityScorer {
     }
 
     // Check for safety considerations
-    if (promptType !== 'utility' && 
-        !content.toLowerCase().includes('safety') && 
+    if (promptType !== 'utility' &&
+        !content.toLowerCase().includes('safety') &&
         !content.toLowerCase().includes('verify') &&
         !content.toLowerCase().includes('backup')) {
       this.qualityIssues.push(`${filename}: No safety considerations mentioned`);
@@ -55,10 +55,10 @@ class QualityScorer {
 
     // Check for clear instructions
     const instructionWords = ['step', 'first', 'then', 'next', 'finally', 'must', 'should'];
-    const hasStructuredInstructions = instructionWords.some(word => 
+    const hasStructuredInstructions = instructionWords.some(word =>
       content.toLowerCase().includes(word)
     );
-    
+
     if (!hasStructuredInstructions) {
       this.qualityIssues.push(`${filename}: Instructions lack clear structure`);
       this.qualityScore -= 5;
@@ -68,7 +68,7 @@ class QualityScorer {
     if (content.length > 2000) {
       this.qualityScore = Math.min(100, this.qualityScore + 5);
     }
-    
+
     if (content.includes('## Context') || content.includes('<context>')) {
       this.qualityScore = Math.min(100, this.qualityScore + 3);
     }
@@ -79,7 +79,7 @@ class QualityScorer {
 
     // Ensure score doesn't go below 0
     this.qualityScore = Math.max(0, this.qualityScore);
-    
+
     return {
       score: this.qualityScore,
       issues: this.qualityIssues
@@ -89,7 +89,7 @@ class QualityScorer {
   // Determine prompt type with better heuristics
   determinePromptType(filename, content) {
     const filepath = filename.toLowerCase();
-    
+
     // Check by directory structure
     if (filepath.includes('commands/')) {
       return 'command';
@@ -118,7 +118,7 @@ class QualityScorer {
     if (filepath.includes('initial')) {
       return 'initialization';
     }
-    
+
     // Check by content patterns
     if (content.includes('test suite') || content.includes('testing')) {
       return 'testing';
@@ -144,7 +144,7 @@ class QualityScorer {
     if (content.includes('bootstrap') || content.includes('initialize')) {
       return 'initialization';
     }
-    
+
     return 'general';
   }
 

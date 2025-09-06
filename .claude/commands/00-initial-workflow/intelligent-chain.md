@@ -7,7 +7,7 @@ allowed-tools: Bash(git:*), Read, Write, Edit, mcp__*
 
 ## Usage
 
-```
+```bash
 /intelligent-chain [workflow-description]
 ```
 

@@ -12,7 +12,7 @@ class StructureValidator {
   validateXMLStructure(content, filename) {
     this.errors = [];
     this.warnings = [];
-    
+
     const requiredSections = [
       '<role>',
       '<activation>',
@@ -35,30 +35,30 @@ class StructureValidator {
     const contentWithoutCodeBlocks = content
       .replace(/```[\s\S]*?```/g, '')
       .replace(/`[^`]*`/g, '');
-    
+
     const tagStack = [];
     const xmlTagRegex = /<\/?([a-zA-Z][a-zA-Z0-9_-]*)(?:\s[^>]*)?>|<!--[\s\S]*?-->/g;
     let match;
     let lineNumber = 1;
     let lastIndex = 0;
-    
+
     while ((match = xmlTagRegex.exec(contentWithoutCodeBlocks)) !== null) {
       const currentLineNum = content.substring(lastIndex, match.index).split('\n').length - 1 + lineNumber;
       lastIndex = match.index;
-      
+
       const fullTag = match[0];
       const tagName = match[1];
-      
+
       if (fullTag.startsWith('<!--') || fullTag.endsWith('/>') || fullTag.startsWith('<?')) {
         continue;
       }
-      
+
       if (fullTag.startsWith('</')) {
         if (tagStack.length === 0) {
           this.errors.push(`${filename}:${currentLineNum}: Unexpected closing tag: ${fullTag}`);
           return false;
         }
-        
+
         const expectedTag = tagStack.pop();
         if (expectedTag !== tagName) {
           this.errors.push(`${filename}:${currentLineNum}: Mismatched XML tags - expected </${expectedTag}>, found </${tagName}>`);
@@ -80,7 +80,7 @@ class StructureValidator {
   validateCommandStructure(content, filename) {
     this.errors = [];
     this.warnings = [];
-    
+
     const requiredCommandSections = [
       '## Description',
       '## Usage',
@@ -88,7 +88,7 @@ class StructureValidator {
       '## Examples'
     ];
 
-    const missingSections = requiredCommandSections.filter(section => 
+    const missingSections = requiredCommandSections.filter(section =>
       !content.includes(section)
     );
 
@@ -110,13 +110,13 @@ class StructureValidator {
   extractMarkdownSection(content, heading) {
     const normalizedHeading = heading.trim().toLowerCase();
     const headingLevel = heading.match(/^#+/)?.[0].length || 2;
-    
+
     const headingPattern = normalizedHeading
       .replace(/^#+\s*/, '')
       .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
       .split(/\s+/)
       .join('\\s+');
-    
+
     let nextHeadingPattern = '';
     for (let i = 1; i <= headingLevel; i++) {
       if (i > 1) {
@@ -124,12 +124,12 @@ class StructureValidator {
       }
       nextHeadingPattern += `^#{${i}}\\s`;
     }
-    
+
     const regex = new RegExp(
       `^#{${headingLevel}}\\s+${headingPattern}\\s*\\n([\\s\\S]*?)(?=(${nextHeadingPattern})|\\s*$)`,
       'gmi'
     );
-    
+
     const matches = [];
     let match;
     while ((match = regex.exec(content)) !== null) {

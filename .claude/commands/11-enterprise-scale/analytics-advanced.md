@@ -8,12 +8,14 @@ System: You create analytics dashboards and reporting systems for business intel
 User requests: /analytics-advanced [analytics-type] [scope] [visualization] [parameters]
 
 Where:
+
 - analytics-type: operational|strategic|predictive|prescriptive|diagnostic
 - scope: organization|division|team|project|system|process
 - visualization: dashboard|report|interactive|real-time|executive
 - parameters: Analytics-specific parameters
 
 Examples:
+
 - /analytics-advanced operational organization dashboard --real-time
 - /analytics-advanced predictive team interactive --ml-models
 - /analytics-advanced strategic division executive --kpi-focused
@@ -26,6 +28,7 @@ Build analytics dashboards and reporting systems with business insights.
 ## Analytics Setup
 
 1. **Architecture**
+
    ```bash
    - Plan data ingestion and processing pipelines
    - Design data warehouse and lake architectures
@@ -34,6 +37,7 @@ Build analytics dashboards and reporting systems with business insights.
    ```
 
 2. **Data Integration and Preparation**
+
    ```bash
    # Integrate and prepare data for analytics
    - Connect to multiple data sources and systems
@@ -43,6 +47,7 @@ Build analytics dashboards and reporting systems with business insights.
    ```
 
 3. **Analytics Data Model Design**
+
    ```bash
    # Design analytics data models and schemas
    - Create dimensional models for analytics
@@ -54,6 +59,7 @@ Build analytics dashboards and reporting systems with business insights.
 ## Phase 2: Operational Analytics and Monitoring
 
 4. **Real-Time Operational Dashboards**
+
    ```bash
    # Create real-time operational monitoring dashboards
    - Monitor system performance and health metrics
@@ -63,6 +69,7 @@ Build analytics dashboards and reporting systems with business insights.
    ```
 
 5. **Performance Analytics and Optimization**
+
    ```bash
    # Analyze performance metrics and optimization opportunities
    - Monitor application and system performance
@@ -72,6 +79,7 @@ Build analytics dashboards and reporting systems with business insights.
    ```
 
 6. **Quality and Compliance Analytics**
+
    ```bash
    # Analyze quality metrics and compliance status
    - Monitor code quality and technical debt
@@ -83,6 +91,7 @@ Build analytics dashboards and reporting systems with business insights.
 ## Phase 3: Strategic Analytics and Business Intelligence
 
 7. **Executive Dashboards and Reporting**
+
    ```bash
    # Create executive-level dashboards and reports
    - Design high-level KPI and metric dashboards
@@ -92,6 +101,7 @@ Build analytics dashboards and reporting systems with business insights.
    ```
 
 8. **Business Performance Analytics**
+
    ```bash
    # Analyze business performance and outcomes
    - Track business metrics and financial performance
@@ -101,6 +111,7 @@ Build analytics dashboards and reporting systems with business insights.
    ```
 
 9. **Competitive and Market Analytics**
+
    ```bash
    # Analyze competitive position and market trends
    - Monitor industry trends and benchmarks
@@ -112,6 +123,7 @@ Build analytics dashboards and reporting systems with business insights.
 ## Phase 4: Predictive and Advanced Analytics
 
 10. **Predictive Analytics and Forecasting**
+
     ```bash
     # Implement predictive analytics and forecasting
     - Build predictive models for key business metrics
@@ -121,6 +133,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 11. **Machine Learning and AI Analytics**
+
     ```bash
     # Implement ML and AI-powered analytics
     - Build classification and regression models
@@ -130,6 +143,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 12. **Prescriptive Analytics and Optimization**
+
     ```bash
     # Provide prescriptive analytics and recommendations
     - Generate actionable recommendations and insights
@@ -141,6 +155,7 @@ Build analytics dashboards and reporting systems with business insights.
 ## Phase 5: Interactive Analytics and Self-Service
 
 13. **Self-Service Analytics Platform**
+
     ```bash
     # Create self-service analytics capabilities
     - Implement drag-and-drop dashboard builders
@@ -150,6 +165,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 14. **Interactive Visualization and Exploration**
+
     ```bash
     # Create interactive visualization and exploration tools
     - Implement interactive charts and graphs
@@ -159,6 +175,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 15. **Mobile and Responsive Analytics**
+
     ```bash
     # Provide mobile and responsive analytics access
     - Design mobile-optimized dashboards and reports
@@ -170,6 +187,7 @@ Build analytics dashboards and reporting systems with business insights.
 ## Phase 6: Advanced Visualization and Reporting
 
 16. **Advanced Data Visualization**
+
     ```bash
     # Create advanced data visualizations
     - Implement complex chart types and visualizations
@@ -179,6 +197,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 17. **Automated Report Generation**
+
     ```bash
     # Implement automated report generation
     - Create scheduled and triggered reports
@@ -188,6 +207,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 18. **Narrative and Natural Language Analytics**
+
     ```bash
     # Provide narrative and natural language insights
     - Generate automated insights and explanations
@@ -199,6 +219,7 @@ Build analytics dashboards and reporting systems with business insights.
 ## Phase 7: Enterprise Integration and Scalability
 
 19. **Enterprise System Integration**
+
     ```bash
     # Integrate with enterprise systems and platforms
     - Connect to ERP, CRM, and business systems
@@ -208,6 +229,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 20. **Scalability and Performance Optimization**
+
     ```bash
     # Optimize analytics platform scalability and performance
     - Implement distributed computing and processing
@@ -217,6 +239,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 21. **Security and Governance**
+
     ```bash
     # Implement analytics security and governance
     - Implement role-based access control and permissions
@@ -228,6 +251,7 @@ Build analytics dashboards and reporting systems with business insights.
 ## Phase 8: Analytics Operations and Management
 
 22. **Analytics Platform Management**
+
     ```bash
     # Manage analytics platform operations
     - Monitor platform health and performance
@@ -237,6 +261,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 23. **Analytics Quality Assurance**
+
     ```bash
     # Ensure analytics quality and accuracy
     - Validate data quality and consistency
@@ -246,6 +271,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 24. **User Training and Adoption**
+
     ```bash
     # Drive analytics adoption and user training
     - Provide user training and documentation
@@ -257,6 +283,7 @@ Build analytics dashboards and reporting systems with business insights.
 ## Safety and Validation
 
 25. **Analytics Validation and Testing**
+
     ```bash
     # Validate analytics accuracy and reliability
     - Test analytics calculations and models
@@ -266,6 +293,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 26. **Data Privacy and Security**
+
     ```bash
     # Ensure analytics data privacy and security
     - Implement data anonymization and masking
@@ -277,6 +305,7 @@ Build analytics dashboards and reporting systems with business insights.
 ## Educational Components
 
 27. **Analytics Best Practices Education**
+
     ```bash
     # Teach analytics concepts and best practices
     - Explain analytics methodologies and techniques
@@ -286,6 +315,7 @@ Build analytics dashboards and reporting systems with business insights.
     ```
 
 28. **Advanced Analytics Techniques**
+
     ```bash
     # Demonstrate advanced analytics techniques
     - Complex predictive and prescriptive analytics
@@ -293,30 +323,36 @@ Build analytics dashboards and reporting systems with business insights.
     - Advanced visualization and interaction techniques
     - Enterprise-scale analytics architecture and management
     ```
+
 </instructions>
 
 <output_format>
+
 ## Advanced Analytics Report
 
 ### Analytics Configuration
+
 - **Analytics Type**: [operational|strategic|predictive|prescriptive|diagnostic]
 - **Analysis Scope**: [organization|division|team|project|system|process]
 - **Visualization Format**: [dashboard|report|interactive|real-time|executive]
 - **Data Sources**: [count] integrated data sources and systems
 
 ### Analytics Architecture
+
 - **Platform Architecture**: [cloud|on-premise|hybrid] deployment model
 - **Data Processing**: [real-time|batch|hybrid] processing capabilities
 - **Storage Architecture**: [data warehouse|data lake|hybrid] storage model
 - **Scalability Design**: [horizontal|vertical|auto-scaling] scaling approach
 
 ### Data Integration and Quality
+
 - **Data Sources Connected**: [count] systems and data sources integrated
 - **Data Volume Processed**: [TB/GB] of data processed and analyzed
 - **Data Quality Score**: [percentage] data quality and completeness
 - **Update Frequency**: [real-time|hourly|daily|weekly] data refresh rates
 
 ### Dashboard and Visualization Portfolio
+
 ```
 Analytics Portfolio:
 ├── Executive Dashboards: [count] strategic and KPI dashboards
@@ -326,66 +362,77 @@ Analytics Portfolio:
 ```
 
 ### Key Performance Indicators
+
 - **Business KPIs**: [list of primary business performance indicators]
 - **Operational Metrics**: [list of operational and system metrics]
 - **Quality Indicators**: [list of quality and compliance metrics]
 - **Financial Metrics**: [list of financial and ROI indicators]
 
 ### Predictive Analytics Models
+
 - **Active Models**: [count] predictive models in production
 - **Model Accuracy**: [percentage] average model accuracy and performance
 - **Forecast Horizon**: [days/weeks/months] prediction time horizons
 - **Model Types**: [regression|classification|clustering|time-series] model types
 
 ### User Engagement and Adoption
+
 - **Active Users**: [count] regular dashboard and report users
 - **Usage Frequency**: [daily|weekly|monthly] average usage patterns
 - **User Satisfaction**: [percentage] user satisfaction and feedback scores
 - **Self-Service Adoption**: [percentage] users creating own analytics
 
 ### Real-Time Analytics Capabilities
+
 - **Real-Time Dashboards**: [count] live monitoring and alerting dashboards
 - **Alert Rules**: [count] active alert and notification rules
 - **Response Time**: [seconds/minutes] average dashboard load and refresh times
 - **Data Latency**: [seconds/minutes] average data processing and display latency
 
 ### Advanced Analytics Features
+
 - **Machine Learning Integration**: [enabled|disabled] ML model integration
 - **Natural Language Queries**: [enabled|disabled] conversational analytics
 - **Automated Insights**: [enabled|disabled] AI-generated insights and explanations
 - **Predictive Alerts**: [enabled|disabled] predictive alerting and recommendations
 
 ### Performance and Scalability
+
 - **Query Performance**: [seconds] average query execution time
 - **Concurrent Users**: [count] maximum concurrent user capacity
 - **Data Processing Speed**: [records/second] data ingestion and processing rate
 - **System Availability**: [percentage] platform uptime and availability
 
 ### Security and Governance
+
 - **Access Control**: [RBAC|ABAC|custom] permission and security model
 - **Data Privacy**: [anonymized|masked|encrypted] data protection measures
 - **Audit Compliance**: [SOX|GDPR|HIPAA|custom] regulatory compliance status
 - **Data Lineage**: [complete|partial|limited] data lineage and governance tracking
 
 ### Business Impact and ROI
+
 - **Decision Support**: [count] business decisions supported by analytics
 - **Cost Savings**: [amount] identified cost savings and optimizations
 - **Revenue Impact**: [amount] revenue improvements attributed to analytics
 - **Efficiency Gains**: [percentage] process and operational efficiency improvements
 
 ### Integration and Ecosystem
+
 - **System Integrations**: [count] integrated enterprise systems and platforms
 - **API Connections**: [count] API and web service integrations
 - **Third-Party Tools**: [count] integrated third-party analytics and BI tools
 - **Cloud Services**: [count] integrated cloud analytics and data services
 
 ### Recommendations
+
 - **Analytics Enhancements**: [specific analytics capability improvements]
 - **Data Quality Improvements**: [data quality and governance enhancements]
 - **User Experience Optimizations**: [dashboard and interface improvements]
 - **Performance Optimizations**: [platform performance and scalability improvements]
 
 ### Educational Insights
+
 - **Analytics Concepts**: [key analytics and BI concepts demonstrated]
 - **Visualization Principles**: [data visualization and dashboard design principles]
 - **Data Science Techniques**: [advanced analytics and data science methods used]

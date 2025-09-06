@@ -73,7 +73,7 @@ All contributions must pass:
 - **Markdown validation**: `bun run lint`
 - **Link checking**: `bun run check-links`
 - **Structure validation**: `bun run validate`
-  
+
   Note: If you prefer npm, the equivalents still work, but this repo standardizes on Bun.
 - **Security scanning**: Automated in CI/CD
 

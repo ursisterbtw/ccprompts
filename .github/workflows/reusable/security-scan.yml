@@ -36,13 +36,13 @@ on:
     outputs:
       vulnerabilities-found:
         description: 'Whether vulnerabilities were found'
-        value: ${{ jobs.scan.outputs.vulnerabilities }}
+        value: ${{ jobs.scan.outputs.summary }}
       security-status:
         description: 'Overall security scan status'
-        value: ${{ jobs.scan.outputs.status }}
+        value: ${{ jobs.scan.outputs.summary }}
       sarif-file:
         description: 'Path to generated SARIF file'
-        value: ${{ jobs.scan.outputs.sarif-file }}
+        value: ${{ jobs.scan.outputs.sarif-generation }}
       scan-summary:
         description: 'Security scan summary'
         value: ${{ jobs.scan.outputs.summary }}
@@ -58,11 +58,12 @@ jobs:
       contents: read
       security-events: write
     outputs:
-      vulnerabilities: ${{ steps.summary.outputs.vulnerabilities }}
-      status: ${{ steps.summary.outputs.status }}
-      sarif-file: ${{ steps.sarif-generation.outputs.sarif-file }}
+      dep-scan: ${{ steps.dep-scan.outputs.vulnerabilities }}
+      secret-scan: ${{ steps.secret-scan.outputs.secrets_found }}
+      permission-check: ${{ steps.permission-check.outputs.permission_issues }}
+      sarif-generation: ${{ steps.sarif-generation.outputs.sarif-file }}
       summary: ${{ steps.summary.outputs.summary }}
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -94,20 +95,22 @@ jobs:
         id: dep-scan
         run: |
           echo "🔍 Scanning for dependency vulnerabilities..."
-          
+
           # Check for npm audit
           set +e
           npm audit --production --audit-level=high > audit-report.txt 2>&1
           AUDIT_EXIT_CODE=$?
           set -e
-          
+
           if [ $AUDIT_EXIT_CODE -eq 0 ]; then
             echo "✅ No high or critical vulnerabilities found"
             echo "dep_vulnerabilities=false" >> $GITHUB_ENV
+            echo "vulnerabilities=false" >> $GITHUB_OUTPUT
           else
             echo "❌ Vulnerabilities detected in dependencies"
             cat audit-report.txt
             echo "dep_vulnerabilities=true" >> $GITHUB_ENV
+            echo "vulnerabilities=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Secret scanning
@@ -115,7 +118,7 @@ jobs:
         id: secret-scan
         run: |
           echo "🔍 Scanning for hardcoded secrets..."
-          
+
           # Simple pattern-based secret detection
           SECRET_PATTERNS=(
             "password.*=.*['\"][^'\"]{8,}['\"]"
@@ -124,7 +127,7 @@ jobs:
             "token.*=.*['\"][^'\"]{16,}['\"]"
             "-----BEGIN.*PRIVATE KEY-----"
           )
-          
+
           SECRETS_FOUND=false
           for pattern in "${SECRET_PATTERNS[@]}"; do
             if grep -r -E "$pattern" --include="*.js" --include="*.json" --include="*.yml" --include="*.yaml" --include="*.md" --exclude-dir=node_modules --exclude-dir=.git .; then
@@ -132,13 +135,15 @@ jobs:
               echo "⚠️ Potential secret found matching pattern: $pattern"
             fi
           done
-          
+
           if [ "$SECRETS_FOUND" = "true" ]; then
             echo "❌ Potential secrets detected"
             echo "secrets_found=true" >> $GITHUB_ENV
+            echo "secrets_found=true" >> $GITHUB_OUTPUT
           else
             echo "✅ No secrets detected"
             echo "secrets_found=false" >> $GITHUB_ENV
+            echo "secrets_found=false" >> $GITHUB_OUTPUT
           fi
 
       - name: File permission security check
@@ -146,27 +151,29 @@ jobs:
         id: permission-check
         run: |
           echo "🔍 Checking file permissions..."
-          
+
           # Find files with overly permissive permissions
           PERMISSION_ISSUES=false
-          
+
           # Check for world-writable files
           if find . -type f -perm -002 -not -path "./node_modules/*" -not -path "./.git/*" | grep .; then
             echo "❌ World-writable files detected"
             PERMISSION_ISSUES=true
           fi
-          
+
           # Check for executable files that shouldn't be
           if find . -name "*.md" -o -name "*.json" -o -name "*.yml" -o -name "*.yaml" | xargs -I {} test -x {} && echo "{}"; then
             echo "⚠️ Unexpected executable files detected"
             PERMISSION_ISSUES=true
           fi
-          
+
           if [ "$PERMISSION_ISSUES" = "true" ]; then
             echo "permission_issues=true" >> $GITHUB_ENV
+            echo "permission_issues=true" >> $GITHUB_OUTPUT
           else
             echo "✅ File permissions look secure"
             echo "permission_issues=false" >> $GITHUB_ENV
+            echo "permission_issues=false" >> $GITHUB_OUTPUT
           fi
 
       - name: Generate SARIF report
@@ -174,7 +181,7 @@ jobs:
         if: inputs.enable-sarif-upload && (env.dep_vulnerabilities == 'true' || env.secrets_found == 'true')
         run: |
           echo "🔧 Generating SARIF report..."
-          
+
           # Create SARIF structure
           cat > security-scan.sarif << 'EOF'
           {
@@ -194,10 +201,10 @@ jobs:
             ]
           }
           EOF
-          
+
           echo "sarif-file=security-scan.sarif" >> $GITHUB_OUTPUT
           echo "✅ SARIF report generated"
-          
+
       - name: Upload SARIF to GitHub Security
         if: inputs.enable-sarif-upload && steps.sarif-generation.outputs.sarif-file
         uses: github/codeql-action/upload-sarif@v3
@@ -213,22 +220,22 @@ jobs:
           VULNERABILITIES_FOUND=false
           SECURITY_STATUS="passed"
           SCAN_SUMMARY=""
-          
+
           if [ "${{ env.dep_vulnerabilities }}" = "true" ] || \
              [ "${{ env.secrets_found }}" = "true" ] || \
              [ "${{ env.permission_issues }}" = "true" ]; then
             VULNERABILITIES_FOUND=true
             SECURITY_STATUS="failed"
           fi
-          
+
           # Check severity threshold
           if [ "${{ inputs.fail-on-severity }}" = "low" ] && [ "$VULNERABILITIES_FOUND" = "true" ]; then
             SECURITY_STATUS="failed"
           fi
-          
+
           echo "vulnerabilities=$VULNERABILITIES_FOUND" >> $GITHUB_OUTPUT
           echo "status=$SECURITY_STATUS" >> $GITHUB_OUTPUT
-          
+
           # Generate summary JSON
           SCAN_SUMMARY=$(cat << EOJ
           {
@@ -240,20 +247,20 @@ jobs:
           }
           EOJ
           )
-          
+
           echo "summary=$SCAN_SUMMARY" >> $GITHUB_OUTPUT
-          
+
           # Generate report
           cat << EOF >> $GITHUB_STEP_SUMMARY
           ## 🔒 Security Scan Report
-          
+
           ### Scan Results:
           - **Dependency Vulnerabilities**: ${{ env.dep_vulnerabilities == 'true' && '❌ Found' || '✅ None' }}
           - **Hardcoded Secrets**: ${{ env.secrets_found == 'true' && '❌ Found' || '✅ None' }}
           - **File Permissions**: ${{ env.permission_issues == 'true' && '⚠️ Issues' || '✅ Secure' }}
-          
-          ### Overall Status: ${{ steps.summary.outputs.status == 'passed' && '✅ PASSED' || '❌ FAILED' }}
-          
+
+          ### Overall Status: ${{ env.security_status == 'passed' && '✅ PASSED' || '❌ FAILED' }}
+
           ### Configuration:
           - **Fail on Severity**: ${{ inputs.fail-on-severity }}
           - **SARIF Upload**: ${{ inputs.enable-sarif-upload && 'Enabled' || 'Disabled' }}

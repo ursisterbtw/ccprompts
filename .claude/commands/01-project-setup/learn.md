@@ -2,7 +2,7 @@
 
 ## Usage
 
-```
+```bash
 /learn [topic] [level] [format]
 ```
 

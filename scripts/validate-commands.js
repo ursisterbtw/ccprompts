@@ -48,7 +48,7 @@ class CommandValidator {
   extractMarkdownSection(content, heading) {
     const headingLevel = heading.match(/^#+/)?.[0].length || 2;
     const escapedHeading = heading.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    
+
     let nextHeadingPattern = '';
     for (let i = 1; i <= headingLevel; i++) {
       if (i > 1) {
@@ -56,12 +56,12 @@ class CommandValidator {
       }
       nextHeadingPattern += `^#{${i}}\\s`;
     }
-    
+
     const regex = new RegExp(
       `${escapedHeading}\\s*\\n([\\s\\S]*?)(?=(${nextHeadingPattern})|\\s*$)`,
       'gm'
     );
-    
+
     const match = regex.exec(content);
     return match ? match[1].trim() : null;
   }
@@ -69,28 +69,28 @@ class CommandValidator {
   validateSecurity(content, filename) {
     const fencedBlocks = content.match(/```(?:[a-zA-Z0-9_+-]*\n)?[\s\S]*?```/g) || [];
     const indentedBlocks = content.match(/(?:^|\n)((?:    |\t).*(?:\n(?:    |\t).*)*)/gm) || [];
-    
+
     const codeBlocks = [...fencedBlocks, ...indentedBlocks];
     const combinedCode = codeBlocks.join('\n');
-    
+
     const securityPatterns = [
-      { 
-        pattern: /password\s*=\s*["'][^"']{8,}["']/gi, 
+      {
+        pattern: /password\s*=\s*["'][^"']{8,}["']/gi,
         message: 'Hardcoded password detected',
         skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
       },
-      { 
-        pattern: /api[_-]?key\s*=\s*["'][^"']{16,}["']/gi, 
+      {
+        pattern: /api[_-]?key\s*=\s*["'][^"']{16,}["']/gi,
         message: 'Hardcoded API key detected',
         skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
       },
-      { 
-        pattern: /secret\s*=\s*["'][^"']{8,}["']/gi, 
+      {
+        pattern: /secret\s*=\s*["'][^"']{8,}["']/gi,
         message: 'Hardcoded secret detected',
         skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
       },
-      { 
-        pattern: /token\s*=\s*["'][^"']{16,}["']/gi, 
+      {
+        pattern: /token\s*=\s*["'][^"']{16,}["']/gi,
         message: 'Hardcoded token detected',
         skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
       },
@@ -101,12 +101,12 @@ class CommandValidator {
 
     securityPatterns.forEach(({ pattern, message, skipIfIncludes }) => {
       const matches = combinedCode.match(pattern) || [];
-      
+
       matches.forEach(match => {
         if (skipIfIncludes && skipIfIncludes.some(skip => match.toLowerCase().includes(skip.toLowerCase()))) {
           return;
         }
-        
+
         this.errors.push(`${filename}: SECURITY - ${message}`);
         this.stats.securityIssues++;
       });
@@ -131,30 +131,30 @@ class CommandValidator {
     const contentWithoutCodeBlocks = content
       .replace(/```[\s\S]*?```/g, '')
       .replace(/`[^`]*`/g, '');
-    
+
     const tagStack = [];
     const xmlTagRegex = /<\/?([a-zA-Z][a-zA-Z0-9_-]*)(?:\s[^>]*)?>|<!--[\s\S]*?-->/g;
     let match;
     let lineNumber = 1;
     let lastIndex = 0;
-    
+
     while ((match = xmlTagRegex.exec(contentWithoutCodeBlocks)) !== null) {
       const currentLineNum = content.substring(lastIndex, match.index).split('\n').length - 1 + lineNumber;
       lastIndex = match.index;
-      
+
       const fullTag = match[0];
       const tagName = match[1];
-      
+
       if (fullTag.startsWith('<!--') || fullTag.endsWith('/>') || fullTag.startsWith('<?')) {
         continue;
       }
-      
+
       if (fullTag.startsWith('</')) {
         if (tagStack.length === 0) {
           this.errors.push(`${filename}:${currentLineNum}: Unexpected closing tag: ${fullTag}`);
           return false;
         }
-        
+
         const expectedTag = tagStack.pop();
         if (expectedTag !== tagName) {
           this.errors.push(`${filename}:${currentLineNum}: Mismatched XML tags - expected </${expectedTag}>, found </${tagName}>`);
@@ -164,7 +164,7 @@ class CommandValidator {
         tagStack.push(tagName);
       }
     }
-    
+
     if (tagStack.length > 0) {
       this.errors.push(`${filename}: Unclosed XML tags: ${tagStack.join(', ')}`);
       return false;
@@ -176,7 +176,7 @@ class CommandValidator {
   validateCommandQuality(content, filename, commandType = null) {
     const detectedType = commandType || this.determineCommandType(filename, content);
     let qualityScore = 100;
-    
+
     const qualityChecks = {
       default: [
         {
@@ -263,16 +263,16 @@ class CommandValidator {
       this.stats.qualityScores = [];
     }
     this.stats.qualityScores.push(qualityScore);
-    
+
     return qualityScore;
   }
 
   validateCommandStructure(content, filename) {
     const metadata = this.extractCommandMetadata(content, filename);
-    
+
     if (metadata) {
       this.commandRegistry.commands[metadata.id] = metadata;
-      
+
       if (!this.commandRegistry.categories[metadata.category]) {
         this.commandRegistry.categories[metadata.category] = {
           id: metadata.category,
@@ -285,15 +285,15 @@ class CommandValidator {
       }
       this.commandRegistry.categories[metadata.category].command_count++;
     }
-    
-    const hasDescription = content.includes('## Description') || 
-                          content.includes('# ') || 
+
+    const hasDescription = content.includes('## Description') ||
+                          content.includes('# ') ||
                           content.match(/^description:/m);
-    
+
     if (!hasDescription) {
       this.errors.push(`${filename}: Command file missing description`);
     }
-    
+
     const hasUsageSection = content.includes('## Usage');
     const hasExamplesSection = content.includes('## Examples');
     // Reduce noise: only warn if both Usage and Examples are missing
@@ -311,10 +311,10 @@ class CommandValidator {
   extractCommandMetadata(content, filename) {
     const relativePath = path.relative(process.cwd(), filename);
     const commandName = path.basename(filename, '.md');
-    
+
     const titleMatch = content.match(/^#\s+(.+)$/m);
     const title = titleMatch ? titleMatch[1].trim() : commandName;
-    
+
     let description = this.extractMarkdownSection(content, '## Description');
     if (!description) {
       const paragraphs = content.split('\n\n');
@@ -326,22 +326,22 @@ class CommandValidator {
     } else {
       description = `${commandName} command`;
     }
-    
+
     const category = this.extractCategoryFromPath(relativePath);
     // Prefer phase derived from folder prefix (e.g., .claude/commands/09-agentic-capabilities/)
     const derivedPhase = this.extractPhaseFromPath(relativePath);
     const phase = derivedPhase !== null && derivedPhase !== undefined
       ? derivedPhase
       : this.extractPhaseFromCategory(category);
-    
+
     const usageSection = this.extractMarkdownSection(content, '## Usage');
     const usageMatch = usageSection ? usageSection.match(/`\/?([^`]+)`/) : null;
     const usage = usageMatch ? usageMatch[1] : `/${commandName}`;
-    
+
     const parameters = this.extractParameters(content);
     const examples = this.extractExamples(content);
     const safetyLevel = this.determineSafetyLevel(content);
-    
+
     return {
       id: commandName,
       name: title,
@@ -379,7 +379,7 @@ class CommandValidator {
     }
     return null;
   }
-  
+
   extractCategoryFromPath(filePath) {
     if (filePath.includes('01-project-initialization')) {
       return 'project-setup';
@@ -416,7 +416,7 @@ class CommandValidator {
     }
     return 'utility';
   }
-  
+
   extractPhaseFromCategory(category) {
     const phaseMap = {
       'project-setup': 1,
@@ -434,18 +434,18 @@ class CommandValidator {
     };
     return phaseMap[category] || 8;
   }
-  
+
   extractParameters(content) {
     const parametersSection = this.extractMarkdownSection(content, '## Parameters');
     if (!parametersSection) {
       return [];
     }
-    
+
     const parameters = [];
     const paramLines = parametersSection.split('\n').filter(line => line.trim());
-    
+
     paramLines.forEach(line => {
-      const paramMatch = line.match(/[-*]\s*`?([^`\s:]+)`?\s*:?\s*(.+)/); 
+      const paramMatch = line.match(/[-*]\s*`?([^`\s:]+)`?\s*:?\s*(.+)/);
       if (paramMatch) {
         parameters.push({
           name: paramMatch[1],
@@ -455,19 +455,19 @@ class CommandValidator {
         });
       }
     });
-    
+
     return parameters;
   }
-  
+
   extractExamples(content) {
     const examplesSection = this.extractMarkdownSection(content, '## Examples');
     if (!examplesSection) {
       return [];
     }
-    
+
     const examples = [];
     const codeBlocks = examplesSection.match(/```[\s\S]*?```/g) || [];
-    
+
     codeBlocks.forEach((block, index) => {
       const command = block.replace(/```[\w]*\n?|```/g, '').trim();
       if (command) {
@@ -479,14 +479,14 @@ class CommandValidator {
         });
       }
     });
-    
+
     return examples;
   }
-  
+
   determineSafetyLevel(content) {
     return safetyPatterns.classifySafetyLevel(content, true);
   }
-  
+
   determineCommandType(filename, content) {
     if (filename.includes('commands/')) {
       return 'command';
@@ -510,7 +510,7 @@ class CommandValidator {
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       const filename = path.relative(process.cwd(), filePath);
-      
+
       this.stats.totalFiles++;
 
       const relativePath = path.relative(process.cwd(), filePath);
@@ -542,7 +542,7 @@ class CommandValidator {
       }
 
       this.stats.validFiles++;
-      
+
     } catch (error) {
       this.errors.push(`${filePath}: Failed to read file - ${error.message}`);
     }
@@ -558,7 +558,7 @@ class CommandValidator {
       'docs/CC-SDK.md',
       '.claude/README.md',
     ];
-    
+
     const githubFiles = [
       '.github/',
       'pull_request_template.md',
@@ -567,44 +567,44 @@ class CommandValidator {
       'BRANCH_PROTECTION.md',
       'workflows/'
     ];
-    
+
     const relativePath = path.relative(process.cwd(), filePath);
-    
+
     if (documentationFiles.some(doc => relativePath.endsWith(doc))) {
       return true;
     }
-    
+
     if (githubFiles.some(github => relativePath.includes(github))) {
       return true;
     }
-    
+
     const normalizedPath = path.normalize(filePath);
     const isCommand = relativePath.startsWith('.claude/commands/');
-    
+
     if (!isCommand) {
       return true;
     }
-    
+
     return false;
   }
 
   findMarkdownFiles(directory) {
     const files = [];
     const excludePatterns = ['.git', 'node_modules', '.vscode', '.idea', 'dist', 'build'];
-    
+
     function traverse(dir) {
       const items = fs.readdirSync(dir);
-      
+
       items.forEach(item => {
         if (excludePatterns.some(pattern => item === pattern)) {
           return;
         }
-        
+
         const fullPath = path.join(dir, item);
-        
+
         try {
           const stat = fs.statSync(fullPath);
-          
+
           if (stat.isDirectory()) {
             traverse(fullPath);
           } else if (item.endsWith('.md')) {
@@ -615,7 +615,7 @@ class CommandValidator {
         }
       });
     }
-    
+
     traverse(directory);
     return files;
   }
@@ -629,40 +629,76 @@ class CommandValidator {
       file_processing_times: [],
       memory_usage: process.memoryUsage()
     };
-    
-    log('blue', '🧪 Starting comprehensive ccprompts validation...\n');
 
-    const projectRoot = process.cwd();
-    const discoveryStart = Date.now();
-    const markdownFiles = this.findMarkdownFiles(projectRoot);
-    performanceMetrics.discovery_time = Date.now() - discoveryStart;
+    try {
+      log('blue', '🧪 Starting comprehensive ccprompts validation...\n');
 
-    log('blue', `Found ${markdownFiles.length} markdown files to validate`);
-    log('cyan', `📊 Discovery: ${performanceMetrics.discovery_time}ms`);
-    
-    const validationStart = Date.now();
-    for (const file of markdownFiles) {
-      const fileStart = Date.now();
-      await this.validateFile(file);
-      performanceMetrics.file_processing_times.push({
-        file: file,
-        duration: Date.now() - fileStart
-      });
+      const projectRoot = process.cwd();
+      const discoveryStart = Date.now();
+
+      let markdownFiles;
+      try {
+        markdownFiles = this.findMarkdownFiles(projectRoot);
+      } catch (error) {
+        this.errors.push(`File discovery failed: ${error.message}`);
+        log('red', `❌ File discovery failed: ${error.message}`);
+        return 1;
+      }
+
+      performanceMetrics.discovery_time = Date.now() - discoveryStart;
+
+      log('blue', `Found ${markdownFiles.length} markdown files to validate`);
+      log('cyan', `📊 Discovery: ${performanceMetrics.discovery_time}ms`);
+
+      const validationStart = Date.now();
+      for (const file of markdownFiles) {
+        const fileStart = Date.now();
+        try {
+          await this.validateFile(file);
+        } catch (error) {
+          this.errors.push(`Validation failed for ${file}: ${error.message}`);
+          log('red', `❌ Validation failed for ${file}: ${error.message}`);
+        }
+        performanceMetrics.file_processing_times.push({
+          file: file,
+          duration: Date.now() - fileStart
+        });
+      }
+      performanceMetrics.validation_time = Date.now() - validationStart;
+
+      try {
+        this.validateSystemIntegrity();
+      } catch (error) {
+        this.errors.push(`System integrity validation failed: ${error.message}`);
+        log('red', `❌ System integrity validation failed: ${error.message}`);
+      }
+
+      const registryStart = Date.now();
+      try {
+        await this.generateCommandRegistry();
+      } catch (error) {
+        this.errors.push(`Command registry generation failed: ${error.message}`);
+        log('red', `❌ Command registry generation failed: ${error.message}`);
+      }
+      performanceMetrics.registry_generation_time = Date.now() - registryStart;
+
+      try {
+        await this.runSafetyValidation(performanceMetrics);
+      } catch (error) {
+        this.errors.push(`Safety validation failed: ${error.message}`);
+        log('red', `❌ Safety validation failed: ${error.message}`);
+      }
+
+      const duration = Date.now() - startTime;
+      this.reportResults(duration, performanceMetrics);
+
+      return this.errors.length === 0 ? 0 : 1;
+    } catch (error) {
+      this.errors.push(`Critical validation error: ${error.message}`);
+      log('red', `❌ Critical validation error: ${error.message}`);
+      log('red', `Stack trace: ${error.stack}`);
+      return 1;
     }
-    performanceMetrics.validation_time = Date.now() - validationStart;
-
-    this.validateSystemIntegrity();
-    
-    const registryStart = Date.now();
-    await this.generateCommandRegistry();
-    performanceMetrics.registry_generation_time = Date.now() - registryStart;
-
-    await this.runSafetyValidation(performanceMetrics);
-
-    const duration = Date.now() - startTime;
-    this.reportResults(duration, performanceMetrics);
-    
-    return this.errors.length === 0 ? 0 : 1;
   }
 
   validateSystemIntegrity() {
@@ -688,21 +724,21 @@ class CommandValidator {
         const countMarkdownFiles = (dir) => {
           let count = 0;
           const items = fs.readdirSync(dir);
-          
+
           for (const item of items) {
             const fullPath = path.join(dir, item);
             const stat = fs.statSync(fullPath);
-            
+
             if (stat.isDirectory()) {
               count += countMarkdownFiles(fullPath);
             } else if (item.endsWith('.md')) {
               count++;
             }
           }
-          
+
           return count;
         };
-        
+
         const commandFiles = countMarkdownFiles(commandDir);
         if (expectedCommandCount !== null) {
           if (commandFiles !== expectedCommandCount) {
@@ -725,7 +761,7 @@ class CommandValidator {
   reportResults(duration, performanceMetrics = null) {
     log('blue', '\n📊 Validation Results');
     log('blue', '==================');
-    
+
     log('green', `✅ Total files processed: ${this.stats.totalFiles}`);
     log('green', `✅ Command files: ${this.stats.commandFiles}`);
     log('green', `✅ Valid files: ${this.stats.validFiles}`);
@@ -754,12 +790,12 @@ class CommandValidator {
     const successRate = ((this.stats.validFiles / this.stats.totalFiles) * 100).toFixed(1);
     const errorRate = ((this.errors.length / this.stats.totalFiles) * 100).toFixed(1);
     const warningRate = ((this.warnings.length / this.stats.totalFiles) * 100).toFixed(1);
-    
+
     log('cyan', `   Success rate: ${successRate}%`);
     log('cyan', `   Error rate: ${errorRate}%`);
     log('cyan', `   Warning rate: ${warningRate}%`);
     log('cyan', `   Security score: ${this.stats.securityIssues === 0 ? '100%' : 'FAIL'}`);
-    
+
     const errorPenalty = Math.min(50, (this.errors.length / Math.max(1, this.stats.totalFiles)) * 100);
     const warningPenalty = Math.min(30, (this.warnings.length / Math.max(1, this.stats.totalFiles)) * 50);
     const overallScore = Math.max(0, 100 - errorPenalty - warningPenalty);
@@ -773,24 +809,24 @@ class CommandValidator {
     } else if (overallScore >= 60) {
       grade = 'D';
     }
-    
+
     log('cyan', `   Overall quality grade: ${grade} (${overallScore.toFixed(1)}/100)`);
-    
+
     if (performanceMetrics) {
       log('blue', '\n⚡ Performance Metrics:');
       log('cyan', `   File discovery: ${performanceMetrics.discovery_time}ms`);
       log('cyan', `   Validation time: ${performanceMetrics.validation_time}ms`);
       log('cyan', `   Registry generation: ${performanceMetrics.registry_generation_time}ms`);
-      
-      const avgFileTime = performanceMetrics.file_processing_times.length > 0 
+
+      const avgFileTime = performanceMetrics.file_processing_times.length > 0
         ? (performanceMetrics.file_processing_times.reduce((sum, f) => sum + f.duration, 0) / performanceMetrics.file_processing_times.length).toFixed(1)
         : 0;
       log('cyan', `   Average file processing: ${avgFileTime}ms`);
-      
+
       const memoryAfter = process.memoryUsage();
       const memoryDelta = ((memoryAfter.heapUsed - performanceMetrics.memory_usage.heapUsed) / 1024 / 1024).toFixed(1);
       log('cyan', `   Memory usage: ${(memoryAfter.heapUsed / 1024 / 1024).toFixed(1)}MB (Δ${memoryDelta}MB)`);
-      
+
       if (performanceMetrics.safety_validation_time !== undefined) {
         log('cyan', `   Safety validation: ${performanceMetrics.safety_validation_time}ms`);
         if (performanceMetrics.safety_commands_analyzed > 0) {
@@ -800,13 +836,13 @@ class CommandValidator {
           log('cyan', `   Dagger available: ${performanceMetrics.dagger_available ? '✅' : '❌'}`);
         }
       }
-      
+
       const discoveryTarget = 100;
       const validationTarget = 2000;
       log('cyan', `   Discovery target: ${performanceMetrics.discovery_time < discoveryTarget ? '✅' : '❌'} (<${discoveryTarget}ms)`);
       log('cyan', `   Validation target: ${performanceMetrics.validation_time < validationTarget ? '✅' : '❌'} (<${validationTarget}ms)`);
     }
-    
+
     const commandCount = Object.keys(this.commandRegistry.commands).length;
     const categoryCount = Object.keys(this.commandRegistry.categories).length;
     if (commandCount > 0) {
@@ -816,7 +852,7 @@ class CommandValidator {
       log('cyan', `   Registry saved to: .claude/command-registry.json`);
     }
   }
-  
+
   async generateCommandRegistry() {
     try {
       this.commandRegistry.validation_results = {
@@ -828,7 +864,7 @@ class CommandValidator {
         security_issues: this.errors.filter(e => e.includes('SECURITY')),
         quality_metrics: this.stats.qualityScores
       };
-      
+
       const phases = {};
       Object.values(this.commandRegistry.commands).forEach(cmd => {
         if (!phases[cmd.phase]) {
@@ -842,26 +878,26 @@ class CommandValidator {
         phases[cmd.phase].commands.push(cmd.id);
       });
       this.commandRegistry.phases = Object.values(phases).sort((a, b) => a.id - b.id);
-      
+
       const claudeDir = path.join(process.cwd(), '.claude');
       if (!fs.existsSync(claudeDir)) {
         fs.mkdirSync(claudeDir, { recursive: true });
       }
-      
+
       const registryPath = path.join(claudeDir, 'command-registry.json');
       fs.writeFileSync(registryPath, JSON.stringify(this.commandRegistry, null, 2));
-      
+
       log('green', `✅ Command registry generated: ${registryPath}`);
-      
+
     } catch (error) {
       this.warnings.push(`Failed to generate command registry: ${error.message}`);
     }
   }
-  
+
   getPhaseNameById(phaseId) {
     const phaseNames = {
       1: 'Initial Workflow',
-      2: 'Project Setup', 
+      2: 'Project Setup',
       3: 'Development',
       4: 'Security & Compliance',
       5: 'Testing & Quality',
@@ -871,13 +907,13 @@ class CommandValidator {
     };
     return phaseNames[phaseId] || `Phase ${phaseId}`;
   }
-  
+
   getPhaseDescriptionById(phaseId) {
     const descriptions = {
       1: 'Initial project workflow and analysis commands',
       2: 'Project initialization and setup automation',
       3: 'Core development and refactoring tools',
-      4: 'Security auditing and compliance validation', 
+      4: 'Security auditing and compliance validation',
       5: 'Testing automation and quality assurance',
       6: 'Deployment pipelines and operational tools',
       7: 'Team collaboration and project management',
@@ -891,44 +927,44 @@ class CommandValidator {
    */
   async runSafetyValidation(performanceMetrics) {
     const safetyStart = Date.now();
-    
+
     try {
       log('blue', '\n🛡️  Running Dagger safety validation...');
-      
+
       const safetyValidator = new SafetyValidator();
       const safetyReport = await safetyValidator.validateAllCommands();
-      
+
       if (safetyReport.errors.length > 0) {
         this.errors = this.errors.concat(safetyReport.errors);
       }
-      
+
       if (safetyReport.warnings.length > 0) {
         this.warnings = this.warnings.concat(safetyReport.warnings);
       }
-      
+
       performanceMetrics.safety_validation_time = Date.now() - safetyStart;
       performanceMetrics.safety_commands_analyzed = safetyReport.summary.totalCommands;
       performanceMetrics.safety_dangerous_commands = safetyReport.summary.dangerousCommands;
       performanceMetrics.safety_container_tests = safetyReport.summary.containerTests;
       performanceMetrics.dagger_available = safetyReport.daggerAvailable;
-      
+
       log('cyan', `🛡️  Safety validation completed in ${performanceMetrics.safety_validation_time}ms`);
-      
+
       if (safetyReport.summary.dangerousCommands > 0) {
         log('yellow', `⚠️  Found ${safetyReport.summary.dangerousCommands} commands with dangerous patterns`);
       }
-      
+
       if (safetyReport.daggerAvailable && safetyReport.summary.containerTests > 0) {
         log('green', `✅ Validated ${safetyReport.summary.containerTests} commands in Dagger containers`);
       } else if (!safetyReport.daggerAvailable) {
         log('yellow', '⚠️  Dagger not available - install from https://dagger.io for container validation');
       }
-      
+
     } catch (error) {
       this.warnings.push(`Safety validation failed: ${error.message}`);
       performanceMetrics.safety_validation_time = Date.now() - safetyStart;
       performanceMetrics.safety_error = error.message;
-      
+
       log('yellow', `⚠️  Safety validation encountered an error: ${error.message}`);
     }
   }

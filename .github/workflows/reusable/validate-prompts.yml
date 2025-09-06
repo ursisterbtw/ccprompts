@@ -36,7 +36,7 @@ jobs:
       status: ${{ steps.validate-prompts.outputs.status }}
       errors: ${{ steps.validate-prompts.outputs.errors }}
       warnings: ${{ steps.validate-prompts.outputs.warnings }}
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -57,19 +57,19 @@ jobs:
           MAX_ERRORS: ${{ inputs.max-errors }}
         run: |
           echo "🔍 Running prompt validation..."
-          
+
           # Run validation and capture output
           set +e
           VALIDATION_OUTPUT=$(node "$VALIDATION_SCRIPT" 2>&1)
           VALIDATION_EXIT_CODE=$?
           set -e
-          
+
           echo "$VALIDATION_OUTPUT"
-          
+
           # Extract metrics from output
           ERRORS=$(echo "$VALIDATION_OUTPUT" | grep -E "Errors?: \d+" | grep -oE "\d+" || echo "0")
           WARNINGS=$(echo "$VALIDATION_OUTPUT" | grep -E "Warnings?: \d+" | grep -oE "\d+" || echo "0")
-          
+
           # Determine overall status
           if [ "$ERRORS" -gt "$MAX_ERRORS" ]; then
             STATUS="failed"
@@ -81,17 +81,17 @@ jobs:
             STATUS="passed"
             echo "✅ Validation passed"
           fi
-          
+
           # Set outputs
           echo "status=$STATUS" >> $GITHUB_OUTPUT
           echo "errors=$ERRORS" >> $GITHUB_OUTPUT
           echo "warnings=$WARNINGS" >> $GITHUB_OUTPUT
-          
+
           # Fail if needed
           if [ "$STATUS" = "failed" ]; then
             exit 1
           fi
-          
+
           if [ "${{ inputs.fail-on-warnings }}" = "true" ] && [ "$WARNINGS" -gt 0 ]; then
             echo "❌ Failing due to warnings (fail-on-warnings is enabled)"
             exit 1
@@ -102,10 +102,10 @@ jobs:
         run: |
           cat << EOF >> $GITHUB_STEP_SUMMARY
           ## 📋 Validation Report
-          
+
           - **Status**: ${{ steps.validate-prompts.outputs.status }}
           - **Errors**: ${{ steps.validate-prompts.outputs.errors }}
           - **Warnings**: ${{ steps.validate-prompts.outputs.warnings }}
           - **Script**: ${{ inputs.validation-script }}
-          
+
           EOF

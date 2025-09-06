@@ -75,6 +75,7 @@ Uses intelligent analysis to provide personalized prompt recommendations:
 ### Advanced Context Detection
 
 #### Technology Stack Profiling
+
 ```bash
 # Automatic detection examples:
 - Python + Django + PostgreSQL → Web application
@@ -84,6 +85,7 @@ Uses intelligent analysis to provide personalized prompt recommendations:
 ```
 
 #### Project Maturity Assessment
+
 ```bash
 # Maturity indicators:
 - Startup (0-6 months): Basic structure, rapid changes, minimal docs
@@ -93,6 +95,7 @@ Uses intelligent analysis to provide personalized prompt recommendations:
 ```
 
 #### Risk Pattern Recognition
+
 ```bash
 # Risk indicators:
 - High complexity + Low test coverage = Quality risk
@@ -168,6 +171,7 @@ Recommendations consider dependencies and optimal ordering:
 ## Intelligent Recommendation Examples
 
 ### Scenario 1: Early-Stage Startup (Python/Django)
+
 **Context**: 2-person team, 3-month-old project, rapid feature development
 
 ```
@@ -200,6 +204,7 @@ Target: STRATEGIC INITIATIVES (This Month):
 ```
 
 ### Scenario 2: Growing SaaS Company (React/Node.js)
+
 **Context**: 8-person team, 18-month-old product, scaling challenges
 
 ```
@@ -236,6 +241,7 @@ Target: STRATEGIC INITIATIVES (This Quarter):
 ```
 
 ### Scenario 3: Enterprise Legacy System (Java/Spring)
+
 **Context**: 25-person team, 5-year-old system, modernization needs
 
 ```
@@ -272,6 +278,7 @@ Target: STRATEGIC INITIATIVES (Next Quarter):
 ```
 
 ### Scenario 4: High-Growth Fintech (Multi-language)
+
 **Context**: 50+ person team, regulatory requirements, high availability needs
 
 ```

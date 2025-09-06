@@ -29,7 +29,7 @@ sudo rm -rf /
 
       const findings = safetyValidator.analyzeDangerousPatterns(dangerousContent, 'test.md');
       expect(findings.length).toBeGreaterThan(0);
-      
+
       const criticalFindings = findings.filter(f => f.severity === 'critical');
       expect(criticalFindings.length).toBeGreaterThan(0);
     });
@@ -86,20 +86,20 @@ exec(open('/tmp/malicious.py').read())
 `;
 
       const findings = safetyValidator.analyzeDangerousPatterns(overlappingContent, 'overlapping-test.md');
-      
+
       // Should detect multiple different types of dangerous patterns
       expect(findings.length).toBeGreaterThan(3);
-      
+
       // Should have different severity levels represented
       const severities = new Set(findings.map(f => f.severity));
       expect(severities.size).toBeGreaterThan(1);
-      
+
       // Should detect both critical and high-risk patterns
       const criticalFindings = findings.filter(f => f.severity === 'critical');
       const highRiskFindings = findings.filter(f => f.severity === 'high');
       expect(criticalFindings.length).toBeGreaterThan(0);
       expect(highRiskFindings.length).toBeGreaterThan(0);
-      
+
       // Should detect specific pattern types
       const patternTypes = new Set(findings.map(f => f.message));
       expect(patternTypes.size).toBeGreaterThan(2); // Multiple different pattern types detected
@@ -195,7 +195,7 @@ console.log("second block");
       safetyValidator.checkDaggerAvailability = () => false;
 
       const result = await safetyValidator.validateCommandInContainer('echo test', 'test.md');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Dagger not available');
       expect(result.containerValidated).toBe(false);
@@ -208,7 +208,7 @@ console.log("second block");
   describe('File Discovery', () => {
     test('should find command files in directory structure', () => {
       const commandsDir = path.join(global.TEST_CONFIG.PROJECT_ROOT, '.claude', 'commands');
-      
+
       if (fs.existsSync(commandsDir)) {
         const files = safetyValidator.findCommandFiles(commandsDir);
         expect(files.length).toBeGreaterThan(0);
@@ -249,7 +249,7 @@ console.log("second block");
 
     test('should calculate percentages correctly with zero commands', () => {
       const report = safetyValidator.generateReport();
-      
+
       expect(report.summary.successRate).toBe('0%');
       expect(report.summary.dangerRate).toBe('0%');
     });
@@ -270,7 +270,7 @@ console.log("second block");
 
     test('should have all required methods', () => {
       const validator = new SafetyValidator();
-      
+
       expect(typeof validator.checkDaggerAvailability).toBe('function');
       expect(typeof validator.analyzeDangerousPatterns).toBe('function');
       expect(typeof validator.validateCommandInContainer).toBe('function');
@@ -299,7 +299,7 @@ ls -la
 
     test('should track validation timing in results', async () => {
       const report = await safetyValidator.validateAllCommands();
-      
+
       expect(report.summary).toHaveProperty('validationTime');
       expect(typeof report.summary.validationTime).toBe('string');
       expect(report.summary.validationTime).toMatch(/\d+ms/);

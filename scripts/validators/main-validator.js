@@ -11,13 +11,13 @@ const FileUtils = require('./file-utils');
 class MainValidator {
   constructor(options = {}) {
     this.excludePatterns = options.excludePatterns || ['node_modules', '.git', 'test', '__pycache__'];
-    
+
     // Initialize sub-validators
     this.securityValidator = new SecurityValidator();
     this.structureValidator = new StructureValidator();
     this.qualityScorer = new QualityScorer();
     this.fileUtils = new FileUtils(this.excludePatterns);
-    
+
     // Aggregate results
     this.stats = {
       totalFiles: 0,
@@ -31,7 +31,7 @@ class MainValidator {
       securityReport: [],
       fileTypes: new Map()
     };
-    
+
     // Table-driven validator registry
     this.validators = [
       {
@@ -82,29 +82,29 @@ class MainValidator {
     const filename = this.fileUtils.getRelativePath(filepath, process.cwd());
     let isValid = true;
     let lastQualityScore = 0;
-    
+
     try {
       const content = this.fileUtils.readFileContent(filepath);
       this.stats.totalFiles++;
-      
+
       // Determine file type
       const fileType = this.qualityScorer.determinePromptType(filename, content);
       this.stats.fileTypes.set(filename, fileType);
-      
+
       // Track command vs prompt files
       if (filename.includes('.claude/commands/')) {
         this.stats.commandFiles++;
       }
-      
+
       // Run all validators using table-driven approach
       for (const validator of this.validators) {
         if (!validator.when(filename, content)) {
           continue;
         }
-        
+
         const result = validator.run(filename, content, fileType);
         const collected = validator.collect(result);
-        
+
         // Process collected results
         if (collected.errors) {
           this.stats.errors.push(...collected.errors);
@@ -124,17 +124,17 @@ class MainValidator {
           isValid = false;
         }
       }
-      
+
       if (isValid) {
         this.stats.validFiles++;
       }
-      
+
       return {
         valid: isValid,
         fileType,
         qualityScore: lastQualityScore
       };
-      
+
     } catch (error) {
       this.stats.errors.push(`${filename}: ${error.message}`);
       return {
@@ -147,16 +147,16 @@ class MainValidator {
   // Validate all files in a directory
   async validateDirectory(directory) {
     const files = this.fileUtils.findMarkdownFiles(directory);
-    
+
     for (const file of files) {
       await this.validateFile(file);
     }
-    
+
     // Calculate average quality score
     if (this.stats.totalFiles > 0) {
       this.stats.qualityScore = Math.round(this.stats.qualityScore / this.stats.totalFiles);
     }
-    
+
     return this.stats;
   }
 

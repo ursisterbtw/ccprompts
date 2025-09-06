@@ -4,7 +4,7 @@ This command auto-detects project characteristics and suggests relevant prompts 
 
 ## Usage
 
-```
+```bash
 /analyze-project
 ```
 

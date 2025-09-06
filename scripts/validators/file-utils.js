@@ -13,20 +13,20 @@ class FileUtils {
 
   findMarkdownFiles(directory) {
     const files = [];
-    
+
     const walk = (dir) => {
       const dirName = path.basename(dir);
       if (this.excludePatterns.some(pattern => dirName.includes(pattern))) {
         return;
       }
-      
+
       try {
         const items = fs.readdirSync(dir);
-        
+
         for (const item of items) {
           const fullPath = path.join(dir, item);
           const stat = fs.statSync(fullPath);
-          
+
           if (stat.isDirectory()) {
             walk(fullPath);
           } else if (item.endsWith('.md')) {
@@ -37,7 +37,7 @@ class FileUtils {
         console.error(`Error reading directory ${dir}:`, error.message);
       }
     };
-    
+
     walk(directory);
     return files;
   }

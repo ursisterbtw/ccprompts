@@ -35,12 +35,14 @@ System: You provide AI assistance for debugging software issues and error resolu
 User requests: /ai-debug [error-type] [scope] [approach] [parameters]
 
 Where:
+
 - error-type: runtime|logic|performance|memory|concurrency|integration
 - scope: function|class|module|system|distributed
 - approach: automated|guided|interactive|comprehensive
 - parameters: Debugging-specific parameters
 
 Examples:
+
 - /ai-debug runtime function automated --trace-execution
 - /ai-debug performance system comprehensive --profile-enabled
 - /ai-debug logic module guided --explain-reasoning
@@ -53,6 +55,7 @@ Use AI techniques to find and fix software bugs.
 ## Error Detection
 
 1. **Find Errors**
+
    ```bash
    - Monitor runtime behavior and execution patterns
    - Detect exceptions, crashes, and abnormal terminations
@@ -61,6 +64,7 @@ Use AI techniques to find and fix software bugs.
    ```
 
 2. **Error Classification and Categorization**
+
    ```bash
    # Classify and categorize detected errors
    - Classify errors by type (runtime, logic, performance, etc.)
@@ -70,6 +74,7 @@ Use AI techniques to find and fix software bugs.
    ```
 
 3. **Pattern Recognition and Analysis**
+
    ```bash
    # Recognize error patterns and relationships
    - Identify recurring error patterns and signatures
@@ -81,6 +86,7 @@ Use AI techniques to find and fix software bugs.
 ## Phase 2: Root Cause Analysis
 
 4. **Execution Trace Analysis**
+
    ```bash
    # Analyze execution traces and call stacks
    - Trace program execution leading to errors
@@ -90,6 +96,7 @@ Use AI techniques to find and fix software bugs.
    ```
 
 5. **Data Flow and State Analysis**
+
    ```bash
    # Analyze data flow and state changes
    - Track variable values and state mutations
@@ -99,6 +106,7 @@ Use AI techniques to find and fix software bugs.
    ```
 
 6. **Dependency and Integration Analysis**
+
    ```bash
    # Analyze dependencies and integration issues
    - Identify external dependency failures and timeouts
@@ -110,6 +118,7 @@ Use AI techniques to find and fix software bugs.
 ## Phase 3: Intelligent Debugging Assistance
 
 7. **Interactive Debugging Guidance**
+
    ```bash
    # Provide interactive debugging assistance
    - Guide users through systematic debugging processes
@@ -119,6 +128,7 @@ Use AI techniques to find and fix software bugs.
    ```
 
 8. **Automated Hypothesis Generation**
+
    ```bash
    # Generate debugging hypotheses automatically
    - Generate potential root cause hypotheses
@@ -128,6 +138,7 @@ Use AI techniques to find and fix software bugs.
    ```
 
 9. **Smart Breakpoint and Logging**
+
    ```bash
    # Implement intelligent breakpoint and logging strategies
    - Suggest optimal breakpoint locations
@@ -139,6 +150,7 @@ Use AI techniques to find and fix software bugs.
 ## Phase 4: Specialized Debugging Capabilities
 
 10. **Performance Debugging**
+
     ```bash
     # Debug performance issues and bottlenecks
     - Profile CPU usage and identify hotspots
@@ -148,6 +160,7 @@ Use AI techniques to find and fix software bugs.
     ```
 
 11. **Concurrency and Race Condition Debugging**
+
     ```bash
     # Debug concurrency and synchronization issues
     - Detect race conditions and deadlocks
@@ -157,6 +170,7 @@ Use AI techniques to find and fix software bugs.
     ```
 
 12. **Memory and Resource Debugging**
+
     ```bash
     # Debug memory and resource management issues
     - Detect memory leaks and excessive allocations
@@ -168,6 +182,7 @@ Use AI techniques to find and fix software bugs.
 ## Phase 5: AI-Enhanced Debugging Techniques
 
 13. **Machine Learning-Based Error Prediction**
+
     ```bash
     # Use ML to predict and prevent errors
     - Train models on historical error patterns
@@ -177,6 +192,7 @@ Use AI techniques to find and fix software bugs.
     ```
 
 14. **Natural Language Error Explanation**
+
     ```bash
     # Provide natural language error explanations
     - Generate human-readable error descriptions
@@ -186,6 +202,7 @@ Use AI techniques to find and fix software bugs.
     ```
 
 15. **Automated Fix Suggestion**
+
     ```bash
     # Suggest automated fixes and solutions
     - Generate potential fix implementations
@@ -197,6 +214,7 @@ Use AI techniques to find and fix software bugs.
 ## Phase 6: Collaborative and Knowledge-Based Debugging
 
 16. **Knowledge Base Integration**
+
     ```bash
     # Integrate with debugging knowledge bases
     - Access historical debugging solutions and patterns
@@ -206,6 +224,7 @@ Use AI techniques to find and fix software bugs.
     ```
 
 17. **Collaborative Debugging Support**
+
     ```bash
     # Support collaborative debugging efforts
     - Enable team debugging sessions and knowledge sharing
@@ -215,6 +234,7 @@ Use AI techniques to find and fix software bugs.
     ```
 
 18. **Expert System Integration**
+
     ```bash
     # Integrate expert system capabilities
     - Encode debugging expertise and heuristics
@@ -226,6 +246,7 @@ Use AI techniques to find and fix software bugs.
 ## Phase 7: Advanced Debugging Features
 
 19. **Time-Travel and Replay Debugging**
+
     ```bash
     # Implement time-travel debugging capabilities
     - Record and replay program execution
@@ -235,6 +256,7 @@ Use AI techniques to find and fix software bugs.
     ```
 
 20. **Visual and Interactive Debugging**
+
     ```bash
     # Provide visual debugging interfaces
     - Create visual representations of program state and flow
@@ -244,6 +266,7 @@ Use AI techniques to find and fix software bugs.
     ```
 
 21. **Continuous Debugging and Monitoring**
+
     ```bash
     # Implement continuous debugging capabilities
     - Monitor production systems for debugging opportunities
@@ -255,6 +278,7 @@ Use AI techniques to find and fix software bugs.
 ## Safety and Validation
 
 22. **Debugging Safety and Validation**
+
     ```bash
     # Ensure safe debugging practices
     - Validate debugging actions and their safety
@@ -264,6 +288,7 @@ Use AI techniques to find and fix software bugs.
     ```
 
 23. **Fix Validation and Testing**
+
     ```bash
     # Validate debugging fixes and solutions
     - Test proposed fixes in isolated environments
@@ -275,6 +300,7 @@ Use AI techniques to find and fix software bugs.
 ## Educational Components
 
 24. **Debugging Skills Development**
+
     ```bash
     # Teach debugging concepts and techniques
     - Explain systematic debugging methodologies
@@ -284,6 +310,7 @@ Use AI techniques to find and fix software bugs.
     ```
 
 25. **Advanced Debugging Techniques**
+
     ```bash
     # Demonstrate advanced debugging techniques
     - Complex system debugging and analysis
@@ -291,30 +318,36 @@ Use AI techniques to find and fix software bugs.
     - Distributed system debugging strategies
     - Performance and concurrency debugging methods
     ```
+
 </instructions>
 
 <output_format>
+
 ## AI Debugging Report
 
 ### Debugging Configuration
+
 - **Error Type**: [runtime|logic|performance|memory|concurrency|integration]
 - **Analysis Scope**: [function|class|module|system|distributed]
 - **Debugging Approach**: [automated|guided|interactive|comprehensive]
 - **Session Duration**: [time spent on debugging analysis]
 
 ### Error Detection Results
+
 - **Errors Detected**: [count] errors across [categories]
 - **Error Severity**: [critical|high|medium|low] distribution
 - **Error Patterns**: [recurring patterns and signatures identified]
 - **Impact Assessment**: [business and technical impact analysis]
 
 ### Root Cause Analysis
+
 - **Primary Root Cause**: [main cause identified]
 - **Contributing Factors**: [secondary causes and conditions]
 - **Error Propagation**: [how error spreads through system]
 - **Failure Point**: [specific location where error manifests]
 
 ### Execution Analysis
+
 ```
 Error Trace:
 ├── Entry Point: [where error originates]
@@ -324,66 +357,77 @@ Error Trace:
 ```
 
 ### Data Flow Analysis
+
 - **Invalid Data Sources**: [sources of problematic data]
 - **Data Transformations**: [data processing steps involved]
 - **Validation Failures**: [validation points that failed]
 - **Data Dependencies**: [data relationships and dependencies]
 
 ### Performance Analysis
+
 - **Performance Bottlenecks**: [identified performance issues]
 - **Resource Usage**: [CPU, memory, I/O utilization patterns]
 - **Timing Issues**: [timing-related problems and race conditions]
 - **Scalability Concerns**: [scalability-related error factors]
 
 ### AI Analysis Results
+
 - **Confidence Level**: [high|medium|low] confidence in analysis
 - **Hypothesis Ranking**: [ranked list of potential causes]
 - **Pattern Matching**: [similarity to known error patterns]
 - **Prediction Accuracy**: [accuracy of error prediction models]
 
 ### Debugging Recommendations
+
 - **Immediate Actions**: [urgent debugging steps to take]
 - **Investigation Strategy**: [systematic debugging approach]
 - **Tool Recommendations**: [debugging tools and techniques to use]
 - **Monitoring Suggestions**: [monitoring and observability improvements]
 
 ### Fix Suggestions
+
 - **Proposed Solutions**: [ranked list of potential fixes]
 - **Fix Complexity**: [implementation difficulty and effort]
 - **Risk Assessment**: [risks associated with each fix]
 - **Validation Strategy**: [how to test and validate fixes]
 
 ### Code Analysis
+
 - **Problematic Code Sections**: [specific code areas with issues]
 - **Code Quality Issues**: [code quality problems contributing to errors]
 - **Design Pattern Issues**: [architectural or design problems]
 - **Best Practice Violations**: [coding best practices not followed]
 
 ### Environment and Dependencies
+
 - **Environment Issues**: [configuration and environment problems]
 - **Dependency Problems**: [external dependency issues]
 - **Integration Issues**: [system integration and communication problems]
 - **Infrastructure Concerns**: [infrastructure-related error factors]
 
 ### Learning and Knowledge
+
 - **Similar Issues**: [historical similar issues and resolutions]
 - **Knowledge Base Matches**: [relevant knowledge base entries]
 - **Expert Insights**: [expert system recommendations]
 - **Team Knowledge**: [relevant team experience and expertise]
 
 ### Validation Results
+
 - **Fix Effectiveness**: [validation of proposed solutions]
 - **Test Coverage**: [test coverage for error scenarios]
 - **Regression Testing**: [regression test results]
 - **Production Readiness**: [readiness for production deployment]
 
 ### Recommendations
+
 - **Code Improvements**: [code quality and structure improvements]
 - **Process Improvements**: [development process enhancements]
 - **Tool Enhancements**: [debugging and development tool improvements]
 - **Prevention Strategies**: [strategies to prevent similar errors]
 
 ### Educational Insights
+
 - **Debugging Concepts**: [key debugging concepts demonstrated]
 - **AI Techniques**: [AI and ML techniques used in debugging]
 - **Problem-Solving Methods**: [systematic problem-solving approaches]

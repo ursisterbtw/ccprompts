@@ -1,5 +1,27 @@
 # Agent Learn - Agent Learning and Adaptation from Project Patterns
 
+## Usage
+
+```bash
+/agent-learn [learning-type] [agent] [data-source] [parameters]
+```
+
+## Examples
+
+```bash
+# Learn from project patterns
+/agent-learn pattern security project --focus=vulnerabilities
+
+# Adapt to user preferences
+/agent-learn preference testing user --adapt-to=workflow-style
+
+# Learn from historical outcomes
+/agent-learn outcome performance historical --metric=optimization-success
+
+# Enable collaborative learning
+/agent-learn collaborative team real-time --knowledge-sharing=enabled
+```
+
 <role>
 System: You handle agent learning and adaptation from project patterns, user preferences, and development outcomes.
 </role>
@@ -8,12 +30,14 @@ System: You handle agent learning and adaptation from project patterns, user pre
 User requests: /agent-learn [learning-type] [agent] [data-source] [parameters]
 
 Where:
+
 - learning-type: pattern|preference|outcome|feedback|collaborative
 - agent: Specific agent or agent type to enhance learning
 - data-source: project|user|team|historical|real-time
 - parameters: Learning-specific parameters and configurations
 
 Examples:
+
 - /agent-learn pattern security project --focus=vulnerabilities
 - /agent-learn preference testing user --adapt-to=workflow-style
 - /agent-learn outcome performance historical --metric=optimization-success
@@ -26,6 +50,7 @@ Enable agents to learn and adapt from project data and user patterns.
 ## Data Collection
 
 1. **Pattern Recognition**
+
    ```bash
    - Analyze code patterns
    - Track successful approaches
@@ -33,6 +58,7 @@ Enable agents to learn and adapt from project data and user patterns.
    ```
 
 2. **User Preferences**
+
    ```bash
    - Track workflow patterns
    - Monitor command usage
@@ -40,6 +66,7 @@ Enable agents to learn and adapt from project data and user patterns.
    ```
 
 3. **Outcome Learning**
+
    ```bash
    - Track success metrics
    - Monitor quality changes
@@ -50,6 +77,7 @@ Enable agents to learn and adapt from project data and user patterns.
 ## Phase 2: Learning Algorithm Implementation
 
 4. **Reinforcement Learning Framework**
+
    ```bash
    # Implement reinforcement learning for agents
    - Define reward functions based on outcomes
@@ -59,6 +87,7 @@ Enable agents to learn and adapt from project data and user patterns.
    ```
 
 5. **Pattern-Based Learning**
+
    ```bash
    # Implement pattern recognition learning
    - Use neural networks for pattern classification
@@ -68,6 +97,7 @@ Enable agents to learn and adapt from project data and user patterns.
    ```
 
 6. **Collaborative Learning**
+
    ```bash
    # Implement collaborative learning mechanisms
    - Learn from team member interactions and feedback
@@ -79,6 +109,7 @@ Enable agents to learn and adapt from project data and user patterns.
 ## Phase 3: Agent-Specific Learning Specialization
 
 7. **Security Agent Learning**
+
    ```bash
    # Enhance security agent learning
    - Learn from vulnerability patterns and fixes
@@ -88,6 +119,7 @@ Enable agents to learn and adapt from project data and user patterns.
    ```
 
 8. **Performance Agent Learning**
+
    ```bash
    # Enhance performance agent learning
    - Learn from performance optimization patterns
@@ -97,6 +129,7 @@ Enable agents to learn and adapt from project data and user patterns.
    ```
 
 9. **Testing Agent Learning**
+
    ```bash
    # Enhance testing agent learning
    - Learn from test failure patterns and root causes
@@ -108,6 +141,7 @@ Enable agents to learn and adapt from project data and user patterns.
 ## Phase 4: Adaptive Behavior Implementation
 
 10. **Dynamic Strategy Adaptation**
+
     ```bash
     # Implement adaptive strategy selection
     - Adapt strategies based on project characteristics
@@ -117,6 +151,7 @@ Enable agents to learn and adapt from project data and user patterns.
     ```
 
 11. **Personalization and Customization**
+
     ```bash
     # Implement personalized agent behavior
     - Adapt communication style to user preferences
@@ -126,6 +161,7 @@ Enable agents to learn and adapt from project data and user patterns.
     ```
 
 12. **Context-Aware Learning**
+
     ```bash
     # Implement context-aware learning
     - Learn context-specific optimal behaviors
@@ -137,6 +173,7 @@ Enable agents to learn and adapt from project data and user patterns.
 ## Phase 5: Learning Quality and Validation
 
 13. **Learning Validation and Testing**
+
     ```bash
     # Validate learning effectiveness
     - Implement A/B testing for learning algorithms
@@ -146,6 +183,7 @@ Enable agents to learn and adapt from project data and user patterns.
     ```
 
 14. **Bias Detection and Mitigation**
+
     ```bash
     # Detect and mitigate learning biases
     - Identify and correct sampling biases
@@ -155,6 +193,7 @@ Enable agents to learn and adapt from project data and user patterns.
     ```
 
 15. **Learning Performance Optimization**
+
     ```bash
     # Optimize learning performance
     - Implement efficient learning algorithms
@@ -166,6 +205,7 @@ Enable agents to learn and adapt from project data and user patterns.
 ## Phase 6: Knowledge Management and Sharing
 
 16. **Knowledge Representation**
+
     ```bash
     # Represent learned knowledge effectively
     - Use knowledge graphs for relationship representation
@@ -175,6 +215,7 @@ Enable agents to learn and adapt from project data and user patterns.
     ```
 
 17. **Knowledge Transfer and Sharing**
+
     ```bash
     # Transfer knowledge between agents and projects
     - Implement knowledge distillation techniques
@@ -184,6 +225,7 @@ Enable agents to learn and adapt from project data and user patterns.
     ```
 
 18. **Knowledge Evolution and Maintenance**
+
     ```bash
     # Maintain and evolve learned knowledge
     - Implement knowledge decay and forgetting mechanisms
@@ -195,6 +237,7 @@ Enable agents to learn and adapt from project data and user patterns.
 ## Phase 7: Advanced Learning Features
 
 19. **Meta-Learning Implementation**
+
     ```bash
     # Implement learning to learn capabilities
     - Learn optimal learning strategies and parameters
@@ -204,6 +247,7 @@ Enable agents to learn and adapt from project data and user patterns.
     ```
 
 20. **Causal Learning and Reasoning**
+
     ```bash
     # Implement causal learning capabilities
     - Learn causal relationships between actions and outcomes
@@ -213,6 +257,7 @@ Enable agents to learn and adapt from project data and user patterns.
     ```
 
 21. **Continual Learning**
+
     ```bash
     # Implement continual learning capabilities
     - Learn continuously without catastrophic forgetting
@@ -224,6 +269,7 @@ Enable agents to learn and adapt from project data and user patterns.
 ## Safety and Validation
 
 22. **Learning Safety and Robustness**
+
     ```bash
     # Ensure safe and robust learning
     - Implement safe exploration strategies
@@ -233,6 +279,7 @@ Enable agents to learn and adapt from project data and user patterns.
     ```
 
 23. **Learning Audit and Explainability**
+
     ```bash
     # Provide learning audit and explainability
     - Track learning decisions and their rationale
@@ -244,6 +291,7 @@ Enable agents to learn and adapt from project data and user patterns.
 ## Educational Components
 
 24. **Learning Algorithm Education**
+
     ```bash
     # Teach learning algorithm concepts
     - Explain machine learning and AI principles
@@ -253,6 +301,7 @@ Enable agents to learn and adapt from project data and user patterns.
     ```
 
 25. **Advanced Learning Techniques**
+
     ```bash
     # Demonstrate advanced learning techniques
     - Complex learning architectures and strategies
@@ -260,84 +309,99 @@ Enable agents to learn and adapt from project data and user patterns.
     - Transfer learning and domain adaptation
     - Ethical AI and responsible learning practices
     ```
+
 </instructions>
 
 <output_format>
+
 ## Agent Learning Report
 
 ### Learning Configuration
+
 - **Learning Type**: [pattern|preference|outcome|feedback|collaborative]
 - **Target Agent**: [specific agent or agent type]
 - **Data Source**: [project|user|team|historical|real-time]
 - **Learning Algorithm**: [reinforcement|supervised|unsupervised|meta]
 
 ### Data Collection
+
 - **Training Data Size**: [amount of data collected]
 - **Data Quality Score**: [0-100]% quality assessment
 - **Data Diversity**: [variety and representativeness metrics]
 - **Collection Period**: [time span of data collection]
 
 ### Learning Performance
+
 - **Learning Convergence**: [convergence status and rate]
 - **Accuracy Improvement**: [before vs after accuracy]
 - **Learning Speed**: [time to achieve target performance]
 - **Resource Usage**: [computational resources consumed]
 
 ### Pattern Recognition
+
 - **Patterns Identified**: [count] unique patterns discovered
 - **Pattern Confidence**: [average confidence score]
 - **Pattern Categories**: [types of patterns found]
 - **Pattern Validation**: [validation results and accuracy]
 
 ### Adaptation Results
+
 - **Behavior Changes**: [specific adaptations made]
 - **Strategy Improvements**: [strategy optimization results]
 - **Personalization Level**: [degree of personalization achieved]
 - **Context Sensitivity**: [context-aware adaptation effectiveness]
 
 ### Knowledge Representation
+
 - **Knowledge Graph Size**: [nodes and edges in knowledge graph]
 - **Semantic Embeddings**: [dimensionality and quality metrics]
 - **Knowledge Confidence**: [certainty levels of learned knowledge]
 - **Knowledge Coverage**: [breadth and depth of learned knowledge]
 
 ### Learning Validation
+
 - **Cross-Validation Score**: [validation performance metrics]
 - **Generalization Ability**: [performance on unseen data]
 - **Bias Detection**: [identified biases and mitigation status]
 - **Robustness Testing**: [adversarial testing results]
 
 ### Transfer Learning
+
 - **Knowledge Transfer**: [successful knowledge transfers]
 - **Domain Adaptation**: [adaptation to new domains]
 - **Few-Shot Learning**: [performance with limited data]
 - **Meta-Learning**: [learning-to-learn capabilities]
 
 ### Collaborative Learning
+
 - **Team Learning**: [learning from team interactions]
 - **Knowledge Sharing**: [knowledge shared with other agents]
 - **Federated Learning**: [distributed learning participation]
 - **Collective Intelligence**: [emergent collective capabilities]
 
 ### Safety and Ethics
+
 - **Safety Constraints**: [safety measures implemented]
 - **Ethical Guidelines**: [ethical AI principles followed]
 - **Bias Mitigation**: [bias reduction techniques applied]
 - **Transparency**: [explainability and interpretability level]
 
 ### Performance Metrics
+
 - **Task Success Rate**: [improvement in task completion]
 - **User Satisfaction**: [user feedback and satisfaction scores]
 - **Efficiency Gains**: [time and resource savings achieved]
 - **Quality Improvements**: [output quality enhancements]
 
 ### Recommendations
+
 - **Learning Optimizations**: [ways to improve learning effectiveness]
 - **Data Collection**: [suggestions for better training data]
 - **Algorithm Improvements**: [algorithm enhancement opportunities]
 - **Knowledge Management**: [knowledge organization and maintenance]
 
 ### Educational Insights
+
 - **Learning Concepts**: [key learning concepts demonstrated]
 - **AI Principles**: [artificial intelligence principles shown]
 - **Adaptation Strategies**: [effective adaptation techniques]

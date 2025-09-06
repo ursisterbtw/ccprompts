@@ -85,6 +85,7 @@ The project uses a sophisticated 3-layer safety system:
 3. **Rollback Validation** - Comprehensive verification and cleanup
 
 Key safety features:
+
 - Read-only project mounting protects source code
 - Automatic container cleanup after execution
 - Network restrictions and resource constraints
@@ -95,6 +96,7 @@ Key safety features:
 ### Command Structure
 
 All commands follow a consistent markdown structure:
+
 - Clear usage examples with `/command-name` syntax
 - Comprehensive descriptions with auto-detection capabilities
 - Safety measures and verification steps included
@@ -103,6 +105,7 @@ All commands follow a consistent markdown structure:
 ### Agent Template System
 
 Creating new agents:
+
 1. Use the `agent-template-wizard` agent
 2. Provide domain expertise and capabilities
 3. Wizard fills `SUB_AGENT_TEMPLATE.md` placeholders automatically
@@ -112,6 +115,7 @@ Creating new agents:
 ### Validation Requirements
 
 The system expects exactly 70 commands and validates:
+
 - **Structure**: XML/markdown format compliance
 - **Security**: Secret detection, dangerous pattern identification
 - **Quality**: Educational value, completeness, examples (scoring rubric)
@@ -121,11 +125,13 @@ The system expects exactly 70 commands and validates:
 ## Technology Stack
 
 ### Runtime Requirements
+
 - **Node.js ≥18.0.0** (package.json engine requirement)
 - **Dagger ^18.12** for safety container orchestration
 - **Jest ^29.7.0** (known compatibility issues with Node 24+)
 
 ### Development Tools
+
 - **markdownlint** for documentation quality
 - **markdown-link-check** for link validation
 - **Custom validators** in `scripts/validators/` directory
@@ -134,6 +140,7 @@ The system expects exactly 70 commands and validates:
 ## Current Quality Metrics
 
 Based on validation system output:
+
 - ✅ **70/70 commands** discovered and validated
 - ✅ **95.0% structural** validation success rate
 - ❌ **Security score failing** (requires remediation)

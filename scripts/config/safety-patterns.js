@@ -1,6 +1,6 @@
 /**
  * Centralized Safety Pattern Configuration
- * 
+ *
  * This module provides a single source of truth for dangerous code patterns
  * and their classifications across all validation systems.
  */
@@ -18,14 +18,14 @@ module.exports = {
     },
     {
       pattern: /curl.*\|\s*(sh|bash)/gi,
-      severity: 'critical', 
+      severity: 'critical',
       message: 'Pipe to shell from curl (remote code execution)',
       category: 'network'
     },
     {
       pattern: /wget.*\|\s*(sh|bash)/gi,
       severity: 'critical',
-      message: 'Pipe to shell from wget (remote code execution)', 
+      message: 'Pipe to shell from wget (remote code execution)',
       category: 'network'
     },
     {
@@ -48,7 +48,7 @@ module.exports = {
     },
     {
       pattern: /chmod\s+[0-7]{3}/gi,
-      severity: 'high', 
+      severity: 'high',
       message: 'File permission changes',
       category: 'filesystem'
     },
@@ -71,28 +71,46 @@ module.exports = {
    */
   MEDIUM_RISK_PATTERNS: [
     {
-      pattern: /delete|destroy|remove/gi,
+      pattern: /(?:rm\s+-rf|delete\s+.*\/|destroy\s+.*\/|remove\s+.*\/)/gi,
       severity: 'medium',
-      message: 'Potentially destructive operations',
-      category: 'filesystem'
+      message: 'Potentially destructive file operations',
+      category: 'filesystem',
+      skipIfIncludes: ['example', 'placeholder', 'test', 'demo']
     },
     {
       pattern: /(?:curl|wget).*install|download.*\|\s*(?:sh|bash)|install.*(?:curl|wget)/gi,
       severity: 'medium',
       message: 'Potentially unsafe software installation or download',
-      category: 'network'
+      category: 'network',
+      skipIfIncludes: ['example', 'placeholder', 'test']
     },
     {
-      pattern: /network|curl|wget/gi,
+      pattern: /(?:curl|wget).*http|fetch.*http|download.*http/gi,
       severity: 'medium',
-      message: 'Network operations',
-      category: 'network'
+      message: 'Network operations with external resources',
+      category: 'network',
+      skipIfIncludes: ['example', 'placeholder', 'test', 'demo']
     },
     {
-      pattern: /file.*write|modify/gi,
+      pattern: /(?:write|modify|create).*file|file.*(?:write|modify|create)/gi,
       severity: 'medium',
       message: 'File write or modification operations',
-      category: 'filesystem'
+      category: 'filesystem',
+      skipIfIncludes: ['example', 'placeholder', 'test', 'demo', 'template']
+    },
+    {
+      pattern: /sudo\s+(?!apt|npm|pip|yum|dnf|brew)/gi,
+      severity: 'medium',
+      message: 'Sudo execution with non-package managers',
+      category: 'privilege',
+      skipIfIncludes: ['example', 'placeholder', 'test']
+    },
+    {
+      pattern: /chmod\s+[0-7]{3}\s+[^\/\s]/gi,
+      severity: 'medium',
+      message: 'File permission changes on specific files',
+      category: 'filesystem',
+      skipIfIncludes: ['example', 'placeholder', 'test']
     }
   ],
 
@@ -141,7 +159,7 @@ module.exports = {
    */
   classifySafetyLevel(content, codeBlocksOnly = false) {
     let textToCheck = content;
-    
+
     if (codeBlocksOnly) {
       // Extract code blocks only
       const codeBlocks = [];
@@ -150,14 +168,14 @@ module.exports = {
       while ((match = codeBlockRegex.exec(content)) !== null) {
         codeBlocks.push(match[1]);
       }
-      
+
       // Also extract indented code
       const indentedCodeRegex = /^(?: {4}|\t)(.+)$/gm;
       let indentedMatch;
       while ((indentedMatch = indentedCodeRegex.exec(content)) !== null) {
         codeBlocks.push(indentedMatch[1]);
       }
-      
+
       textToCheck = codeBlocks.join('\n');
     }
 

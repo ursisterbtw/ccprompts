@@ -27,7 +27,7 @@ global.testUtils = {
     fs.writeFileSync(tempPath, content);
     return tempPath;
   },
-  
+
   // Clean up temporary files
   cleanupTempFiles: () => {
     const tempDir = path.join(global.TEST_CONFIG.PROJECT_ROOT, 'tests', 'temp');
@@ -35,7 +35,7 @@ global.testUtils = {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
   },
-  
+
   // Mock command file content
   mockCommandFile: (commandName, options = {}) => {
     const defaults = {
@@ -46,28 +46,28 @@ global.testUtils = {
       safetyLevel: 'safe'
     };
     const config = { ...defaults, ...options };
-    
+
     let content = `# ${commandName} Command\n\n`;
-    
+
     if (config.hasDescription) {
       content += `## Description\n\nThis is a test command for ${commandName}.\n\n`;
     }
-    
+
     if (config.hasUsage) {
       content += `## Usage\n\n\`\`\`bash\n/${commandName} [options]\n\`\`\`\n\n`;
     }
-    
+
     if (config.hasParameters) {
       content += `## Parameters\n\n- **param1**: Test parameter\n\n`;
     }
-    
+
     if (config.hasExamples) {
       content += `## Examples\n\n\`\`\`bash\n/${commandName} example\n\`\`\`\n\nThis example demonstrates basic usage.\n\n`;
     }
-    
+
     return content;
   },
-  
+
   // Mock prompt file content
   mockPromptFile: (promptName, options = {}) => {
     const defaults = {
@@ -76,22 +76,22 @@ global.testUtils = {
       hasExamples: true
     };
     const config = { ...defaults, ...options };
-    
+
     let content = `# ${promptName}\n\n`;
-    
+
     if (config.hasXMLStructure) {
       content += `<role>\nSystem prompt for ${promptName}\n</role>\n\n`;
       content += `<activation>\nWhen the user requests ${promptName}\n</activation>\n\n`;
     }
-    
+
     if (config.hasInstructions) {
       content += `<instructions>\nExecute the ${promptName} workflow:\n1. Step one\n2. Step two\n</instructions>\n\n`;
     }
-    
+
     if (config.hasExamples) {
       content += `## Examples\n\nExample usage of ${promptName}.\n\n`;
     }
-    
+
     return content;
   }
 };

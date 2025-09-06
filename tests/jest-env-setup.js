@@ -31,7 +31,7 @@ if (process.version.startsWith('v24.')) {
   if (!process.env.NODE_OPTIONS) {
     process.env.NODE_OPTIONS = '--max-old-space-size=4096';
   }
-  
+
   // experimental features if needed
   process.env.NODE_NO_WARNINGS = '1';
 }
