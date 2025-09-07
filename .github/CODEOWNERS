@@ -2,23 +2,23 @@
 # This file defines who should review changes to specific parts of the codebase
 
 # Global ownership - require review for all changes
-* @ursisterbtw
+* @ursisterbtw @krljakob
 
 # Critical configuration files require extra scrutiny
-.claude/config.json @ursisterbtw
-.claude/mcp.json @ursisterbtw
-.github/ @ursisterbtw
+.claude/config.json @ursisterbtw @krljakob
+.claude/mcp.json @ursisterbtw @krljakob
+.github/ @ursisterbtw @krljakob
 
 # Command ecosystem - core functionality
-.claude/commands/ @ursisterbtw
-.claude/workflows/ @ursisterbtw
+.claude/commands/ @ursisterbtw @krljakob
+.claude/workflows/ @ursisterbtw @krljakob
 
 
 # Documentation - maintain consistency and accuracy
-README.md @ursisterbtw
-CLAUDE.md @ursisterbtw
-CC-SDK-Guide.md @ursisterbtw
+README.md @ursisterbtw @krljakob
+CLAUDE.md @ursisterbtw @krljakob
+CC-SDK-Guide.md @ursisterbtw @krljakob
 
 # Security-sensitive files
-.env.example @ursisterbtw
-.gitignore @ursisterbtw
+.env.example @ursisterbtw @krljakob
+.gitignore @ursisterbtw @krljakob

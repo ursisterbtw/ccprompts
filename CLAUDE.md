@@ -9,7 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Comprehensive command ecosystem** across 12 development phases (00-11)
 - **Dagger-based safety system** for secure execution of potentially dangerous commands
 - **Multi-dimensional validation** with quality, security, and performance metrics
-- **Agent template system** for creating specialized sub-agents
+- **Agent template system** for creating specialized subagents
 - **MCP integration** and workflow automation capabilities
 
 ## Essential Commands
@@ -73,7 +73,7 @@ bun run test:validate         # Command validation only
 - **`scripts/validate-commands.js`** - Multi-dimensional validation engine
 - **`src/index.ts`** - Dagger TypeScript safety container system
 - **`scripts/safety-validator.js`** - Command safety pattern detection
-- **`templates/SUB_AGENT_TEMPLATE.md`** - Standardized agent creation template
+- **`templates/SUBAGENT_TEMPLATE.md`** - Standardized agent creation template
 - **`.claude/settings.json`** - Claude Code permissions and environment config
 
 ### Safety Container System (Dagger-Based)
@@ -108,7 +108,7 @@ Creating new agents:
 
 1. Use the `agent-template-wizard` agent
 2. Provide domain expertise and capabilities
-3. Wizard fills `SUB_AGENT_TEMPLATE.md` placeholders automatically
+3. Wizard fills `SUBAGENT_TEMPLATE.md` placeholders automatically
 4. Follows 7-step methodology with proper categorization
 5. Color-coded by category (blue=dev, green=ops, yellow=data/AI, etc.)
 

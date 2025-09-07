@@ -5,7 +5,7 @@ color: {AGENT_COLOR}
 ---
 
 <!--
-NOTE: This is the template file used to create specialized sub-agents.
+NOTE: This is the template file used to create specialized subagents.
 All agents in the development workflow should follow this structure.
 Replace all {PLACEHOLDER} values with agent-specific content.
 

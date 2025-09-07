@@ -102,7 +102,7 @@ Provide implementation with inline documentation
 
 **Claude Code specific patterns** emphasize natural language over technical jargon, include coding style preferences in system prompts, specify tool usage policies, and define error handling procedures. The system prompt optimization should prioritize maintainability and establish clear boundaries for architectural changes.
 
-For complex tasks, implement **chain of thought patterns** with explicit thinking sections before implementation. Multi-agent coordination uses the Task tool for spawning sub-agents with different expertise areas, implementing supervisor patterns for workflows spanning multiple domains.
+For complex tasks, implement **chain of thought patterns** with explicit thinking sections before implementation. Multi-agent coordination uses the Task tool for spawning subagents with different expertise areas, implementing supervisor patterns for workflows spanning multiple domains.
 
 **Output formatting** supports multiple modes: JSON for automation (`--output-format json`), streaming JSON for real-time processing (`--output-format stream-json`), and structured message schemas including assistant messages, user messages, result messages with metadata, and error messages with debugging details.
 
