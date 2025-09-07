@@ -4,7 +4,7 @@ This command auto-detects project characteristics and suggests relevant prompts 
 
 ## Usage
 
-```
+```bash
 /analyze-project
 ```
 
@@ -78,6 +78,20 @@ No parameters required. The command automatically detects project characteristic
 # Priority 3: /audit-security full-codebase thorough
 # Quick Win: /document dev auto-generated
 ```
+
+## Safety
+
+- **Input Validation**: No user inputs required; operates on current directory structure
+- **File Access**: Read-only analysis of project files and configuration
+- **Safe Operations**: Non-destructive analysis only; no file modifications
+- **Resource Limits**: Analysis bounded by project size; automatically handles timeout scenarios
+
+## Verification
+
+- **Analysis Completeness**: Verify all major project files and configurations detected
+- **Recommendation Accuracy**: Cross-reference suggestions with detected stack and maturity
+- **Output Format**: Confirm structured recommendations with priorities and timelines
+- **Project Profile Correctness**: Validate technology stack and architecture pattern detection
 
 ## Related Prompts
 

@@ -12,31 +12,31 @@ class SecurityValidator {
 
   validateSecurity(content, filename) {
     this.securityIssues = [];
-    
+
     const fencedBlocks = content.match(/```(?:[a-zA-Z0-9_+-]*\n)?[\s\S]*?```/g) || [];
     const indentedBlocks = content.match(/(?:^|\n)((?:    |\t).*(?:\n(?:    |\t).*)*)/gm) || [];
-    
+
     const codeBlocks = [...fencedBlocks, ...indentedBlocks];
     const combinedCode = codeBlocks.join('\n');
-    
+
     const securityPatterns = [
-      { 
-        pattern: /password\s*=\s*["'][^"']{8,}["']/gi, 
+      {
+        pattern: /password\s*=\s*["'][^"']{8,}["']/gi,
         message: 'Hardcoded password detected',
         skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
       },
-      { 
-        pattern: /api[_-]?key\s*=\s*["'][^"']{16,}["']/gi, 
+      {
+        pattern: /api[_-]?key\s*=\s*["'][^"']{16,}["']/gi,
         message: 'Hardcoded API key detected',
         skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
       },
-      { 
-        pattern: /secret\s*=\s*["'][^"']{8,}["']/gi, 
+      {
+        pattern: /secret\s*=\s*["'][^"']{8,}["']/gi,
         message: 'Hardcoded secret detected',
         skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
       },
-      { 
-        pattern: /token\s*=\s*["'][^"']{16,}["']/gi, 
+      {
+        pattern: /token\s*=\s*["'][^"']{16,}["']/gi,
         message: 'Hardcoded token detected',
         skipIfIncludes: ['example', 'placeholder', 'your-', 'REPLACE_WITH']
       },
@@ -50,10 +50,10 @@ class SecurityValidator {
     securityPatterns.forEach(({ pattern, message, skipIfIncludes }) => {
       const matches = combinedCode.match(pattern) || [];
       matches.forEach(match => {
-        const shouldSkip = skipIfIncludes?.some(skip => 
+        const shouldSkip = skipIfIncludes?.some(skip =>
           match.toLowerCase().includes(skip.toLowerCase())
         );
-        
+
         if (!shouldSkip) {
           this.securityIssues.push({
             file: filename,

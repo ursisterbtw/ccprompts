@@ -51,26 +51,51 @@ class SafetyValidator {
   analyzeDangerousPatterns(content, filename) {
     const findings = [];
     const codeBlocks = this.extractCodeBlocks(content);
+
+    // Early exit if no code blocks
+    if (codeBlocks.length === 0) {
+      return findings;
+    }
+
     const allPatterns = safetyPatterns.getAllPatterns();
 
     codeBlocks.forEach((block, index) => {
       // block may be a string or an object depending on extractCodeBlocks implementation
       const blockContent = typeof block === 'string' ? block : (block.content || '');
-      allPatterns.forEach(({ pattern, severity, message }) => {
+
+      // Skip empty blocks
+      if (!blockContent.trim()) {
+        return;
+      }
+
+      // Check patterns with early exit for critical patterns
+      for (const { pattern, severity, message, skipIfIncludes } of allPatterns) {
         const matches = blockContent.match(pattern);
         if (matches) {
-          findings.push({
-            filename,
-            blockIndex: index,
-            pattern: pattern.source,
-            severity,
-            message,
-            matches: matches.slice(0, 3),
-            codeSnippet: blockContent.substring(0, 100) + (blockContent.length > 100 ? '...' : ''),
-            language: typeof block === 'string' ? undefined : block.language
-          });
+          // Check skip conditions for false positive reduction
+          const shouldSkip = skipIfIncludes && skipIfIncludes.some(skip =>
+            blockContent.toLowerCase().includes(skip.toLowerCase())
+          );
+
+          if (!shouldSkip) {
+            findings.push({
+              filename,
+              blockIndex: index,
+              pattern: pattern.source,
+              severity,
+              message,
+              matches: matches.slice(0, 3),
+              codeSnippet: blockContent.substring(0, 100) + (blockContent.length > 100 ? '...' : ''),
+              language: typeof block === 'string' ? undefined : block.language
+            });
+
+            // Early exit for critical patterns to avoid over-reporting
+            if (severity === 'critical') {
+              break;
+            }
+          }
         }
-      });
+      }
     });
 
     return findings;
@@ -132,12 +157,12 @@ class SafetyValidator {
 
     try {
       const startTime = Date.now();
-      
+
       const safeRunScript = path.join(this.projectRoot, 'scripts', 'safe-run.sh');
-      
+
       const result = execSync(
         `"${safeRunScript}" "${command}" --test`,
-        { 
+        {
           encoding: 'utf8',
           timeout: 10000,
           cwd: this.projectRoot
@@ -224,19 +249,19 @@ class SafetyValidator {
    */
   async validateFile(filePath) {
     const filename = path.relative(this.projectRoot, filePath);
-    
+
     try {
       const content = fs.readFileSync(filePath, 'utf8');
       this.safetyResults.totalCommands++;
 
       const dangerousFindings = this.analyzeDangerousPatterns(content, filename);
-      
+
       if (dangerousFindings.length > 0) {
         this.safetyResults.dangerousCommands++;
-        
+
         dangerousFindings.forEach(finding => {
           const message = `${filename} [${finding.severity}]: ${finding.message} - "${finding.codeSnippet}"`;
-          
+
           if (finding.severity === 'critical' || finding.severity === 'high') {
             this.safetyResults.errors.push(message);
           } else {
@@ -253,7 +278,7 @@ class SafetyValidator {
           if (!findingIndexes.has(i)) continue;
           if (this.isShellLikeBlock(blockLang, blockContent)) {
             const validationResult = await this.validateCommandInContainer(blockContent, filename);
-            
+
             if (validationResult.containerValidated) {
               this.safetyResults.validatedCommands++;
             }
@@ -278,7 +303,7 @@ class SafetyValidator {
    * Generate safety validation report
    */
   generateReport() {
-    const successRate = this.safetyResults.totalCommands > 0 
+    const successRate = this.safetyResults.totalCommands > 0
       ? ((this.safetyResults.safeCommands / this.safetyResults.totalCommands) * 100).toFixed(1)
       : 0;
 
@@ -312,7 +337,7 @@ class SafetyValidator {
       cyan: '\x1b[36m',
       reset: '\x1b[0m'
     };
-    
+
     console.log(`${colors[color] || ''}${message}${colors.reset}`);
   }
 
@@ -324,14 +349,14 @@ class SafetyValidator {
     this.log('blue', '🛡️  Starting Dagger safety validation...');
 
     const commandsDir = path.join(this.projectRoot, '.claude', 'commands');
-    
+
     if (!fs.existsSync(commandsDir)) {
       this.log('yellow', '⚠️  Commands directory not found - skipping safety validation');
       return this.generateReport();
     }
 
     const commandFiles = this.findCommandFiles(commandsDir);
-    
+
     this.log('cyan', `Found ${commandFiles.length} command files to validate`);
 
     for (const filePath of commandFiles) {
@@ -351,14 +376,14 @@ class SafetyValidator {
    */
   findCommandFiles(directory) {
     const files = [];
-    
+
     const scan = (dir) => {
       try {
         const entries = fs.readdirSync(dir, { withFileTypes: true });
-        
+
         for (const entry of entries) {
           const fullPath = path.join(dir, entry.name);
-          
+
           if (entry.isDirectory()) {
             scan(fullPath);
           } else if (entry.isFile() && entry.name.endsWith('.md')) {
@@ -369,11 +394,11 @@ class SafetyValidator {
         return;
       }
     };
-    
+
     if (fs.existsSync(directory)) {
       scan(directory);
     }
-    
+
     return files;
   }
 
@@ -383,21 +408,21 @@ class SafetyValidator {
   displayReport(report) {
     this.log('blue', '\n🛡️  Safety Validation Report');
     this.log('blue', '=========================');
-    
+
     this.log('green', `✅ Total commands analyzed: ${report.summary.totalCommands}`);
     this.log('green', `✅ Safe commands: ${report.summary.safeCommands}`);
-    
+
     if (report.summary.dangerousCommands > 0) {
       this.log('yellow', `⚠️  Dangerous commands: ${report.summary.dangerousCommands}`);
     }
-    
+
     if (report.summary.validatedCommands > 0) {
       this.log('cyan', `🧪 Container validated: ${report.summary.validatedCommands}`);
     }
-    
+
     this.log('cyan', `📊 Safety rate: ${report.summary.successRate}`);
     this.log('cyan', `⚡ Validation time: ${report.summary.validationTime}`);
-    
+
     if (!report.daggerAvailable) {
       this.log('yellow', '\n⚠️  Dagger not available - container validation disabled');
       this.log('cyan', '   Install Dagger from https://dagger.io for full safety validation');
@@ -408,7 +433,7 @@ class SafetyValidator {
       report.errors.slice(0, 10).forEach(error => {
         this.log('red', `   ${error}`);
       });
-      
+
       if (report.errors.length > 10) {
         this.log('red', `   ... and ${report.errors.length - 10} more errors`);
       }
@@ -419,7 +444,7 @@ class SafetyValidator {
       report.warnings.slice(0, 5).forEach(warning => {
         this.log('yellow', `   ${warning}`);
       });
-      
+
       if (report.warnings.length > 5) {
         this.log('yellow', `   ... and ${report.warnings.length - 5} more warnings`);
       }
@@ -429,14 +454,14 @@ class SafetyValidator {
 
 if (require.main === module) {
   const validator = new SafetyValidator();
-  
+
   validator.validateAllCommands()
     .then(report => {
       const hasErrors = report.errors.length > 0;
-      const hasHighSeverityWarnings = report.warnings.some(w => 
+      const hasHighSeverityWarnings = report.warnings.some(w =>
         w.includes('[critical]') || w.includes('[high]')
       );
-      
+
       if (hasErrors || hasHighSeverityWarnings) {
         process.exit(1);
       }

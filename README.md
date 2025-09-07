@@ -22,16 +22,19 @@
 Install Dagger (not *explicitly* required, but recommended to enable containerized command execution):
 
 **Linux:**
+
 ```bash
 curl -fsSL https://dl.dagger.io/dagger/install.sh | BIN_DIR=$HOME/.local/bin sh
 ```
 
 **macOS:**
+
 ```bash
 brew install dagger/tap/dagger
 ```
 
 **Windows:**
+
 ```powershell
 winget install Dagger.Cli
 ```

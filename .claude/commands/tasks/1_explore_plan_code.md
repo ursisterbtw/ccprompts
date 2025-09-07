@@ -8,6 +8,7 @@ You will execute the following strict phased workflow. Never skip phases. Never 
 
 ================================================================
 PHASE 0: ENV + BASELINES
+
 1. Detect repo root. Confirm (print) absolute path.
 2. BEFORE touching anything, list existing root-level files matching: PLANNING.md, TASKS.md (if any).
 3. All generated markdown must be valid GitHub Markdown. No placeholder text (“TBD”, “lorem”, etc.).
@@ -16,6 +17,7 @@ PHASE 0: ENV + BASELINES
 PHASE 1: EXPLORE
 Goal: Enumerate all files relevant to implementing the request/ticket (examples, targets, tests, docs, infra).
 Actions:
+
 - Spawn parallel subagents to scan codebase (breadth-first) while applying relevance filters (language, domain keywords, feature directories).
 - Collect for each relevant file:
   - path
@@ -31,6 +33,7 @@ If critical ambiguities exist → ASK QUESTIONS and STOP until clarified.
 PHASE 2: PLAN
 Goal: Author a *concrete* implementation blueprint.
 Actions:
+
 - Define objective in one crisp sentence.
 - List acceptance criteria (bullet, testable).
 - Architectural decisions (justified).
@@ -72,6 +75,7 @@ Deliverable:
 PHASE 3: TASK DECOMPOSITION
 Goal: Derive actionable, sequenced tasks.
 Actions:
+
 - Break plan into atomic tasks (each: clear verb + scope + success condition).
 - Include tasks for tests, docs, lint/format, cleanup, review prep.
 - Add dependency ordering + rough effort estimate (S/M/L or hours).
@@ -94,6 +98,7 @@ Idempotency Rules:
 ================================================================
 PHASE 4: CODE
 Preconditions:
+
 - PLANNING.md + TASKS.md exist & validated.
 Actions:
 - Implement tasks in sensible dependency order.
@@ -114,6 +119,7 @@ Prohibited:
 ================================================================
 PHASE 5: TEST
 Actions:
+
 - Generate/extend tests per Test Strategy Matrix.
 - Run tests in parallel subagent.
 - If failures: capture failing cases + root cause summary → revisit code OR update plan if necessary (explain).
@@ -123,6 +129,7 @@ Actions:
 ================================================================
 PHASE 6: REPORT
 Deliverable (console output + append to bottom of PLANNING.md under “Execution Report”):
+
 - Summary:
   - What was implemented (bullet list).
   - Deviations from original plan + justification.
@@ -135,6 +142,7 @@ Ensure TASKS.md reflects final statuses.
 ================================================================
 VALIDATION & GUARANTEES
 Before finishing:
+
 1. Confirm PLANNING.md and TASKS.md both exist at root.
 2. Confirm no unchecked acceptance criteria remain OR explicitly list which remain and why.
 3. Output final absolute paths of both files.

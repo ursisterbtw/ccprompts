@@ -8,7 +8,7 @@ const path = require('path');
 
 describe('Modular Validator Components', () => {
   const validatorsDir = path.join(global.TEST_CONFIG.PROJECT_ROOT, 'scripts', 'validators');
-  
+
   beforeAll(() => {
     // Check if validators directory exists
     if (!fs.existsSync(validatorsDir)) {
@@ -18,7 +18,7 @@ describe('Modular Validator Components', () => {
 
   describe('File Utils Module', () => {
     let FileUtils;
-    
+
     beforeAll(() => {
       const filePath = path.join(validatorsDir, 'file-utils.js');
       if (fs.existsSync(filePath)) {
@@ -44,7 +44,7 @@ describe('Modular Validator Components', () => {
       if (FileUtils && FileUtils.findMarkdownFiles) {
         const testDir = global.TEST_CONFIG.PROJECT_ROOT;
         const files = FileUtils.findMarkdownFiles(testDir);
-        
+
         expect(Array.isArray(files)).toBe(true);
         expect(files.length).toBeGreaterThan(0);
         expect(files.every(file => file.endsWith('.md'))).toBe(true);
@@ -66,7 +66,7 @@ describe('Modular Validator Components', () => {
 
   describe('Quality Scorer Module', () => {
     let QualityScorer;
-    
+
     beforeAll(() => {
       const filePath = path.join(validatorsDir, 'quality-scorer.js');
       if (fs.existsSync(filePath)) {
@@ -117,7 +117,7 @@ This example demonstrates proper usage.
 ## Expected Output
 Detailed description of expected results.
 `;
-        
+
         const score = QualityScorer.scorePromptQuality(highQualityContent, 'test-command.md', 'command');
         expect(score).toBeGreaterThan(70);
       } else {
@@ -131,7 +131,7 @@ Detailed description of expected results.
 # Basic Command
 Some text.
 `;
-        
+
         const score = QualityScorer.scorePromptQuality(lowQualityContent, 'basic-command.md', 'command');
         expect(score).toBeLessThan(40);
       } else {
@@ -142,7 +142,7 @@ Some text.
 
   describe('Security Validator Module', () => {
     let SecurityValidator;
-    
+
     beforeAll(() => {
       const filePath = path.join(validatorsDir, 'security-validator.js');
       if (fs.existsSync(filePath)) {
@@ -171,7 +171,7 @@ api_key="sk-real-api-key"
 eval(dangerous_input)
 \`\`\`
 `;
-        
+
         const issues = SecurityValidator.validateSecurity(insecureContent, 'insecure-test.md');
         expect(Array.isArray(issues)).toBe(true);
         expect(issues.length).toBeGreaterThan(0);
@@ -189,7 +189,7 @@ ls -la
 git status
 \`\`\`
 `;
-        
+
         const issues = SecurityValidator.validateSecurity(secureContent, 'secure-test.md');
         expect(Array.isArray(issues)).toBe(true);
         expect(issues.length).toBe(0);
@@ -201,7 +201,7 @@ git status
 
   describe('Structure Validator Module', () => {
     let StructureValidator;
-    
+
     beforeAll(() => {
       const filePath = path.join(validatorsDir, 'structure-validator.js');
       if (fs.existsSync(filePath)) {
@@ -228,7 +228,7 @@ git status
 <activation>Test activation</activation>
 <instructions>Test instructions</instructions>
 `;
-        
+
         const isValid = StructureValidator.validateXMLStructure(validXML, 'test.md');
         expect(typeof isValid).toBe('boolean');
         expect(isValid).toBe(true);
@@ -244,7 +244,7 @@ git status
 <activation>Test activation
 <instructions>Missing closing tags</instructions>
 `;
-        
+
         const isValid = StructureValidator.validateXMLStructure(invalidXML, 'test.md');
         expect(typeof isValid).toBe('boolean');
         expect(isValid).toBe(false);
@@ -256,7 +256,7 @@ git status
 
   describe('Main Validator Module', () => {
     let MainValidator;
-    
+
     beforeAll(() => {
       const filePath = path.join(validatorsDir, 'main-validator.js');
       if (fs.existsSync(filePath)) {
@@ -293,15 +293,15 @@ git status
     test('should have consistent module exports', () => {
       const moduleFiles = [
         'file-utils.js',
-        'quality-scorer.js', 
+        'quality-scorer.js',
         'security-validator.js',
         'structure-validator.js',
         'main-validator.js'
       ];
-      
+
       let loadedModules = 0;
       let failedModules = 0;
-      
+
       moduleFiles.forEach(moduleFile => {
         const filePath = path.join(validatorsDir, moduleFile);
         if (fs.existsSync(filePath)) {
@@ -315,9 +315,9 @@ git status
           }
         }
       });
-      
+
       console.log(`Loaded modules: ${loadedModules}, Failed modules: ${failedModules}`);
-      
+
       // At least some modules should load successfully
       if (loadedModules + failedModules > 0) {
         expect(loadedModules).toBeGreaterThan(0);
@@ -328,7 +328,7 @@ git status
 
     test('should have proper error handling across modules', () => {
       const moduleFiles = ['file-utils.js', 'quality-scorer.js', 'security-validator.js'];
-      
+
       moduleFiles.forEach(moduleFile => {
         const filePath = path.join(validatorsDir, moduleFile);
         if (fs.existsSync(filePath)) {
@@ -343,15 +343,15 @@ git status
   describe('Validator Performance', () => {
     test('should load all validator modules within performance targets', () => {
       const startTime = Date.now();
-      
+
       const moduleFiles = [
         'file-utils.js',
         'quality-scorer.js',
-        'security-validator.js', 
+        'security-validator.js',
         'structure-validator.js',
         'main-validator.js'
       ];
-      
+
       let loadedCount = 0;
       moduleFiles.forEach(moduleFile => {
         const filePath = path.join(validatorsDir, moduleFile);
@@ -364,12 +364,12 @@ git status
           }
         }
       });
-      
+
       const loadTime = Date.now() - startTime;
-      
+
       // Module loading should be fast
       expect(loadTime).toBeLessThan(500); // 500ms threshold
-      
+
       console.log(`Loaded ${loadedCount} validator modules in ${loadTime}ms`);
     });
   });

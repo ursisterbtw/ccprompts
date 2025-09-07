@@ -2,10 +2,11 @@
 
 ## WORKFLOW CONTINUATION PRIMER
 
-## Purpose: Rehydrate state after context loss and resume the Explore→Plan→Code→Test→Report pipeline WITHOUT duplicating prior work.
+## Purpose: Rehydrate state after context loss and resume the Explore→Plan→Code→Test→Report pipeline WITHOUT duplicating prior work
 
 ================================================================
 PHASE R0: STATE RECONSTRUCTION
+
 1. Assert repo root (print absolute path).
 2. Verify existence of root-level PLANNING.md and TASKS.md.
    - If either missing: STOP and emit: "FATAL: Missing required file(s). Re-run full workflow initializer."
@@ -43,56 +44,63 @@ If CURRENT_PHASE=COMPLETE → STOP after emitting summary.
 PHASE R1: PLAN_FIX (iff current_phase=PLAN_FIX)
 Goal: Repair missing / weak planning elements WITHOUT discarding valid content.
 Actions:
- - Fill missing sections with concrete information (no placeholders).
- - Resolve Open Questions if answerable from codebase or obvious conventions; otherwise restate them crisply and STOP to request user input.
- - Update PLANNING.md in place (append under a “Plan Repair Log” subsection with timestamp).
+
+- Fill missing sections with concrete information (no placeholders).
+- Resolve Open Questions if answerable from codebase or obvious conventions; otherwise restate them crisply and STOP to request user input.
+- Update PLANNING.md in place (append under a “Plan Repair Log” subsection with timestamp).
 On success: Recompute phase selection; if promoted → continue.
 
 ================================================================
 PHASE R2: CODE (iff current_phase=CODE)
 Goal: Continue implementing pending tasks.
 Actions:
- - Select a batch of READY tasks (all dependencies DONE) from BACKLOG; move → IN_PROGRESS.
- - Implement minimal cohesive units; update files only per plan.
- - Update TASKS.md statuses immediately after each completed task (move → DONE with concise “Result:” note).
- - If a task blocked: move → BLOCKED with reason + prerequisite reference.
- - After batch: re-evaluate if BACKLOG depleted → transition to TEST.
+
+- Select a batch of READY tasks (all dependencies DONE) from BACKLOG; move → IN_PROGRESS.
+- Implement minimal cohesive units; update files only per plan.
+- Update TASKS.md statuses immediately after each completed task (move → DONE with concise “Result:” note).
+- If a task blocked: move → BLOCKED with reason + prerequisite reference.
+- After batch: re-evaluate if BACKLOG depleted → transition to TEST.
 
 Batch Size Heuristic:
- - Prefer 3–7 tasks per batch OR fewer if large (Est=L).
+
+- Prefer 3–7 tasks per batch OR fewer if large (Est=L).
 
 ================================================================
 PHASE R3: TEST (iff current_phase=TEST)
 Goal: Validate full acceptance criteria.
 Actions:
- - Generate/extend tests per Test Strategy Matrix (only for uncovered criteria).
- - Run tests; capture:
-    - total, passed, failed
-    - coverage (% if measurable)
-    - performance notes (if defined)
- - For each unmet criterion: either fix code (loop back to CODE) or justify deferral (append to PLANNING.md “Deferred Criteria” section).
- - When all criteria met → transition to REPORT.
+
+- Generate/extend tests per Test Strategy Matrix (only for uncovered criteria).
+- Run tests; capture:
+  - total, passed, failed
+  - coverage (% if measurable)
+  - performance notes (if defined)
+- For each unmet criterion: either fix code (loop back to CODE) or justify deferral (append to PLANNING.md “Deferred Criteria” section).
+- When all criteria met → transition to REPORT.
 
 ================================================================
 PHASE R4: REPORT (iff current_phase=REPORT)
 Goal: Produce / update Execution Report section in PLANNING.md (append if existing).
 Include:
- - Final task status counts
- - Implementation summary (bullets)
- - Deviations from original plan + justification
- - Commands executed (exact)
- - Test results snapshot
- - Coverage/perf metrics
- - Residual risks / follow-up tasks (also append as new BACKLOG tasks if needed)
- - Timestamp (UTC)
+
+- Final task status counts
+- Implementation summary (bullets)
+- Deviations from original plan + justification
+- Commands executed (exact)
+- Test results snapshot
+- Coverage/perf metrics
+- Residual risks / follow-up tasks (also append as new BACKLOG tasks if needed)
+- Timestamp (UTC)
 
 After writing report:
- - Verify acceptance_criteria_status all “met”.
- - Output absolute paths to PLANNING.md, TASKS.md.
- - Emit “WORKFLOW_COMPLETE”.
+
+- Verify acceptance_criteria_status all “met”.
+- Output absolute paths to PLANNING.md, TASKS.md.
+- Emit “WORKFLOW_COMPLETE”.
 
 ================================================================
 GUARDRAILS
+
 - NEVER regenerate entire PLANNING.md or TASKS.md from scratch; only surgical updates.
 - NO placeholder text (“TBD”, “???”, “lorem”).
 - If required file malformed beyond safe incremental repair → STOP and request explicit user permission to reconstruct section(s).
@@ -105,8 +113,9 @@ At any point if essential information is missing AND cannot be inferred, emit BL
 ================================================================
 RESUME TRIGGER
 After printing STATE SUMMARY, immediately proceed to the phase handler unless:
- - BLOCKING_QUESTIONS non-empty
- - integrity_issues severe (e.g., dependency cycle)
+
+- BLOCKING_QUESTIONS non-empty
+- integrity_issues severe (e.g., dependency cycle)
 In those cases: STOP and wait.
 
 ================================================================
