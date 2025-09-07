@@ -312,6 +312,7 @@ Enable agents to learn and adapt from project data and user patterns.
 
 </instructions>
 
+```
 <output_format>
 
 ## Agent Learning Report
@@ -407,3 +408,4 @@ Enable agents to learn and adapt from project data and user patterns.
 - **Adaptation Strategies**: [effective adaptation techniques]
 - **Best Practices**: [machine learning best practices applied]
 </output_format>
+```

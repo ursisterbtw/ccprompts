@@ -357,7 +357,7 @@ You will implement sophisticated inter-agent communication and coordination prot
 
 ### Communication Patterns
 
-```
+```text
 Agent A → Agent B: [Message Type] - [Purpose] - [Frequency]
 Agent B → Agent C: [Message Type] - [Purpose] - [Frequency]
 ...

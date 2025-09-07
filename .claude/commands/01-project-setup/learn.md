@@ -59,6 +59,15 @@ Provides personalized learning paths and skill development for developers using 
 /learn security beginner reference
 ```
 
+## Safety & Verification
+
+- **Auto-detection**: Prompts when topic/level/format are omitted or invalid
+- **Safety**: Generates only learning prompts and exercises; does not execute or modify project files
+- **Resource Limits**: Learning sessions bounded by time and complexity; handles timeout scenarios
+- **Verification**: Include success criteria checklist for each learning objective completion
+- **Progress Validation**: Confirm learning milestones achieved before advancing to next concepts
+- **Assessment Integrity**: Validate knowledge acquisition through practical application
+
 ## XML Prompt Structure
 
 ```xml

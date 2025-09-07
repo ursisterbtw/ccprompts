@@ -605,9 +605,9 @@ compatibility_rules:
 
 - **Tool Dependencies**: Verify required tools are installed and accessible
 - **API Access**: Check external service availability and authentication
-- **Compute Resources**: Estimate and verify available CPU, memory, disk space
+- **Compute Resources**: Estimate and verify available CPU, memory, and disk space
 - **Network Requirements**: Validate connectivity to required services
-- **Permission Checks**: Ensure necessary permissions for file/system operations
+- **Permission Checks**: Ensure necessary permissions for file and system operations
 
 #### Risk Assessment Engine
 
