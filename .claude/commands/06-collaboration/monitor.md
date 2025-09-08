@@ -1,8 +1,3 @@
----
-description: Production monitoring setup with alerts, dashboards, and observability
-allowed-tools: Bash(npm:*), Bash(curl:*), Write, Edit, Read
----
-
 # Monitor
 
 ## Description

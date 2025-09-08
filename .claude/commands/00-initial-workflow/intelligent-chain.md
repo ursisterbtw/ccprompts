@@ -1,8 +1,3 @@
----
-description: Intelligent command chaining with natural language workflow automation
-allowed-tools: Bash(git:*), Read, Write, Edit, mcp__*
----
-
 # Intelligent Command Chain
 
 ## Usage

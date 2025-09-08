@@ -1,8 +1,3 @@
----
-description: Automated backup strategies for code, databases, and configurations
-allowed-tools: Bash(tar:*), Bash(zip:*), Bash(rsync:*), Bash(git:*), Write, Read
----
-
 # Backup
 
 ## Description

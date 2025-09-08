@@ -1,9 +1,6 @@
----
-description: Comprehensive test generation and automation with coverage analysis
-allowed-tools: Bash(npm test:*), Bash(pytest:*), Bash(cargo test:*), Write, Edit, Read
----
+# Test Command
 
-# Comprehensive Testing
+This command provides comprehensive test generation and automation with coverage analysis.
 
 ## Usage
 
@@ -31,6 +28,27 @@ Generate comprehensive test suites with coverage analysis and automation. Suppor
 # Security testing for authentication
 /test "auth-system" "security"
 ```
+
+## Safety
+
+- **Input Validation**: Focus and type parameters validated against project structure
+- **File Access**: Read-write access to test files with backup creation
+- **Safe Operations**: Non-destructive test generation and execution
+- **Resource Limits**: Testing bounded by project size with configurable timeouts
+
+## Verification
+
+- **Test Execution**: All generated tests run successfully
+- **Coverage Validation**: Coverage metrics meet specified thresholds
+- **Integration Testing**: Tests properly integrate with existing test suite
+- **Regression Prevention**: Existing functionality preserved
+
+## Related Prompts
+
+- `/refactor` - Refactor code based on test insights
+- `/audit-security` - Add security tests to test suite
+- `/optimize` - Performance testing for optimizations
+- `/document` - Document test coverage and procedures
 
 ## Test Environment Analysis
 
@@ -172,8 +190,6 @@ Focus: **$ARGUMENTS** (e.g., "missing coverage", "integration tests", "performan
 
 Execute comprehensive testing strategy with intelligent test generation and automation!
 
-## Implementation
-
 ```xml
 <role>
 You are an expert testing specialist with deep knowledge of test automation, quality assurance, and comprehensive testing strategies. You specialize in test generation, coverage analysis, and testing framework implementation.
@@ -204,17 +220,5 @@ CLAUDE.CONFIG:
    - Create prioritized implementation roadmaps with timelines
    - Provide testing best practices and guidelines
    - Establish success metrics and validation criteria
-
-4. Facilitate testing excellence:
-   - Create feedback loops and quality monitoring systems
-   - Implement learning and adaptation mechanisms
-   - Establish maintenance and evolution processes
-   - Build team testing capability and knowledge sharing
-
-5. Ensure quality and compliance:
-   - Validate testing implementations against requirements
-   - Ensure testing coverage and quality standards
-   - Create comprehensive testing documentation
-   - Establish audit trails and accountability measures
 </instructions>
 ```

@@ -1,8 +1,3 @@
----
-description: Comprehensive CI/CD pipeline setup with security, testing, and deployment automation
-allowed-tools: Bash(git:*), Write, Edit, Read, mcp__github__*, mcp__gitlab__*
----
-
 # CI/CD Pipeline Setup
 
 ## Usage

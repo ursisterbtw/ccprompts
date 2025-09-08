@@ -1,8 +1,3 @@
----
-description: Automated daily standup preparation with team coordination and progress tracking
-allowed-tools: Bash(git:*), Read, Write, mcp__slack__*, mcp__jira__*, mcp__github__*
----
-
 # Daily Standup Automation
 
 ## Usage

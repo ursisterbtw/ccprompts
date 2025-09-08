@@ -1,8 +1,3 @@
----
-description: Database and system migration automation with rollback capabilities
-allowed-tools: Bash(npm:*), Bash(python:*), Bash(sql:*), Read, Write, Edit
----
-
 # Migrate
 
 ## Description

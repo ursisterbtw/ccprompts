@@ -1,8 +1,3 @@
----
-description: Safe multi-file refactoring with automated testing and rollback capability
-allowed-tools: Bash(git:*), Read, Write, Edit, MultiEdit, Bash(npm test:*), Bash(pytest:*)
----
-
 # Safe Refactoring
 
 ## Usage
