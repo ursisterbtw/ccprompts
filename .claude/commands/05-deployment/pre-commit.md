@@ -79,10 +79,10 @@ Comprehensive pre-commit automation system:
 Basic Pre-Commit Checks
 ======================
 
-✅ Code Formatting: Prettier/Black auto-formatting applied
-✅ Basic Linting: Critical errors and syntax issues resolved
-✅ Compile Check: Code compiles without errors
-✅ Basic Tests: Modified files have corresponding tests
+[OK] Code Formatting: Prettier/Black auto-formatting applied
+[OK] Basic Linting: Critical errors and syntax issues resolved
+[OK] Compile Check: Code compiles without errors
+[OK] Basic Tests: Modified files have corresponding tests
 ⏳ Security: High-severity vulnerabilities only
 ⏳ Documentation: Critical API changes documented
 
@@ -96,14 +96,14 @@ Gate Policy: Block on critical errors only
 Standard Pre-Commit Checks
 =========================
 
-✅ Code Quality: ESLint/Pylint with standard rules
-✅ Type Safety: TypeScript/mypy type checking
-✅ Unit Tests: 80% coverage on modified code
-✅ Integration Tests: Affected integration tests pass
-✅ Security Scan: Medium+ vulnerabilities addressed
-✅ Dependency Audit: No high-risk dependencies
-✅ Documentation: Public APIs documented
-⚠️ Performance: Performance regression check
+[OK] Code Quality: ESLint/Pylint with standard rules
+[OK] Type Safety: TypeScript/mypy type checking
+[OK] Unit Tests: 80% coverage on modified code
+[OK] Integration Tests: Affected integration tests pass
+[OK] Security Scan: Medium+ vulnerabilities addressed
+[OK] Dependency Audit: No high-risk dependencies
+[OK] Documentation: Public APIs documented
+[WARNING] Performance: Performance regression check
 
 Estimated Time: 8-15 minutes
 Gate Policy: Block on standard quality thresholds
@@ -115,14 +115,14 @@ Gate Policy: Block on standard quality thresholds
 Strict Pre-Commit Checks
 =======================
 
-✅ Advanced Linting: All style and quality rules enforced
-✅ Complexity Analysis: Cyclomatic complexity < 10
-✅ Test Coverage: 90% coverage including edge cases
-✅ Security: All vulnerabilities addressed
-✅ Performance: No performance regressions
-✅ Documentation: Comprehensive documentation updates
-✅ Code Review: Automated code review suggestions
-✅ Dependency Freshness: Dependencies up-to-date
+[OK] Advanced Linting: All style and quality rules enforced
+[OK] Complexity Analysis: Cyclomatic complexity < 10
+[OK] Test Coverage: 90% coverage including edge cases
+[OK] Security: All vulnerabilities addressed
+[OK] Performance: No performance regressions
+[OK] Documentation: Comprehensive documentation updates
+[OK] Code Review: Automated code review suggestions
+[OK] Dependency Freshness: Dependencies up-to-date
 
 Estimated Time: 15-30 minutes
 Gate Policy: Block on any quality threshold violations
@@ -134,14 +134,14 @@ Gate Policy: Block on any quality threshold violations
 Enterprise Pre-Commit Checks
 ===========================
 
-✅ Full Security Suite: SAST, DAST, dependency scanning
-✅ Compliance Validation: SOC2, GDPR, HIPAA requirements
-✅ Performance Benchmarking: Load testing for critical paths
-✅ Accessibility Testing: WCAG 2.1 compliance validation
-✅ Cross-Platform Testing: Multi-environment compatibility
-✅ License Audit: Legal compliance and attribution
-✅ Architecture Compliance: Design pattern adherence
-✅ Operational Readiness: Monitoring and logging checks
+[OK] Full Security Suite: SAST, DAST, dependency scanning
+[OK] Compliance Validation: SOC2, GDPR, HIPAA requirements
+[OK] Performance Benchmarking: Load testing for critical paths
+[OK] Accessibility Testing: WCAG 2.1 compliance validation
+[OK] Cross-Platform Testing: Multi-environment compatibility
+[OK] License Audit: Legal compliance and attribution
+[OK] Architecture Compliance: Design pattern adherence
+[OK] Operational Readiness: Monitoring and logging checks
 
 Estimated Time: 30-60 minutes
 Gate Policy: Block on any enterprise standard violations
@@ -155,7 +155,7 @@ Gate Policy: Block on any enterprise standard violations
 Auto-Fix Report
 ===============
 
-🔧 Applied Automatic Fixes (12 issues):
+[CONFIG] Applied Automatic Fixes (12 issues):
 ├── Code Formatting: 8 files reformatted
 ├── Import Organization: 4 files organized
 ├── Unused Imports: 3 imports removed
@@ -163,12 +163,12 @@ Auto-Fix Report
 ├── Trailing Whitespace: 12 lines cleaned
 └── Documentation: 2 missing JSDoc blocks added
 
-⚠️ Manual Review Required (3 issues):
+[WARNING] Manual Review Required (3 issues):
 ├── Potential SQL injection in user-service.js:42
 ├── High cyclomatic complexity in data-processor.js:156
 └── Missing unit test for new feature in auth-handler.js
 
-🚫 Blocking Issues (1 issue):
+[BLOCKED] Blocking Issues (1 issue):
 └── High-severity vulnerability in lodash@4.17.20
 ```
 
@@ -197,12 +197,12 @@ claude-code /pre-commit staged standard
 
 # Check exit code
 if [ $? -ne 0 ]; then
-    echo "❌ Pre-commit checks failed. Commit blocked."
+    echo "[ERROR] Pre-commit checks failed. Commit blocked."
     echo "Run 'claude-code /pre-commit --fix' to auto-resolve issues."
     exit 1
 fi
 
-echo "✅ All pre-commit checks passed. Proceeding with commit."
+echo "[OK] All pre-commit checks passed. Proceeding with commit."
 exit 0
 ```
 
@@ -293,19 +293,19 @@ pre_commit:
 Pre-Commit Summary Report
 ========================
 
-📊 Check Results (15 total checks)
-├── ✅ Passed: 12 checks
-├── ⚠️  Warnings: 2 checks  
-├── ❌ Failed: 1 check
+[STATS] Check Results (15 total checks)
+├── [OK] Passed: 12 checks
+├── [WARNING]  Warnings: 2 checks  
+├── [ERROR] Failed: 1 check
 └── ⏭️  Skipped: 0 checks
 
-⏱️ Performance Metrics
+[TIME] Performance Metrics
 ├── Total Execution Time: 8m 34s
 ├── Fastest Check: TypeScript (0.8s)
 ├── Slowest Check: Integration Tests (3m 12s)
 └── Parallel Efficiency: 73%
 
-🎯 Quality Metrics
+[TARGET] Quality Metrics
 ├── Code Coverage: 87% (+2% from last commit)
 ├── Technical Debt: 2.3 hours (-0.5h from last commit)
 ├── Security Score: 94/100 (no change)

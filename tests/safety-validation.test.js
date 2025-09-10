@@ -87,20 +87,20 @@ exec(open('/tmp/malicious.py').read())
 
       const findings = safetyValidator.analyzeDangerousPatterns(overlappingContent, 'overlapping-test.md');
 
-      // Should detect multiple different types of dangerous patterns
+      // should detect multiple different types of dangerous patterns
       expect(findings.length).toBeGreaterThan(3);
 
-      // Should have different severity levels represented
+      // should have different severity levels represented
       const severities = new Set(findings.map(f => f.severity));
       expect(severities.size).toBeGreaterThan(1);
 
-      // Should detect both critical and high-risk patterns
+      // should detect both critical and high-risk patterns
       const criticalFindings = findings.filter(f => f.severity === 'critical');
       const highRiskFindings = findings.filter(f => f.severity === 'high');
       expect(criticalFindings.length).toBeGreaterThan(0);
       expect(highRiskFindings.length).toBeGreaterThan(0);
 
-      // Should detect specific pattern types
+      // should detect specific pattern types
       const patternTypes = new Set(findings.map(f => f.message));
       expect(patternTypes.size).toBeGreaterThan(2); // Multiple different pattern types detected
     });
@@ -185,12 +185,12 @@ console.log("second block");
   describe('Dagger Integration', () => {
     test('should check Dagger availability', () => {
       const isAvailable = safetyValidator.checkDaggerAvailability();
-      // This will be false in CI environments without Dagger
+      // this will be false in CI environments without Dagger
       expect(typeof isAvailable).toBe('boolean');
     });
 
     test('should handle container validation gracefully when Dagger unavailable', async () => {
-      // Mock checkDaggerAvailability to return false
+      // mock checkDaggerAvailability to return false
       const originalCheck = safetyValidator.checkDaggerAvailability;
       safetyValidator.checkDaggerAvailability = () => false;
 
@@ -200,7 +200,7 @@ console.log("second block");
       expect(result.error).toBe('Dagger not available');
       expect(result.containerValidated).toBe(false);
 
-      // Restore original method
+      // restore original method
       safetyValidator.checkDaggerAvailability = originalCheck;
     });
   });
@@ -214,7 +214,7 @@ console.log("second block");
         expect(files.length).toBeGreaterThan(0);
         expect(files.every(file => file.endsWith('.md'))).toBe(true);
       } else {
-        // Skip if commands directory doesn't exist
+        // skip if commands directory doesn't exist
         expect(true).toBe(true);
       }
     });
@@ -227,7 +227,7 @@ console.log("second block");
 
   describe('Report Generation', () => {
     test('should generate valid safety report structure', () => {
-      // Set up some test data
+      // set up some test data
       safetyValidator.safetyResults.totalCommands = 10;
       safetyValidator.safetyResults.safeCommands = 8;
       safetyValidator.safetyResults.dangerousCommands = 2;
@@ -293,7 +293,7 @@ ls -la
       safetyValidator.analyzeDangerousPatterns(content, 'test.md');
       const duration = Date.now() - start;
 
-      // Should complete analysis in under 100ms
+      // should complete analysis in under 100ms
       expect(duration).toBeLessThan(100);
     });
 

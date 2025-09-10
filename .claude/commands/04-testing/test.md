@@ -61,7 +61,7 @@ Generate comprehensive test suites with coverage analysis and automation. Suppor
 
 Focus: **$ARGUMENTS** (e.g., "missing coverage", "integration tests", "performance tests", "user-service.js")
 
-## 🧪 Comprehensive Testing Strategy
+## [TEST] Comprehensive Testing Strategy
 
 ### 1. Test Analysis & Planning
 
@@ -93,7 +93,7 @@ Focus: **$ARGUMENTS** (e.g., "missing coverage", "integration tests", "performan
 - **Mobile testing**: Mobile application flow testing
 - **Cross-platform testing**: Multi-platform compatibility
 
-## 🛠️ Framework-Specific Testing
+## [TOOLS] Framework-Specific Testing
 
 ### JavaScript/TypeScript
 
@@ -116,7 +116,7 @@ Focus: **$ARGUMENTS** (e.g., "missing coverage", "integration tests", "performan
 - **criterion**: Benchmarking and performance testing
 - **mockall**: Mock object generation
 
-## 📊 Test Quality & Coverage
+## [STATS] Test Quality & Coverage
 
 ### Coverage Analysis
 
@@ -132,7 +132,7 @@ Focus: **$ARGUMENTS** (e.g., "missing coverage", "integration tests", "performan
 - **Test performance**: Fast execution times
 - **Test independence**: No test interdependencies
 
-## 🚀 Advanced Testing Features
+## [DEPLOY] Advanced Testing Features
 
 ### Property-Based Testing
 
@@ -155,7 +155,7 @@ Focus: **$ARGUMENTS** (e.g., "missing coverage", "integration tests", "performan
 - **Authorization testing**: Permission verification
 - **Data protection**: Sensitive data handling
 
-## 🔄 Test Automation
+## [PROCESS] Test Automation
 
 ### Continuous Testing
 
@@ -171,7 +171,7 @@ Focus: **$ARGUMENTS** (e.g., "missing coverage", "integration tests", "performan
 - **Mock management**: Keep mocks synchronized
 - **Test documentation**: Clear test purpose documentation
 
-## 📋 Test Execution Workflow
+## [LIST] Test Execution Workflow
 
 1. **Analyze existing tests**: Understand current test coverage
 2. **Identify gaps**: Find untested code and scenarios
@@ -180,7 +180,7 @@ Focus: **$ARGUMENTS** (e.g., "missing coverage", "integration tests", "performan
 5. **Integration**: Add tests to CI/CD pipeline
 6. **Monitor**: Track test results and coverage over time
 
-## 🧬 Mutation Testing & Automated Suite Generation (migrated from legacy testing prompts)
+## [ADVANCED] Mutation Testing & Automated Suite Generation (migrated from legacy testing prompts)
 
 - Integrate mutation frameworks (StrykerJS, Mutmut, PIT) with project build
 - Establish mutation score thresholds (e.g., 80%) to gate CI pipelines

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Comprehensive validation script for ccprompts ecosystem
- * Validates command structure, quality, consistency, and security
+ * comprehensive validation script for ccprompts ecosystem
+ * validates command structure, quality, consistency, and security
  */
 
 const fs = require('fs');
@@ -296,7 +296,7 @@ class CommandValidator {
 
     const hasUsageSection = content.includes('## Usage');
     const hasExamplesSection = content.includes('## Examples');
-    // Reduce noise: only warn if both Usage and Examples are missing
+    // reduce noise: only warn if both Usage and Examples are missing
     if (!hasUsageSection && !hasExamplesSection) {
       this.warnings.push(`${filename}: Consider adding sections: ## Usage, ## Examples`);
     }
@@ -305,7 +305,7 @@ class CommandValidator {
       this.warnings.push(`${filename}: Usage section should include command format example`);
     }
 
-    // Skip brevity warning to reduce noise; presence is enough
+    // skip brevity warning to reduce noise; presence is enough
   }
 
   extractCommandMetadata(content, filename) {
@@ -328,7 +328,7 @@ class CommandValidator {
     }
 
     const category = this.extractCategoryFromPath(relativePath);
-    // Prefer phase derived from folder prefix (e.g., .claude/commands/09-agentic-capabilities/)
+    // prefer phase derived from folder prefix (e.g., .claude/commands/09-agentic-capabilities/)
     const derivedPhase = this.extractPhaseFromPath(relativePath);
     const phase = derivedPhase !== null && derivedPhase !== undefined
       ? derivedPhase
@@ -360,9 +360,9 @@ class CommandValidator {
   }
 
   /**
-   * Extract phase number from the file path based on directory prefix.
-   * Example: .claude/commands/09-agentic-capabilities/foo.md -> 9
-   * Returns null if no phase prefix is found.
+   * extract phase number from the file path based on directory prefix.
+   * example: .claude/commands/09-agentic-capabilities/foo.md -> 9
+   * returns null if no phase prefix is found.
    */
   extractPhaseFromPath(filePath) {
     try {
@@ -631,7 +631,7 @@ class CommandValidator {
     };
 
     try {
-      log('blue', '🧪 Starting comprehensive ccprompts validation...\n');
+      log('blue', '[TEST] Starting comprehensive ccprompts validation...\n');
 
       const projectRoot = process.cwd();
       const discoveryStart = Date.now();
@@ -641,14 +641,14 @@ class CommandValidator {
         markdownFiles = this.findMarkdownFiles(projectRoot);
       } catch (error) {
         this.errors.push(`File discovery failed: ${error.message}`);
-        log('red', `❌ File discovery failed: ${error.message}`);
+        log('red', `[ERROR] File discovery failed: ${error.message}`);
         return 1;
       }
 
       performanceMetrics.discovery_time = Date.now() - discoveryStart;
 
       log('blue', `Found ${markdownFiles.length} markdown files to validate`);
-      log('cyan', `📊 Discovery: ${performanceMetrics.discovery_time}ms`);
+      log('cyan', `[STATS] Discovery: ${performanceMetrics.discovery_time}ms`);
 
       const validationStart = Date.now();
       for (const file of markdownFiles) {
@@ -657,7 +657,7 @@ class CommandValidator {
           await this.validateFile(file);
         } catch (error) {
           this.errors.push(`Validation failed for ${file}: ${error.message}`);
-          log('red', `❌ Validation failed for ${file}: ${error.message}`);
+          log('red', `[ERROR] Validation failed for ${file}: ${error.message}`);
         }
         performanceMetrics.file_processing_times.push({
           file: file,
@@ -670,7 +670,7 @@ class CommandValidator {
         this.validateSystemIntegrity();
       } catch (error) {
         this.errors.push(`System integrity validation failed: ${error.message}`);
-        log('red', `❌ System integrity validation failed: ${error.message}`);
+        log('red', `[ERROR] System integrity validation failed: ${error.message}`);
       }
 
       const registryStart = Date.now();
@@ -678,7 +678,7 @@ class CommandValidator {
         await this.generateCommandRegistry();
       } catch (error) {
         this.errors.push(`Command registry generation failed: ${error.message}`);
-        log('red', `❌ Command registry generation failed: ${error.message}`);
+        log('red', `[ERROR] Command registry generation failed: ${error.message}`);
       }
       performanceMetrics.registry_generation_time = Date.now() - registryStart;
 
@@ -686,7 +686,7 @@ class CommandValidator {
         await this.runSafetyValidation(performanceMetrics);
       } catch (error) {
         this.errors.push(`Safety validation failed: ${error.message}`);
-        log('red', `❌ Safety validation failed: ${error.message}`);
+        log('red', `[ERROR] Safety validation failed: ${error.message}`);
       }
 
       const duration = Date.now() - startTime;
@@ -695,7 +695,7 @@ class CommandValidator {
       return this.errors.length === 0 ? 0 : 1;
     } catch (error) {
       this.errors.push(`Critical validation error: ${error.message}`);
-      log('red', `❌ Critical validation error: ${error.message}`);
+      log('red', `[ERROR] Critical validation error: ${error.message}`);
       log('red', `Stack trace: ${error.stack}`);
       return 1;
     }
@@ -759,34 +759,34 @@ class CommandValidator {
   }
 
   reportResults(duration, performanceMetrics = null) {
-    log('blue', '\n📊 Validation Results');
+    log('blue', '\n[STATS] Validation Results');
     log('blue', '==================');
 
-    log('green', `✅ Total files processed: ${this.stats.totalFiles}`);
-    log('green', `✅ Command files: ${this.stats.commandFiles}`);
-    log('green', `✅ Valid files: ${this.stats.validFiles}`);
+    log('green', `[OK] Total files processed: ${this.stats.totalFiles}`);
+    log('green', `[OK] Command files: ${this.stats.commandFiles}`);
+    log('green', `[OK] Valid files: ${this.stats.validFiles}`);
     log('cyan', `⏱️  Validation completed in ${duration}ms`);
 
     if (this.stats.securityIssues > 0) {
-      log('red', `🛡️  Security issues found: ${this.stats.securityIssues}`);
+      log('red', `[SECURITY]  Security issues found: ${this.stats.securityIssues}`);
     } else {
-      log('green', '🛡️  No security issues detected');
+      log('green', '[SECURITY]  No security issues detected');
     }
 
     if (this.warnings.length > 0) {
-      log('yellow', `\n⚠️  Warnings (${this.warnings.length}):`);
+      log('yellow', `\n[WARNING]  Warnings (${this.warnings.length}):`);
       this.warnings.forEach(warning => log('yellow', `   ${warning}`));
     }
 
     if (this.errors.length > 0) {
-      log('red', `\n❌ Errors (${this.errors.length}):`);
+      log('red', `\n[ERROR] Errors (${this.errors.length}):`);
       this.errors.forEach(error => log('red', `   ${error}`));
-      log('red', `\n💥 Validation failed with ${this.errors.length} errors`);
+      log('red', `\n[CRITICAL] Validation failed with ${this.errors.length} errors`);
     } else {
-      log('green', '\n🎉 All validations passed!');
+      log('green', '\n[SUCCESS] All validations passed!');
     }
 
-    log('blue', '\n📈 Quality Metrics:');
+    log('blue', '\n[METRICS] Quality Metrics:');
     const successRate = ((this.stats.validFiles / this.stats.totalFiles) * 100).toFixed(1);
     const errorRate = ((this.errors.length / this.stats.totalFiles) * 100).toFixed(1);
     const warningRate = ((this.warnings.length / this.stats.totalFiles) * 100).toFixed(1);
@@ -813,7 +813,7 @@ class CommandValidator {
     log('cyan', `   Overall quality grade: ${grade} (${overallScore.toFixed(1)}/100)`);
 
     if (performanceMetrics) {
-      log('blue', '\n⚡ Performance Metrics:');
+      log('blue', '\n[PERF] Performance Metrics:');
       log('cyan', `   File discovery: ${performanceMetrics.discovery_time}ms`);
       log('cyan', `   Validation time: ${performanceMetrics.validation_time}ms`);
       log('cyan', `   Registry generation: ${performanceMetrics.registry_generation_time}ms`);
@@ -833,20 +833,20 @@ class CommandValidator {
           log('cyan', `   Commands analyzed: ${performanceMetrics.safety_commands_analyzed}`);
           log('cyan', `   Dangerous patterns: ${performanceMetrics.safety_dangerous_commands || 0}`);
           log('cyan', `   Container tests: ${performanceMetrics.safety_container_tests || 0}`);
-          log('cyan', `   Dagger available: ${performanceMetrics.dagger_available ? '✅' : '❌'}`);
+          log('cyan', `   Dagger available: ${performanceMetrics.dagger_available ? '[OK]' : '[ERROR]'}`);
         }
       }
 
       const discoveryTarget = 100;
       const validationTarget = 2000;
-      log('cyan', `   Discovery target: ${performanceMetrics.discovery_time < discoveryTarget ? '✅' : '❌'} (<${discoveryTarget}ms)`);
-      log('cyan', `   Validation target: ${performanceMetrics.validation_time < validationTarget ? '✅' : '❌'} (<${validationTarget}ms)`);
+      log('cyan', `   Discovery target: ${performanceMetrics.discovery_time < discoveryTarget ? '[OK]' : '[ERROR]'} (<${discoveryTarget}ms)`);
+      log('cyan', `   Validation target: ${performanceMetrics.validation_time < validationTarget ? '[OK]' : '[ERROR]'} (<${validationTarget}ms)`);
     }
 
     const commandCount = Object.keys(this.commandRegistry.commands).length;
     const categoryCount = Object.keys(this.commandRegistry.categories).length;
     if (commandCount > 0) {
-      log('blue', '\n📋 Command Registry:');
+      log('blue', '\n[REGISTRY] Command Registry:');
       log('cyan', `   Commands discovered: ${commandCount}`);
       log('cyan', `   Categories: ${categoryCount}`);
       log('cyan', `   Registry saved to: .claude/command-registry.json`);
@@ -887,7 +887,7 @@ class CommandValidator {
       const registryPath = path.join(claudeDir, 'command-registry.json');
       fs.writeFileSync(registryPath, JSON.stringify(this.commandRegistry, null, 2));
 
-      log('green', `✅ Command registry generated: ${registryPath}`);
+      log('green', `[OK] Command registry generated: ${registryPath}`);
 
     } catch (error) {
       this.warnings.push(`Failed to generate command registry: ${error.message}`);
@@ -923,13 +923,13 @@ class CommandValidator {
   }
 
   /**
-   * Run Dagger safety validation on commands
+   * run Dagger safety validation on commands
    */
   async runSafetyValidation(performanceMetrics) {
     const safetyStart = Date.now();
 
     try {
-      log('blue', '\n🛡️  Running Dagger safety validation...');
+      log('blue', '\n[SECURITY]  Running Dagger safety validation...');
 
       const safetyValidator = new SafetyValidator();
       const safetyReport = await safetyValidator.validateAllCommands();
@@ -948,16 +948,16 @@ class CommandValidator {
       performanceMetrics.safety_container_tests = safetyReport.summary.containerTests;
       performanceMetrics.dagger_available = safetyReport.daggerAvailable;
 
-      log('cyan', `🛡️  Safety validation completed in ${performanceMetrics.safety_validation_time}ms`);
+      log('cyan', `[SECURITY]  Safety validation completed in ${performanceMetrics.safety_validation_time}ms`);
 
       if (safetyReport.summary.dangerousCommands > 0) {
-        log('yellow', `⚠️  Found ${safetyReport.summary.dangerousCommands} commands with dangerous patterns`);
+        log('yellow', `[WARNING]  Found ${safetyReport.summary.dangerousCommands} commands with dangerous patterns`);
       }
 
       if (safetyReport.daggerAvailable && safetyReport.summary.containerTests > 0) {
-        log('green', `✅ Validated ${safetyReport.summary.containerTests} commands in Dagger containers`);
+        log('green', `[OK] Validated ${safetyReport.summary.containerTests} commands in Dagger containers`);
       } else if (!safetyReport.daggerAvailable) {
-        log('yellow', '⚠️  Dagger not available - install from https://dagger.io for container validation');
+        log('yellow', '[WARNING]  Dagger not available - install from https://dagger.io for container validation');
       }
 
     } catch (error) {
@@ -965,7 +965,7 @@ class CommandValidator {
       performanceMetrics.safety_validation_time = Date.now() - safetyStart;
       performanceMetrics.safety_error = error.message;
 
-      log('yellow', `⚠️  Safety validation encountered an error: ${error.message}`);
+      log('yellow', `[WARNING]  Safety validation encountered an error: ${error.message}`);
     }
   }
 }

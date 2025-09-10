@@ -1,6 +1,6 @@
 /**
- * Test suite for command structure validation
- * Tests individual command files for proper structure and content
+ * test suite for command structure validation
+ * tests individual command files for proper structure and content
  */
 
 const fs = require('fs');
@@ -14,7 +14,7 @@ describe('Command Structure Validation', () => {
   beforeAll(() => {
     validator = new CommandValidator();
 
-    // Discover all command files using the validator's method
+    // discover all command files using the validator's method
     const commandDir = path.join(global.TEST_CONFIG.PROJECT_ROOT, '.claude', 'commands');
     if (fs.existsSync(commandDir)) {
       commandFiles = validator.findMarkdownFiles(commandDir);
@@ -44,10 +44,10 @@ describe('Command Structure Validation', () => {
         directoryStructure[directory].push(path.basename(file));
       });
 
-      // Should have multiple directories (phases)
+      // should have multiple directories (phases)
       expect(Object.keys(directoryStructure).length).toBeGreaterThan(1);
 
-      // Each directory should follow naming convention, allow 'tasks' folder as an exception
+      // each directory should follow naming convention, allow 'tasks' folder as an exception
       Object.keys(directoryStructure).forEach(dir => {
         if (dir !== '.' && dir !== 'tasks') {
           expect(dir).toMatch(/^\d{2}-[a-z-]+$/);
@@ -67,14 +67,14 @@ describe('Command Structure Validation', () => {
         const content = fs.readFileSync(commandFile, 'utf8');
         const filename = path.relative(global.TEST_CONFIG.PROJECT_ROOT, commandFile);
 
-        // Reset validator state for each test
+        // reset validator state for each test
         validator.errors = [];
         validator.warnings = [];
 
-        // Validate the command
+        // validate the command
         await validator.validateFile(commandFile);
 
-        // Check for critical errors
+        // check for critical errors
         const criticalErrors = validator.errors.filter(error =>
           error.includes(filename) && !error.includes('Missing XML sections')
         );
@@ -83,7 +83,7 @@ describe('Command Structure Validation', () => {
           console.log(`Critical errors in ${filename}:`, criticalErrors);
         }
 
-        // Commands should not have critical structural errors
+        // commands should not have critical structural errors
         expect(criticalErrors.length).toBe(0);
       }
     });
@@ -92,10 +92,10 @@ describe('Command Structure Validation', () => {
       commandFiles.forEach(file => {
         const basename = path.basename(file, '.md');
 
-        // Command names should be kebab-case
+        // command names should be kebab-case
         expect(basename).toMatch(/^[a-z0-9-_]+$/);
 
-        // Should not be too long
+        // should not be too long
         expect(basename.length).toBeLessThan(50);
       });
     });
@@ -111,7 +111,7 @@ describe('Command Structure Validation', () => {
         expect(metadata.id).toBeDefined();
         expect(metadata.name).toBeDefined();
         expect(metadata.category).toBeDefined();
-        // Phases can be 0..11 based on folder prefix; allow 0
+        // phases can be 0..11 based on folder prefix; allow 0
         expect(metadata.phase).toBeGreaterThanOrEqual(0);
         expect(metadata.safety_level).toMatch(/^(safe|caution|dangerous)$/);
       });
@@ -123,7 +123,7 @@ describe('Command Structure Validation', () => {
       commandFiles.forEach(file => {
         const content = fs.readFileSync(file, 'utf8');
 
-        // Should have a description section or reasonable content length
+        // should have a description section or reasonable content length
         const hasDescription = content.includes('## Description') ||
                               content.includes('description:') ||
                               content.length > 120;
@@ -143,7 +143,7 @@ describe('Command Structure Validation', () => {
         safetyDistribution[metadata.safety_level]++;
       });
 
-      // Should have a mix of safety levels
+      // should have a mix of safety levels
       expect(safetyDistribution.safe).toBeGreaterThan(0);
       expect(safetyDistribution.safe + safetyDistribution.caution + safetyDistribution.dangerous)
         .toBe(global.TEST_CONFIG.EXPECTED_COMMAND_COUNT);
@@ -158,15 +158,15 @@ describe('Command Structure Validation', () => {
 
         const metadata = validator.extractCommandMetadata(content, filename);
 
-        // Usage should start with /
+        // usage should start with /
         expect(metadata.usage).toMatch(/^\//);
 
-        // Collect patterns for consistency analysis
+        // collect patterns for consistency analysis
         const pattern = metadata.usage.split(' ')[0]; // First word
         usagePatterns.add(pattern);
       });
 
-      // Should have reasonable number of unique command patterns
+      // should have reasonable number of unique command patterns
       expect(usagePatterns.size).toBe(global.TEST_CONFIG.EXPECTED_COMMAND_COUNT);
     });
   });
@@ -175,7 +175,7 @@ describe('Command Structure Validation', () => {
     test('should not have circular dependencies', () => {
       const commandGraph = new Map();
 
-      // Build dependency graph
+      // build dependency graph
       commandFiles.forEach(file => {
         const content = fs.readFileSync(file, 'utf8');
         const filename = path.relative(global.TEST_CONFIG.PROJECT_ROOT, file);
@@ -184,7 +184,7 @@ describe('Command Structure Validation', () => {
         commandGraph.set(metadata.id, metadata.dependencies || []);
       });
 
-      // Check for circular dependencies using DFS
+      // check for circular dependencies using DFS
       const visited = new Set();
       const recursionStack = new Set();
 
@@ -233,10 +233,10 @@ describe('Command Structure Validation', () => {
         phaseDistribution[phase]++;
       });
 
-      // Should have multiple phases
+      // should have multiple phases
       expect(Object.keys(phaseDistribution).length).toBeGreaterThan(1);
 
-      // Each phase should have at least one command
+      // each phase should have at least one command
       Object.values(phaseDistribution).forEach(count => {
         expect(count).toBeGreaterThan(0);
       });
@@ -255,7 +255,7 @@ describe('Command Structure Validation', () => {
 
       const sortedPhases = Array.from(phases).sort((a, b) => a - b);
 
-      // Phases should be reasonable (0-11 based on folder prefixes)
+      // phases should be reasonable (0-11 based on folder prefixes)
       if (sortedPhases.length > 0) {
         expect(sortedPhases[0]).toBeGreaterThanOrEqual(0);
         expect(sortedPhases[sortedPhases.length - 1]).toBeLessThanOrEqual(11);

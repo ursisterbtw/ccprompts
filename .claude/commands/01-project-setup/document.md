@@ -42,7 +42,7 @@ Creates comprehensive, maintainable documentation and knowledge systems:
 - **Operational Runbooks**: `/document runbook markdown` - Step-by-step operational procedures
 
 
-## 📓 CLAUDE.md Template Automation (migrated from legacy CLAUDE.md Generator prompt)
+## [DOCS] CLAUDE.md Template Automation (migrated from legacy CLAUDE.md Generator prompt)
 
 - Analyze project architecture, conventions, and tooling to populate a living `CLAUDE.md`
 - Auto-generate sections: Project Overview, Code Style, Architecture, Workflow, Performance, Security

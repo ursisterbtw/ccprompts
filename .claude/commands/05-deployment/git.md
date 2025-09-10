@@ -41,7 +41,7 @@ Implements sophisticated Git workflows and repository management:
 - **Repository Analytics**: `/git analytics advanced` - Commit analysis, code churn metrics, team insights
 
 
-## 🛠️ Repository Migration & Advanced Automation (migrated from legacy Git workflow prompts)
+## [TOOLS] Repository Migration & Advanced Automation (migrated from legacy Git workflow prompts)
 
 - History rewrite strategies (filter-branch, git filter-repo) with safety snapshots
 - Subtree and submodule migration patterns

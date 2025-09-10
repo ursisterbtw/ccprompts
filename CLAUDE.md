@@ -141,11 +141,11 @@ The system expects exactly 70 commands and validates:
 
 Based on validation system output:
 
-- ✅ **70/70 commands** discovered and validated
-- ✅ **95.0% structural** validation success rate
-- ❌ **Security score failing** (requires remediation)
-- ⚠️  **Quality score 27.1/100** (needs improvement)
-- ✅ **Performance targets met** (3ms discovery, 28ms total validation)
+- [OK] **70/70 commands** discovered and validated
+- [OK] **95.0% structural** validation success rate
+- [ERROR] **Security score failing** (requires remediation)
+- [WARNING]  **Quality score 27.1/100** (needs improvement)
+- [OK] **Performance targets met** (3ms discovery, 28ms total validation)
 
 ## Known Issues & Limitations
 

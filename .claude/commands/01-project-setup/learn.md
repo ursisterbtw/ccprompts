@@ -228,7 +228,7 @@ Provides personalized learning paths and skill development for developers using 
   </thinking>
 
   <output_format>
-    ## 🎓 Learning Session: {TOPIC} ({LEVEL})
+    ## [LEARN] Learning Session: {TOPIC} ({LEVEL})
 
     ### Learning Objectives
     - [List 3-5 specific, measurable learning goals]

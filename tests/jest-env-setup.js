@@ -1,6 +1,6 @@
 /**
- * Jest environment setup for Node.js v24.x compatibility
- * Sets up environment variables and Node.js compatibility fixes
+ * jest environment setup for Node.js v24.x compatibility
+ * sets up environment variables and Node.js compatibility fixes
  */
 
 // node.js env vars

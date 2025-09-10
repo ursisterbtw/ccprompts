@@ -1,6 +1,6 @@
 /**
- * Test suite for modular validator components
- * Tests individual validator modules that were previously untested (0% coverage)
+ * test suite for modular validator components
+ * tests individual validator modules that were previously untested (0% coverage)
  */
 
 const fs = require('fs');
@@ -10,7 +10,7 @@ describe('Modular Validator Components', () => {
   const validatorsDir = path.join(global.TEST_CONFIG.PROJECT_ROOT, 'scripts', 'validators');
 
   beforeAll(() => {
-    // Check if validators directory exists
+    // check if validators directory exists
     if (!fs.existsSync(validatorsDir)) {
       console.warn('Validators directory not found - skipping modular validator tests');
     }
@@ -280,7 +280,7 @@ git status
       if (MainValidator && MainValidator.validateAll) {
         expect(typeof MainValidator.validateAll).toBe('function');
       } else if (MainValidator) {
-        // Check for alternative method names
+        // check for alternative method names
         const methods = Object.keys(MainValidator);
         expect(methods.length).toBeGreaterThanOrEqual(0);
       } else {
@@ -318,7 +318,7 @@ git status
 
       console.log(`Loaded modules: ${loadedModules}, Failed modules: ${failedModules}`);
 
-      // At least some modules should load successfully
+      // at least some modules should load successfully
       if (loadedModules + failedModules > 0) {
         expect(loadedModules).toBeGreaterThan(0);
       } else {
@@ -360,14 +360,14 @@ git status
             require(filePath);
             loadedCount++;
           } catch (error) {
-            // Count failed loads but don't fail test
+            // count failed loads but don't fail test
           }
         }
       });
 
       const loadTime = Date.now() - startTime;
 
-      // Module loading should be fast
+      // module loading should be fast
       expect(loadTime).toBeLessThan(500); // 500ms threshold
 
       console.log(`Loaded ${loadedCount} validator modules in ${loadTime}ms`);

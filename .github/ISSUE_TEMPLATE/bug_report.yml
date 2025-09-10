@@ -1,4 +1,4 @@
-name: 🐛 Bug Report
+name: [BUG] Bug Report
 description: Report a bug or issue with an existing command or prompt
 title: "[Bug]: "
 labels: ["bug", "needs-triage"]

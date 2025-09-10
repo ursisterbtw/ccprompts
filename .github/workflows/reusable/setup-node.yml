@@ -81,14 +81,14 @@ jobs:
       - name: Install dependencies
         if: inputs.install-dependencies && steps.cache-node-modules.outputs.cache-hit != 'true'
         run: |
-          echo "📦 Installing dependencies..."
+          echo "[INSTALL] Installing dependencies..."
           npm ci --prefer-offline --no-audit
-          echo "✅ Dependencies installed successfully"
+          echo "[OK] Dependencies installed successfully"
 
       - name: Verify Node.js setup
         run: |
-          echo "🔍 Node.js setup verification:"
+          echo "[CHECK] Node.js setup verification:"
           echo "  Node version: $(node --version)"
           echo "  NPM version: $(npm --version)"
           echo "  Working directory: $(pwd)"
-          echo "✅ Node.js environment ready"
+          echo "[OK] Node.js environment ready"

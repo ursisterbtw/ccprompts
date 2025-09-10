@@ -42,7 +42,7 @@ Configures and tests MCP server integrations for enhanced Claude Code capabiliti
 - **Troubleshooting**: `/mcp troubleshoot github` - Debug and resolve MCP integration issues
 
 
-## 🔧 Advanced MCP Configuration & Testing (migrated from legacy MCP prompts)
+## [CONFIG] Advanced MCP Configuration & Testing (migrated from legacy MCP prompts)
 
 - Multi-server federation setup with capability discovery
 - OAuth2 and API key authentication flows with token refresh automation

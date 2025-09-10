@@ -75,7 +75,7 @@ Performs comprehensive validation of the development environment and tooling:
 - **Performance Tools**: Profiling and monitoring tool availability
 - **Documentation Tools**: Documentation generation system status
 
-## ✅ Consistency Validator (migrated from legacy Consistency Validator prompt)
+## [OK] Consistency Validator (migrated from legacy Consistency Validator prompt)
 
 - Cross-file lint rules to detect style and config drifts
 - Semantic analysis to ensure naming conventions across modules
@@ -137,12 +137,12 @@ Claude Code Environment Validation Report
 
 Overall Health Score: 85/100 (Good)
 
-✅ Claude Code Installation: v1.2.3 (Latest)
-✅ Configuration: .claude/ directory properly configured
-⚠️  MCP Servers: GitHub server authentication expired
-✅ Development Tools: All required tools available
-❌ Security Configuration: Secrets in environment variables
-✅ Project Dependencies: All dependencies satisfied
+[OK] Claude Code Installation: v1.2.3 (Latest)
+[OK] Configuration: .claude/ directory properly configured
+[WARNING]  MCP Servers: GitHub server authentication expired
+[OK] Development Tools: All required tools available
+[ERROR] Security Configuration: Secrets in environment variables
+[OK] Project Dependencies: All dependencies satisfied
 
 Priority Actions:
 1. [High] Renew GitHub token for MCP server
@@ -171,11 +171,11 @@ No parameters required. The command automatically performs comprehensive environ
 
 # Example output:
 # Environment Health Score: 85/100 (Good)
-# ✅ Claude Code: v1.2.3 (Latest)
-# ✅ Git: v2.39.1 with authentication
-# ⚠️  MCP: GitHub server token expires in 5 days
-# ❌ Security: Environment variables contain secrets
-# ✅ Dependencies: All project dependencies satisfied
+# [OK] Claude Code: v1.2.3 (Latest)
+# [OK] Git: v2.39.1 with authentication
+# [WARNING]  MCP: GitHub server token expires in 5 days
+# [ERROR] Security: Environment variables contain secrets
+# [OK] Dependencies: All project dependencies satisfied
 # 
 # Priority Actions:
 # 1. [High] Renew GitHub MCP server token

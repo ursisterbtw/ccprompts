@@ -1,6 +1,6 @@
 /**
- * Structure validation module for prompt files
- * Validates XML structure, markdown format, and required sections
+ * structure validation module for prompt files
+ * validates XML structure, markdown format, and required sections
  */
 
 class StructureValidator {

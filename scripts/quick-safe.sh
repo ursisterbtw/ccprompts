@@ -24,21 +24,21 @@ case "$1" in
     ;;
 "curl-install")
     shift
-    echo "⚠️  Executing curl pipe to bash in container for safety"
+    echo "[WARNING]  Executing curl pipe to bash in container for safety"
     exec "$SAFE_RUN" "$*"
     ;;
 "rm-rf")
     shift
-    echo "⚠️  Executing rm -rf in container for safety"
+    echo "[WARNING]  Executing rm -rf in container for safety"
     exec "$SAFE_RUN" "rm -rf $*"
     ;;
 "chmod-recursive")
     shift
-    echo "⚠️  Executing chmod -R in container for safety"
+    echo "[WARNING]  Executing chmod -R in container for safety"
     exec "$SAFE_RUN" "chmod -R $*"
     ;;
 "system-update")
-    echo "⚠️  Executing system update in container for safety"
+    echo "[WARNING]  Executing system update in container for safety"
     exec "$SAFE_RUN" "apt-get update && apt-get upgrade -y"
     ;;
 *)

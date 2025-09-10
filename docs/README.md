@@ -110,7 +110,7 @@ Development documentation including:
 
 ---
 
-## 🔍 Finding Information
+## [SEARCH] Finding Information
 
 ### **By Use Case**
 
@@ -168,7 +168,7 @@ Development documentation including:
 
 ---
 
-## 🛠️ Integration Resources
+## [TOOLS] Integration Resources
 
 ### **Claude Code SDK Integration**
 
@@ -212,7 +212,7 @@ Development documentation including:
 
 ---
 
-## 📊 Project Statistics
+## [STATS] Project Statistics
 
 ### **Command Collection**
 
@@ -260,7 +260,7 @@ Development documentation including:
 
 ---
 
-## 📝 Quick Reference
+## [REFERENCE] Quick Reference
 
 ### **Essential Commands**
 

@@ -398,7 +398,7 @@ tail -f /var/log/app.log | grep -i error
 #### Status Update Template
 
 ```
-🔧 TROUBLESHOOTING UPDATE
+[CONFIG] TROUBLESHOOTING UPDATE
 
 Issue: [Brief description]
 Status: [Investigating/In Progress/Resolved]
@@ -413,7 +413,7 @@ Workaround: [If available]
 #### Resolution Communication
 
 ```
-✅ ISSUE RESOLVED
+[OK] ISSUE RESOLVED
 
 Issue: [Brief description]
 Duration: [How long it took to resolve]
@@ -491,7 +491,7 @@ Remember: The goal is not just to fix the immediate problem, but to build debugg
 **Response**:
 
 ```
-🚨 CRITICAL PRODUCTION ERROR - IMMEDIATE ACTION REQUIRED
+[ALERT] CRITICAL PRODUCTION ERROR - IMMEDIATE ACTION REQUIRED
 
 TRIAGE ASSESSMENT:
 - Issue Type: Production API errors
@@ -500,10 +500,10 @@ TRIAGE ASSESSMENT:
 - Estimated Impact: High - affecting all users
 
 IMMEDIATE ACTIONS TAKEN:
-1. ✅ Checked system health
-2. ✅ Verified recent deployments
-3. ✅ Examined error logs
-4. ✅ Assessed user impact
+1. [OK] Checked system health
+2. [OK] Verified recent deployments
+3. [OK] Examined error logs
+4. [OK] Assessed user impact
 
 ROOT CAUSE IDENTIFIED:
 Database connection pool exhaustion due to long-running queries from recent feature deployment.
@@ -519,7 +519,7 @@ MONITORING ACTIVATED:
 - API response time alerts
 - Error rate monitoring
 
-STATUS: RESOLVED ✅
+STATUS: RESOLVED [OK]
 Recovery Time: 23 minutes
 Next Review: 2 hours
 ```
@@ -533,7 +533,7 @@ Next Review: 2 hours
 **Response**:
 
 ```
-🔍 PERFORMANCE INVESTIGATION INITIATED
+[SCAN] PERFORMANCE INVESTIGATION INITIATED
 
 SYSTEMATIC ANALYSIS APPROACH:
 1. Baseline measurement
@@ -568,7 +568,7 @@ LEARNING OBJECTIVES:
 **Response**:
 
 ```
-🔧 ENVIRONMENT TROUBLESHOOTING
+[CONFIG] ENVIRONMENT TROUBLESHOOTING
 
 SYSTEMATIC DEBUGGING:
 1. Container logs analysis
@@ -577,10 +577,10 @@ SYSTEMATIC DEBUGGING:
 4. Network configuration check
 
 DEBUGGING WORKFLOW:
-1. ✅ Examined container logs
-2. ✅ Verified base image
-3. ✅ Checked port conflicts
-4. ✅ Validated environment variables
+1. [OK] Examined container logs
+2. [OK] Verified base image
+3. [OK] Checked port conflicts
+4. [OK] Validated environment variables
 
 SOLUTION IDENTIFIED:
 Port 3000 already in use by another service.

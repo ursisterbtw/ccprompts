@@ -65,7 +65,7 @@ Executes systematic optimization workflows targeting specific improvement areas:
 - **Cost**: 2-3 weeks
 
 
-## 🚀 Full-Stack Performance Toolkit (migrated from legacy Performance Optimization prompt)
+## [DEPLOY] Full-Stack Performance Toolkit (migrated from legacy Performance Optimization prompt)
 
 - End-to-end profiling strategy covering backend & frontend traces
 - Database query optimisation and intelligent caching check-list

@@ -42,7 +42,7 @@ Performs comprehensive security and quality analysis:
 This will load the deep security audit prompt with paranoid security focus for the entire codebase.
 
 
-## ⬆️ Dependency & License Health (migrated from legacy Dependency Analysis prompt)
+## [UP] Dependency & License Health (migrated from legacy Dependency Analysis prompt)
 
 - Map all dependency licenses and highlight incompatibilities (copyleft, unknown)
 - Identify outdated or vulnerable packages and provide upgrade paths

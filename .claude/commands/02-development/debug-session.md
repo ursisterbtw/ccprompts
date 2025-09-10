@@ -74,16 +74,16 @@ Claude Code Debug Report
 Generated: 2024-01-15 14:30:00 UTC
 Session ID: cc-session-a1b2c3d4
 
-🔍 Overall Health: 🟡 NEEDS ATTENTION
+[SCAN] Overall Health: [WARNING] NEEDS ATTENTION
 
 Critical Issues (2):
-├── ❌ MCP Server 'github' not responding (timeout after 30s)
-└── ❌ File permissions denied for /project/src/ directory
+├── [ERROR] MCP Server 'github' not responding (timeout after 30s)
+└── [ERROR] File permissions denied for /project/src/ directory
 
 Warnings (3):
-├── ⚠️  High memory usage: 85% of context window used
-├── ⚠️  Slow response times: avg 15s (baseline: 3s)
-└── ⚠️  Configuration drift: .claude/config.json outdated
+├── [WARNING]  High memory usage: 85% of context window used
+├── [WARNING]  Slow response times: avg 15s (baseline: 3s)
+└── [WARNING]  Configuration drift: .claude/config.json outdated
 
 Performance:
 ├── Average Response Time: 15.2s (+400% from baseline)
@@ -104,42 +104,42 @@ Recommendations:
 Detailed Debug Analysis: Connection Issues
 =========================================
 
-🌐 Network Connectivity
-├── Internet Access: ✅ Connected
-├── DNS Resolution: ✅ All hostnames resolved
-├── Claude API Reachability: ✅ api.anthropic.com accessible
-├── Response Time: ⚠️  2.3s (slow, baseline: 0.8s)
-├── Bandwidth: ✅ 45.2 Mbps download, 12.1 Mbps upload
-└── Packet Loss: ✅ 0% loss over 100 packets
+[NETWORK] Network Connectivity
+├── Internet Access: [OK] Connected
+├── DNS Resolution: [OK] All hostnames resolved
+├── Claude API Reachability: [OK] api.anthropic.com accessible
+├── Response Time: [WARNING]  2.3s (slow, baseline: 0.8s)
+├── Bandwidth: [OK] 45.2 Mbps download, 12.1 Mbps upload
+└── Packet Loss: [OK] 0% loss over 100 packets
 
-🔐 Authentication & Authorization
-├── API Key Status: ✅ Valid and active
-├── Token Expiration: ✅ Valid for 89 days
-├── Rate Limit Status: ⚠️  78% of hourly limit used
-├── Permission Scope: ✅ All required permissions granted
-└── Account Status: ✅ Active subscription
+[AUTH] Authentication & Authorization
+├── API Key Status: [OK] Valid and active
+├── Token Expiration: [OK] Valid for 89 days
+├── Rate Limit Status: [WARNING]  78% of hourly limit used
+├── Permission Scope: [OK] All required permissions granted
+└── Account Status: [OK] Active subscription
 
-🔧 MCP Server Analysis
+[CONFIG] MCP Server Analysis
 ├── Configured Servers: 3 (github, database, monitoring)
-├── github: ❌ Connection timeout after 30s
+├── github: [ERROR] Connection timeout after 30s
 │   ├── Last Successful: 2024-01-15 13:45:00 UTC (45 minutes ago)
 │   ├── Error Count: 5 failures in last hour
 │   ├── Port Status: 3001 - Connection refused
 │   └── Logs: "Error: ECONNREFUSED 127.0.0.1:3001"
-├── database: ✅ Connected and responsive (245ms)
-└── monitoring: ✅ Connected and responsive (156ms)
+├── database: [OK] Connected and responsive (245ms)
+└── monitoring: [OK] Connected and responsive (156ms)
 
-📁 File System Access
+[FOLDER] File System Access
 ├── Current Directory: /home/user/project
-├── Read Access: ✅ All files readable
-├── Write Access: ❌ Permission denied for src/ directory
+├── Read Access: [OK] All files readable
+├── Write Access: [ERROR] Permission denied for src/ directory
 │   ├── Owner: root (expected: user)
 │   ├── Permissions: drwxr-xr-x (expected: drwxrwxr-x)
 │   └── Fix: Request admin assistance or use proper permission management
-├── Tool Execution: ✅ Bash, Git, npm available
-└── Environment Variables: ✅ All required variables set
+├── Tool Execution: [OK] Bash, Git, npm available
+└── Environment Variables: [OK] All required variables set
 
-🧠 Session Memory Analysis
+[ANALYZE] Session Memory Analysis
 ├── Context Window: 85% used (170k/200k tokens)
 ├── Conversation Length: 47 messages
 ├── File Content Cache: 34 files cached (23MB)
@@ -159,7 +159,7 @@ Detailed Debug Analysis: Connection Issues
 Performance Analysis Report  
 ==========================
 
-📊 Response Time Breakdown (Last 10 Commands)
+[STATS] Response Time Breakdown (Last 10 Commands)
 Command                 │ Total Time │ Network │ Processing │ Tool Exec
 ───────────────────────┼────────────┼─────────┼────────────┼──────────
 /read large-file.js    │    18.5s   │   2.1s  │    14.2s   │   2.2s
@@ -167,7 +167,7 @@ Command                 │ Total Time │ Network │ Processing │ Tool Exec
 /search-prompts perf   │     4.2s   │   1.1s  │     2.8s   │   0.3s
 /analyze-project       │    31.4s   │   2.3s  │    24.1s   │   5.0s
 
-🔥 Performance Bottlenecks
+[CRITICAL] Performance Bottlenecks
 1. Large File Processing (avg 16.2s)
    - Files > 1000 lines taking excessive time
    - Recommendation: Use targeted reads with line ranges
@@ -180,14 +180,14 @@ Command                 │ Total Time │ Network │ Processing │ Tool Exec
    - File system operations slower than expected
    - Recommendation: Check disk I/O and available space
 
-💾 Memory Usage Patterns
+[MEMORY] Memory Usage Patterns
 ├── Peak Usage: 92% (during large file analysis)
 ├── Average Usage: 67%
 ├── Memory Leaks: None detected
 ├── Cache Efficiency: 78% hit rate
 └── Garbage Collection: 3 collections in last hour
 
-🔄 Session Stability
+[PROCESS] Session Stability
 ├── Uptime: 2h 34m
 ├── Reconnections: 0
 ├── Failed Commands: 3 (tool permission errors)

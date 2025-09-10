@@ -74,8 +74,8 @@ The ccprompts repository implements a comprehensive 3-layer safety system to ens
 - **Safety Rate**: 67.1%
 
 ### Performance Metrics
-- **Discovery Time**: <100ms ✅
-- **Validation Time**: <2000ms ✅
+- **Discovery Time**: <100ms [OK]
+- **Validation Time**: <2000ms [OK]
 - **Safety Validation**: 553ms (optimization target)
 - **Memory Usage**: 7.2MB
 

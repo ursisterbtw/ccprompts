@@ -1,13 +1,13 @@
 /**
- * Centralized Safety Pattern Configuration
+ * centralized Safety Pattern Configuration
  *
- * This module provides a single source of truth for dangerous code patterns
+ * this module provides a single source of truth for dangerous code patterns
  * and their classifications across all validation systems.
  */
 
 module.exports = {
   /**
-   * Critical danger patterns - immediate security threats
+   * critical danger patterns - immediate security threats
    */
   CRITICAL_PATTERNS: [
     {
@@ -37,7 +37,7 @@ module.exports = {
   ],
 
   /**
-   * High-risk patterns - significant security concerns
+   * high-risk patterns - significant security concerns
    */
   HIGH_RISK_PATTERNS: [
     {
@@ -67,7 +67,7 @@ module.exports = {
   ],
 
   /**
-   * Medium-risk patterns - caution required
+   * medium-risk patterns - caution required
    */
   MEDIUM_RISK_PATTERNS: [
     {
@@ -115,7 +115,7 @@ module.exports = {
   ],
 
   /**
-   * Get all patterns for a specific severity level
+   * get all patterns for a specific severity level
    */
   getPatternsBySeverity(severity) {
     const severityMap = {
@@ -127,7 +127,7 @@ module.exports = {
   },
 
   /**
-   * Get all patterns combined
+   * get all patterns combined
    */
   getAllPatterns() {
     return [
@@ -138,7 +138,7 @@ module.exports = {
   },
 
   /**
-   * Get patterns for simple boolean checks (backward compatibility)
+   * get patterns for simple boolean checks (backward compatibility)
    */
   getDangerousPatterns() {
     return [
@@ -148,20 +148,20 @@ module.exports = {
   },
 
   /**
-   * Get caution patterns (backward compatibility)
+   * get caution patterns (backward compatibility)
    */
   getCautionPatterns() {
     return this.MEDIUM_RISK_PATTERNS.map(p => p.pattern);
   },
 
   /**
-   * Classify safety level based on patterns found
+   * classify safety level based on patterns found
    */
   classifySafetyLevel(content, codeBlocksOnly = false) {
     let textToCheck = content;
 
     if (codeBlocksOnly) {
-      // Extract code blocks only
+      // extract code blocks only
       const codeBlocks = [];
       const codeBlockRegex = /```(?:[\w+-]*)\n([\s\S]*?)```/g;
       let match;
@@ -169,7 +169,7 @@ module.exports = {
         codeBlocks.push(match[1]);
       }
 
-      // Also extract indented code
+      // also extract indented code
       const indentedCodeRegex = /^(?: {4}|\t)(.+)$/gm;
       let indentedMatch;
       while ((indentedMatch = indentedCodeRegex.exec(content)) !== null) {
@@ -179,21 +179,21 @@ module.exports = {
       textToCheck = codeBlocks.join('\n');
     }
 
-    // Check critical patterns first
+    // check critical patterns first
     for (const pattern of this.CRITICAL_PATTERNS) {
       if (pattern.pattern.test(textToCheck)) {
         return 'dangerous';
       }
     }
 
-    // Check high-risk patterns
+    // check high-risk patterns
     for (const pattern of this.HIGH_RISK_PATTERNS) {
       if (pattern.pattern.test(textToCheck)) {
         return 'dangerous';
       }
     }
 
-    // Check medium-risk patterns
+    // check medium-risk patterns
     for (const pattern of this.MEDIUM_RISK_PATTERNS) {
       if (pattern.pattern.test(textToCheck)) {
         return 'caution';

@@ -1,12 +1,12 @@
 /**
- * Jest setup file for ccprompts test suite
- * Configures global test environment and utilities
+ * jest setup file for ccprompts test suite
+ * configures global test environment and utilities
  */
 
 const fs = require('fs');
 const path = require('path');
 
-// Global test configuration
+// global test configuration
 global.TEST_CONFIG = {
   PROJECT_ROOT: process.cwd(),
   EXPECTED_COMMAND_COUNT: 70,
@@ -18,9 +18,9 @@ global.TEST_CONFIG = {
   }
 };
 
-// Global utilities
+// global utilities
 global.testUtils = {
-  // Create temporary test files
+  // create temporary test files
   createTempFile: (content, filename = 'test.md') => {
     const tempPath = path.join(global.TEST_CONFIG.PROJECT_ROOT, 'tests', 'temp', filename);
     fs.mkdirSync(path.dirname(tempPath), { recursive: true });
@@ -28,7 +28,7 @@ global.testUtils = {
     return tempPath;
   },
 
-  // Clean up temporary files
+  // clean up temporary files
   cleanupTempFiles: () => {
     const tempDir = path.join(global.TEST_CONFIG.PROJECT_ROOT, 'tests', 'temp');
     if (fs.existsSync(tempDir)) {
@@ -36,7 +36,7 @@ global.testUtils = {
     }
   },
 
-  // Mock command file content
+  // mock command file content
   mockCommandFile: (commandName, options = {}) => {
     const defaults = {
       hasDescription: true,
@@ -68,7 +68,7 @@ global.testUtils = {
     return content;
   },
 
-  // Mock prompt file content
+  // mock prompt file content
   mockPromptFile: (promptName, options = {}) => {
     const defaults = {
       hasXMLStructure: true,
@@ -96,21 +96,21 @@ global.testUtils = {
   }
 };
 
-// Set environment variables for testing
+// set environment variables for testing
 process.env.NODE_ENV = 'test';
 process.env.EXPECTED_COMMAND_COUNT = '70';
 
-// Global setup
+// global setup
 beforeAll(() => {
-  // Ensure test temp directory exists
+  // ensure test temp directory exists
   const tempDir = path.join(global.TEST_CONFIG.PROJECT_ROOT, 'tests', 'temp');
   fs.mkdirSync(tempDir, { recursive: true });
 });
 
-// Global cleanup
+// global cleanup
 afterAll(() => {
   global.testUtils.cleanupTempFiles();
 });
 
-// Test timeout configuration
+// test timeout configuration
 jest.setTimeout(global.TEST_CONFIG.VALIDATION_TIMEOUT);

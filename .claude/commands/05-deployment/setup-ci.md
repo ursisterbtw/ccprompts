@@ -38,7 +38,7 @@ Set up comprehensive CI/CD pipelines with security, testing, and deployment auto
 
 Platform: **$ARGUMENTS** (e.g., "github-actions", "gitlab-ci", "azure-devops", "jenkins")
 
-## 🚀 Comprehensive CI/CD Pipeline
+## [DEPLOY] Comprehensive CI/CD Pipeline
 
 ### 1. Pipeline Architecture Design
 
@@ -79,7 +79,7 @@ Platform: **$ARGUMENTS** (e.g., "github-actions", "gitlab-ci", "azure-devops", "
 - **Compliance scanning**: Regulatory requirement validation
 - **Container scanning**: Docker image security analysis
 
-## 🛠️ Platform-Specific Implementation
+## [TOOLS] Platform-Specific Implementation
 
 ### GitHub Actions
 
@@ -138,7 +138,7 @@ build:
       - dist/
 ```
 
-## 🔐 Security & Compliance Pipeline
+## [AUTH] Security & Compliance Pipeline
 
 ### Automated Security Checks
 
@@ -154,7 +154,7 @@ build:
 - **HIPAA**: Healthcare data protection
 - **PCI DSS**: Payment card industry standards
 
-## 🌐 Deployment Strategies
+## [NETWORK] Deployment Strategies
 
 ### Environment Management
 
@@ -170,7 +170,7 @@ build:
 - **Canary deployment**: Risk-minimized feature rollout
 - **A/B testing**: Data-driven feature validation
 
-## 📊 Monitoring & Observability
+## [STATS] Monitoring & Observability
 
 ### Pipeline Monitoring
 
@@ -186,7 +186,7 @@ build:
 - **Infrastructure monitoring**: Resource usage and health
 - **User experience monitoring**: Real user metrics
 
-## 🔄 Workflow Optimization
+## [PROCESS] Workflow Optimization
 
 ### Performance Optimization
 
@@ -202,7 +202,7 @@ build:
 - **Easy debugging**: Accessible logs and artifacts
 - **Self-service**: Developer autonomy in pipeline management
 
-## 📋 Implementation Checklist
+## [LIST] Implementation Checklist
 
 - [ ] **Repository setup**: Initialize CI/CD configuration
 - [ ] **Build pipeline**: Automated build and artifact generation
@@ -212,7 +212,7 @@ build:
 - [ ] **Monitoring setup**: Pipeline and application observability
 - [ ] **Documentation**: Team training and runbook creation
 
-## 🚀 Multi-Stage Pipeline & Quality Gates (migrated from legacy CI/CD prompt)
+## [DEPLOY] Multi-Stage Pipeline & Quality Gates (migrated from legacy CI/CD prompt)
 
 - Matrix build strategies across language versions and OSes
 - Security scanning, linting, and test stages gating merge actions

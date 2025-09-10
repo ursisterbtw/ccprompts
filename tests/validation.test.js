@@ -1,6 +1,6 @@
 /**
- * Test suite for ccprompts validation system
- * Tests command metadata extraction, registry generation, and validation logic
+ * test suite for ccprompts validation system
+ * tests command metadata extraction, registry generation, and validation logic
  */
 
 const fs = require('fs');
@@ -22,13 +22,13 @@ describe('ccprompts Validation System', () => {
     test('should generate valid command registry', async () => {
       const registryPath = path.join(global.TEST_CONFIG.PROJECT_ROOT, '.claude', 'command-registry.json');
 
-      // Run validation to generate registry
+      // run validation to generate registry
       await validator.validate();
 
-      // Check registry exists
+      // check registry exists
       expect(fs.existsSync(registryPath)).toBe(true);
 
-      // Parse and validate registry structure
+      // parse and validate registry structure
       const registry = JSON.parse(fs.readFileSync(registryPath, 'utf8'));
 
       expect(registry).toHaveProperty('version');
@@ -38,11 +38,11 @@ describe('ccprompts Validation System', () => {
       expect(registry).toHaveProperty('phases');
       expect(registry).toHaveProperty('validation_results');
 
-      // Validate commands structure
+      // validate commands structure
       const commandIds = Object.keys(registry.commands);
       expect(commandIds.length).toBe(global.TEST_CONFIG.EXPECTED_COMMAND_COUNT);
 
-      // Validate each command has required metadata
+      // validate each command has required metadata
       commandIds.forEach(commandId => {
         const command = registry.commands[commandId];
         expect(command).toHaveProperty('id');
@@ -64,7 +64,7 @@ describe('ccprompts Validation System', () => {
 
       expect(categories.length).toBeGreaterThan(0);
 
-      // Verify category structure
+      // verify category structure
       categories.forEach(categoryId => {
         const category = registry.categories[categoryId];
         expect(category).toHaveProperty('id');
@@ -84,7 +84,7 @@ describe('ccprompts Validation System', () => {
       expect(Array.isArray(phases)).toBe(true);
       expect(phases.length).toBeGreaterThan(0);
 
-      // Verify phase structure
+      // verify phase structure
       phases.forEach(phase => {
         expect(phase).toHaveProperty('id');
         expect(phase).toHaveProperty('name');
@@ -93,7 +93,7 @@ describe('ccprompts Validation System', () => {
         expect(Array.isArray(phase.commands)).toBe(true);
       });
 
-      // Verify phases are ordered
+      // verify phases are ordered
       for (let i = 1; i < phases.length; i++) {
         expect(phases[i].id).toBeGreaterThan(phases[i-1].id);
       }
@@ -167,14 +167,14 @@ describe('ccprompts Validation System', () => {
 \`\`\`
 `;
 
-      // Test extractMarkdownSection first
+      // test extractMarkdownSection first
       const examplesSection = validator.extractMarkdownSection(contentWithExamples, '## Examples');
       expect(examplesSection).toBeTruthy();
 
       const examples = validator.extractExamples(contentWithExamples);
       expect(examples.length).toBeGreaterThanOrEqual(0);
 
-      // Debug the section extraction
+      // debug the section extraction
       if (examples.length === 0) {
         console.log('Examples section:', examplesSection);
         console.log('Code blocks found:', examplesSection ? examplesSection.match(/```[\s\S]*?```/g) : 'none');
@@ -346,7 +346,7 @@ token="example-token-placeholder"
     test('should validate system integrity', () => {
       validator.validateSystemIntegrity();
 
-      // Should have some results (warnings or validation info)
+      // should have some results (warnings or validation info)
       expect(validator.warnings.length + validator.errors.length).toBeGreaterThanOrEqual(0);
     });
 

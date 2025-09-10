@@ -1,6 +1,6 @@
 /**
- * Security validation module for prompt files
- * Scans for hardcoded secrets, vulnerabilities, and security anti-patterns
+ * security validation module for prompt files
+ * scans for hardcoded secrets, vulnerabilities, and security anti-patterns
  */
 
 const safetyPatterns = require('../config/safety-patterns');

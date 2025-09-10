@@ -1,6 +1,6 @@
 /**
- * Validators module index
- * Exports all validation modules for easy importing
+ * validators module index
+ * exports all validation modules for easy importing
  */
 
 module.exports = {

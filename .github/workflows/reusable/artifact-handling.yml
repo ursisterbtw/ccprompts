@@ -37,7 +37,7 @@ jobs:
 
       - name: Prepare artifacts
         run: |
-          echo "📦 Preparing artifacts..."
+          echo "[PACKAGE] Preparing artifacts..."
 
           # Create artifacts directory
           mkdir -p artifacts-temp
@@ -49,7 +49,7 @@ jobs:
               echo "  - Adding: $path"
               cp -r "$path" artifacts-temp/
             else
-              echo "  ⚠️ Path not found: $path"
+              echo "  [WARNING] Path not found: $path"
             fi
           done
 
@@ -65,11 +65,11 @@ jobs:
           }
           EOF
 
-          echo "✅ Artifacts prepared"
+          echo "[OK] Artifacts prepared"
 
       - name: Create archive
         run: |
-          echo "🗜️ Creating archive..."
+          echo "[COMPRESS] Creating archive..."
 
           cd artifacts-temp
           tar -czf "../${{ inputs.artifact-name }}.tar.gz" \
@@ -80,7 +80,7 @@ jobs:
           # Generate checksum
           sha256sum "${{ inputs.artifact-name }}.tar.gz" > "${{ inputs.artifact-name }}.tar.gz.sha256"
 
-          echo "✅ Archive created"
+          echo "[OK] Archive created"
           ls -lh "${{ inputs.artifact-name }}.tar.gz"
 
       - name: Upload artifacts
@@ -96,7 +96,7 @@ jobs:
       - name: Generate artifact report
         run: |
           cat << EOF >> $GITHUB_STEP_SUMMARY
-          ## 📦 Artifact Summary
+          ## [PACKAGE] Artifact Summary
 
           - **Name**: ${{ inputs.artifact-name }}
           - **Size**: $(du -h "${{ inputs.artifact-name }}.tar.gz" | cut -f1)
@@ -114,7 +114,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          echo "📤 Uploading release asset..."
+          echo "[UPLOAD] Uploading release asset..."
 
           # Get release ID for the tag
           RELEASE_ID=$(gh api ursisterbtw${{ github.repository }}/releases/tags/${{ github.ref_name }} --jq .id || echo "")
@@ -124,7 +124,7 @@ jobs:
               "${{ inputs.artifact-name }}.tar.gz" \
               "${{ inputs.artifact-name }}.tar.gz.sha256" \
               --clobber
-            echo "✅ Release asset uploaded"
+            echo "[OK] Release asset uploaded"
           else
-            echo "⚠️ No release found for tag ${{ github.ref_name }}"
+            echo "[WARNING] No release found for tag ${{ github.ref_name }}"
           fi

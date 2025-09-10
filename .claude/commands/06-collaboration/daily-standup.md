@@ -38,7 +38,7 @@ Automate daily standup preparation with team coordination, progress tracking, an
 
 Team/Format: **$ARGUMENTS** (e.g., "slack", "jira-integration", "team-alpha", "remote")
 
-## 📊 Daily Standup Intelligence
+## [STATS] Daily Standup Intelligence
 
 ### 1. Yesterday's Accomplishments
 
@@ -61,12 +61,12 @@ Team/Format: **$ARGUMENTS** (e.g., "slack", "jira-integration", "team-alpha", "r
 - **Knowledge gaps**: Areas needing help or mentoring
 - **Process issues**: Workflow or tooling problems
 
-## 🤖 Intelligent Standup Generation
+## [AUTO] Intelligent Standup Generation
 
 ### Automated Progress Analysis
 
 ```
-📈 **Yesterday's Progress:**
+[METRICS] **Yesterday's Progress:**
 - Completed feature authentication module (3 commits)
 - Fixed critical bug in user service (issue #123)
 - Reviewed 2 pull requests for team members
@@ -78,13 +78,13 @@ Target: **Today's Plan:**
 - Code review session with Sarah at 2 PM
 - Sprint planning preparation
 
-🚫 **Blockers:**
+[BLOCKED] **Blockers:**
 - Waiting for database schema approval from DBA team
 - Need clarification on user role requirements
 - Local development environment Docker issues
 ```
 
-## 🔗 Team Integration Features
+## [LINK] Team Integration Features
 
 ### Slack Integration
 
@@ -113,7 +113,7 @@ If MCP GitHub server available:
 - **Code review metrics**: Track review participation
 - **Release planning**: Identify release-ready features
 
-## 📋 Standup Formats
+## [LIST] Standup Formats
 
 ### Scrum Format
 
@@ -158,7 +158,7 @@ If MCP GitHub server available:
 - **Communication**: Team coordination enhancement
 - **Documentation**: Knowledge capture improvement
 
-## 📊 Team Analytics
+## [STATS] Team Analytics
 
 ### Individual Metrics
 
@@ -174,7 +174,7 @@ If MCP GitHub server available:
 - **Sprint velocity**: Delivery predictability
 - **Work distribution**: Load balancing across team
 
-## 🔄 Continuous Improvement
+## [PROCESS] Continuous Improvement
 
 ### Retrospective Integration
 
@@ -202,16 +202,16 @@ Generate intelligent, context-aware daily standup updates with team coordination
 Personal Standup Update - TEMPLATE
 =================================
 
-✅ Yesterday's Accomplishments:
+[OK] Yesterday's Accomplishments:
 - Summarize key completed tasks
 
 Target: Today's Goals:
 - Outline main objectives for the day
 
-🚫 Blockers & Issues:
+[BLOCKED] Blockers & Issues:
 - List any impediments needing assistance
 
-⏱️ Capacity Today: _hours available_
+[TIME] Capacity Today: _hours available_
 ```
 
 #### Intelligent Blocking Detection (sample logic)

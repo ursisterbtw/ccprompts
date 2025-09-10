@@ -1,6 +1,6 @@
 /**
- * File utilities module for validation scripts
- * Handles file discovery and path operations
+ * file utilities module for validation scripts
+ * handles file discovery and path operations
  */
 
 const fs = require('fs');

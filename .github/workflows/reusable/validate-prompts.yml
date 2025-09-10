@@ -56,7 +56,7 @@ jobs:
           VALIDATION_SCRIPT: ${{ inputs.validation-script }}
           MAX_ERRORS: ${{ inputs.max-errors }}
         run: |
-          echo "🔍 Running prompt validation..."
+          echo "[VALIDATE] Running prompt validation..."
 
           # Run validation and capture output
           set +e
@@ -73,13 +73,13 @@ jobs:
           # Determine overall status
           if [ "$ERRORS" -gt "$MAX_ERRORS" ]; then
             STATUS="failed"
-            echo "❌ Too many validation errors: $ERRORS (max: $MAX_ERRORS)"
+            echo "[ERROR] Too many validation errors: $ERRORS (max: $MAX_ERRORS)"
           elif [ "$VALIDATION_EXIT_CODE" -ne 0 ]; then
             STATUS="failed"
-            echo "❌ Validation script failed"
+            echo "[ERROR] Validation script failed"
           else
             STATUS="passed"
-            echo "✅ Validation passed"
+            echo "[OK] Validation passed"
           fi
 
           # Set outputs
@@ -93,7 +93,7 @@ jobs:
           fi
 
           if [ "${{ inputs.fail-on-warnings }}" = "true" ] && [ "$WARNINGS" -gt 0 ]; then
-            echo "❌ Failing due to warnings (fail-on-warnings is enabled)"
+            echo "[ERROR] Failing due to warnings (fail-on-warnings is enabled)"
             exit 1
           fi
 
@@ -101,7 +101,7 @@ jobs:
         if: always()
         run: |
           cat << EOF >> $GITHUB_STEP_SUMMARY
-          ## 📋 Validation Report
+          ## [REPORT] Validation Report
 
           - **Status**: ${{ steps.validate-prompts.outputs.status }}
           - **Errors**: ${{ steps.validate-prompts.outputs.errors }}

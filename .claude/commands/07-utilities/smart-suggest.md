@@ -175,7 +175,7 @@ Recommendations consider dependencies and optimal ordering:
 **Context**: 2-person team, 3-month-old project, rapid feature development
 
 ```
-🚨 IMMEDIATE ACTIONS (Today):
+[ALERT] IMMEDIATE ACTIONS (Today):
 1. /pre-commit standard - No quality gates detected
    Impact: Prevent bugs before they reach main branch
    Effort: 30 minutes | Success Probability: 95%
@@ -198,7 +198,7 @@ Target: STRATEGIC INITIATIVES (This Month):
    Impact: Reduce deployment risk, enable faster iterations
    Effort: 1-2 days | Success Probability: 80%
 
-📚 LEARNING OPPORTUNITIES:
+[DOCS] LEARNING OPPORTUNITIES:
 - /learn testing python - Team skill gap in testing practices
 - /learn security web-apps - Security fundamentals for web development
 ```
@@ -208,7 +208,7 @@ Target: STRATEGIC INITIATIVES (This Month):
 **Context**: 8-person team, 18-month-old product, scaling challenges
 
 ```
-🚨 IMMEDIATE ACTIONS (Today):
+[ALERT] IMMEDIATE ACTIONS (Today):
 1. /optimize performance database - Query times > 2s detected
    Impact: Improve user experience, reduce churn risk
    Effort: 2-4 hours | Success Probability: 85%
@@ -235,7 +235,7 @@ Target: STRATEGIC INITIATIVES (This Quarter):
    Impact: Unlock enterprise market, competitive advantage
    Effort: 2-3 months | Success Probability: 70%
 
-📚 LEARNING OPPORTUNITIES:
+[DOCS] LEARNING OPPORTUNITIES:
 - /learn microservices - Architecture evolution planning
 - /learn security enterprise - Advanced security practices
 ```
@@ -245,7 +245,7 @@ Target: STRATEGIC INITIATIVES (This Quarter):
 **Context**: 25-person team, 5-year-old system, modernization needs
 
 ```
-🚨 IMMEDIATE ACTIONS (Today):
+[ALERT] IMMEDIATE ACTIONS (Today):
 1. /audit-security dependencies - 15 high-severity vulnerabilities
    Impact: Reduce security risk, maintain compliance
    Effort: 4-6 hours | Success Probability: 95%
@@ -272,7 +272,7 @@ Target: STRATEGIC INITIATIVES (Next Quarter):
    Impact: Reduce operational overhead, improve reliability
    Effort: 2-4 months | Success Probability: 70%
 
-📚 LEARNING OPPORTUNITIES:
+[DOCS] LEARNING OPPORTUNITIES:
 - /learn cloud-architecture - Modern deployment patterns
 - /learn legacy-modernization - Systematic modernization approaches
 ```
@@ -282,7 +282,7 @@ Target: STRATEGIC INITIATIVES (Next Quarter):
 **Context**: 50+ person team, regulatory requirements, high availability needs
 
 ```
-🚨 IMMEDIATE ACTIONS (Today):
+[ALERT] IMMEDIATE ACTIONS (Today):
 1. /incident-response validate - Recent production incidents
    Impact: Improve incident response time, reduce customer impact
    Effort: 2-3 hours | Success Probability: 90%
@@ -309,7 +309,7 @@ Target: STRATEGIC INITIATIVES (Next Quarter):
    Impact: Improve security awareness, reduce training time
    Effort: 3-4 weeks | Success Probability: 80%
 
-📚 LEARNING OPPORTUNITIES:
+[DOCS] LEARNING OPPORTUNITIES:
 - /learn compliance-automation - Advanced compliance practices
 - /learn incident-management - Enterprise incident response
 ```

@@ -80,20 +80,20 @@ AI-powered code review system with multi-dimensional analysis:
 Quick Code Review Summary
 ========================
 
-📊 Overall Assessment: B+ (82/100)
+[STATS] Overall Assessment: B+ (82/100)
 ├── Code Quality: 85/100 (Good)
 ├── Security: 78/100 (Needs Attention)
 ├── Performance: 88/100 (Very Good)
 └── Style: 90/100 (Excellent)
 
-🔍 Key Findings (Top 5):
+[SCAN] Key Findings (Top 5):
 1. [High] Potential SQL injection in UserService.findByEmail()
 2. [Medium] Missing error handling in payment processing
 3. [Medium] Inefficient database query in dashboard load
 4. [Low] Inconsistent naming convention in helper functions
 5. [Low] Missing JSDoc comments for public methods
 
-⚡ Quick Wins:
+[PERF] Quick Wins:
 - Add input validation to prevent SQL injection
 - Implement proper error boundaries
 - Add database index for frequently queried fields
@@ -105,39 +105,39 @@ Quick Code Review Summary
 Thorough Code Review Analysis
 ============================
 
-📋 Detailed Assessment:
+[LIST] Detailed Assessment:
 
-🔒 Security Analysis (78/100)
-├── ✅ HTTPS enforcement properly implemented
-├── ✅ CSRF protection in place
-├── ⚠️  SQL injection vulnerability in user search
-├── ⚠️  API keys hardcoded in configuration
-├── ❌ Missing input validation on file uploads
-└── ❌ Weak password policy implementation
+[SECURE] Security Analysis (78/100)
+├── [OK] HTTPS enforcement properly implemented
+├── [OK] CSRF protection in place
+├── [WARNING]  SQL injection vulnerability in user search
+├── [WARNING]  API keys hardcoded in configuration
+├── [ERROR] Missing input validation on file uploads
+└── [ERROR] Weak password policy implementation
 
-🚀 Performance Analysis (88/100)
-├── ✅ Efficient algorithms used throughout
-├── ✅ Proper caching strategy implemented
-├── ✅ Database queries optimized
-├── ⚠️  Memory usage could be optimized in data processing
-├── ⚠️  API response times variable under load
-└── ❌ Large bundle size affecting load times
+[DEPLOY] Performance Analysis (88/100)
+├── [OK] Efficient algorithms used throughout
+├── [OK] Proper caching strategy implemented
+├── [OK] Database queries optimized
+├── [WARNING]  Memory usage could be optimized in data processing
+├── [WARNING]  API response times variable under load
+└── [ERROR] Large bundle size affecting load times
 
-🏗️ Architecture Analysis (85/100)
-├── ✅ Clear separation of concerns
-├── ✅ Appropriate design patterns used
-├── ✅ Consistent API design
-├── ⚠️  Some components have too many responsibilities
-├── ⚠️  Database schema could be normalized
-└── ❌ Missing error handling strategy
+[ARCH] Architecture Analysis (85/100)
+├── [OK] Clear separation of concerns
+├── [OK] Appropriate design patterns used
+├── [OK] Consistent API design
+├── [WARNING]  Some components have too many responsibilities
+├── [WARNING]  Database schema could be normalized
+└── [ERROR] Missing error handling strategy
 
-📝 Code Quality (85/100)
-├── ✅ Consistent code style throughout
-├── ✅ Good variable and function naming
-├── ✅ Appropriate use of comments
-├── ⚠️  Some functions are too long and complex
-├── ⚠️  Missing unit tests for new features
-└── ❌ Code duplication in validation logic
+[NOTE] Code Quality (85/100)
+├── [OK] Consistent code style throughout
+├── [OK] Good variable and function naming
+├── [OK] Appropriate use of comments
+├── [WARNING]  Some functions are too long and complex
+├── [WARNING]  Missing unit tests for new features
+└── [ERROR] Code duplication in validation logic
 ```
 
 ### Comprehensive Review (2-4 hours)
@@ -152,7 +152,7 @@ the user authentication and payment processing modules. The code
 demonstrates good architectural decisions but has several security
 and performance concerns that should be addressed.
 
-🔍 Detailed Analysis:
+[SCAN] Detailed Analysis:
 
 Security Assessment (Score: 78/100)
 ===================================
@@ -215,16 +215,16 @@ Architecture Assessment (Score: 85/100)
 ======================================
 
 Design Strengths:
-✅ Clean separation between controllers and services
-✅ Consistent error handling patterns
-✅ Proper use of dependency injection
-✅ Well-defined API contracts
+[OK] Clean separation between controllers and services
+[OK] Consistent error handling patterns
+[OK] Proper use of dependency injection
+[OK] Well-defined API contracts
 
 Areas for Improvement:
-⚠️  UserService has grown too large (violation of SRP)
-⚠️  Database schema normalization opportunities
-⚠️  Missing circuit breaker pattern for external APIs
-⚠️  Inconsistent logging strategy across modules
+[WARNING]  UserService has grown too large (violation of SRP)
+[WARNING]  Database schema normalization opportunities
+[WARNING]  Missing circuit breaker pattern for external APIs
+[WARNING]  Inconsistent logging strategy across modules
 ```
 
 ### Expert Review (1-2 days)
@@ -309,7 +309,7 @@ quality_metrics = {
 AI-Powered Improvement Suggestions
 =================================
 
-🤖 Refactoring Opportunities:
+[AUTO] Refactoring Opportunities:
 1. Extract Method (UserService.validateAndCreateUser)
    - Current: 45-line method with multiple responsibilities
    - Suggestion: Extract validation and creation logic
@@ -328,7 +328,7 @@ AI-Powered Improvement Suggestions
    - Benefit: Extensibility and maintainability
    - Confidence: 92% | Effort: 4 hours
 
-🔍 Code Quality Improvements:
+[SCAN] Code Quality Improvements:
 1. Add Missing Null Checks (15 locations)
    - Risk: NullPointerException potential
    - Fix: Add null safety checks and early returns
@@ -473,26 +473,26 @@ review_standards:
 Code Review Analytics Dashboard
 ==============================
 
-📊 Review Statistics (Last 30 Days)
+[STATS] Review Statistics (Last 30 Days)
 ├── Total Reviews: 127
 ├── Average Review Time: 2.3 hours
 ├── Issues Found: 342 (2.7 per review)
 ├── Fix Rate: 89% (305 issues resolved)
 ├── False Positive Rate: 8%
 
-🎯 Quality Trends
+[TARGET] Quality Trends
 ├── Security Issues: -15% vs last month
 ├── Performance Issues: -22% vs last month
 ├── Code Quality: +12% improvement
 ├── Test Coverage: +5% improvement
 
-👥 Team Performance
+[TEAM] Team Performance
 ├── Most Active Reviewer: Sarah Chen (23 reviews)
 ├── Fastest Reviewer: Mike Johnson (avg 1.2 hours)
 ├── Most Thorough: Lisa Wong (avg 4.2 issues found)
 ├── Best Mentor: David Kim (15 knowledge transfers)
 
-🔍 Issue Categories
+[SCAN] Issue Categories
 ├── Security: 89 issues (26%)
 ├── Performance: 67 issues (20%)
 ├── Code Quality: 123 issues (36%)

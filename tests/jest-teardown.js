@@ -1,46 +1,46 @@
 /**
- * Jest global teardown
- * Cleanup operations and test result reporting
+ * jest global teardown
+ * cleanup operations and test result reporting
  */
 
 module.exports = async () => {
   const fs = require('fs');
   const path = require('path');
 
-  console.log('\n🧹 Running Jest global teardown...');
+  console.log('\n[CLEANUP] Running Jest global teardown...');
 
-  // Clean up temporary test files
+  // clean up temporary test files
   const tempDir = path.join(process.cwd(), 'tests', 'temp');
   if (fs.existsSync(tempDir)) {
     try {
       fs.rmSync(tempDir, { recursive: true, force: true });
-      console.log('✅ Cleaned up temporary test files');
+      console.log('[OK] Cleaned up temporary test files');
     } catch (error) {
-      console.warn('⚠️ Failed to clean up temporary files:', error.message);
+      console.warn('[WARNING] Failed to clean up temporary files:', error.message);
     }
   }
 
-  // Report test execution time
+  // report test execution time
   const startTime = parseInt(process.env.TEST_START_TIME || '0', 10);
   if (startTime > 0) {
     const duration = Date.now() - startTime;
-    console.log(`⏱️ Total test execution time: ${duration}ms`);
+    console.log(`[TIME] Total test execution time: ${duration}ms`);
   }
 
-  // Memory usage report
+  // memory usage report
   if (global.gc) {
     global.gc();
     const memUsage = process.memoryUsage();
-    console.log(`💾 Final memory usage: ${Math.round(memUsage.heapUsed / 1024 / 1024)}MB`);
+    console.log(`[MEMORY] Final memory usage: ${Math.round(memUsage.heapUsed / 1024 / 1024)}MB`);
   }
 
-  // Generate test summary if in CI
+  // generate test summary if in CI
   if (process.env.CI === 'true') {
     const coverageDir = path.join(process.cwd(), 'coverage');
     if (fs.existsSync(coverageDir)) {
-      console.log('📊 Coverage reports generated in coverage/ directory');
+      console.log('[COVERAGE] Coverage reports generated in coverage/ directory');
     }
   }
 
-  console.log('✅ Jest teardown completed');
+  console.log('[OK] Jest teardown completed');
 };

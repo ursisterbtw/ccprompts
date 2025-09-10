@@ -1,6 +1,6 @@
 /**
- * Quality scoring module for prompt files
- * Evaluates prompt quality based on various metrics
+ * quality scoring module for prompt files
+ * evaluates prompt quality based on various metrics
  */
 
 class QualityScorer {
@@ -9,18 +9,18 @@ class QualityScorer {
     this.qualityScore = 100;
   }
 
-  // Calculate quality score for a prompt
+  // calculate quality score for a prompt
   validatePromptQuality(content, filename, promptType = null) {
     this.qualityIssues = [];
     this.qualityScore = 100;
 
-    // Length checks
+    // length checks
     if (content.length < 500) {
       this.qualityIssues.push(`${filename}: Content too brief (${content.length} chars)`);
       this.qualityScore -= 10;
     }
 
-    // Check for proper XML sections
+    // check for proper XML sections
     const xmlSections = ['<role>', '<activation>', '<instructions>', '<output_format>'];
     xmlSections.forEach(section => {
       const sectionMatch = content.match(new RegExp(`${section}([\\s\\S]*?)${section.replace('<', '</')}`, 'i'));
@@ -30,13 +30,13 @@ class QualityScorer {
       }
     });
 
-    // Check for examples
+    // check for examples
     if (!content.includes('example') && !content.includes('Example')) {
       this.qualityIssues.push(`${filename}: No examples provided`);
       this.qualityScore -= 15;
     }
 
-    // Check for safety considerations
+    // check for safety considerations
     if (promptType !== 'utility' &&
         !content.toLowerCase().includes('safety') &&
         !content.toLowerCase().includes('verify') &&
@@ -45,7 +45,7 @@ class QualityScorer {
       this.qualityScore -= 10;
     }
 
-    // Check for proper formatting
+    // check for proper formatting
     const hasTripleBacktick = content.includes('```');
     const hasIndentedCodeBlock = /^([ \t]{4,}|\t).+/m.test(content);
     if (!hasTripleBacktick && !hasIndentedCodeBlock && promptType !== 'documentation') {
@@ -53,7 +53,7 @@ class QualityScorer {
       this.qualityScore -= 5;
     }
 
-    // Check for clear instructions
+    // check for clear instructions
     const instructionWords = ['step', 'first', 'then', 'next', 'finally', 'must', 'should'];
     const hasStructuredInstructions = instructionWords.some(word =>
       content.toLowerCase().includes(word)
@@ -64,7 +64,7 @@ class QualityScorer {
       this.qualityScore -= 5;
     }
 
-    // Bonus points for comprehensive content
+    // bonus points for comprehensive content
     if (content.length > 2000) {
       this.qualityScore = Math.min(100, this.qualityScore + 5);
     }
@@ -77,7 +77,7 @@ class QualityScorer {
       this.qualityScore = Math.min(100, this.qualityScore + 2);
     }
 
-    // Ensure score doesn't go below 0
+    // ensure score doesn't go below 0
     this.qualityScore = Math.max(0, this.qualityScore);
 
     return {
@@ -86,11 +86,11 @@ class QualityScorer {
     };
   }
 
-  // Determine prompt type with better heuristics
+  // determine prompt type with better heuristics
   determinePromptType(filename, content) {
     const filepath = filename.toLowerCase();
 
-    // Check by directory structure
+    // check by directory structure
     if (filepath.includes('commands/')) {
       return 'command';
     }
@@ -119,7 +119,7 @@ class QualityScorer {
       return 'initialization';
     }
 
-    // Check by content patterns
+    // check by content patterns
     if (content.includes('test suite') || content.includes('testing')) {
       return 'testing';
     }

@@ -1,6 +1,6 @@
 /**
- * Performance and Compatibility Test Suite
- * Tests Node.js v24.1.0 compatibility and performance targets
+ * performance and Compatibility Test Suite
+ * tests Node.js v24.1.0 compatibility and performance targets
  */
 
 const fs = require('fs');
@@ -23,21 +23,21 @@ describe('Performance and Compatibility Tests', () => {
       const nodeVersion = process.version;
       console.log(`Testing with Node.js ${nodeVersion}`);
 
-      // Should be v24.x or compatible
+      // should be v24.x or compatible
       expect(nodeVersion).toMatch(/^v(18|20|22|24)\./);
 
-      // Check that major Node.js features work
+      // check that major Node.js features work
       expect(() => {
-        // Test async/await
+        // test async/await
         (async () => { await Promise.resolve(true); })();
 
-        // Test ES6 features
+        // test ES6 features
         const testArray = [1, 2, 3];
         const [first, ...rest] = testArray;
         expect(first).toBe(1);
         expect(rest).toEqual([2, 3]);
 
-        // Test object destructuring
+        // test object destructuring
         const testObj = { a: 1, b: 2 };
         const { a, b } = testObj;
         expect(a).toBe(1);
@@ -48,7 +48,7 @@ describe('Performance and Compatibility Tests', () => {
     test('should handle file system operations correctly', () => {
       const testDir = path.join(global.TEST_CONFIG.PROJECT_ROOT, 'tests', 'temp');
 
-      // Test directory creation/deletion
+      // test directory creation/deletion
       expect(() => {
         if (!fs.existsSync(testDir)) {
           fs.mkdirSync(testDir, { recursive: true });
@@ -122,7 +122,7 @@ describe('Performance and Compatibility Tests', () => {
       for (const testCase of testCases) {
         const startTime = Date.now();
 
-        // Simulate validation of subset
+        // simulate validation of subset
         const allFiles = commandValidator.findMarkdownFiles(global.TEST_CONFIG.PROJECT_ROOT);
         const subset = allFiles.slice(0, testCase.fileCount);
 
@@ -135,7 +135,7 @@ describe('Performance and Compatibility Tests', () => {
 
         console.log(`${testCase.description}: ${duration}ms total, ${avgPerFile.toFixed(2)}ms per file`);
 
-        // Should maintain reasonable per-file performance
+        // should maintain reasonable per-file performance
         expect(avgPerFile).toBeLessThan(100); // 100ms per file max
       }
     });
@@ -143,13 +143,13 @@ describe('Performance and Compatibility Tests', () => {
     test('should handle memory usage efficiently', async () => {
       const initialMemory = process.memoryUsage();
 
-      // Run validation multiple times to test for memory leaks
+      // run validation multiple times to test for memory leaks
       for (let i = 0; i < 5; i++) {
         const validator = new CommandValidator();
         await validator.validate();
       }
 
-      // Force garbage collection if available
+      // force garbage collection if available
       if (global.gc) {
         global.gc();
       }
@@ -160,8 +160,8 @@ describe('Performance and Compatibility Tests', () => {
 
       console.log(`Memory increase: ${memoryIncreaseMB.toFixed(2)}MB`);
 
-      // Should not leak significant memory
-      // Increased threshold for CI environments which may have different memory patterns
+      // should not leak significant memory
+      // increased threshold for CI environments which may have different memory patterns
       const memoryThreshold = process.env.CI ? 100 : 50; // CI environments need more headroom
       expect(memoryIncreaseMB).toBeLessThan(memoryThreshold);
     });
@@ -183,14 +183,14 @@ describe('Performance and Compatibility Tests', () => {
 
       console.log(`Concurrent validation (${concurrentOperations} operations): ${duration}ms`);
 
-      // All operations should complete; validator returns exit code number in current API
+      // all operations should complete; validator returns exit code number in current API
       expect(results).toHaveLength(concurrentOperations);
       results.forEach(result => {
         expect(result).toBeDefined();
         expect(['number', 'object']).toContain(typeof result);
       });
 
-      // Should be faster than sequential operations
+      // should be faster than sequential operations
       const estimatedSequentialTime = global.TEST_CONFIG.PERFORMANCE_TARGETS.VALIDATION_MS * concurrentOperations;
       expect(duration).toBeLessThan(estimatedSequentialTime);
     });
@@ -212,7 +212,7 @@ describe('Performance and Compatibility Tests', () => {
 
       console.log(`Concurrent safety validation: ${duration}ms`);
 
-      // All should complete without errors
+      // all should complete without errors
       expect(results).toHaveLength(testCommands.length);
       expect(duration).toBeLessThan(1000); // Should be fast
     });
@@ -223,7 +223,7 @@ describe('Performance and Compatibility Tests', () => {
       const originalReadFile = fs.readFileSync;
       let errorCount = 0;
 
-      // Mock file system errors intermittently
+      // mock file system errors intermittently
       fs.readFileSync = function(filePath, options) {
         errorCount++;
         if (errorCount % 5 === 0) {
@@ -235,11 +235,11 @@ describe('Performance and Compatibility Tests', () => {
       try {
         await commandValidator.validate();
 
-        // Should complete despite some errors
+        // should complete despite some errors
         expect(commandValidator.errors.length).toBeGreaterThan(0);
         expect(commandValidator.warnings.length).toBeGreaterThanOrEqual(0);
       } finally {
-        // Restore original function
+        // restore original function
         fs.readFileSync = originalReadFile;
       }
     });
@@ -247,18 +247,18 @@ describe('Performance and Compatibility Tests', () => {
     test('should handle process interruption gracefully', (done) => {
       const validator = new CommandValidator();
 
-      // Start validation
+      // start validation
       const validationPromise = validator.validate();
 
-      // Simulate interruption after short delay
+      // simulate interruption after short delay
       setTimeout(() => {
-        // This tests that the validator doesn't crash on interruption
+        // this tests that the validator doesn't crash on interruption
         expect(true).toBe(true);
         done();
       }, 100);
 
       validationPromise.catch(() => {
-        // Expected behavior - validation may be interrupted
+        // expected behavior - validation may be interrupted
         done();
       });
     }, 5000);
@@ -291,7 +291,7 @@ describe('Performance and Compatibility Tests', () => {
 
       console.log('Resource usage metrics:', JSON.stringify(metrics, null, 2));
 
-      // Validate resource usage is reasonable
+      // validate resource usage is reasonable
       expect(metrics.duration).toBeLessThan(10000); // 10 second max
       expect(metrics.memoryDelta.heapUsed).toBeLessThan(100 * 1024 * 1024); // 100MB max
       expect(metrics.cpuTime.user + metrics.cpuTime.system).toBeLessThan(5); // 5 seconds max CPU
@@ -303,10 +303,10 @@ describe('Performance and Compatibility Tests', () => {
       const platform = process.platform;
       console.log(`Testing on platform: ${platform}`);
 
-      // Should work on common platforms
+      // should work on common platforms
       expect(['win32', 'darwin', 'linux']).toContain(platform);
 
-      // Path operations should work correctly
+      // path operations should work correctly
       const testPath = path.join('test', 'directory', 'file.md');
       expect(testPath).toBeTruthy();
 

@@ -568,12 +568,12 @@ Error Handling:
 ```bash
 # Example validation output:
 Workflow Validation Results:
-✅ No circular dependencies detected
-✅ All step dependencies satisfied
-⚠️  Warning: Steps 3 and 4 may compete for database resources
-❌ Error: Step 5 requires output from Step 2, but Step 2 doesn't produce that output
-✅ Estimated execution time: 2.5 hours (within acceptable range)
-⚠️  Risk: Step 6 has 15% historical failure rate in similar environments
+[OK] No circular dependencies detected
+[OK] All step dependencies satisfied
+[WARNING]  Warning: Steps 3 and 4 may compete for database resources
+[ERROR] Error: Step 5 requires output from Step 2, but Step 2 doesn't produce that output
+[OK] Estimated execution time: 2.5 hours (within acceptable range)
+[WARNING]  Risk: Step 6 has 15% historical failure rate in similar environments
 ```
 
 #### Parameter Compatibility Matrix
@@ -656,9 +656,9 @@ risk_levels:
 Workflow: Production Deployment (Step 3 of 6)
 ============================================
 
-✅ Step 1: Security Audit        [Completed in 45 minutes]
-✅ Step 2: Test Suite           [Completed in 1.2 hours]
-🔄 Step 3: Build & Package      [In Progress - 15 minutes elapsed]
+[OK] Step 1: Security Audit        [Completed in 45 minutes]
+[OK] Step 2: Test Suite           [Completed in 1.2 hours]
+[PROCESS] Step 3: Build & Package      [In Progress - 15 minutes elapsed]
 ⏳ Step 4: Deploy to Staging    [Waiting]
 ⏳ Step 5: Integration Tests    [Waiting]
 ⏳ Step 6: Production Deploy    [Waiting]

@@ -41,7 +41,7 @@ Implements sophisticated CI/CD pipelines and infrastructure automation:
 - **Zero-Downtime Updates**: `/deploy prod zero-downtime` - Production updates without downtime
 
 
-## 🏗️ Infrastructure as Code Templates (migrated from legacy IaC prompt)
+## [ARCH] Infrastructure as Code Templates (migrated from legacy IaC prompt)
 
 - Terraform module scaffolds for common cloud components (VPC, DB, compute)
 - Kubernetes Helm chart templates with sensible defaults

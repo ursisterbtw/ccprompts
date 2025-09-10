@@ -101,13 +101,13 @@ tech_debt_analysis = {
 Technical Debt Quantification Report
 ===================================
 
-📊 Overall Debt Assessment:
+[STATS] Overall Debt Assessment:
 ├── Total Debt Score: 73/100 (Good, with room for improvement)
 ├── Estimated Resolution Cost: $31,200 (156 hours × $200/hour)
 ├── Monthly Interest Cost: $4,680 (maintenance overhead)
 ├── ROI for Resolution: 340% (over 12 months)
 
-🔍 Debt Distribution by Component:
+[SCAN] Debt Distribution by Component:
 
 Authentication Service:
 ├── Debt Ratio: 31% (highest in system)
@@ -181,7 +181,7 @@ High Complexity Functions (15 functions):
 │   ├── Effort: 8 hours (refactor into pipeline pattern)
 │   └── Priority: High
 
-🔄 Code Duplication (34 instances):
+[PROCESS] Code Duplication (34 instances):
 
 Duplicated Validation Logic:
 ├── Pattern: Email validation repeated in 8 files
@@ -271,7 +271,7 @@ Low Priority (Low Impact or High Effort):
 Technical Debt Risk Analysis
 ===========================
 
-🚨 Critical Risk Areas:
+[ALERT] Critical Risk Areas:
 
 Security Vulnerabilities (Risk Score: 9.2/10):
 ├── Outdated authentication system using deprecated crypto
@@ -362,7 +362,7 @@ Month 6: Long-term Maintenance (Focus: Prevention)
 ├── Expected Debt Reduction: 1.3%
 ├── Business Impact: 70% reduction in new debt accumulation
 
-📊 Expected Outcomes:
+[STATS] Expected Outcomes:
 ├── Total Effort Investment: 200 hours ($40,000)
 ├── Debt Reduction: 8.4% (23.4% → 15.0%)
 ├── Monthly Savings: $7,200 (reduced maintenance costs)
@@ -376,7 +376,7 @@ Month 6: Long-term Maintenance (Focus: Prevention)
 Technical Debt Integration with Feature Development
 ==================================================
 
-🔄 Debt-to-Feature Ratio Strategy:
+[PROCESS] Debt-to-Feature Ratio Strategy:
 ├── Target Allocation: 70% features, 30% technical debt
 ├── Minimum Debt Work: 20% per sprint (non-negotiable)
 ├── Maximum Debt Work: 50% per sprint (for critical issues)
@@ -400,7 +400,7 @@ Target: Debt Selection Criteria:
 ├── Improves team velocity (weight: 20%)
 ├── Learning opportunity for team (weight: 10%)
 
-📋 Implementation Guidelines:
+[LIST] Implementation Guidelines:
 ├── Pair debt work with junior developers for knowledge transfer
 ├── Document before/after metrics for each debt item
 ├── Include debt stories in sprint demo to show value
@@ -483,7 +483,7 @@ prevention_rules:
 Technical Debt Education Program
 ===============================
 
-📚 Educational Components:
+[DOCS] Educational Components:
 
 Monthly Tech Talks (30 minutes each):
 ├── "The True Cost of Technical Debt" - Business impact analysis
@@ -532,13 +532,13 @@ Sprint Planning Integration:
 Technical Debt Executive Summary
 ===============================
 
-📊 Current State (Q1 2024):
+[STATS] Current State (Q1 2024):
 ├── Overall Debt Score: 73/100 (Good)
 ├── Estimated Debt Cost: $31,200 (down from $45,600 in Q4 2023)
 ├── Monthly Interest: $4,680 (maintenance overhead)
 ├── Team Velocity Impact: -15% (improvement from -25% in Q4)
 
-💰 Business Impact:
+[COST] Business Impact:
 ├── Development Velocity: 15% slower feature delivery
 ├── Bug Resolution Cost: $18,000/month (debt-related issues)
 ├── Customer Support Load: +23% (complexity-related tickets)
@@ -550,7 +550,7 @@ Target: Q1 Achievements:
 ├── Security Vulnerabilities: Reduced from 15 to 3
 ├── Build Time Improvement: 40% faster (from 12 min to 7 min)
 
-📈 ROI of Debt Reduction:
+[METRICS] ROI of Debt Reduction:
 ├── Investment: $28,500 (142.5 hours of engineering time)
 ├── Savings: $52,800 (reduced maintenance and support costs)
 ├── Net Benefit: $24,300 (85% ROI in Q1 alone)
@@ -562,7 +562,7 @@ Action: Q2 Priorities:
 ├── Achieve 85% automated test coverage
 ├── Target debt ratio: 18% (5.4% additional reduction)
 
-📋 Resource Requirements:
+[LIST] Resource Requirements:
 ├── Engineering Time: 25% allocation (increased from 20%)
 ├── Budget: $35,000 for Q2 debt reduction initiatives
 ├── Timeline: 12 weeks for high-priority items
@@ -615,7 +615,7 @@ claude-code /tech-debt assess staged critical
 
 # Check for debt threshold violations
 if [ $? -eq 1 ]; then
-    echo "⚠️  Technical debt threshold exceeded"
+    echo "[WARNING]  Technical debt threshold exceeded"
     echo "Consider refactoring before committing"
     echo "Run 'claude-code /tech-debt resolve file critical' for suggestions"
 fi

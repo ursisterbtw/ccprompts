@@ -210,7 +210,7 @@ ccprompts/
 
    ```bash
    # Check specific error types
-   bun run validate | grep "❌ Errors"
+   bun run validate | grep "[ERROR] Errors"
 
    # Fix common issues
    grep -l "Missing sections" .claude/commands/**/*.md
@@ -223,7 +223,7 @@ ccprompts/
    markdown-link-check README.md
 
    # Update broken links
-   bun run check-links 2>&1 | grep "✖"
+   bun run check-links 2>&1 | grep "[ERROR]"
    ```
 
 3. **Missing Sections**

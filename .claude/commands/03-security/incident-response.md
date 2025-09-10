@@ -83,25 +83,25 @@ System Outage Response Workflow
 ==============================
 
 Immediate Actions (0-15 minutes):
-1. ✅ Confirm incident scope and impact
-2. ✅ Activate incident response team
-3. ✅ Establish communication channels
-4. ✅ Implement emergency procedures
-5. ✅ Begin status page updates
+1. [OK] Confirm incident scope and impact
+2. [OK] Activate incident response team
+3. [OK] Establish communication channels
+4. [OK] Implement emergency procedures
+5. [OK] Begin status page updates
 
 Investigation Phase (15-60 minutes):
-1. 🔍 Gather system metrics and logs
-2. 🔍 Identify root cause hypothesis
-3. 🔍 Test quick resolution strategies
-4. 🔍 Escalate to additional teams if needed
-5. 🔍 Document findings and actions
+1. [SCAN] Gather system metrics and logs
+2. [SCAN] Identify root cause hypothesis
+3. [SCAN] Test quick resolution strategies
+4. [SCAN] Escalate to additional teams if needed
+5. [SCAN] Document findings and actions
 
 Resolution Phase (varies):
-1. 🛠️ Implement primary fix
-2. 🛠️ Verify system functionality
-3. 🛠️ Monitor for secondary issues
-4. 🛠️ Gradual traffic restoration
-5. 🛠️ Confirm full resolution
+1. [TOOLS] Implement primary fix
+2. [TOOLS] Verify system functionality
+3. [TOOLS] Monitor for secondary issues
+4. [TOOLS] Gradual traffic restoration
+5. [TOOLS] Confirm full resolution
 ```
 
 #### Security Incident
@@ -111,25 +111,25 @@ Security Incident Response Workflow
 ==================================
 
 Immediate Response (0-30 minutes):
-1. 🚨 Isolate affected systems
-2. 🚨 Preserve evidence and logs
-3. 🚨 Notify security team and management
-4. 🚨 Activate security incident procedures
-5. 🚨 Begin forensic data collection
+1. [ALERT] Isolate affected systems
+2. [ALERT] Preserve evidence and logs
+3. [ALERT] Notify security team and management
+4. [ALERT] Activate security incident procedures
+5. [ALERT] Begin forensic data collection
 
 Assessment Phase (30 minutes - 2 hours):
-1. 🔍 Assess scope of compromise
-2. 🔍 Identify attack vectors
-3. 🔍 Evaluate data exposure
-4. 🔍 Determine legal/regulatory implications
-5. 🔍 Coordinate with external parties if needed
+1. [SCAN] Assess scope of compromise
+2. [SCAN] Identify attack vectors
+3. [SCAN] Evaluate data exposure
+4. [SCAN] Determine legal/regulatory implications
+5. [SCAN] Coordinate with external parties if needed
 
 Containment & Recovery (2-24 hours):
-1. 🛡️ Implement security controls
-2. 🛡️ Remove malicious elements
-3. 🛡️ Restore systems from clean backups
-4. 🛡️ Apply security patches
-5. 🛡️ Enhance monitoring and detection
+1. [SECURITY] Implement security controls
+2. [SECURITY] Remove malicious elements
+3. [SECURITY] Restore systems from clean backups
+4. [SECURITY] Apply security patches
+5. [SECURITY] Enhance monitoring and detection
 ```
 
 ## Automated Response Actions
@@ -190,13 +190,13 @@ Incident Communication Matrix
 
 Stakeholder Group    │ SEV-1 │ SEV-2 │ SEV-3 │ SEV-4 │ Channel
 ────────────────────┼───────┼───────┼───────┼───────┼─────────────
-Executive Team      │  ✅   │  ✅   │   -   │   -   │ Phone/SMS
-Engineering Leads   │  ✅   │  ✅   │  ✅   │   -   │ Slack/Email
-On-Call Engineers   │  ✅   │  ✅   │  ✅   │  ✅   │ PagerDuty
-Customer Support    │  ✅   │  ✅   │  ✅   │   -   │ Slack/Email
-External Customers  │  ✅   │  ✅   │   -   │   -   │ Status Page
-Security Team       │  ✅   │  ✅   │  ✅   │  ✅   │ Secure Channel
-Legal/Compliance    │  ✅   │   -   │   -   │   -   │ Secure Channel
+Executive Team      │  [OK]   │  [OK]   │   -   │   -   │ Phone/SMS
+Engineering Leads   │  [OK]   │  [OK]   │  [OK]   │   -   │ Slack/Email
+On-Call Engineers   │  [OK]   │  [OK]   │  [OK]   │  [OK]   │ PagerDuty
+Customer Support    │  [OK]   │  [OK]   │  [OK]   │   -   │ Slack/Email
+External Customers  │  [OK]   │  [OK]   │   -   │   -   │ Status Page
+Security Team       │  [OK]   │  [OK]   │  [OK]   │  [OK]   │ Secure Channel
+Legal/Compliance    │  [OK]   │   -   │   -   │   -   │ Secure Channel
 ```
 
 ### Status Page Management
@@ -205,7 +205,7 @@ Legal/Compliance    │  ✅   │   -   │   -   │   -   │ Secure Channel
 Status Page Update Template
 ==========================
 
-🔴 [CRITICAL] Service Outage - Investigating
+[CRITICAL] [CRITICAL] Service Outage - Investigating
 Posted: 2024-01-15 14:30 UTC
 Affected: All users unable to access main application
 
@@ -238,24 +238,24 @@ Updates:
 Incident Monitoring Dashboard
 ============================
 
-🚨 Active Incidents (2)
+[ALERT] Active Incidents (2)
 ├── INC-001: Critical outage - 45 minutes elapsed
 └── INC-002: Performance degradation - 2 hours elapsed
 
-📊 System Health Overview
-├── Error Rate: 12.3% (⬆️ 8.1% from baseline)
-├── Response Time: 2.4s (⬆️ 1.8s from baseline)  
-├── Throughput: 1,247 req/min (⬇️ 45% from baseline)
-├── CPU Usage: 89% (⬆️ 34% from baseline)
-└── Memory Usage: 76% (⬆️ 12% from baseline)
+[STATS] System Health Overview
+├── Error Rate: 12.3% ([UP] 8.1% from baseline)
+├── Response Time: 2.4s ([UP] 1.8s from baseline)  
+├── Throughput: 1,247 req/min ([DOWN] 45% from baseline)
+├── CPU Usage: 89% ([UP] 34% from baseline)
+└── Memory Usage: 76% ([UP] 12% from baseline)
 
-🔍 Recent Anomalies
+[SCAN] Recent Anomalies
 ├── 14:25: Spike in database connection errors
 ├── 14:28: Load balancer health check failures
 ├── 14:30: Customer report surge (+300% support tickets)
 └── 14:32: Third-party API response degradation
 
-🛠️ Active Remediation
+[TOOLS] Active Remediation
 ├── Database connection pool increased
 ├── Additional application instances deployed
 ├── CDN cache refresh initiated
@@ -427,25 +427,25 @@ integrations:
 Monthly Incident Report
 ======================
 
-📊 Incident Statistics (January 2024)
+[STATS] Incident Statistics (January 2024)
 ├── Total Incidents: 47
 ├── SEV-1 (Critical): 2 incidents
 ├── SEV-2 (High): 8 incidents  
 ├── SEV-3 (Medium): 23 incidents
 ├── SEV-4 (Low): 14 incidents
 
-⏱️ Response Time Metrics
+[TIME] Response Time Metrics
 ├── Mean Time to Detection (MTTD): 8.3 minutes
 ├── Mean Time to Response (MTTR): 23.7 minutes
 ├── Mean Time to Resolution (MTTR): 2.4 hours
 
-📈 Trends and Improvements
+[METRICS] Trends and Improvements
 ├── Response time improved by 15% vs. December
 ├── Detection time reduced by 22% vs. December
 ├── 87% of incidents resolved within SLA
 ├── Customer satisfaction: 4.2/5.0 (+0.3 vs. December)
 
-🎯 Key Improvements This Month
+[TARGET] Key Improvements This Month
 ├── Implemented automated log collection
 ├── Enhanced monitoring for database connections
 ├── Updated incident response training

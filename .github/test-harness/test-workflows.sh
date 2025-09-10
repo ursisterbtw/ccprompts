@@ -16,23 +16,23 @@ PASSED=0
 FAILED=0
 WARNINGS=0
 
-echo -e "${BLUE}🧪 CI/CD Workflow Test Harness${NC}"
+echo -e "${BLUE}[TEST] CI/CD Workflow Test Harness${NC}"
 echo "================================"
 echo ""
 
 # Function to log test results
 log_pass() {
-    echo -e "${GREEN}✅ PASS:${NC} $1"
+    echo -e "${GREEN}[OK] PASS:${NC} $1"
     ((PASSED++))
 }
 
 log_fail() {
-    echo -e "${RED}❌ FAIL:${NC} $1"
+    echo -e "${RED}[ERROR] FAIL:${NC} $1"
     ((FAILED++))
 }
 
 log_warn() {
-    echo -e "${YELLOW}⚠️  WARN:${NC} $1"
+    echo -e "${YELLOW}[WARNING]  WARN:${NC} $1"
     ((WARNINGS++))
 }
 
@@ -227,11 +227,11 @@ echo -e "Warnings: ${YELLOW}$WARNINGS${NC}"
 echo ""
 
 if [ $FAILED -eq 0 ]; then
-    echo -e "${GREEN}✅ All critical tests passed!${NC}"
+    echo -e "${GREEN}[OK] All critical tests passed!${NC}"
     echo -e "${GREEN}The workflows are ready for deployment.${NC}"
     exit 0
 else
-    echo -e "${RED}❌ Some tests failed!${NC}"
+    echo -e "${RED}[ERROR] Some tests failed!${NC}"
     echo -e "${RED}Please fix the issues before deploying.${NC}"
     exit 1
 fi
