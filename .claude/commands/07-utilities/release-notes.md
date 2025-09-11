@@ -86,7 +86,7 @@ New Features (12 items):
 │   ├── PR: #178 - Rate Limiting Middleware
 │   └── Impact: Improved system stability and fair usage
 
-🐛 Bug Fixes (8 items):
+Bug Fixes (8 items):
 ├── Payment Processing Timeout (Customer Impact: Critical)
 │   ├── Issue: #189 - Payment processing failures
 │   ├── PR: #192 - Fix payment timeout handling

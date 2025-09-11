@@ -42,7 +42,7 @@ Implements comprehensive compliance automation and security hardening:
 - **Basic Compliance**: `/comply soc2 basic` - Essential compliance measures
 
 
-## 📜 Compliance Automation Framework (migrated from legacy Compliance Automation prompt)
+##  Compliance Automation Framework (migrated from legacy Compliance Automation prompt)
 
 - Evidence collection playbooks for SOC2, GDPR, HIPAA and PCI-DSS
 - Continuous controls monitoring with real-time alert thresholds

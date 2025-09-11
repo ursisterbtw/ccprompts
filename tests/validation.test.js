@@ -133,7 +133,7 @@ describe('ccprompts Validation System', () => {
     });
 
     test('should extract parameters correctly', () => {
-      const contentWithParams = `# Test Command
+      const contentWithParams = `# test Command
 
 ## Parameters
 
@@ -154,7 +154,7 @@ describe('ccprompts Validation System', () => {
     });
 
     test('should extract examples correctly', () => {
-      const contentWithExamples = `# Test Command
+      const contentWithExamples = `# test Command
 
 ## Examples
 
@@ -231,7 +231,7 @@ describe('ccprompts Validation System', () => {
   describe('Security Validation', () => {
     test('should detect security issues in code blocks', () => {
       const insecureContent = `
-# Test Command
+# test Command
 
 \`\`\`bash
 password="hardcoded-secret-123"
@@ -248,7 +248,7 @@ eval(user_input)
 
     test('should ignore security patterns in examples/placeholders', () => {
       const exampleContent = `
-# Test Command
+# test Command
 
 \`\`\`bash
 password="your-password-here"

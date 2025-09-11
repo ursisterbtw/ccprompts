@@ -765,7 +765,7 @@ class CommandValidator {
     log('green', `[OK] Total files processed: ${this.stats.totalFiles}`);
     log('green', `[OK] Command files: ${this.stats.commandFiles}`);
     log('green', `[OK] Valid files: ${this.stats.validFiles}`);
-    log('cyan', `⏱️  Validation completed in ${duration}ms`);
+    log('cyan', `Validation completed in ${duration}ms`);
 
     if (this.stats.securityIssues > 0) {
       log('red', `[SECURITY]  Security issues found: ${this.stats.securityIssues}`);

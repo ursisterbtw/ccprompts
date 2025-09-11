@@ -297,7 +297,7 @@ Pre-Commit Summary Report
 ├── [OK] Passed: 12 checks
 ├── [WARNING]  Warnings: 2 checks  
 ├── [ERROR] Failed: 1 check
-└── ⏭️  Skipped: 0 checks
+└── Skipped: 0 checks
 
 [TIME] Performance Metrics
 ├── Total Execution Time: 8m 34s

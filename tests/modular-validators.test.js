@@ -89,7 +89,7 @@ describe('Modular Validator Components', () => {
     test('should score high-quality content appropriately', () => {
       if (QualityScorer && QualityScorer.scorePromptQuality) {
         const highQualityContent = `
-# High Quality Command
+# high Quality Command
 
 ## Description
 Comprehensive description with detailed explanations and context.
@@ -128,7 +128,7 @@ Detailed description of expected results.
     test('should penalize low-quality content', () => {
       if (QualityScorer && QualityScorer.scorePromptQuality) {
         const lowQualityContent = `
-# Basic Command
+# basic Command
 Some text.
 `;
 
