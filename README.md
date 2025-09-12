@@ -5,9 +5,9 @@
 <div align="center">
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
   [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ursisterbtw/ccprompts)
-
+  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+  
 </div>
 
 # ccprompts – claude code command collection
