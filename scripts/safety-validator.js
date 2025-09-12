@@ -88,11 +88,6 @@ class SafetyValidator {
               codeSnippet: blockContent.substring(0, 100) + (blockContent.length > 100 ? '...' : ''),
               language: typeof block === 'string' ? undefined : block.language
             });
-
-            // early exit for critical patterns to avoid over-reporting
-            if (severity === 'critical') {
-              break;
-            }
           }
         }
       }
