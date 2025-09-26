@@ -1,40 +1,14 @@
 {
   "name": "ccprompts",
-  "version": "0.2.0",
-  "description": "Comprehensive collection of Claude Code-specific developer commands",
-  "main": "scripts/validate-commands.js",
-  "scripts": {
-    "test": "jest && EXPECTED_COMMAND_COUNT=70 node scripts/validate-commands.js",
-    "test:jest": "jest",
-    "test:validate": "EXPECTED_COMMAND_COUNT=70 node scripts/validate-commands.js",
-    "validate": "EXPECTED_COMMAND_COUNT=70 node scripts/validate-commands.js",
-    "lint": "markdownlint .claude/commands/**/*.md README.md CLAUDE.md docs/CC-SDK.md",
-    "lint:fix": "markdownlint .claude/commands/**/*.md README.md CLAUDE.md docs/CC-SDK.md --fix",
-    "check-links": "find . -name '*.md' -not -path './node_modules/*' | xargs markdown-link-check --config .github/markdown-link-check.json",
-    "security-scan": "node scripts/validate-commands.js --security-only",
-    "safety-validate": "node scripts/safety-validator.js",
-    "ci": "bun run validate && bun run lint && bun run check-links",
-    "precommit": "bun run validate"
-  },
+  "version": "1.0.0",
+  "description": "Lightweight Claude Code prompt library",
+  "license": "MIT",
   "keywords": [
     "claude",
     "claude-code",
-    "ai",
-    "development",
-    "automation",
-    "commands"
+    "prompts",
+    "workflow"
   ],
-  "author": "Claude Code Community",
-  "license": "MIT",
-  "engines": {
-    "node": ">=18.0.0 <23.0.0"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0",
-    "markdown-link-check": "3.13.7",
-    "markdownlint": "0.38.0",
-    "markdownlint-cli": "0.45.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ursisterbtw/ccprompts.git"
@@ -42,9 +16,5 @@
   "bugs": {
     "url": "https://github.com/ursisterbtw/ccprompts/issues"
   },
-  "homepage": "https://github.com/ursisterbtw/ccprompts#readme",
-  "packageManager": "bun@1.1.34",
-  "dependencies": {
-    "@dagger.io/dagger": "^0.18.16"
-  }
+  "homepage": "https://github.com/ursisterbtw/ccprompts#readme"
 }

@@ -1,25 +1,5 @@
 *.env
-secrets/
-.cursor/
-.windsurf/
-dev/
-src/
-
-# Claude Code specific
-.claude/cache/
-.claude/logs/
-.claude/temp/
-.claude/sessions/
-.claude/learning/progress.json
-.claude/learning/team-progress.json
-.claude/command-registry.json
-
-# Local development
 *.local
 .DS_Store
 node_modules/
 __pycache__/
-*.pyc
-.vscode/settings.json
-.idea/
-coverage/
