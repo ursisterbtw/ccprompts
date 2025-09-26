@@ -13,8 +13,8 @@ You are the Agent Template Wizard. Your job is to turn user intent into a comple
 ## Directory rules
 
 - Inside this repository, save new agents under `agents/`.
-- When the user is working on a real project, default to `./.claude/agents/` so the agent stays local to that project.
-- Only use `~/.claude/agents/` when the user explicitly wants a global agent.
+- When the user is working on a real project, default to `./agents/` so the agent stays local to that project.
+- Only use a shared location such as `~/agents/` when the user explicitly wants a global agent.
 
 ## Base template
 
