@@ -4,60 +4,11 @@
  * Validates that the ccprompts repository is properly configured as a Claude Code plugin
  */
 
-const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
-// Security utility to get safe file paths - whitelist approach with path.relative validation
-function getSafePath(filePath, projectRoot) {
-  // Whitelist of allowed file paths only
-  const allowedFiles = {
-    'package.json': path.join(projectRoot, 'package.json'),
-    'README.md': path.join(projectRoot, 'README.md'),
-    'PLUGIN.md': path.join(projectRoot, 'PLUGIN.md'),
-    'CLAUDE.md': path.join(projectRoot, 'CLAUDE.md'),
-    '.claude-plugin/plugin.json': path.join(projectRoot, '.claude-plugin', 'plugin.json'),
-    '.claude-plugin/marketplace.json': path.join(projectRoot, '.claude-plugin', 'marketplace.json')
-  };
-
-  // Whitelist of allowed directories
-  const allowedDirs = {
-    '.claude/commands': path.join(projectRoot, '.claude', 'commands'),
-    '.claude/agents': path.join(projectRoot, '.claude', 'agents'),
-    'commands': path.join(projectRoot, 'commands'),
-    'agents': path.join(projectRoot, 'agents')
-  };
-
-  // Check if it's an allowed file
-  if (allowedFiles[filePath]) {
-    return allowedFiles[filePath];
-  }
-
-  // Check if it's an allowed directory
-  if (allowedDirs[filePath]) {
-    return allowedDirs[filePath];
-  }
-
-  // Check if it's a subdirectory of an allowed directory using path.relative for security
-  for (const [dirName, dirPath] of Object.entries(allowedDirs)) {
-    if (filePath.startsWith(dirName + path.sep) || filePath === dirName) {
-      const resolvedPath = path.resolve(projectRoot, filePath);
-      const normalizedProjectRoot = path.resolve(projectRoot);
-
-      // Use path.relative for proper cross-platform path traversal detection
-      const rel = path.relative(normalizedProjectRoot, resolvedPath);
-
-      // Allow if rel is empty (same path) or doesn't start with '..' and is not '..'
-      if (rel === '' || (rel && !rel.startsWith('..' + path.sep) && rel !== '..')) {
-        return resolvedPath;
-      } else {
-        throw new Error('Path traversal detected: ' + filePath);
-      }
-    }
-  }
-
-  throw new Error('Access denied: ' + filePath);
-}
+// Import utility modules
+const { fileExists, isSymlink, readJSON, readFile, countFiles, readSymlinkTarget } = require('../lib/fsUtils');
+const { isGitRepo, getTrackedFiles, hasUntrackedFiles } = require('../lib/gitUtils');
 
 // Colors for output
 const colors = {
@@ -116,8 +67,7 @@ class PluginValidator {
 
   fileExists(filePath) {
     try {
-      const fullPath = getSafePath(filePath, this.projectRoot);
-      return fs.existsSync(fullPath);
+      return fileExists(filePath, this.projectRoot);
     } catch (error) {
       this.error(`Invalid file path: ${filePath}`);
       return false;
@@ -126,8 +76,7 @@ class PluginValidator {
 
   isSymlink(linkPath) {
     try {
-      const fullPath = getSafePath(linkPath, this.projectRoot);
-      return fs.lstatSync(fullPath).isSymbolicLink();
+      return isSymlink(linkPath, this.projectRoot);
     } catch (error) {
       return false;
     }
@@ -135,9 +84,7 @@ class PluginValidator {
 
   readJSON(filePath) {
     try {
-      const fullPath = getSafePath(filePath, this.projectRoot);
-      const content = fs.readFileSync(fullPath, 'utf8');
-      return JSON.parse(content);
+      return readJSON(filePath, this.projectRoot);
     } catch (e) {
       this.error(`Failed to read ${filePath}: ${e.message}`);
       return null;
@@ -146,8 +93,7 @@ class PluginValidator {
 
   readFile(filePath) {
     try {
-      const fullPath = getSafePath(filePath, this.projectRoot);
-      return fs.readFileSync(fullPath, 'utf8');
+      return readFile(filePath, this.projectRoot);
     } catch (e) {
       this.error(`Failed to read ${filePath}: ${e.message}`);
       return null;
@@ -156,25 +102,7 @@ class PluginValidator {
 
   countFiles(dir, pattern) {
     try {
-      const fullPath = getSafePath(dir, this.projectRoot);
-      let count = 0;
-      const regex = new RegExp('^' + pattern.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$');
-
-      const walk = (currentPath) => {
-        if (!fs.existsSync(currentPath)) return;
-        const entries = fs.readdirSync(currentPath, { withFileTypes: true });
-        for (const entry of entries) {
-          const entryPath = path.join(currentPath, entry.name);
-          if (entry.isDirectory()) {
-            walk(entryPath);
-          } else if (entry.isFile() && regex.test(entry.name)) {
-            count++;
-          }
-        }
-      };
-
-      walk(fullPath);
-      return count;
+      return countFiles(dir, pattern, this.projectRoot);
     } catch (error) {
       this.error(`Failed to count files in ${dir}: ${error.message}`);
       return 0;
@@ -249,8 +177,8 @@ class PluginValidator {
       allValid = false;
     } else {
       try {
-        const target = fs.readlinkSync(path.join(this.projectRoot, 'commands'));
-        if (target !== '.claude/commands' && target !== '.claude/commands/') {
+        const target = readSymlinkTarget('commands', this.projectRoot);
+        if (target && target !== '.claude/commands' && target !== '.claude/commands/') {
           this.warning(`commands/ points to ${target}, expected .claude/commands/`);
         }
         this.success('commands/ symlink is valid');
@@ -269,8 +197,8 @@ class PluginValidator {
       allValid = false;
     } else {
       try {
-        const target = fs.readlinkSync(path.join(this.projectRoot, 'agents'));
-        if (target !== '.claude/agents' && target !== '.claude/agents/') {
+        const target = readSymlinkTarget('agents', this.projectRoot);
+        if (target && target !== '.claude/agents' && target !== '.claude/agents/') {
           this.warning(`agents/ points to ${target}, expected .claude/agents/`);
         }
         this.success('agents/ symlink is valid');
@@ -367,42 +295,23 @@ class PluginValidator {
     this.info('Checking git status...');
 
     // Validate that the working directory is a git repository
-    try {
-      const isGitRepo = execSync('git rev-parse --is-inside-work-tree', {
-        cwd: this.projectRoot,
-        encoding: 'utf8',
-        stdio: ['pipe', 'pipe', 'ignore']
-      }).trim() === 'true';
-
-      if (!isGitRepo) {
-        this.warning('Not inside a git repository. Skipping git status checks.');
-        return true;
-      }
-    } catch {
+    if (!isGitRepo(this.projectRoot)) {
       this.warning('Not inside a git repository. Skipping git status checks.');
       return true;
     }
 
     try {
       // Check if symlinks are tracked
-      const status = execSync('git ls-files commands agents', {
-        cwd: this.projectRoot,
-        encoding: 'utf8'
-      }).trim();
+      const trackedFiles = getTrackedFiles('commands agents', this.projectRoot);
 
-      if (!status.includes('commands') || !status.includes('agents')) {
+      if (!trackedFiles || !trackedFiles.includes('commands') || !trackedFiles.includes('agents')) {
         this.warning('Symlinks may not be tracked in git. Consider adding them with: git add commands agents');
       } else {
         this.success('Symlinks are tracked in git');
       }
 
       // Check for untracked plugin files
-      const untracked = execSync('git status --short', {
-        cwd: this.projectRoot,
-        encoding: 'utf8'
-      });
-
-      if (untracked.includes('.claude-plugin/')) {
+      if (hasUntrackedFiles('.claude-plugin/', this.projectRoot)) {
         this.warning('Plugin configuration files are untracked. Consider: git add .claude-plugin/');
       }
 
