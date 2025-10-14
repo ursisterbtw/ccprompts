@@ -14,7 +14,7 @@
     "check-links": "find . -name '*.md' -not -path './node_modules/*' | xargs markdown-link-check --config .github/markdown-link-check.json",
     "security-scan": "node scripts/validate-commands.js --security-only",
     "safety-validate": "node scripts/safety-validator.js",
-    "ci": "bun run validate && bun run lint && bun run check-links",
+    "ci": "bun run validate:plugin && bun run validate && bun run lint && bun run check-links",
     "ci:plugin": "bun run validate:plugin && bun run validate && bun run lint",
     "precommit": "bun run validate"
   },

@@ -8,6 +8,22 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
+// Security utility to validate paths and prevent directory traversal
+function validatePath(inputPath, projectRoot) {
+  if (!inputPath || typeof inputPath !== 'string') {
+    throw new Error('Invalid path input');
+  }
+
+  const resolvedPath = path.resolve(projectRoot, inputPath);
+  const normalizedProjectRoot = path.resolve(projectRoot);
+
+  if (!resolvedPath.startsWith(normalizedProjectRoot)) {
+    throw new Error('Path traversal detected');
+  }
+
+  return resolvedPath;
+}
+
 // Colors for output
 const colors = {
   reset: '\x1b[0m',
@@ -64,23 +80,39 @@ class PluginValidator {
   }
 
   fileExists(filePath) {
-    return fs.existsSync(path.join(this.projectRoot, filePath));
+    try {
+      const fullPath = validatePath(filePath, this.projectRoot);
+      return fs.existsSync(fullPath);
+    } catch (error) {
+      this.error(`Invalid file path: ${filePath}`);
+      return false;
+    }
   }
 
   isSymlink(linkPath) {
     try {
-      const fullPath = path.join(this.projectRoot, linkPath);
+      const fullPath = validatePath(linkPath, this.projectRoot);
       return fs.lstatSync(fullPath).isSymbolicLink();
     } catch (error) {
       return false;
-    }
     }
   }
 
   readJSON(filePath) {
     try {
-      const fullPath = path.join(this.projectRoot, filePath);
-      return JSON.parse(fs.readFileSync(fullPath, 'utf8'));
+      const fullPath = validatePath(filePath, this.projectRoot);
+      const content = fs.readFileSync(fullPath, 'utf8');
+      return JSON.parse(content);
+    } catch (e) {
+      this.error(`Failed to read ${filePath}: ${e.message}`);
+      return null;
+    }
+  }
+
+  readFile(filePath) {
+    try {
+      const fullPath = validatePath(filePath, this.projectRoot);
+      return fs.readFileSync(fullPath, 'utf8');
     } catch (e) {
       this.error(`Failed to read ${filePath}: ${e.message}`);
       return null;
@@ -88,28 +120,30 @@ class PluginValidator {
   }
 
   countFiles(dir, pattern) {
-    // Use fs and path to recursively count files matching the pattern
-    const fullPath = path.join(this.projectRoot, dir);
-    let count = 0;
-    const regex = new RegExp('^' + pattern.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$');
-    function walk(currentPath) {
-      if (!fs.existsSync(currentPath)) return;
-      const entries = fs.readdirSync(currentPath, { withFileTypes: true });
-      for (const entry of entries) {
-        const entryPath = path.join(currentPath, entry.name);
-        if (entry.isDirectory()) {
-          walk(entryPath);
-        } else if (entry.isFile() && regex.test(entry.name)) {
-          count++;
-        }
-      }
-    }
     try {
+      const fullPath = validatePath(dir, this.projectRoot);
+      let count = 0;
+      const regex = new RegExp('^' + pattern.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$');
+
+      const walk = (currentPath) => {
+        if (!fs.existsSync(currentPath)) return;
+        const entries = fs.readdirSync(currentPath, { withFileTypes: true });
+        for (const entry of entries) {
+          const entryPath = path.join(currentPath, entry.name);
+          if (entry.isDirectory()) {
+            walk(entryPath);
+          } else if (entry.isFile() && regex.test(entry.name)) {
+            count++;
+          }
+        }
+      };
+
+      walk(fullPath);
+      return count;
     } catch (error) {
+      this.error(`Failed to count files in ${dir}: ${error.message}`);
       return 0;
     }
-    }
-    return count;
   }
 
   // Validation checks
@@ -179,11 +213,16 @@ class PluginValidator {
       this.error('commands/ exists but is not a symlink');
       allValid = false;
     } else {
-      const target = fs.readlinkSync(path.join(this.projectRoot, 'commands'));
-      if (target !== '.claude/commands' && target !== '.claude/commands/') {
-        this.warning(`commands/ points to ${target}, expected .claude/commands/`);
+      try {
+        const target = fs.readlinkSync(path.join(this.projectRoot, 'commands'));
+        if (target !== '.claude/commands' && target !== '.claude/commands/') {
+          this.warning(`commands/ points to ${target}, expected .claude/commands/`);
+        }
+        this.success('commands/ symlink is valid');
+      } catch (error) {
+        this.error('Failed to read commands symlink target');
+        allValid = false;
       }
-      this.success('commands/ symlink is valid');
     }
 
     // Check agents symlink
@@ -194,11 +233,16 @@ class PluginValidator {
       this.error('agents/ exists but is not a symlink');
       allValid = false;
     } else {
-      const target = fs.readlinkSync(path.join(this.projectRoot, 'agents'));
-      if (target !== '.claude/agents' && target !== '.claude/agents/') {
-        this.warning(`agents/ points to ${target}, expected .claude/agents/`);
+      try {
+        const target = fs.readlinkSync(path.join(this.projectRoot, 'agents'));
+        if (target !== '.claude/agents' && target !== '.claude/agents/') {
+          this.warning(`agents/ points to ${target}, expected .claude/agents/`);
+        }
+        this.success('agents/ symlink is valid');
+      } catch (error) {
+        this.error('Failed to read agents symlink target');
+        allValid = false;
       }
-      this.success('agents/ symlink is valid');
     }
 
     return allValid;
@@ -269,21 +313,21 @@ class PluginValidator {
       { file: 'README.md', desc: 'Main README' },
       { file: 'PLUGIN.md', desc: 'Plugin installation guide' },
       { file: 'CLAUDE.md', desc: 'Claude Code configuration' }
-  validateGitStatus() {
-    this.info('Checking git status...');
+    ];
 
-    try {
-      // Ensure cwd is within projectRoot to prevent command injection
-      const resolvedCwd = path.resolve(this.projectRoot);
-      if (!resolvedCwd.startsWith(process.cwd())) {
-        this.warning('Project root is outside the current working directory. Skipping git status checks for safety.');
-        return true;
+    let allValid = true;
+    for (const doc of requiredDocs) {
+      if (!this.fileExists(doc.file)) {
+        this.error(`${doc.desc} (${doc.file}) not found`);
+        allValid = false;
+      } else {
+        this.success(`${doc.desc} found`);
       }
+    }
 
-      // Check if symlinks are tracked
-      const status = execSync('git ls-files commands agents', {
-        cwd: resolvedCwd,
-        encoding: 'utf8'
+    return allValid;
+  }
+
   validateGitStatus() {
     this.info('Checking git status...');
 
@@ -334,19 +378,43 @@ class PluginValidator {
     return true;
   }
 
-    } catch (e) {
-      this.warning('Could not check git status (not a git repository?)');
-    }
-
-    return true;
-  }
-
   validatePackageJson() {
     this.info('Validating package.json...');
 
     if (!this.fileExists('package.json')) {
       this.error('package.json not found');
       return false;
+    }
+
+    const pkg = this.readJSON('package.json');
+    if (!pkg) return false;
+
+    const requiredFields = ['name', 'version', 'description'];
+    let valid = true;
+
+    for (const field of requiredFields) {
+      if (!pkg[field]) {
+        this.error(`package.json missing required field: ${field}`);
+        valid = false;
+      }
+    }
+
+    if (pkg.name !== 'ccprompts') {
+      this.warning(`package.json name is "${pkg.name}", expected "ccprompts"`);
+    }
+
+    // Check for plugin validation script
+    if (!pkg.scripts || !pkg.scripts['validate:plugin']) {
+      this.warning('package.json missing validate:plugin script');
+    }
+
+    if (valid) {
+      this.success('package.json validation passed');
+    }
+
+    return valid;
+  }
+
   run() {
     console.log(`${colors.cyan}╔════════════════════════════════════════════╗${colors.reset}`);
     console.log(`${colors.cyan}║   CC Prompts Plugin Structure Validator   ║${colors.reset}`);
@@ -381,26 +449,8 @@ class PluginValidator {
       return 1;
     }
   }
-    console.log(`\n${colors.cyan}════════════════ Summary ═══════════════${colors.reset}`);
-    console.log(`${colors.green}✓ Successes: ${this.successes.length}${colors.reset}`);
-    console.log(`${colors.yellow}⚠ Warnings:  ${this.warnings.length}${colors.reset}`);
-const validator = new PluginValidator();
-process.exit(validator.run());
-    if (this.errors.length === 0) {
-      console.log(`\n${colors.green}✓ Plugin structure is valid and ready for distribution!${colors.reset}`);
-      console.log(`\nNext steps:`);
-      console.log(`  1. Test locally: ./scripts/test-plugin-local.sh`);
-      console.log(`  2. Commit changes: git add . && git commit -m "feat: configure as Claude Code plugin"`);
-      console.log(`  3. Push to GitHub: git push`);
-      console.log(`  4. Install in other projects: /plugin marketplace add ursisterbtw/ccprompts`);
-      return 0;
-    } else {
-      console.log(`\n${colors.red}✗ Plugin structure has errors that need to be fixed${colors.reset}`);
-      return 1;
-    }
-  }
 }
 
 // Run validator
 const validator = new PluginValidator();
-validator.run().then(code => process.exit(code));
+process.exit(validator.run());

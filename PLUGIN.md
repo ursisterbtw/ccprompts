@@ -320,11 +320,11 @@ bun run test:validate
 
 ### Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
-- Adding new commands
-- Creating agents
-- Improving safety systems
-- Documentation standards
+For contribution guidelines:
+- Check the repository documentation for command addition patterns
+- Follow existing agent templates in `.claude/agents/`
+- Maintain safety standards in validation scripts
+- Use consistent markdown formatting across all commands
 
 ## Support and Community
 
