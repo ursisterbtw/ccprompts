@@ -361,7 +361,7 @@ class PluginValidator {
 
   run() {
     console.log(`${colors.cyan}╔════════════════════════════════════════════╗${colors.reset}`);
-    console.log(`${colors.cyan}║   CC Prompts Plugin Structure Validator   ║${colors.reset}`);
+    console.log(`${colors.cyan}║   CC Prompts Plugin Structure Validator    ║${colors.reset}`);
     console.log(`${colors.cyan}╚════════════════════════════════════════════╝${colors.reset}\n`);
 
     // Run all validations
