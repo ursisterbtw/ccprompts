@@ -1,0 +1,41 @@
+{
+  "name": "ccprompts",
+  "description": "Comprehensive collection of 70+ Claude Code slash commands and 10 specialized agents for modern software development workflows",
+  "version": "0.2.0",
+  "author": {
+    "name": "Claude Code Community",
+    "url": "https://github.com/ursisterbtw/ccprompts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ursisterbtw/ccprompts.git"
+  },
+  "homepage": "https://github.com/ursisterbtw/ccprompts#readme",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "slash-commands",
+    "agents",
+    "development-workflow",
+    "automation",
+    "safety",
+    "validation",
+    "mcp",
+    "enterprise-scale"
+  ],
+  "categories": [
+    "Development",
+    "Automation",
+    "Security",
+    "Testing"
+  ],
+  "engines": {
+    "claude-code": ">=1.0.0"
+  },
+  "capabilities": [
+    "slash-commands",
+    "agents",
+    "workflows",
+    "safety-validation"
+  ]
+}
