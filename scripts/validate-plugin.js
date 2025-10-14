@@ -8,20 +8,48 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-// Security utility to validate paths and prevent directory traversal
-function validatePath(inputPath, projectRoot) {
-  if (!inputPath || typeof inputPath !== 'string') {
-    throw new Error('Invalid path input');
+// Security utility to get safe file paths - whitelist approach
+function getSafePath(filePath, projectRoot) {
+  // Whitelist of allowed file paths only
+  const allowedFiles = {
+    'package.json': path.join(projectRoot, 'package.json'),
+    'README.md': path.join(projectRoot, 'README.md'),
+    'PLUGIN.md': path.join(projectRoot, 'PLUGIN.md'),
+    'CLAUDE.md': path.join(projectRoot, 'CLAUDE.md'),
+    '.claude-plugin/plugin.json': path.join(projectRoot, '.claude-plugin', 'plugin.json'),
+    '.claude-plugin/marketplace.json': path.join(projectRoot, '.claude-plugin', 'marketplace.json')
+  };
+
+  // Whitelist of allowed directories
+  const allowedDirs = {
+    '.claude/commands': path.join(projectRoot, '.claude', 'commands'),
+    '.claude/agents': path.join(projectRoot, '.claude', 'agents'),
+    'commands': path.join(projectRoot, 'commands'),
+    'agents': path.join(projectRoot, 'agents')
+  };
+
+  // Check if it's an allowed file
+  if (allowedFiles[filePath]) {
+    return allowedFiles[filePath];
   }
 
-  const resolvedPath = path.resolve(projectRoot, inputPath);
-  const normalizedProjectRoot = path.resolve(projectRoot);
-
-  if (!resolvedPath.startsWith(normalizedProjectRoot)) {
-    throw new Error('Path traversal detected');
+  // Check if it's an allowed directory
+  if (allowedDirs[filePath]) {
+    return allowedDirs[filePath];
   }
 
-  return resolvedPath;
+  // Check if it's a subdirectory of an allowed directory
+  for (const [dirName, dirPath] of Object.entries(allowedDirs)) {
+    if (filePath.startsWith(dirName + '/')) {
+      const relativePath = filePath.substring(dirName.length + 1);
+      // Ensure no path traversal in relative path
+      if (!relativePath.includes('..') && !relativePath.includes('~')) {
+        return path.join(dirPath, relativePath);
+      }
+    }
+  }
+
+  throw new Error('Access denied: ' + filePath);
 }
 
 // Colors for output
@@ -81,7 +109,7 @@ class PluginValidator {
 
   fileExists(filePath) {
     try {
-      const fullPath = validatePath(filePath, this.projectRoot);
+      const fullPath = getSafePath(filePath, this.projectRoot);
       return fs.existsSync(fullPath);
     } catch (error) {
       this.error(`Invalid file path: ${filePath}`);
@@ -91,7 +119,7 @@ class PluginValidator {
 
   isSymlink(linkPath) {
     try {
-      const fullPath = validatePath(linkPath, this.projectRoot);
+      const fullPath = getSafePath(linkPath, this.projectRoot);
       return fs.lstatSync(fullPath).isSymbolicLink();
     } catch (error) {
       return false;
@@ -100,7 +128,7 @@ class PluginValidator {
 
   readJSON(filePath) {
     try {
-      const fullPath = validatePath(filePath, this.projectRoot);
+      const fullPath = getSafePath(filePath, this.projectRoot);
       const content = fs.readFileSync(fullPath, 'utf8');
       return JSON.parse(content);
     } catch (e) {
@@ -111,7 +139,7 @@ class PluginValidator {
 
   readFile(filePath) {
     try {
-      const fullPath = validatePath(filePath, this.projectRoot);
+      const fullPath = getSafePath(filePath, this.projectRoot);
       return fs.readFileSync(fullPath, 'utf8');
     } catch (e) {
       this.error(`Failed to read ${filePath}: ${e.message}`);
@@ -121,7 +149,7 @@ class PluginValidator {
 
   countFiles(dir, pattern) {
     try {
-      const fullPath = validatePath(dir, this.projectRoot);
+      const fullPath = getSafePath(dir, this.projectRoot);
       let count = 0;
       const regex = new RegExp('^' + pattern.replace(/\./g, '\\.').replace(/\*/g, '.*') + '$');
 
