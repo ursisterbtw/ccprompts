@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-// Security utility to get safe file paths - whitelist approach
+// Security utility to get safe file paths - whitelist approach with path.relative validation
 function getSafePath(filePath, projectRoot) {
   // Whitelist of allowed file paths only
   const allowedFiles = {
@@ -38,13 +38,20 @@ function getSafePath(filePath, projectRoot) {
     return allowedDirs[filePath];
   }
 
-  // Check if it's a subdirectory of an allowed directory
+  // Check if it's a subdirectory of an allowed directory using path.relative for security
   for (const [dirName, dirPath] of Object.entries(allowedDirs)) {
-    if (filePath.startsWith(dirName + '/')) {
-      const relativePath = filePath.substring(dirName.length + 1);
-      // Ensure no path traversal in relative path
-      if (!relativePath.includes('..') && !relativePath.includes('~')) {
-        return path.join(dirPath, relativePath);
+    if (filePath.startsWith(dirName + path.sep) || filePath === dirName) {
+      const resolvedPath = path.resolve(projectRoot, filePath);
+      const normalizedProjectRoot = path.resolve(projectRoot);
+
+      // Use path.relative for proper cross-platform path traversal detection
+      const rel = path.relative(normalizedProjectRoot, resolvedPath);
+
+      // Allow if rel is empty (same path) or doesn't start with '..' and is not '..'
+      if (rel === '' || (rel && !rel.startsWith('..' + path.sep) && rel !== '..')) {
+        return resolvedPath;
+      } else {
+        throw new Error('Path traversal detected: ' + filePath);
       }
     }
   }

@@ -1,6 +1,7 @@
 # CC Prompts - Claude Code Plugin Installation Guide
 
-> Transform your Claude Code experience with 70+ production-ready commands, 10 specialized agents, and enterprise-grade workflows.
+> Transform your Claude Code experience with 70+ production-ready commands, 10 specialized agents,
+> and enterprise-grade workflows.
 
 ## Quick Start
 
