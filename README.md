@@ -10,9 +10,24 @@
 
 # ccprompts – claude code command collection
 
-**ccprompts** is a collection of ~70 Claude Code commands for software development workflows with agent generation capabilities baked in. Commands include safety validation and can be used directly with Claude Code or adapted for specific needs. The agent template system provides a wizard for creating specialized subagents (e.g., security auditors, systems architects) with standardized formatting and proper tool access. For more info on subagents, see [subagents](https://docs.anthropic.com/en/docs/claude-code/sub-agents).
+**ccprompts** is a comprehensive Claude Code plugin featuring 70+ commands across 12 development phases,
+10 specialized AI agents, and a Dagger-based safety system. Install as a plugin for instant access
+to enterprise-grade workflows, or use the repository directly for customization. Commands include
+safety validation, the agent template system provides wizards for creating specialized subagents,
+and the multi-dimensional validation engine ensures quality and security. For more info on subagents,
+see [subagents](https://docs.anthropic.com/en/docs/claude-code/sub-agents).
 
-> Development Notice: This repository is under active development. Commands may contain bugs, breaking changes can occur between versions, and the structure may evolve. Use with caution in production environments.
+**Key Features:**
+- 70+ production-ready slash commands organized by development phase
+- 10 specialized AI agents for domain-specific expertise
+- Dagger container isolation for safe command execution
+- Multi-dimensional validation (structure, security, quality, performance)
+- MCP integration and workflow automation capabilities
+- Enterprise governance and multi-repo management tools
+
+> Development Notice: This repository is under active development. Commands may contain bugs,
+> breaking changes can occur between versions, and the structure may evolve.
+> Use with caution in production environments.
 
 ## Quick start
 
@@ -53,15 +68,73 @@ git clone https://github.com/ursisterbtw/ccprompts.git; and cd ccprompts; and bu
 
 ### Creating specialized agents
 
-The repository includes an agent creation system using [`templates/SUBAGENT_TEMPLATE.md`](templates/SUBAGENT_TEMPLATE.md):
+The repository includes an agent creation system using
+[`templates/SUBAGENT_TEMPLATE.md`](templates/SUBAGENT_TEMPLATE.md):
 
-1. Use the [`agent-template-wizard`](.claude/agents/agent-template-wizard.md) agent to create new specialized agents
+1. Use the [`agent-template-wizard`](.claude/agents/agent-template-wizard.md) agent to create new
+   specialized agents
 2. Provide domain expertise and specific capabilities needed
 3. Wizard fills template placeholders with consistent structure
 4. Generated agents follow 7-step methodology with proper categorization
 5. Agents include examples, color coding, and validation approaches
 
-The template system ensures consistent agent structure while allowing domain-specific customization.
+The template system ensures consistent agent structure while allowing domain-specific
+customization.
+
+---
+
+## Installation as a Plugin
+
+ccprompts can be installed as a Claude Code plugin, giving you instant access to all 70+ commands
+and 10 specialized agents in any project.
+
+### Quick Plugin Installation
+
+```bash
+# In Claude Code
+/plugin marketplace add ursisterbtw/ccprompts
+/plugin install ccprompts@ursisterbtw
+```
+
+Restart Claude Code and all commands will be available via `/help`.
+
+### Benefits of Plugin Installation
+
+- All commands available in any project without manual copying
+- Automatic updates when new versions are released
+- Clean separation between your code and the command ecosystem
+- Team-wide consistency through shared plugin configuration
+- No need to clone the repository for each project
+
+### Team Installation
+
+Add to your project's `.claude/settings.json` for automatic team-wide installation:
+
+```json
+{
+  "pluginMarketplaces": [
+    "ursisterbtw/ccprompts"
+  ],
+  "plugins": [
+    "ccprompts@ursisterbtw"
+  ]
+}
+```
+
+### Local Development
+
+For testing local changes or contributing:
+
+```bash
+# Run the test setup script
+./scripts/test-plugin-local.sh
+
+# Or manually
+/plugin marketplace add /path/to/ccprompts
+/plugin install ccprompts@ccprompts
+```
+
+For complete plugin documentation, installation methods, and troubleshooting, see [PLUGIN.md](PLUGIN.md).
 
 ---
 

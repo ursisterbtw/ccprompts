@@ -1,0 +1,198 @@
+{
+  "name": "ccprompts",
+  "displayName": "CC Prompts - Comprehensive Development Commands",
+  "version": "0.2.0",
+  "description": "70+ Claude Code slash commands across 12 development phases, featuring Dagger-based safety system, multi-dimensional validation, specialized agents, and enterprise-scale workflows",
+  "author": {
+    "name": "Claude Code Community",
+    "url": "https://github.com/ursisterbtw/ccprompts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ursisterbtw/ccprompts.git"
+  },
+  "homepage": "https://github.com/ursisterbtw/ccprompts#readme",
+  "bugs": {
+    "url": "https://github.com/ursisterbtw/ccprompts/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "ai",
+    "development",
+    "automation",
+    "commands",
+    "workflow",
+    "security",
+    "testing",
+    "deployment",
+    "collaboration",
+    "enterprise",
+    "dagger",
+    "mcp",
+    "agents"
+  ],
+  "categories": [
+    "Development",
+    "Security",
+    "Testing",
+    "Deployment",
+    "Collaboration",
+    "Enterprise"
+  ],
+  "features": {
+    "commands": 70,
+    "agents": 10,
+    "phases": 12,
+    "safety": {
+      "enabled": true,
+      "containerized": true,
+      "backend": "dagger"
+    },
+    "validation": {
+      "structural": true,
+      "security": true,
+      "quality": true,
+      "performance": true
+    },
+    "capabilities": [
+      "Project analysis and intelligent chaining",
+      "Comprehensive documentation generation",
+      "Security auditing and compliance",
+      "CI/CD and deployment automation",
+      "Code review and collaboration",
+      "MCP integration and agent orchestration",
+      "AI-native development tools",
+      "Enterprise governance and multi-repo management"
+    ]
+  },
+  "phases": [
+    {
+      "id": "00",
+      "name": "Initial Workflow",
+      "description": "Project analysis and intelligent command chaining",
+      "commands": 2
+    },
+    {
+      "id": "01",
+      "name": "Project Setup",
+      "description": "Documentation, learning, and MCP configuration",
+      "commands": 3
+    },
+    {
+      "id": "02",
+      "name": "Development",
+      "description": "Backup, debug, migrate, optimize, and refactor",
+      "commands": 5
+    },
+    {
+      "id": "03",
+      "name": "Security",
+      "description": "Security auditing and compliance frameworks",
+      "commands": 4
+    },
+    {
+      "id": "04",
+      "name": "Testing",
+      "description": "Testing and troubleshooting workflows",
+      "commands": 2
+    },
+    {
+      "id": "05",
+      "name": "Deployment",
+      "description": "CI/CD and deployment automation",
+      "commands": 4
+    },
+    {
+      "id": "06",
+      "name": "Collaboration",
+      "description": "Code review and team workflows",
+      "commands": 4
+    },
+    {
+      "id": "07",
+      "name": "Utilities",
+      "description": "Development utilities and best practices",
+      "commands": 7
+    },
+    {
+      "id": "08",
+      "name": "Extras",
+      "description": "Health checks and modernization tools",
+      "commands": 4
+    },
+    {
+      "id": "09",
+      "name": "Agentic Capabilities",
+      "description": "MCP integration and agent orchestration",
+      "commands": 12
+    },
+    {
+      "id": "10",
+      "name": "AI-Native Development",
+      "description": "AI-powered development workflows",
+      "commands": 10
+    },
+    {
+      "id": "11",
+      "name": "Enterprise Scale",
+      "description": "Governance and multi-repo management",
+      "commands": 8
+    }
+  ],
+  "agents": [
+    "rust-expert",
+    "python-expert",
+    "golang-pro",
+    "javascript-expert",
+    "bash-shell-scripting",
+    "fastapi-optimizer",
+    "documentation-writer",
+    "performance-optimizer",
+    "systems-architect",
+    "agent-template-wizard"
+  ],
+  "requirements": {
+    "claudeCode": ">=1.0.0",
+    "node": ">=18.0.0 <23.0.0"
+  },
+  "compatibility": {
+    "platforms": ["linux", "darwin", "win32"],
+    "architectures": ["x64", "arm64"]
+  },
+  "configuration": {
+    "permissions": {
+      "allow": [
+        "Bash(git:*)",
+        "Bash(npm:*)",
+        "Bash(pip:*)",
+        "Bash(cargo:*)",
+        "Read",
+        "Write",
+        "Edit",
+        "Glob",
+        "Grep"
+      ],
+      "deny": [
+        "Bash(rm -rf:*)",
+        "Bash(sudo:*)"
+      ]
+    },
+    "environment": {
+      "CLAUDE_CODE_PROJECT_TYPE": "command-ecosystem",
+      "CLAUDE_CODE_ENABLE_MCP": "1"
+    }
+  },
+  "documentation": {
+    "readme": "README.md",
+    "changelog": "CHANGELOG.md",
+    "installation": "PLUGIN.md",
+    "contributing": "CONTRIBUTING.md"
+  },
+  "support": {
+    "documentation": "https://github.com/ursisterbtw/ccprompts#readme",
+    "issues": "https://github.com/ursisterbtw/ccprompts/issues",
+    "community": "https://github.com/ursisterbtw/ccprompts/discussions"
+  }
+}
