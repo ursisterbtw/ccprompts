@@ -4,7 +4,7 @@ This command provides comprehensive technical debt management with automated det
 
 ## Usage
 
-```
+```bash
 /tech-debt [action] [scope] [priority]
 ```
 
@@ -16,7 +16,7 @@ This command provides comprehensive technical debt management with automated det
 
 ## Examples
 
-```
+```bash
 /tech-debt assess full-codebase all
 /tech-debt prioritize service high
 /tech-debt plan module critical
@@ -710,3 +710,4 @@ CLAUDE.CONFIG:
    - Establish audit trails and accountability measures
 </instructions>
 ```
+

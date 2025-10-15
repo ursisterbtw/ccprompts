@@ -4,7 +4,7 @@ This command provides comprehensive optimization workflows for performance, secu
 
 ## Usage
 
-```
+```bash
 /optimize [target]
 ```
 
@@ -25,7 +25,7 @@ Executes systematic optimization workflows targeting specific improvement areas:
 
 ## Examples
 
-```
+```bash
 /optimize performance
 /optimize security
 /optimize cost
@@ -116,4 +116,5 @@ CLAUDE.CONFIG:
    - Create comprehensive documentation and reporting
    - Establish audit trails and accountability measures
 </instructions>
-```
+```bash
+/optimize performance

@@ -4,7 +4,7 @@ This command provides access to advanced Git workflow automation and repository 
 
 ## Usage
 
-```
+```bash
 /git [operation] [complexity]
 ```
 
@@ -25,7 +25,7 @@ Implements sophisticated Git workflows and repository management:
 
 ## Examples
 
-```
+```bash
 /git setup-flow enterprise
 /git cleanup advanced
 /git migration simple
@@ -92,4 +92,5 @@ CLAUDE.CONFIG:
    - Implement conflict resolution and merge strategies
    - Enable efficient code review and approval processes
 </instructions>
-```
+```bash
+/git setup-flow enterprise

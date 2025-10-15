@@ -352,7 +352,7 @@ You will design and implement sophisticated automated workflows that coordinate 
 
 ### Workflow Steps
 
-```
+```text
 Step 1: [Agent] - [Task Description] - [Duration] - [Dependencies]
 Step 2: [Agent] - [Task Description] - [Duration] - [Dependencies]
 ...

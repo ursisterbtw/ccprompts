@@ -346,7 +346,7 @@ Automate compliance processes and auditing for regulatory frameworks.
 
 ### Compliance Status Overview
 
-```
+```text
 Compliance Posture:
 ├── Fully Compliant: [count] requirements with full compliance
 ├── Partially Compliant: [count] requirements with gaps

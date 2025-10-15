@@ -4,7 +4,7 @@ This command automates comprehensive sprint planning with intelligent capacity m
 
 ## Usage
 
-```
+```bash
 /sprint-planning [phase] [team] [duration]
 ```
 
@@ -16,7 +16,7 @@ This command automates comprehensive sprint planning with intelligent capacity m
 
 ## Examples
 
-```
+```bash
 /sprint-planning preparation current-team 2-week
 /sprint-planning estimation cross-team 3-week
 /sprint-planning planning program-level 2-week
@@ -38,7 +38,7 @@ Comprehensive sprint planning automation and optimization system:
 
 ### Preparation Phase
 
-```
+```text
 Sprint Planning Preparation - Sprint 24
 ======================================
 
@@ -78,7 +78,7 @@ Target: Business Priority Assessment:
 
 ### Estimation Phase
 
-```
+```text
 Story Point Estimation Session
 ==============================
 
@@ -132,7 +132,7 @@ Target: Recommendations:
 
 ### Planning Phase
 
-```
+```text
 Sprint 24 Planning Session Results
 =================================
 
@@ -208,7 +208,7 @@ Day 9-10: Polish and Documentation
 
 ### Commitment Phase
 
-```
+```text
 Sprint 24 Final Commitment
 =========================
 
@@ -440,7 +440,7 @@ sprint_artifacts:
 
 ### Automated Communication
 
-```
+```text
 Sprint 24 Kickoff Communication
 ==============================
 
@@ -506,7 +506,7 @@ Next update: Wednesday sprint review
 
 ### Sprint Performance Tracking
 
-```
+```text
 Sprint Planning Effectiveness Analysis
 =====================================
 
@@ -674,3 +674,4 @@ CLAUDE.CONFIG:
    - Establish audit trails and accountability measures
 </instructions>
 ```
+

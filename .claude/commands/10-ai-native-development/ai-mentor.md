@@ -344,7 +344,7 @@ You will implement sophisticated AI mentoring capabilities that provide personal
 
 ### Personalized Learning Path
 
-```
+```text
 Learning Journey:
 ├── Foundation Phase: [fundamental skills and concepts]
 ├── Development Phase: [skill building and practice]

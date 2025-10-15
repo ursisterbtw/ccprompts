@@ -2,7 +2,7 @@
 
 ## Usage
 
-```
+```bash
 /refactor [target] [type]
 ```
 

@@ -315,7 +315,7 @@ You will implement sophisticated multi-repository coordination and management ca
 
 ### Dependency Analysis
 
-```
+```text
 Repository Dependencies:
 ├── Direct Dependencies: [count] direct cross-repo dependencies
 ├── Shared Libraries: [count] shared components and libraries

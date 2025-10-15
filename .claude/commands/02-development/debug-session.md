@@ -4,7 +4,7 @@ This command provides comprehensive troubleshooting and debugging capabilities f
 
 ## Usage
 
-```
+```bash
 /debug-session [issue-type] [scope] [verbosity]
 ```
 
@@ -16,7 +16,7 @@ This command provides comprehensive troubleshooting and debugging capabilities f
 
 ## Examples
 
-```
+```bash
 /debug-session
 /debug-session connection environment detailed
 /debug-session performance current-session
@@ -426,3 +426,4 @@ CLAUDE.CONFIG:
    - Establish audit trails and accountability measures
 </instructions>
 ```
+

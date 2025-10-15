@@ -2,7 +2,7 @@
 
 ## Usage
 
-```
+```bash
 /best-practices [domain] [technology] [scope]
 ```
 
@@ -1121,3 +1121,4 @@ CLAUDE.CONFIG:
    - Maintain practice evolution and updates
 </instructions>
 ```
+

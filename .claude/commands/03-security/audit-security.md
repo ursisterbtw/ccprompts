@@ -4,7 +4,7 @@ This command provides quick access to comprehensive security and quality audit p
 
 ## Usage
 
-```
+```bash
 /audit-security [scope] [depth]
 ```
 

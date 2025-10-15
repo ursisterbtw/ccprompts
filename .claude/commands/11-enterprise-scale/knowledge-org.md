@@ -347,7 +347,7 @@ You will implement sophisticated organizational knowledge management capabilitie
 
 ### Knowledge Architecture
 
-```
+```text
 Knowledge Organization:
 ├── Strategic Knowledge: [count] strategic insights and decisions
 ├── Technical Knowledge: [count] technical documentation and guides

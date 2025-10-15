@@ -337,7 +337,7 @@ Detect and analyze design patterns in codebases.
 
 ### Design Pattern Analysis
 
-```
+```text
 Design Patterns Detected:
 ├── Creational: [count] patterns
 │   ├── Singleton: [count] implementations
@@ -376,7 +376,7 @@ Design Patterns Detected:
 
 ### Detailed Pattern Analysis
 
-```
+```text
 Pattern: [pattern-name]
 ├── Location: [file:line or component location]
 ├── Implementation Quality: [score/rating]

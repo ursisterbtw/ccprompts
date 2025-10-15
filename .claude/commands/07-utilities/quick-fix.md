@@ -4,7 +4,7 @@ This command provides targeted fixes for common development issues with minimal 
 
 ## Usage
 
-```
+```bash
 /quick-fix [issue-type]
 ```
 
@@ -25,7 +25,7 @@ Delivers rapid, targeted solutions for common development problems:
 
 ## Examples
 
-```
+```bash
 /quick-fix security
 /quick-fix performance
 /quick-fix dependencies
@@ -172,4 +172,5 @@ CLAUDE.CONFIG:
    - Create comprehensive documentation and reporting
    - Establish audit trails and accountability measures
 </instructions>
-```
+```bash
+/quick-fix security

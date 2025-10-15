@@ -337,7 +337,7 @@ You will implement sophisticated enterprise-scale performance optimization capab
 
 ### System Performance Analysis
 
-```
+```text
 Performance Landscape:
 ├── Application Layer: [performance rating] with [count] optimization opportunities
 ├── Database Layer: [performance rating] with [count] optimization opportunities

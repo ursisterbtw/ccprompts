@@ -4,7 +4,7 @@ This command automates comprehensive pre-commit checks and quality gates to ensu
 
 ## Usage
 
-```
+```bash
 /pre-commit [scope] [strictness]
 ```
 
@@ -15,7 +15,7 @@ This command automates comprehensive pre-commit checks and quality gates to ensu
 
 ## Examples
 
-```
+```bash
 /pre-commit
 /pre-commit staged strict
 /pre-commit all-changes standard
@@ -75,7 +75,7 @@ Comprehensive pre-commit automation system:
 
 ### Basic Level
 
-```
+```text
 Basic Pre-Commit Checks
 ======================
 
@@ -92,7 +92,7 @@ Gate Policy: Block on critical errors only
 
 ### Standard Level
 
-```
+```text
 Standard Pre-Commit Checks
 =========================
 
@@ -111,7 +111,7 @@ Gate Policy: Block on standard quality thresholds
 
 ### Strict Level
 
-```
+```text
 Strict Pre-Commit Checks
 =======================
 
@@ -130,7 +130,7 @@ Gate Policy: Block on any quality threshold violations
 
 ### Enterprise Level
 
-```
+```text
 Enterprise Pre-Commit Checks
 ===========================
 
@@ -151,7 +151,7 @@ Gate Policy: Block on any enterprise standard violations
 
 ### Auto-Fixable Issues
 
-```
+```text
 Auto-Fix Report
 ===============
 
@@ -289,7 +289,7 @@ pre_commit:
 
 ### Check Results Summary
 
-```
+```text
 Pre-Commit Summary Report
 ========================
 
@@ -332,7 +332,7 @@ Pre-Commit Summary Report
 
 ### Common Issues Resolution
 
-```
+```text
 Common Pre-Commit Issues and Solutions
 =====================================
 
@@ -404,4 +404,5 @@ CLAUDE.CONFIG:
    - Create comprehensive documentation and reporting
    - Establish audit trails and accountability measures
 </instructions>
-```
+```text
+Common Pre-Commit Issues and Solutions

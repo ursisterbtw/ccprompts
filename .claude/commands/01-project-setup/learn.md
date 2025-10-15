@@ -8,7 +8,9 @@
 
 ## Description
 
-Provides personalized learning paths and skill development for developers using Claude Code, with hands-on exercises and practical application integration. Creates customized learning experiences that adapt to individual skill levels and integrate directly with real project work.
+Provides personalized learning paths and skill development for developers using Claude Code, with hands-on exercises and practical application integration.
+
+Creates customized learning experiences that adapt to individual skill levels and integrate directly with real project work.
 
 ## Parameters
 

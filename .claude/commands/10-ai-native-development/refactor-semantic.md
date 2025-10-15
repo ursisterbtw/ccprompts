@@ -315,7 +315,7 @@ You will implement sophisticated semantic-aware refactoring capabilities that tr
 
 ### Refactoring Operations Performed
 
-```
+```text
 Refactoring Summary:
 ├── Extract Operations: [count] methods/classes extracted
 ├── Inline Operations: [count] elements inlined or merged

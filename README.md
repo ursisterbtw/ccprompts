@@ -18,6 +18,7 @@ and the multi-dimensional validation engine ensures quality and security. For mo
 see [subagents](https://docs.anthropic.com/en/docs/claude-code/sub-agents).
 
 **Key Features:**
+
 - 70+ production-ready slash commands organized by development phase
 - 10 specialized AI agents for domain-specific expertise
 - Dagger container isolation for safe command execution

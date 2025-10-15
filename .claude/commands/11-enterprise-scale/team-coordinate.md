@@ -347,7 +347,7 @@ You will implement sophisticated enterprise-scale team coordination capabilities
 
 ### Communication and Collaboration
 
-```
+```text
 Communication Landscape:
 ├── Synchronous Communication: [percentage] of team interactions
 ├── Asynchronous Communication: [percentage] of team interactions

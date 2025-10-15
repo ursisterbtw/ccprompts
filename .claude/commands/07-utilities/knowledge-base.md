@@ -2,7 +2,7 @@
 
 ## Usage
 
-```
+```bash
 /knowledge-base [action] [scope] [format]
 ```
 
@@ -20,7 +20,7 @@ Comprehensive knowledge base management system that creates, maintains, and orga
 
 ### Create New Knowledge Base
 
-```
+```bash
 /knowledge-base create project markdown
 /knowledge-base create team confluence
 /knowledge-base create organization notion
@@ -28,7 +28,7 @@ Comprehensive knowledge base management system that creates, maintains, and orga
 
 ### Update and Maintain
 
-```
+```bash
 /knowledge-base update project wiki
 /knowledge-base sync team confluence
 /knowledge-base organize organization markdown
@@ -36,7 +36,7 @@ Comprehensive knowledge base management system that creates, maintains, and orga
 
 ### Search and Discovery
 
-```
+```bash
 /knowledge-base search project "authentication patterns"
 /knowledge-base analyze team "knowledge gaps"
 /knowledge-base extract organization "best practices"
@@ -44,7 +44,7 @@ Comprehensive knowledge base management system that creates, maintains, and orga
 
 ### Maintenance Operations
 
-```
+```bash
 /knowledge-base archive project "deprecated-apis"
 /knowledge-base audit team "outdated-content"
 /knowledge-base backup organization "quarterly"

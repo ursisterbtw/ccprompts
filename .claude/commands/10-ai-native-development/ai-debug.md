@@ -2,7 +2,7 @@
 
 ## Usage
 
-```
+```bash
 /ai-debug [error-type] [scope] [approach]
 ```
 

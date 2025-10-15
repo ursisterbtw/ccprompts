@@ -14,7 +14,7 @@
 
 1. **Initialization**
 
-   * Reference the official Cursor rules documentation at https://docs.cursor.com/en/context/rules/ for current format specifications.
+   * Reference the official Cursor rules documentation at <https://docs.cursor.com/en/context/rules/> for current format specifications.
    * Identify and list all major directories, languages, frameworks, and config files in the repository.
 
 2. **Parallelized Exploration**
@@ -33,7 +33,7 @@
 4. **Rule File Generation**
 
    * For each coding convention or repository-specific pattern, generate a separate `.mdc` rule file under `.cursor/rules/`.
-   * Ensure each `.mdc` file follows the official Cursor rules format from https://docs.cursor.com/en/context/rules/:
+   * Ensure each `.mdc` file follows the official Cursor rules format from <https://docs.cursor.com/en/context/rules/>:
 
      * Clear markdown structure with rule descriptions
      * Code examples showing preferred patterns
@@ -43,7 +43,7 @@
 
 5. **Formatting & Validation**
 
-   * Follow the official Cursor rules format specifications from https://docs.cursor.com/en/context/rules/.
+   * Follow the official Cursor rules format specifications from <https://docs.cursor.com/en/context/rules/>.
    * Validate generated `.mdc` files against the documented schema and examples.
 
 6. **Output**
@@ -53,7 +53,7 @@
 
 **Execution Instructions:**
 
-* Always reference the official Cursor documentation at https://docs.cursor.com/en/context/rules/ for current format specifications and examples.
+* Always reference the official Cursor documentation at <https://docs.cursor.com/en/context/rules/> for current format specifications and examples.
 * Ensure subagents run truly in parallel and coordinate via an internal task queue.
 * Do not skip any repository file; aim for completeness.
 * Do not produce placeholder content—every line in each `.mdc` file must be fully specified and valid.

@@ -92,22 +92,22 @@ For each generated agent:
 
 1. **Verify working directory** and ensure `.claude/agents/` structure exists locally (create if needed)
 2. **Start immediately** with comprehensive repository scan
-2. **Present findings** in structured format showing:
+3. **Present findings** in structured format showing:
    - Technology stack summary
    - Architecture overview
    - Key patterns discovered
    - Identified optimization opportunities
    - Recommended agent strategy
 
-3. **Generate agent files** directly in the **CURRENT WORKING DIRECTORY's** `.claude/agents/` folder (create it if it doesn't exist) with:
+4. **Generate agent files** directly in the **CURRENT WORKING DIRECTORY's** `.claude/agents/` folder (create it if it doesn't exist) with:
    - Descriptive names matching project needs
    - Optimized tool permissions
    - Project-specific system prompts
    - Clear invocation triggers
 
-4. **Validate coverage**: Ensure generated agents cover the project's full development lifecycle
+5. **Validate coverage**: Ensure generated agents cover the project's full development lifecycle
 
-5. **Provide usage guide**: Show how to effectively use the generated agents for this specific project
+6. **Provide usage guide**: Show how to effectively use the generated agents for this specific project
 
 ## Output Format
 

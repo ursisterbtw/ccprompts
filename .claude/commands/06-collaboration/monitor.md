@@ -6,7 +6,7 @@ Comprehensive monitoring setup that implements observability best practices incl
 
 ## Usage
 
-```
+```bash
 /monitor [component] [provider]
 ```
 
@@ -17,7 +17,7 @@ Comprehensive monitoring setup that implements observability best practices incl
 
 ## Examples
 
-```
+```bash
 /monitor
 /monitor app datadog
 /monitor database prometheus
@@ -106,4 +106,5 @@ CLAUDE.CONFIG:
    - Create comprehensive monitoring documentation
    - Establish accountability and continuous improvement measures
 </instructions>
-```
+```bash
+/monitor

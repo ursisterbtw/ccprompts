@@ -347,7 +347,7 @@ You will implement sophisticated enterprise resource management capabilities tha
 
 ### Resource Utilization Analysis
 
-```
+```text
 Resource Utilization:
 ├── Human Resources: [percentage] average utilization
 ├── Infrastructure: [percentage] average utilization

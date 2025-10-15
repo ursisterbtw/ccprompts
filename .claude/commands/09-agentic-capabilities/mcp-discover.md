@@ -4,7 +4,7 @@ This command discovers, evaluates, and installs Model Context Protocol servers t
 
 ## Usage
 
-```
+```bash
 /mcp-discover [category] [--install] [--evaluate]
 ```
 

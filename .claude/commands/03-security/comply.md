@@ -4,7 +4,7 @@ This command provides access to comprehensive compliance automation and security
 
 ## Usage
 
-```
+```bash
 /comply [framework] [depth]
 ```
 
@@ -25,7 +25,7 @@ Implements comprehensive compliance automation and security hardening:
 
 ## Examples
 
-```
+```bash
 /comply soc2 audit-ready
 /comply gdpr thorough
 /comply hipaa basic
@@ -42,7 +42,7 @@ Implements comprehensive compliance automation and security hardening:
 - **Basic Compliance**: `/comply soc2 basic` - Essential compliance measures
 
 
-##  Compliance Automation Framework (migrated from legacy Compliance Automation prompt)
+## Compliance Automation Framework (migrated from legacy Compliance Automation prompt)
 
 - Evidence collection playbooks for SOC2, GDPR, HIPAA and PCI-DSS
 - Continuous controls monitoring with real-time alert thresholds
@@ -92,4 +92,5 @@ CLAUDE.CONFIG:
    - Create comprehensive documentation and reporting
    - Establish audit trails and accountability measures
 </instructions>
-```
+```bash
+/comply soc2 audit-ready

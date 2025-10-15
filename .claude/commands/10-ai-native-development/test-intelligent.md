@@ -315,7 +315,7 @@ You will implement sophisticated intelligent testing capabilities that automatic
 
 ### Test Coverage Analysis
 
-```
+```text
 Coverage Breakdown:
 ├── Line Coverage: [percentage]% ([covered]/[total] lines)
 ├── Branch Coverage: [percentage]% ([covered]/[total] branches)

@@ -4,7 +4,7 @@ This command provides comprehensive project health assessment across multiple di
 
 ## Usage
 
-```
+```bash
 /health-check [depth]
 ```
 
@@ -25,7 +25,7 @@ Performs systematic health assessment across all critical project dimensions:
 
 ## Examples
 
-```
+```bash
 /health-check quick
 /health-check thorough
 /health-check enterprise
@@ -153,4 +153,5 @@ CLAUDE.CONFIG:
    - Create comprehensive documentation and reporting
    - Establish audit trails and accountability measures
 </instructions>
-```
+```bash
+/health-check quick
