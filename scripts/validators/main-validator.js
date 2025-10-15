@@ -37,6 +37,16 @@ class MainValidator {
       securityReport: [],
       fileTypes: new Map()
     };
+  }
+
+  // helper function to safely invoke functions with error handling
+  safeInvoke(fn, ...args) {
+    try {
+      return { value: fn(...args) };
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
+  }
 
     // table-driven validator registry
     this.validators = [
@@ -120,56 +130,38 @@ class MainValidator {
         this.stats.errors.push(`${absolutePath}: Empty or whitespace-only file`);
       }
 
-      for (const validator of this.validators) {
-        let shouldRun = false;
-        try {
-          shouldRun = validator.when(absolutePath, content);
-        } catch (whenError) {
-          const message = whenError instanceof Error ? whenError.message : String(whenError);
-          this.stats.errors.push(`${absolutePath}: ${message}`);
+      for (const { when, run, collect } of this.validators) {
+        // test eligibility
+        const { value: shouldRun, error: whenErr } = this.safeInvoke(when, absolutePath, content);
+        if (whenErr) {
+          this.stats.errors.push(`${absolutePath}: ${whenErr}`);
+          isValid = false;
+          continue;
+        }
+        if (!shouldRun) continue;
+
+        // run validation
+        const { value: result, error: runErr } = this.safeInvoke(run, absolutePath, content, fileType);
+        if (runErr) {
+          this.stats.errors.push(`${absolutePath}: ${runErr}`);
           isValid = false;
           continue;
         }
 
-        if (!shouldRun && validator.run === validator.originalRun) {
-          continue;
-        }
-
-        let result;
-        try {
-          result = validator.run(absolutePath, content, fileType);
-        } catch (validatorError) {
-          const message = validatorError instanceof Error ? validatorError.message : String(validatorError);
-          this.stats.errors.push(`${absolutePath}: ${message}`);
-          isValid = false;
-          continue;
-        }
-
-        if (!shouldRun) {
-          continue;
-        }
-
-        const collected = validator.collect(result);
-
-        // process collected results
-        if (collected.errors) {
-          this.stats.errors.push(...collected.errors);
-        }
-        if (collected.warnings) {
-          this.stats.warnings.push(...collected.warnings);
-        }
+        // collect results
+        const collected = collect(result);
+        this.stats.errors.push(...(collected.errors || []));
+        this.stats.warnings.push(...(collected.warnings || []));
         if (collected.securityReport) {
           this.stats.securityReport.push(...collected.securityReport);
           this.stats.securityIssues += collected.securityCount || 0;
         }
-        if (collected.qualityScore !== undefined) {
+        if (collected.qualityScore != null) {
           this.stats.qualityScoreTotal += collected.qualityScore;
           this.stats.qualityScore = collected.qualityScore;
           lastQualityScore = collected.qualityScore;
         }
-        if (collected.valid === false) {
-          isValid = false;
-        }
+        if (collected.valid === false) isValid = false;
       }
 
       if (isValid) {

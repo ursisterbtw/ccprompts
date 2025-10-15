@@ -29,7 +29,7 @@ class StructureValidator {
     });
 
     if (missingSections.length > 0) {
-      this.errors.push(`${filename}: Missing XML sections: ` + missingSections.join(', '));
+      this.errors.push(`${filename}: Missing XML sections: ${missingSections.join(', ')}`);
       return false;
     }
 
@@ -81,7 +81,7 @@ class StructureValidator {
     if (tagStack.length > 0) {
       const unclosedTags = tagStack.map(tag => tag.name);
       const firstLine = tagStack[0].line;
-      this.errors.push(`${filename}:${firstLine}: Unclosed XML tags: ` + unclosedTags.join(', '));
+      this.errors.push(`${filename}:${firstLine}: Unclosed XML tags: ${unclosedTags.join(', ')}`);
       return false;
     }
 
@@ -104,7 +104,7 @@ class StructureValidator {
     );
 
     if (missingSections.length > 0) {
-      this.errors.push(`${filename}: Missing command sections: ` + missingSections.join(', '));
+      this.errors.push(`${filename}: Missing command sections: ${missingSections.join(', ')}`);
     }
 
     const usageSectionMatch = content.match(/^\s*##\s*Usage\s*([\s\S]*?)(^\s*##\s|$)/im);
@@ -190,8 +190,11 @@ class StructureValidator {
       flushBuffer();
     }
 
-    if (sections.length > 1 && Array.isArray(this?.errors)) {
-      this.errors.push(`Warning: Multiple sections found for heading "${heading}". Only the first will be used.`);
+    if (sections.length > 1) {
+      if (!Array.isArray(this?.warnings)) {
+        this.warnings = [];
+      }
+      this.warnings.push(`Warning: Multiple sections found for heading "${heading}". Only the first will be used.`);
     }
 
     if (sections.length === 0) {

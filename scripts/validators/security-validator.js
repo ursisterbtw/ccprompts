@@ -58,15 +58,63 @@ class SecurityValidator {
       return this.securityIssues;
     }
 
+    // create unified patterns array
+    const allPatterns = this.buildAllPatterns();
+
     for (const block of codeBlocks) {
-      this.scanForSecrets(block, filename);
-      this.scanForDangerousPatterns(block, filename);
+      this.scanPatterns(block, filename, allPatterns);
     }
 
     return this.securityIssues;
   }
 
-  extractCodeBlocks(content) {
+  // build unified patterns array for scanning
+  buildAllPatterns = () => {
+    const privateKeyPattern = {
+      regex: /-----BEGIN\s+(?:RSA\s+)?PRIVATE\s+KEY-----[\s\S]*?-----END\s+(?:RSA\s+)?PRIVATE\s+KEY-----/gi,
+      message: 'Private key detected',
+      skipIfIncludes: ['example', 'placeholder']
+    };
+
+    const secretPatterns = SECRET_DEFINITIONS.map(def => ({
+      regex: new RegExp(
+        `\\b(?:export\\s+)?(?:const|let|var)\\s+[\\w-]*${def.keyword}[\\w-]*\\s*[:=]\\s*(['"])([^'"]{${def.minLength},})\\1`,
+        'gi'
+      ),
+      message: def.message,
+      skipIfIncludes: SKIP_KEYWORDS,
+      filter: (match) => {
+        const [, , value] = match;
+        return (!def.requiresEntropy || this.hasEntropy(value))
+            && (!def.valuePattern || def.valuePattern.test(value));
+      }
+    }));
+
+    const safetyPatterns = require('../config/safety-patterns').getAllPatterns()
+      .map(p => ({
+        regex: p.pattern,
+        message: p.message,
+        skipIfIncludes: p.skipIfIncludes
+      }));
+
+    return [privateKeyPattern, ...secretPatterns, ...safetyPatterns];
+  }
+
+  // unified pattern scanning method
+  scanPatterns = (block, filename, patterns) => {
+    for (const { regex, message, skipIfIncludes = [], filter } of patterns) {
+      regex.lastIndex = 0;
+      let match;
+      while ((match = regex.exec(block)) !== null) {
+        const fullMatch = match[0];
+        if (skipIfIncludes.some(keyword => this.shouldSkip(fullMatch, [keyword]))) continue;
+        if (filter && !filter(match)) continue;
+        this.addIssue(filename, message, this.truncateMatch(fullMatch.trim()));
+      }
+    }
+  }
+
+  extractCodeBlocks = (content) => {
     if (!content) {
       return [];
     }
@@ -77,9 +125,10 @@ class SecurityValidator {
     let match;
 
     while ((match = fencedRegex.exec(normalized)) !== null) {
-      const block = match[1].trim();
-      if (block) {
-        blocks.push(block);
+      const [, block] = match;
+      const trimmedBlock = block.trim();
+      if (trimmedBlock) {
+        blocks.push(trimmedBlock);
       }
     }
 
@@ -90,14 +139,12 @@ class SecurityValidator {
     lines.forEach(line => {
       if (/^( {4}|\t)/.test(line)) {
         buffer.push(line.replace(/^( {4}|\t)/, ''));
-      } else {
-        if (buffer.length > 0) {
-          const block = buffer.join('\n').trim();
-          if (block) {
-            blocks.push(block);
-          }
-          buffer = [];
+      } else if (buffer.length > 0) {
+        const block = buffer.join('\n').trim();
+        if (block) {
+          blocks.push(block);
         }
+        buffer = [];
       }
     });
 
@@ -111,84 +158,7 @@ class SecurityValidator {
     return blocks;
   }
 
-  scanForSecrets(block, filename) {
-    const text = block;
-
-    // private keys
-    const privateKeyRegex = /-----BEGIN\s+(?:RSA\s+)?PRIVATE\s+KEY-----[\s\S]*?-----END\s+(?:RSA\s+)?PRIVATE\s+KEY-----/gi;
-    let keyMatch;
-    while ((keyMatch = privateKeyRegex.exec(text)) !== null) {
-      const matchedText = keyMatch[0];
-      if (!this.shouldSkip(matchedText, ['example', 'placeholder'])) {
-        this.addIssue(filename, 'Private key detected', this.truncateMatch(matchedText.trim()));
-      }
-    }
-
-    const prefix = '(?:export\\s+)?(?:const\\s+|let\\s+|var\\s+)?';
-
-    SECRET_DEFINITIONS.forEach(definition => {
-      const variablePattern = `[A-Za-z0-9_-]*${definition.keyword}[A-Za-z0-9_-]*`;
-      const secretRegex = new RegExp(`\\b${prefix}(${variablePattern})\\s*[:=]\\s*(["'])([^"']+)\\2`, 'gi');
-      let match;
-
-      while ((match = secretRegex.exec(text)) !== null) {
-        const fullMatch = match[0].trim();
-        const value = match[3];
-
-        if (!value) {
-          continue;
-        }
-
-        if (this.shouldSkip(fullMatch, SKIP_KEYWORDS) || this.shouldSkip(value, SKIP_KEYWORDS)) {
-          continue;
-        }
-
-        if (value.length < definition.minLength) {
-          continue;
-        }
-
-        if (definition.requiresEntropy && !this.hasEntropy(value)) {
-          continue;
-        }
-
-        if (definition.valuePattern && !definition.valuePattern.test(value)) {
-          continue;
-        }
-
-        const valueStart = fullMatch.indexOf(value);
-        const prefixPart = fullMatch.slice(0, valueStart);
-        const suffixPart = fullMatch.slice(valueStart + value.length);
-        const truncatedValue = value.length > 50 ? `${value.slice(0, 50)}...` : value;
-        const truncatedMatch = `${prefixPart}${truncatedValue}${suffixPart}`;
-
-        this.addIssue(filename, definition.message, truncatedMatch);
-      }
-    });
-  }
-
-  scanForDangerousPatterns(block, filename) {
-    const patterns = safetyPatterns.getAllPatterns();
-    const text = block;
-
-    patterns.forEach(patternDefinition => {
-      const original = patternDefinition.pattern;
-      const flags = original.flags.includes('g') ? original.flags : `${original.flags}g`;
-      const regex = new RegExp(original.source, flags);
-      regex.lastIndex = 0;
-
-      let match;
-      while ((match = regex.exec(text)) !== null) {
-        const matchedText = match[0];
-
-        if (patternDefinition.skipIfIncludes && this.shouldSkip(matchedText, patternDefinition.skipIfIncludes)) {
-          continue;
-        }
-
-        this.addIssue(filename, patternDefinition.message, this.truncateMatch(matchedText.trim()));
-      }
-    });
-  }
-
+  
   addIssue(filename, issue, match) {
     const payload = { file: filename, issue };
     if (match) {

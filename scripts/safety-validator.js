@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync, spawn } = require('child_process');
 const safetyPatterns = require('./config/safety-patterns');
+const { HEURISTIC_PATTERNS } = safetyPatterns;
 
 class SafetyValidator {
   constructor() {

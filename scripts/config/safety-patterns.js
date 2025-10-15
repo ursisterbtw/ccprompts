@@ -155,6 +155,27 @@ module.exports = {
   },
 
   /**
+   * heuristic patterns for additional analysis
+   */
+  HEURISTIC_PATTERNS: [
+    {
+      regex: /(?:rm|delete|remove).*\*\*/gi,
+      severity: 'medium',
+      message: 'Recursive wildcard operations'
+    },
+    {
+      regex: /system\s*\(|exec\s*\(/gi,
+      severity: 'high',
+      message: 'System command execution'
+    },
+    {
+      regex: /\/etc\/(passwd|shadow|sudoers)/gi,
+      severity: 'critical',
+      message: 'System file access'
+    }
+  ],
+
+  /**
    * classify safety level based on patterns found
    */
   classifySafetyLevel(content, codeBlocksOnly = false) {

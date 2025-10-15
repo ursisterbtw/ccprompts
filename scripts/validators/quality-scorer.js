@@ -61,7 +61,7 @@ class QualityScorer {
     });
 
     // check for examples
-    const shouldEvaluateExamples = normalizedLength >= 24 && normalizedLength <= 400;
+    const shouldEvaluateExamples = normalizedLength >= 24;
     if (!hasExample && shouldEvaluateExamples) {
       applyPenalty(15, `${fileLabel}: No examples provided`);
     }
