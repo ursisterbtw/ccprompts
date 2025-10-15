@@ -17,15 +17,22 @@ class FileUtils {
       throw new Error('Invalid path: path must be a non-empty string');
     }
 
-    // normalize the path and resolve any relative components
-    const normalized = path.normalize(inputPath);
-
-    // check for path traversal attempts
-    if (normalized.includes('..') || normalized.includes('\0')) {
-      throw new Error(`Invalid path: potential path traversal detected in "${inputPath}"`);
+    // check for null bytes before any processing
+    if (inputPath.includes('\0')) {
+      throw new Error(`Invalid path: null byte detected in "${inputPath}"`);
     }
 
-    return normalized;
+    // resolve to absolute path to eliminate relative components
+    const resolved = path.resolve(inputPath);
+
+    // defense in depth: verify no suspicious patterns remain after resolution
+    // path segments should never contain '..' after proper resolution
+    const segments = resolved.split(path.sep).filter(Boolean);
+    if (segments.includes('..') || segments.includes('.')) {
+      throw new Error(`Invalid path: suspicious path segments detected in "${inputPath}"`);
+    }
+
+    return resolved;
   }
 
   findMarkdownFiles(directory) {

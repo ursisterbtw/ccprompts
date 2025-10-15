@@ -37,24 +37,14 @@ class MainValidator {
       securityReport: [],
       fileTypes: new Map()
     };
-  }
-
-  // helper function to safely invoke functions with error handling
-  safeInvoke(fn, ...args) {
-    try {
-      return { value: fn(...args) };
-    } catch (e) {
-      return { error: e instanceof Error ? e.message : String(e) };
-    }
-  }
 
     // table-driven validator registry
     this.validators = [
       {
         name: 'xmlStructure',
-        when: (f, c) => /(<role>|<activation>|<instructions>|<output_format>)/i.test(c),
+        when: (f, c) => /(<role>|<activation>|<instructions>)/i.test(c),
         run: (f, c) => {
-          if (!/(<role>|<activation>|<instructions>|<output_format>)/i.test(c)) {
+          if (!/(<role>|<activation>|<instructions>)/i.test(c)) {
             this.structureValidator.errors = [];
             this.structureValidator.warnings = [];
             return true;
@@ -103,6 +93,15 @@ class MainValidator {
     this.validators.forEach(validator => {
       validator.originalRun = validator.run;
     });
+  }
+
+  // helper function to safely invoke functions with error handling
+  safeInvoke(fn, ...args) {
+    try {
+      return { value: fn(...args) };
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : String(e) };
+    }
   }
 
   // validate a single file

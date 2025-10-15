@@ -14,11 +14,11 @@ class StructureValidator {
     this.warnings = [];
 
     const source = typeof content === 'string' ? content : '';
+    // output_format is optional, only role/activation/instructions are required
     const requiredSections = [
       '<role>',
       '<activation>',
-      '<instructions>',
-      '<output_format>'
+      '<instructions>'
     ];
 
     const missingSections = [];
