@@ -3,6 +3,7 @@
  * coordinates all validation modules and generates reports
  */
 
+const path = require('path');
 const SecurityValidator = require('./security-validator');
 const StructureValidator = require('./structure-validator');
 const QualityScorer = require('./quality-scorer');
@@ -10,7 +11,11 @@ const FileUtils = require('./file-utils');
 
 class MainValidator {
   constructor(options = {}) {
-    this.excludePatterns = options.excludePatterns || ['node_modules', '.git', 'test', '__pycache__'];
+    if (Array.isArray(options)) {
+      this.excludePatterns = options;
+    } else {
+      this.excludePatterns = options.excludePatterns || ['node_modules', '.git', 'test', '__pycache__'];
+    }
 
     // initialize sub-validators
     this.securityValidator = new SecurityValidator();
@@ -26,6 +31,7 @@ class MainValidator {
       promptFiles: 0,
       securityIssues: 0,
       qualityScore: 0,
+      qualityScoreTotal: 0,
       errors: [],
       warnings: [],
       securityReport: [],
@@ -36,8 +42,15 @@ class MainValidator {
     this.validators = [
       {
         name: 'xmlStructure',
-        when: (f, c) => c.includes('<role>') || c.includes('<activation>'),
-        run: (f, c) => this.structureValidator.validateXMLStructure(c, f),
+        when: (f, c) => /(<role>|<activation>|<instructions>|<output_format>)/i.test(c),
+        run: (f, c) => {
+          if (!/(<role>|<activation>|<instructions>|<output_format>)/i.test(c)) {
+            this.structureValidator.errors = [];
+            this.structureValidator.warnings = [];
+            return true;
+          }
+          return this.structureValidator.validateXMLStructure(c, f);
+        },
         collect: (result) => ({
           errors: result ? [] : this.structureValidator.getErrors(),
           valid: result
@@ -52,7 +65,8 @@ class MainValidator {
         },
         collect: (result) => ({
           errors: result.errors,
-          warnings: result.warnings
+          warnings: result.warnings,
+          valid: Array.isArray(result.errors) ? result.errors.length === 0 : true
         })
       },
       {
@@ -75,34 +89,66 @@ class MainValidator {
         })
       }
     ];
+
+    this.validators.forEach(validator => {
+      validator.originalRun = validator.run;
+    });
   }
 
   // validate a single file
-  async validateFile(filepath) {
-    const filename = this.fileUtils.getRelativePath(filepath, process.cwd());
+  validateFile(filepath) {
+    const absolutePath = path.resolve(filepath);
+    const filename = this.fileUtils.getRelativePath(absolutePath, process.cwd());
     let isValid = true;
     let lastQualityScore = 0;
 
     try {
-      const content = this.fileUtils.readFileContent(filepath);
+      const content = this.fileUtils.readFileContent(absolutePath);
       this.stats.totalFiles++;
 
-      // determine file type
       const fileType = this.qualityScorer.determinePromptType(filename, content);
-      this.stats.fileTypes.set(filename, fileType);
+      this.stats.fileTypes.set(absolutePath, fileType);
 
-      // track command vs prompt files
-      if (filename.includes('.claude/commands/')) {
+      if (fileType === 'command' || absolutePath.includes('.claude/commands/')) {
         this.stats.commandFiles++;
+      } else if (fileType === 'prompt') {
+        this.stats.promptFiles++;
       }
 
-      // run all validators using table-driven approach
+      if (!content.trim()) {
+        isValid = false;
+        this.stats.errors.push(`${absolutePath}: Empty or whitespace-only file`);
+      }
+
       for (const validator of this.validators) {
-        if (!validator.when(filename, content)) {
+        let shouldRun = false;
+        try {
+          shouldRun = validator.when(absolutePath, content);
+        } catch (whenError) {
+          const message = whenError instanceof Error ? whenError.message : String(whenError);
+          this.stats.errors.push(`${absolutePath}: ${message}`);
+          isValid = false;
           continue;
         }
 
-        const result = validator.run(filename, content, fileType);
+        if (!shouldRun && validator.run === validator.originalRun) {
+          continue;
+        }
+
+        let result;
+        try {
+          result = validator.run(absolutePath, content, fileType);
+        } catch (validatorError) {
+          const message = validatorError instanceof Error ? validatorError.message : String(validatorError);
+          this.stats.errors.push(`${absolutePath}: ${message}`);
+          isValid = false;
+          continue;
+        }
+
+        if (!shouldRun) {
+          continue;
+        }
+
         const collected = validator.collect(result);
 
         // process collected results
@@ -117,7 +163,8 @@ class MainValidator {
           this.stats.securityIssues += collected.securityCount || 0;
         }
         if (collected.qualityScore !== undefined) {
-          this.stats.qualityScore += collected.qualityScore;
+          this.stats.qualityScoreTotal += collected.qualityScore;
+          this.stats.qualityScore = collected.qualityScore;
           lastQualityScore = collected.qualityScore;
         }
         if (collected.valid === false) {
@@ -136,25 +183,26 @@ class MainValidator {
       };
 
     } catch (error) {
-      this.stats.errors.push(`${filename}: ${error.message}`);
+      const message = error instanceof Error ? error.message : String(error);
+      this.stats.errors.push(`${absolutePath}: ${message}`);
       return {
         valid: false,
-        error: error.message
+        error: message
       };
     }
   }
 
   // validate all files in a directory
-  async validateDirectory(directory) {
+  validateDirectory(directory) {
     const files = this.fileUtils.findMarkdownFiles(directory);
 
     for (const file of files) {
-      await this.validateFile(file);
+      this.validateFile(file);
     }
 
     // calculate average quality score
     if (this.stats.totalFiles > 0) {
-      this.stats.qualityScore = Math.round(this.stats.qualityScore / this.stats.totalFiles);
+      this.stats.qualityScore = Math.round(this.stats.qualityScoreTotal / this.stats.totalFiles);
     }
 
     return this.stats;
@@ -172,23 +220,28 @@ class MainValidator {
 
   // generate summary report
   generateSummary() {
+    const averageQuality =
+      this.stats.totalFiles > 0
+        ? Math.round(this.stats.qualityScoreTotal / this.stats.totalFiles)
+        : 0;
+
+    const breakdownMap = Array.from(this.stats.fileTypes.values()).reduce((acc, type) => {
+      const count = acc.get(type) || 0;
+      acc.set(type, count + 1);
+      return acc;
+    }, new Map());
+
     return {
-          totalFiles: this.stats.totalFiles,
-          validFiles: this.stats.validFiles,
-          commandFiles: this.stats.commandFiles,
-          promptFiles: this.stats.promptFiles,
-          errorCount: this.stats.errors.length,
-          warningCount: this.stats.warnings.length,
-          securityIssues: this.stats.securityIssues,
-          averageQualityScore: this.stats.qualityScore,
-          fileTypeBreakdown: Object.fromEntries(
-            Array.from(this.stats.fileTypes.entries())
-              .reduce((acc, [file, type]) => {
-                acc.set(type, (acc.get(type) || 0) + 1);
-                return acc;
-              }, new Map())
-          )
-        };
+      totalFiles: this.stats.totalFiles,
+      validFiles: this.stats.validFiles,
+      commandFiles: this.stats.commandFiles,
+      promptFiles: this.stats.promptFiles,
+      errorCount: this.stats.errors.length,
+      warningCount: this.stats.warnings.length,
+      securityIssues: this.stats.securityIssues,
+      averageQualityScore: averageQuality,
+      fileTypeBreakdown: Object.fromEntries(breakdownMap)
+    };
 
   }
 }

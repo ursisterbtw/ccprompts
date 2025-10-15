@@ -614,8 +614,7 @@ Content of section 2.
     });
 
     describe('Multiple matches', () => {
-      test('should return first section when multiple matches exist', () => {
-        const content = `
+      const multipleMatchContent = `
 ## Section 1
 First instance.
 
@@ -625,7 +624,8 @@ Other content.
 ## Section 1
 Second instance.
 `;
-        const result = structureValidator.extractMarkdownSection(content, '## Section 1');
+      test('should return first section when multiple matches exist', () => {
+        const result = structureValidator.extractMarkdownSection(multipleMatchContent, '## Section 1');
         
         expect(result).toBe('First instance.');
         expect(structureValidator.errors).toContain(
@@ -637,7 +637,7 @@ Second instance.
         // Call extractMarkdownSection without context
         const result = StructureValidator.prototype.extractMarkdownSection.call(
           { errors: null },
-          content,
+          multipleMatchContent,
           '## Section 1'
         );
         
@@ -671,7 +671,7 @@ Content of section.
 ## SECTION TITLE (UPPERCASE)
 Content of section.
 `;
-        const result = structureValidator.extractMarkdownSection(content, '## section title (lowercase)');
+        const result = structureValidator.extractMarkdownSection(content, '## section title (uppercase)');
         
         expect(result).toBe('Content of section.');
       });

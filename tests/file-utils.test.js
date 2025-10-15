@@ -246,7 +246,7 @@ describe('FileUtils Module', () => {
     test('should complete file discovery within reasonable time', () => {
       // Create many test files
       for (let i = 0; i < 100; i++) {
-        fs.writeFileSync(path.join(tempDir, `file${i}.md'), `# File ${i}`);
+        fs.writeFileSync(path.join(tempDir, `file${i}.md`), `# File ${i}`);
       }
       
       const startTime = Date.now();

@@ -12,34 +12,81 @@ class FileUtils {
   }
 
   findMarkdownFiles(directory) {
-    const files = [];
+    if (!directory || !fs.existsSync(directory)) {
+      return [];
+    }
+
+    const results = [];
+    const visited = new Set();
 
     const walk = (dir) => {
-      const dirName = path.basename(dir);
-      if (this.excludePatterns.some(pattern => dirName.includes(pattern))) {
+      if (this.shouldExclude(dir)) {
         return;
       }
 
+      let realDir;
       try {
-        const items = fs.readdirSync(dir);
-
-        for (const item of items) {
-          const fullPath = path.join(dir, item);
-          const stat = fs.statSync(fullPath);
-
-          if (stat.isDirectory()) {
-            walk(fullPath);
-          } else if (item.endsWith('.md')) {
-            files.push(fullPath);
-          }
-        }
+        realDir = fs.realpathSync(dir);
       } catch (error) {
-        console.error(`Error reading directory ${dir}:`, error.message);
+        realDir = dir;
+      }
+
+      if (visited.has(realDir)) {
+        return;
+      }
+      visited.add(realDir);
+
+      let items;
+      try {
+        items = fs.readdirSync(dir);
+      } catch (error) {
+        return;
+      }
+
+      for (const item of items) {
+        const fullPath = path.join(dir, item);
+
+        if (this.shouldExclude(fullPath)) {
+          continue;
+        }
+
+        let stats;
+        try {
+          stats = fs.lstatSync(fullPath);
+        } catch (error) {
+          continue;
+        }
+
+        if (stats.isDirectory()) {
+          walk(fullPath);
+          continue;
+        }
+
+        if (stats.isSymbolicLink()) {
+          try {
+            const linkStats = fs.statSync(fullPath);
+            if (linkStats.isDirectory()) {
+              walk(fullPath);
+              continue;
+            }
+
+            if (linkStats.isFile() && fullPath.toLowerCase().endsWith('.md')) {
+              results.push(fullPath);
+            }
+          } catch (error) {
+            continue;
+          }
+          continue;
+        }
+
+        if (stats.isFile() && fullPath.toLowerCase().endsWith('.md')) {
+          results.push(fullPath);
+        }
       }
     };
 
-    walk(directory);
-    return files;
+    walk(path.resolve(directory));
+    return results;
   }
 
   readFileContent(filepath) {
@@ -51,11 +98,16 @@ class FileUtils {
   }
 
   getRelativePath(filepath, rootDir) {
-    return path.relative(rootDir, filepath);
+    const relativePath = path.relative(rootDir, filepath);
+    return relativePath === '' ? '.' : relativePath;
   }
 
   shouldExclude(filepath) {
-    const segments = filepath.split(path.sep);
+    if (!this.excludePatterns || this.excludePatterns.length === 0) {
+      return false;
+    }
+
+    const segments = filepath.split(/[/\\]+/).filter(Boolean);
     return this.excludePatterns.some(pattern => {
       if (pattern instanceof RegExp) {
         return pattern.test(filepath);
