@@ -503,5 +503,4 @@ CLAUDE.CONFIG:
    - Create comprehensive documentation and reporting
    - Establish audit trails and accountability measures
 </instructions>
-```text
-Monthly Incident Report
+```

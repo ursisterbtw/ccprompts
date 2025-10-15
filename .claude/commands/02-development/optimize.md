@@ -116,5 +116,10 @@ CLAUDE.CONFIG:
    - Create comprehensive documentation and reporting
    - Establish audit trails and accountability measures
 </instructions>
+```
+
+## Example Usage
+
 ```bash
 /optimize performance
+```

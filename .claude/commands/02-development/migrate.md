@@ -102,5 +102,10 @@ CLAUDE.CONFIG:
    - Create comprehensive migration documentation
    - Establish audit trails and accountability measures
 </instructions>
+```
+
+## Example Usage
+
 ```bash
 /migrate
+```
