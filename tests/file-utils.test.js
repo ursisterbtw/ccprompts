@@ -20,6 +20,10 @@ describe('FileUtils Module', () => {
 
   beforeEach(() => {
     fileUtils = new FileUtils(['node_modules', '.git', 'test']);
+    // Ensure temp directory exists for each test
+    if (!fs.existsSync(tempDir)) {
+      fs.mkdirSync(tempDir, { recursive: true });
+    }
   });
 
   afterEach(() => {

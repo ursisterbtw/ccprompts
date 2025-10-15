@@ -30,9 +30,9 @@ describe('QualityScorer Module', () => {
       });
 
       test('should not penalize content 500 characters or longer', () => {
-        const longContent = '# Long\n' + 'a'.repeat(500);
+        const longContent = '# Long\nExample content. First step:\n' + 'a'.repeat(500);
         const result = qualityScorer.validatePromptQuality(longContent, 'long.md');
-        
+
         expect(result.score).toBe(100);
         expect(result.issues).not.toContain(
           expect.stringContaining('Content too brief')
@@ -40,9 +40,9 @@ describe('QualityScorer Module', () => {
       });
 
       test('should give bonus points for content over 2000 characters', () => {
-        const veryLongContent = '# Very Long\n' + 'a'.repeat(2000);
+        const veryLongContent = '# Very Long\nExample:\n' + 'a'.repeat(2000);
         const result = qualityScorer.validatePromptQuality(veryLongContent, 'verylong.md');
-        
+
         expect(result.score).toBe(100); // Max capped at 100
       });
     });
@@ -74,13 +74,15 @@ Follow these detailed steps:
 1. First, analyze the user's request thoroughly
 2. Then, identify the appropriate response pattern
 3. Finally, execute the response with proper validation
+
+Example: When a user asks for help, activate and respond.
 </instructions>
 <output_format>
 Provide structured output with clear sections and proper formatting for maximum readability.
 </output_format>
 `;
         const result = qualityScorer.validatePromptQuality(content, 'test.md');
-        
+
         expect(result.score).toBe(100);
         expect(result.issues).not.toContain(
           expect.stringContaining('content too brief')
@@ -546,9 +548,9 @@ Adequate description with some detail.
     });
 
     test('should handle very long content', () => {
-      const longContent = '# Long\n' + 'a'.repeat(10000);
+      const longContent = '# Long\nExample: First step\n' + 'a'.repeat(10000);
       const result = qualityScorer.validatePromptQuality(longContent, 'long.md');
-      
+
       expect(result.score).toBe(100);
       expect(result.issues).toEqual([]);
     });

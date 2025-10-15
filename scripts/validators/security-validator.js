@@ -78,7 +78,7 @@ class SecurityValidator {
 
     const secretPatterns = SECRET_DEFINITIONS.map(def => ({
       regex: new RegExp(
-        `\\b(?:export\\s+)?(?:const|let|var)\\s+[\\w-]*${def.keyword}[\\w-]*\\s*[:=]\\s*(['"])([^'"]{${def.minLength},})\\1`,
+        `\\b(?:export\\s+)?(?:(?:const|let|var)\\s+)?[\\w-]*${def.keyword}[\\w-]*\\s*[:=]\\s*(['"])([^'"]{${def.minLength},})\\1`,
         'gi'
       ),
       message: def.message,

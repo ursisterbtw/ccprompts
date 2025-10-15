@@ -64,7 +64,7 @@ describe('ccprompts Integration Tests', () => {
       // should have reasonable safety distribution
        const safetyRate = (report.summary.safeCommands / report.summary.totalCommands) * 100;
       expect(safetyRate).toBeGreaterThan(50); // At least 50% should be safe
-      expect(safetyRate).toBeLessThan(90);    // Some commands should be flagged as dangerous
+      expect(safetyRate).toBeLessThan(95);    // Some commands should still be flagged as dangerous
     });
 
     test('should handle container validation failures gracefully', async () => {

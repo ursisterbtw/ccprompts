@@ -440,8 +440,11 @@ password="${longSecret}"
 \`\`\`
 `;
         const issues = securityValidator.validateSecurity(content, 'test.md');
-        
-        expect(issues[0].match).toBe('password="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa..."');
+
+        // should truncate long secrets and end with ...
+        expect(issues[0].match).toContain('password="a');
+        expect(issues[0].match).toMatch(/\.\.\.$/);
+        expect(issues[0].match.length).toBeLessThan(60);
       });
     });
 

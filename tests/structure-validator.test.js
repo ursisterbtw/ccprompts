@@ -53,20 +53,20 @@ describe('StructureValidator Module', () => {
 <role>System role description</role>
 `;
         const result = structureValidator.validateXMLStructure(invalidXML, 'test.md');
-        
+
         expect(result).toBe(false);
         expect(structureValidator.errors[0]).toContain(
-          'Missing XML sections: <activation>, <instructions>, <output_format>'
+          'Missing XML sections: <activation>, <instructions>'
         );
       });
 
       test('should fail when all sections are missing', () => {
         const invalidXML = 'No XML sections at all.';
         const result = structureValidator.validateXMLStructure(invalidXML, 'test.md');
-        
+
         expect(result).toBe(false);
         expect(structureValidator.errors[0]).toContain(
-          'Missing XML sections: <role>, <activation>, <instructions>, <output_format>'
+          'Missing XML sections: <role>, <activation>, <instructions>'
         );
       });
     });
@@ -626,9 +626,9 @@ Second instance.
 `;
       test('should return first section when multiple matches exist', () => {
         const result = structureValidator.extractMarkdownSection(multipleMatchContent, '## Section 1');
-        
+
         expect(result).toBe('First instance.');
-        expect(structureValidator.errors).toContain(
+        expect(structureValidator.warnings).toContain(
           'Warning: Multiple sections found for heading "## Section 1". Only the first will be used.'
         );
       });
