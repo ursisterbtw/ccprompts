@@ -337,7 +337,7 @@ You will implement sophisticated code explanation capabilities that generate cle
 
 ### Explanation Structure
 
-```
+```text
 Explanation Hierarchy:
 ├── Executive Summary: [high-level overview and purpose]
 ├── Detailed Explanation: [comprehensive functionality description]

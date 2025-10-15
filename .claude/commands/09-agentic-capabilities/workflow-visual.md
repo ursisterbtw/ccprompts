@@ -369,7 +369,7 @@ You will create sophisticated visual workflow builders that enable intuitive des
 
 ### Visual Components
 
-```
+```text
 Workflow: [workflow-name]
 ├── Start Node: [entry point description]
 ├── Agent Nodes: [list of agent nodes and roles]

@@ -4,7 +4,7 @@ This command provides comprehensive test generation and automation with coverage
 
 ## Usage
 
-```
+```bash
 /test [focus] [type]
 ```
 

@@ -4,7 +4,7 @@ This command enables advanced AI pair programming with deep context awareness an
 
 ## Usage
 
-```
+```bash
 /ai-pair-program [mode] [--context-depth deep|standard|minimal] [--style collaborative|driver-navigator|mob]
 ```
 

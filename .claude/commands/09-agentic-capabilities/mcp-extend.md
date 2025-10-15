@@ -376,7 +376,7 @@ You will develop and extend custom MCP servers that provide specialized capabili
 
 ### Capabilities and Tools
 
-```
+```text
 Tool Name: [tool-name]
 ├── Description: [tool purpose and functionality]
 ├── Parameters: [input parameters and validation]

@@ -4,7 +4,7 @@ This command automates comprehensive release note generation with intelligent co
 
 ## Usage
 
-```
+```bash
 /release-notes [version] [audience] [format]
 ```
 
@@ -16,7 +16,7 @@ This command automates comprehensive release note generation with intelligent co
 
 ## Examples
 
-```
+```bash
 /release-notes auto customer markdown
 /release-notes v2.1.0 technical html
 /release-notes minor business email
@@ -664,3 +664,4 @@ CLAUDE.CONFIG:
    - Establish audit trails and accountability measures
 </instructions>
 ```
+

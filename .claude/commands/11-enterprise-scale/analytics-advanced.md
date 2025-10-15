@@ -353,7 +353,7 @@ Build analytics dashboards and reporting systems with business insights.
 
 ### Dashboard and Visualization Portfolio
 
-```
+```text
 Analytics Portfolio:
 ├── Executive Dashboards: [count] strategic and KPI dashboards
 ├── Operational Dashboards: [count] real-time monitoring dashboards

@@ -351,7 +351,7 @@ You will implement sophisticated context persistence mechanisms that maintain co
 
 ### Context Structure
 
-```
+```text
 Global Context
 ├── Project Context
 │   ├── Session Context

@@ -2,7 +2,7 @@
 
 ## Usage
 
-```
+```bash
 /setup-ci [platform] [project-type]
 ```
 

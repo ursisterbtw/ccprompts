@@ -4,7 +4,7 @@ This command provides AI-powered prompt recommendations based on current project
 
 ## Usage
 
-```
+```bash
 /smart-suggest
 ```
 
@@ -400,3 +400,4 @@ CLAUDE.CONFIG:
    - Establish audit trails and accountability measures
 </instructions>
 ```
+

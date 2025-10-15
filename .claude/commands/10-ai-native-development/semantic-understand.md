@@ -315,7 +315,7 @@ You will implement sophisticated semantic understanding capabilities that analyz
 
 ### Semantic Model
 
-```
+```text
 Codebase Structure:
 ├── Core Components: [list of main components]
 ├── Data Models: [key data structures and entities]

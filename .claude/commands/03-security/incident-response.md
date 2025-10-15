@@ -4,7 +4,7 @@ This command provides structured incident response workflows for production issu
 
 ## Usage
 
-```
+```bash
 /incident-response [severity] [type] [environment]
 ```
 
@@ -16,7 +16,7 @@ This command provides structured incident response workflows for production issu
 
 ## Examples
 
-```
+```bash
 /incident-response critical outage production
 /incident-response high security production
 /incident-response medium performance staging
@@ -78,7 +78,7 @@ Comprehensive incident response management system:
 
 #### System Outage
 
-```
+```text
 System Outage Response Workflow
 ==============================
 
@@ -106,7 +106,7 @@ Resolution Phase (varies):
 
 #### Security Incident
 
-```
+```text
 Security Incident Response Workflow
 ==================================
 
@@ -423,7 +423,7 @@ integrations:
 
 ### Reporting and Analytics
 
-```
+```text
 Monthly Incident Report
 ======================
 

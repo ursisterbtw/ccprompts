@@ -380,7 +380,7 @@ You will implement comprehensive agent monitoring and optimization systems that 
 
 ### Performance Trends
 
-```
+```text
 Metric: [metric-name]
 ├── Current Value: [current measurement]
 ├── Trend: [improving|stable|declining]

@@ -2,7 +2,7 @@
 
 ## Usage
 
-```
+```bash
 /agent-communicate [protocol] [agents] [message-type]
 ```
 

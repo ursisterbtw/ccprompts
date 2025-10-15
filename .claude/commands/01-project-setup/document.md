@@ -4,7 +4,7 @@ This command provides access to comprehensive documentation generation and knowl
 
 ## Usage
 
-```
+```bash
 /document [target] [format]
 ```
 
@@ -25,7 +25,7 @@ Creates comprehensive, maintainable documentation and knowledge systems:
 
 ## Examples
 
-```
+```bash
 /document api interactive
 /document user markdown
 /document architecture searchable
@@ -93,3 +93,4 @@ CLAUDE.CONFIG:
    - Establish audit trails and accountability measures
 </instructions>
 ```
+

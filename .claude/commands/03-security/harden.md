@@ -4,7 +4,7 @@ This command provides an end-to-end security hardening workflow implementing def
 
 ## Usage
 
-```
+```bash
 /harden [security-level]
 ```
 
@@ -25,7 +25,7 @@ Executes a comprehensive security hardening workflow that implements multiple se
 
 ## Examples
 
-```
+```bash
 /harden enterprise
 /harden paranoid
 /harden compliance
@@ -106,4 +106,10 @@ CLAUDE.CONFIG:
    - Create comprehensive documentation and reporting
    - Establish audit trails and accountability measures
 </instructions>
+```
+
+## Example Usage
+
+```bash
+/harden enterprise
 ```

@@ -6,7 +6,7 @@ Comprehensive backup solution that automatically detects and backs up critical p
 
 ## Usage
 
-```
+```bash
 /backup [strategy] [destination]
 ```
 
@@ -17,7 +17,7 @@ Comprehensive backup solution that automatically detects and backs up critical p
 
 ## Examples
 
-```
+```bash
 /backup
 /backup full local
 /backup incremental s3
@@ -101,3 +101,4 @@ CLAUDE.CONFIG:
    - Establish compliance reporting and accountability measures
 </instructions>
 ```
+

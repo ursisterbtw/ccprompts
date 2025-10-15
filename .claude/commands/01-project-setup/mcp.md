@@ -4,7 +4,7 @@ This command provides access to MCP (Model Context Protocol) server configuratio
 
 ## Usage
 
-```
+```bash
 /mcp [action] [integration]
 ```
 
@@ -25,7 +25,7 @@ Configures and tests MCP server integrations for enhanced Claude Code capabiliti
 
 ## Examples
 
-```
+```bash
 /mcp setup github
 /mcp test database
 /mcp configure monitoring
@@ -94,3 +94,4 @@ CLAUDE.CONFIG:
    - Create documentation and guides for MCP server management
 </instructions>
 ```
+

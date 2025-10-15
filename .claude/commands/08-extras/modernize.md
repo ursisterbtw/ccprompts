@@ -4,7 +4,7 @@ This command provides a complete legacy modernization workflow chaining multiple
 
 ## Usage
 
-```
+```bash
 /modernize [legacy-type]
 ```
 
@@ -25,7 +25,7 @@ Executes a comprehensive legacy modernization workflow that chains multiple prom
 
 ## Examples
 
-```
+```bash
 /modernize monolith
 /modernize legacy-frontend
 /modernize full-stack
@@ -99,4 +99,5 @@ CLAUDE.CONFIG:
    - Create comprehensive documentation and reporting
    - Establish audit trails and accountability measures
 </instructions>
-```
+```bash
+/modernize monolith

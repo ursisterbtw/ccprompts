@@ -6,7 +6,7 @@ Provides systematic debugging assistance and troubleshooting guidance for softwa
 
 ## Usage
 
-```
+```bash
 /troubleshoot [issue-type] [context] [urgency]
 ```
 
@@ -62,7 +62,7 @@ ACTIVATE when users need debugging assistance, error resolution, performance tro
    free -h
    ```
 
-3. **Collect Essential Information**:
+1. **Collect Essential Information**:
    - Current error messages/symptoms
    - When the issue started
    - Recent changes or deployments
@@ -480,9 +480,9 @@ Provide a comprehensive troubleshooting report that includes:
 Remember: The goal is not just to fix the immediate problem, but to build debugging capabilities, improve processes, and prevent future issues. Every troubleshooting session is an opportunity to strengthen the team's problem-solving skills and the system's resilience.
 </instructions>
 
-<examples>
+## Examples
 
-## Example 1: Production Error Troubleshooting
+### Example 1: Production Error Troubleshooting
 
 **Command**: `/troubleshoot error production critical`
 
@@ -596,24 +596,24 @@ KNOWLEDGE GAINED:
 - Environment setup automation
 ```
 
-</examples>
+---
 
-<thinking>
+## Implementation Analysis
+
 This troubleshooting command is designed to be comprehensive and educational, providing systematic debugging guidance while building team capabilities. The structure follows a logical progression from immediate triage through resolution and knowledge capture.
 
-Key strengths of this implementation:
+### Key Strengths
 
-1. Urgency-based response protocols
-2. Systematic debugging methodologies
-3. AI-powered error analysis patterns
-4. Comprehensive solution validation
-5. Strong focus on learning and knowledge sharing
-6. Integration with existing tools and systems
-7. Clear communication templates
-8. Follow-up and monitoring procedures
+1. **Urgency-based response protocols**
+2. **Systematic debugging methodologies**
+3. **AI-powered error analysis patterns**
+4. **Comprehensive solution validation**
+5. **Strong focus on learning and knowledge sharing**
+6. **Integration with existing tools and systems**
+7. **Clear communication templates**
+8. **Follow-up and monitoring procedures**
 
 The command balances immediate problem-solving with long-term capability building, making it valuable for both crisis response and continuous improvement.
-</thinking>
 
 ```
 

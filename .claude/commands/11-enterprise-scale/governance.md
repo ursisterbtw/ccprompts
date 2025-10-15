@@ -337,7 +337,7 @@ You will implement comprehensive enterprise governance capabilities that manage 
 
 ### Policy Management
 
-```
+```text
 Policy Landscape:
 ├── Security Policies: [count] policies covering security domains
 ├── Compliance Policies: [count] regulatory compliance policies

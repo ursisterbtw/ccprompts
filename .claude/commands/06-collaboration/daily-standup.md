@@ -2,7 +2,7 @@
 
 ## Usage
 
-```
+```bash
 /daily-standup [team] [format]
 ```
 
@@ -290,3 +290,4 @@ CLAUDE.CONFIG:
    - Establish accountability and continuous improvement measures
 </instructions>
 ```
+

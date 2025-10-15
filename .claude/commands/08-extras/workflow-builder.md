@@ -4,7 +4,7 @@ This command provides an interactive workflow creation and management interface 
 
 ## Usage
 
-```
+```bash
 /workflow-builder [action] [workflow-name]
 ```
 
@@ -15,7 +15,7 @@ This command provides an interactive workflow creation and management interface 
 
 ## Examples
 
-```
+```bash
 /workflow-builder create
 /workflow-builder edit production-deployment
 /workflow-builder run full-security-audit
@@ -532,7 +532,7 @@ steps:
 
 ### Step Configuration
 
-```
+```text
 Step Configuration: Security Audit
 ================================
 

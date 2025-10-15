@@ -4,7 +4,7 @@ This command provides comprehensive automated code review capabilities with inte
 
 ## Usage
 
-```
+```bash
 /code-review [scope] [focus] [depth]
 ```
 
@@ -16,7 +16,7 @@ This command provides comprehensive automated code review capabilities with inte
 
 ## Examples
 
-```
+```bash
 /code-review pr security thorough
 /code-review branch all comprehensive
 /code-review commit performance quick
@@ -76,7 +76,7 @@ AI-powered code review system with multi-dimensional analysis:
 
 ### Quick Review (5-15 minutes)
 
-```
+```text
 Quick Code Review Summary
 ========================
 
@@ -101,7 +101,7 @@ Quick Code Review Summary
 
 ### Thorough Review (30-60 minutes)
 
-```
+```text
 Thorough Code Review Analysis
 ============================
 
@@ -142,7 +142,7 @@ Thorough Code Review Analysis
 
 ### Comprehensive Review (2-4 hours)
 
-```
+```text
 Comprehensive Code Review Report
 ===============================
 
@@ -229,7 +229,7 @@ Areas for Improvement:
 
 ### Expert Review (1-2 days)
 
-```
+```text
 Expert Code Review & Architectural Analysis
 ==========================================
 
@@ -390,7 +390,7 @@ github:
 
 ### Team Review Workflows
 
-```
+```text
 Team Code Review Workflow
 =========================
 

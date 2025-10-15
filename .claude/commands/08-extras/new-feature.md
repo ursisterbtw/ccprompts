@@ -4,7 +4,7 @@ This command provides a complete feature development workflow from planning to d
 
 ## Usage
 
-```
+```bash
 /new-feature [type] [testing-level]
 ```
 
@@ -26,7 +26,7 @@ Executes a comprehensive feature development workflow following best practices:
 
 ## Examples
 
-```
+```bash
 /new-feature api tdd
 /new-feature full-stack comprehensive
 /new-feature microservice tdd
@@ -106,4 +106,5 @@ CLAUDE.CONFIG:
    - Create comprehensive documentation and reporting
    - Establish audit trails and accountability measures
 </instructions>
-```
+```bash
+/new-feature api tdd

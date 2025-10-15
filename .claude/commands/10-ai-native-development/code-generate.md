@@ -322,7 +322,7 @@ You will implement code generation capabilities that create contextually appropr
 
 ### Generated Code Structure
 
-```
+```text
 Generated Components:
 ├── Main Implementation: [primary code files and structure]
 ├── Supporting Files: [helper functions, utilities, configurations]

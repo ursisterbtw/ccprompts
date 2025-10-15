@@ -13,27 +13,31 @@ class StructureValidator {
     this.errors = [];
     this.warnings = [];
 
+    const source = typeof content === 'string' ? content : '';
+    // output_format is optional, only role/activation/instructions are required
     const requiredSections = [
       '<role>',
       '<activation>',
-      '<instructions>',
-      '<output_format>'
+      '<instructions>'
     ];
 
     const missingSections = [];
     requiredSections.forEach(section => {
-      if (!content.includes(section)) {
+      if (!source.includes(section)) {
         missingSections.push(section);
       }
     });
 
     if (missingSections.length > 0) {
-      this.errors.push(`${filename}: Missing XML sections: ` + missingSections.join(', '));
+      this.errors.push(`${filename}: Missing XML sections: ${missingSections.join(', ')}`);
       return false;
     }
 
-    const contentWithoutCodeBlocks = content
-      .replace(/```[\s\S]*?```/g, '')
+    const contentWithoutCodeBlocks = source
+      .replace(/```[\s\S]*?```/g, block => {
+        const newlineCount = (block.match(/\n/g) || []).length;
+        return '\n'.repeat(newlineCount);
+      })
       .replace(/`[^`]*`/g, '');
 
     const tagStack = [];
@@ -43,34 +47,41 @@ class StructureValidator {
     let lastIndex = 0;
 
     while ((match = xmlTagRegex.exec(contentWithoutCodeBlocks)) !== null) {
-      const currentLineNum = content.substring(lastIndex, match.index).split('\n').length - 1 + lineNumber;
-      lastIndex = match.index;
-
+      const segment = contentWithoutCodeBlocks.slice(lastIndex, match.index);
+      lineNumber += (segment.match(/\n/g) || []).length;
       const fullTag = match[0];
       const tagName = match[1];
+      const tagLineNumber = lineNumber;
 
       if (fullTag.startsWith('<!--') || fullTag.endsWith('/>') || fullTag.startsWith('<?')) {
+        lineNumber += (fullTag.match(/\n/g) || []).length;
+        lastIndex = match.index + fullTag.length;
         continue;
       }
 
       if (fullTag.startsWith('</')) {
         if (tagStack.length === 0) {
-          this.errors.push(`${filename}:${currentLineNum}: Unexpected closing tag: ${fullTag}`);
+          this.errors.push(`${filename}:${tagLineNumber}: Unexpected closing tag: ${fullTag}`);
           return false;
         }
 
         const expectedTag = tagStack.pop();
-        if (expectedTag !== tagName) {
-          this.errors.push(`${filename}:${currentLineNum}: Mismatched XML tags - expected </${expectedTag}>, found </${tagName}>`);
+        if (expectedTag.name !== tagName) {
+          this.errors.push(`${filename}:${tagLineNumber}: Mismatched XML tags - expected </${expectedTag.name}>, found </${tagName}>`);
           return false;
         }
       } else {
-        tagStack.push(tagName);
+        tagStack.push({ name: tagName, line: tagLineNumber });
       }
+
+      lineNumber += (fullTag.match(/\n/g) || []).length;
+      lastIndex = match.index + fullTag.length;
     }
 
     if (tagStack.length > 0) {
-      this.errors.push(`${filename}: Unclosed XML tags: ` + tagStack.join(', '));
+      const unclosedTags = tagStack.map(tag => tag.name);
+      const firstLine = tagStack[0].line;
+      this.errors.push(`${filename}:${firstLine}: Unclosed XML tags: ${unclosedTags.join(', ')}`);
       return false;
     }
 
@@ -93,56 +104,104 @@ class StructureValidator {
     );
 
     if (missingSections.length > 0) {
-      this.errors.push(`${filename}: Missing command sections: ` + missingSections.join(', '));
+      this.errors.push(`${filename}: Missing command sections: ${missingSections.join(', ')}`);
     }
 
     const usageSectionMatch = content.match(/^\s*##\s*Usage\s*([\s\S]*?)(^\s*##\s|$)/im);
+    let isValid = missingSections.length === 0;
+
     if (usageSectionMatch) {
       const usageSection = usageSectionMatch[1];
-      if (!usageSection.includes('```')) {
+      const hasFencedCode = usageSection.includes('```');
+      const hasIndentedCode = /^\s{4,}\S/m.test(usageSection);
+      const hasCodeBlock = hasFencedCode || hasIndentedCode;
+      const hasContent = usageSection.trim().length > 0;
+
+      if (!hasCodeBlock) {
         this.warnings.push(`${filename}: Usage section should include command format example`);
+        if (hasContent) {
+          isValid = false;
+        }
       }
     }
 
-    return missingSections.length === 0;
+    return isValid;
   }
 
   extractMarkdownSection(content, heading) {
-    const normalizedHeading = heading.trim().toLowerCase();
-    const headingLevel = heading.match(/^#+/)?.[0].length || 2;
+    if (typeof content !== 'string' || typeof heading !== 'string' || heading.trim() === '') {
+      return null;
+    }
 
-    const headingPattern = normalizedHeading
-      .replace(/^#+\s*/, '')
-      .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-      .split(/\s+/)
-      .join('\\s+');
+    const normalizeHeading = value =>
+      value
+        .trim()
+        .replace(/^#+\s*/, '')
+        .toLowerCase()
+        .replace(/\s+/g, ' ');
 
-    let nextHeadingPattern = '';
-    for (let i = 1; i <= headingLevel; i++) {
-      if (i > 1) {
-        nextHeadingPattern += '|';
+    const targetLevel = heading.match(/^#+/)?.[0].length || 2;
+    const targetHeading = normalizeHeading(heading);
+
+    const lines = content.split(/\r?\n/);
+    const sections = [];
+    let collecting = false;
+    let buffer = [];
+
+    const flushBuffer = () => {
+      if (!collecting) {
+        return;
       }
-      nextHeadingPattern += `^#{${i}}\\s`;
-    }
+      let sectionContent = buffer.join('\n');
+      sectionContent = sectionContent.replace(/^(?:\r?\n)+/, '');
+      sectionContent = sectionContent.replace(/(?:\r?\n)+$/, '');
+      sections.push(sectionContent);
+      collecting = false;
+      buffer = [];
+    };
 
-    const regex = new RegExp(
-      `^#{${headingLevel}}\\s+${headingPattern}\\s*\\n([\\s\\S]*?)(?=(${nextHeadingPattern})|\\s*$)`,
-      'gmi'
-    );
+    for (const line of lines) {
+      const headingMatch = line.match(/^\s*(#+)\s+(.*)$/);
+      if (headingMatch) {
+        const lineLevel = headingMatch[1].length;
+        const normalizedLineHeading = normalizeHeading(line);
 
-    const matches = [];
-    let match;
-    while ((match = regex.exec(content)) !== null) {
-      matches.push(match[1].trim());
-    }
-    if (matches.length > 1) {
-      if (this && this.errors) {
-        this.errors.push(`Warning: Multiple sections found for heading "${heading}". Only the first will be used.`);
-      } else {
-        console.warn(`Warning: Multiple sections found for heading "${heading}". Only the first will be used.`);
+        const shouldStop =
+          lineLevel <= targetLevel || (targetLevel === 1 && lineLevel > targetLevel);
+
+        if (collecting && shouldStop) {
+          flushBuffer();
+        }
+
+        if (lineLevel === targetLevel && normalizedLineHeading === targetHeading) {
+          flushBuffer();
+          collecting = true;
+          buffer = [];
+          continue;
+        }
+      }
+
+      if (collecting) {
+        buffer.push(line);
       }
     }
-    return matches.length > 0 ? matches[0] : null;
+
+    if (collecting) {
+      flushBuffer();
+    }
+
+    if (sections.length > 1) {
+      if (!Array.isArray(this?.warnings)) {
+        this.warnings = [];
+      }
+      this.warnings.push(`Warning: Multiple sections found for heading "${heading}". Only the first will be used.`);
+    }
+
+    if (sections.length === 0) {
+      return null;
+    }
+
+    return sections[0];
   }
 
   getErrors() {

@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync, spawn } = require('child_process');
 const safetyPatterns = require('./config/safety-patterns');
+const { HEURISTIC_PATTERNS } = safetyPatterns;
 
 class SafetyValidator {
   constructor() {
@@ -68,29 +69,88 @@ class SafetyValidator {
         return;
       }
 
+      const recordedSnippets = new Set();
       // check patterns with early exit for critical patterns
       for (const { pattern, severity, message, skipIfIncludes } of allPatterns) {
-        const matches = blockContent.match(pattern);
-        if (matches) {
-          // check skip conditions for false positive reduction
-          const shouldSkip = skipIfIncludes && skipIfIncludes.some(skip =>
-            blockContent.toLowerCase().includes(skip.toLowerCase())
-          );
+        const skipKeywords = (skipIfIncludes || []).filter(keyword => keyword.toLowerCase() !== 'test');
+        const flags = pattern.flags.includes('g') ? pattern.flags : `${pattern.flags}g`;
 
-          if (!shouldSkip) {
-            findings.push({
-              filename,
-              blockIndex: index,
-              pattern: pattern.source,
-              severity,
-              message,
-              matches: matches.slice(0, 3),
-              codeSnippet: blockContent.substring(0, 100) + (blockContent.length > 100 ? '...' : ''),
-              language: typeof block === 'string' ? undefined : block.language
-            });
+        let regex;
+        try {
+          regex = new RegExp(pattern.source, flags);
+          regex.lastIndex = 0;
+        } catch (error) {
+          this.safetyResults.warnings.push(
+            `Invalid regex pattern in safety validation: ${pattern.source} - ${error.message}`
+          );
+          continue;
+        }
+
+        const matchedSnippets = [];
+        let matchResult;
+
+        while ((matchResult = regex.exec(blockContent)) !== null) {
+          const matchedText = matchResult[0];
+
+          if (skipKeywords.length > 0 && skipKeywords.some(skip => matchedText.toLowerCase().includes(skip.toLowerCase()))) {
+            continue;
           }
+
+          matchedSnippets.push(matchedText);
+        }
+
+        if (matchedSnippets.length > 0) {
+          findings.push({
+            filename,
+            blockIndex: index,
+            pattern: pattern.source,
+            severity,
+            message,
+            matches: matchedSnippets.slice(0, 3),
+            codeSnippet: blockContent.substring(0, 100) + (blockContent.length > 100 ? '...' : ''),
+            language: typeof block === 'string' ? undefined : block.language
+          });
+
+          matchedSnippets.slice(0, 3).forEach(snippet => recordedSnippets.add(snippet));
         }
       }
+
+      HEURISTIC_PATTERNS.forEach(({ regex, severity, message }) => {
+        let heuristicRegex;
+        try {
+          heuristicRegex = new RegExp(regex.source, regex.flags.includes('g') ? regex.flags : `${regex.flags}g`);
+          heuristicRegex.lastIndex = 0;
+        } catch (error) {
+          this.safetyResults.warnings.push(
+            `Invalid heuristic regex pattern: ${regex.source} - ${error.message}`
+          );
+          return;
+        }
+
+        const heuristicMatches = [];
+        let heuristicMatch;
+
+        while ((heuristicMatch = heuristicRegex.exec(blockContent)) !== null) {
+          const matchedText = heuristicMatch[0];
+          if (!recordedSnippets.has(matchedText)) {
+            heuristicMatches.push(matchedText);
+          }
+        }
+
+        if (heuristicMatches.length > 0) {
+          heuristicMatches.slice(0, 3).forEach(snippet => recordedSnippets.add(snippet));
+          findings.push({
+            filename,
+            blockIndex: index,
+            pattern: regex.source,
+            severity,
+            message,
+            matches: heuristicMatches.slice(0, 3),
+            codeSnippet: blockContent.substring(0, 100) + (blockContent.length > 100 ? '...' : ''),
+            language: typeof block === 'string' ? undefined : block.language
+          });
+        }
+      });
     });
 
     return findings;

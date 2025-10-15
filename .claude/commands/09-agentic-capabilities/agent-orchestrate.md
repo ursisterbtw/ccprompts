@@ -4,7 +4,7 @@ This command coordinates multiple AI agents to work collaboratively on complex, 
 
 ## Usage
 
-```
+```bash
 /agent-orchestrate [task-type] [--agents N] [--strategy parallel|sequential|hybrid]
 ```
 

@@ -11,13 +11,62 @@ class FileUtils {
     this.excludePatterns = excludePatterns;
   }
 
+  // validate path to prevent directory traversal attacks
+  validatePath(inputPath) {
+    if (!inputPath || typeof inputPath !== 'string') {
+      throw new Error('Invalid path: path must be a non-empty string');
+    }
+
+    // check for null bytes before any processing
+    if (inputPath.includes('\0')) {
+      throw new Error(`Invalid path: null byte detected in "${inputPath}"`);
+    }
+
+    // resolve to absolute path to eliminate relative components
+    const resolved = path.resolve(inputPath);
+
+    // defense in depth: verify no suspicious patterns remain after resolution
+    // path segments should never contain '..' after proper resolution
+    const segments = resolved.split(path.sep).filter(Boolean);
+    if (segments.includes('..') || segments.includes('.')) {
+      throw new Error(`Invalid path: suspicious path segments detected in "${inputPath}"`);
+    }
+
+    return resolved;
+  }
+
   findMarkdownFiles(directory) {
-    const files = [];
+    if (!directory) {
+      throw new Error('Directory parameter is required');
+    }
+
+    // validate the path to prevent security issues
+    const validatedPath = this.validatePath(directory);
+
+    if (!fs.existsSync(validatedPath)) {
+      throw new Error(`Directory "${validatedPath}" does not exist or is not accessible`);
+    }
+
+    const results = [];
+    const visited = new Set();
+    const startPath = path.resolve(validatedPath);
 
     const walk = (dir) => {
-      const dirName = path.basename(dir);
-      if (this.excludePatterns.some(pattern => dirName.includes(pattern))) {
+      // prevent infinite loops and exclude unwanted directories
+      if (this.shouldExclude(dir) || visited.has(dir)) {
         return;
+      }
+
+      try {
+        const realDir = fs.realpathSync(dir);
+        if (visited.has(realDir)) {
+          return;
+        }
+        visited.add(dir);
+        visited.add(realDir);
+      } catch {
+        // if we can't resolve realpath, still add the original path
+        visited.add(dir);
       }
 
       try {
@@ -25,21 +74,39 @@ class FileUtils {
 
         for (const item of items) {
           const fullPath = path.join(dir, item);
-          const stat = fs.statSync(fullPath);
 
-          if (stat.isDirectory()) {
-            walk(fullPath);
-          } else if (item.endsWith('.md')) {
-            files.push(fullPath);
+          if (this.shouldExclude(fullPath)) {
+            continue;
+          }
+
+          try {
+            const stats = fs.lstatSync(fullPath);
+
+            if (stats.isDirectory()) {
+              walk(fullPath);
+            } else if (stats.isSymbolicLink()) {
+              const linkStats = fs.statSync(fullPath);
+              if (linkStats.isDirectory()) {
+                walk(fullPath);
+              } else if (linkStats.isFile() && fullPath.toLowerCase().endsWith('.md')) {
+                results.push(fullPath);
+              }
+            } else if (stats.isFile() && fullPath.toLowerCase().endsWith('.md')) {
+              results.push(fullPath);
+            }
+          } catch {
+            // skip files/directories we can't access
+            continue;
           }
         }
-      } catch (error) {
-        console.error(`Error reading directory ${dir}:`, error.message);
+      } catch {
+        // skip directories we can't read
+        return;
       }
     };
 
-    walk(directory);
-    return files;
+    walk(startPath);
+    return results;
   }
 
   readFileContent(filepath) {
@@ -51,11 +118,16 @@ class FileUtils {
   }
 
   getRelativePath(filepath, rootDir) {
-    return path.relative(rootDir, filepath);
+    const relativePath = path.relative(rootDir, filepath);
+    return relativePath === '' ? '.' : relativePath;
   }
 
   shouldExclude(filepath) {
-    const segments = filepath.split(path.sep);
+    if (!this.excludePatterns || this.excludePatterns.length === 0) {
+      return false;
+    }
+
+    const segments = filepath.split(/[/\\]+/).filter(Boolean);
     return this.excludePatterns.some(pattern => {
       if (pattern instanceof RegExp) {
         return pattern.test(filepath);

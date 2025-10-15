@@ -6,7 +6,7 @@ Intelligent migration system for databases, APIs, and infrastructure changes wit
 
 ## Usage
 
-```
+```bash
 /migrate [type] [direction] [target]
 ```
 
@@ -18,7 +18,7 @@ Intelligent migration system for databases, APIs, and infrastructure changes wit
 
 ## Examples
 
-```
+```bash
 /migrate
 /migrate database up latest
 /migrate api down v2.0
@@ -102,4 +102,10 @@ CLAUDE.CONFIG:
    - Create comprehensive migration documentation
    - Establish audit trails and accountability measures
 </instructions>
+```
+
+## Example Usage
+
+```bash
+/migrate
 ```

@@ -4,7 +4,7 @@ This command provides access to comprehensive CI/CD pipeline and Infrastructure 
 
 ## Usage
 
-```
+```bash
 /deploy [environment] [strategy]
 ```
 
@@ -25,7 +25,7 @@ Implements sophisticated CI/CD pipelines and infrastructure automation:
 
 ## Examples
 
-```
+```bash
 /deploy prod blue-green
 /deploy multi-cloud enterprise
 /deploy staging basic
@@ -91,4 +91,5 @@ CLAUDE.CONFIG:
    - Create comprehensive documentation and reporting
    - Establish audit trails and accountability measures
 </instructions>
-```
+```bash
+/deploy prod blue-green

@@ -4,7 +4,7 @@ This command checks if the development environment is properly configured for ex
 
 ## Usage
 
-```
+```bash
 /validate-environment
 ```
 
@@ -131,7 +131,7 @@ Platform and OS-specific guidance:
 
 ## Example Validation Report
 
-```
+```text
 Claude Code Environment Validation Report
 ==========================================
 
