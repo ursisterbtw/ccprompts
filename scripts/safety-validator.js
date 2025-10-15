@@ -74,8 +74,17 @@ class SafetyValidator {
       for (const { pattern, severity, message, skipIfIncludes } of allPatterns) {
         const skipKeywords = (skipIfIncludes || []).filter(keyword => keyword.toLowerCase() !== 'test');
         const flags = pattern.flags.includes('g') ? pattern.flags : `${pattern.flags}g`;
-        const regex = new RegExp(pattern.source, flags);
-        regex.lastIndex = 0;
+
+        let regex;
+        try {
+          regex = new RegExp(pattern.source, flags);
+          regex.lastIndex = 0;
+        } catch (error) {
+          this.safetyResults.warnings.push(
+            `Invalid regex pattern in safety validation: ${pattern.source} - ${error.message}`
+          );
+          continue;
+        }
 
         const matchedSnippets = [];
         let matchResult;
@@ -107,8 +116,16 @@ class SafetyValidator {
       }
 
       HEURISTIC_PATTERNS.forEach(({ regex, severity, message }) => {
-        const heuristicRegex = new RegExp(regex.source, regex.flags.includes('g') ? regex.flags : `${regex.flags}g`);
-        heuristicRegex.lastIndex = 0;
+        let heuristicRegex;
+        try {
+          heuristicRegex = new RegExp(regex.source, regex.flags.includes('g') ? regex.flags : `${regex.flags}g`);
+          heuristicRegex.lastIndex = 0;
+        } catch (error) {
+          this.safetyResults.warnings.push(
+            `Invalid heuristic regex pattern: ${regex.source} - ${error.message}`
+          );
+          return;
+        }
 
         const heuristicMatches = [];
         let heuristicMatch;

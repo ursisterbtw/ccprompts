@@ -98,9 +98,10 @@ describe('FileUtils Module', () => {
       expect(files).toEqual([]);
     });
 
-    test('should handle non-existent directory', () => {
-      const files = fileUtils.findMarkdownFiles('/non/existent/path');
-      expect(files).toEqual([]);
+    test('should throw error for non-existent directory', () => {
+      expect(() => {
+        fileUtils.findMarkdownFiles('/non/existent/path');
+      }).toThrow('does not exist or is not accessible');
     });
 
     test('should handle directory with read errors gracefully', () => {

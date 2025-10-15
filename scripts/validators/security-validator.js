@@ -103,8 +103,9 @@ class SecurityValidator {
   // unified pattern scanning method
   scanPatterns = (block, filename, patterns) => {
     for (const { regex, message, skipIfIncludes = [], filter } of patterns) {
-      // clone regex to avoid mutating shared objects
-      const clonedRegex = new RegExp(regex.source, regex.flags);
+      // clone regex to avoid mutating shared objects, ensure global flag
+      const flags = regex.flags.includes('g') ? regex.flags : regex.flags + 'g';
+      const clonedRegex = new RegExp(regex.source, flags);
       let match;
       while ((match = clonedRegex.exec(block)) !== null) {
         const fullMatch = match[0];
