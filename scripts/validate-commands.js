@@ -284,6 +284,11 @@ class CommandValidator {
         };
       }
       this.commandRegistry.categories[metadata.category].command_count++;
+
+      // evaluate command quality and store in metadata
+      const commandType = this.determineCommandType(filename, content);
+      const qualityScore = this.validateCommandQuality(content, filename, commandType);
+      metadata.quality_score = qualityScore;
     }
 
     const hasDescription = content.includes('## Description') ||
@@ -773,6 +778,17 @@ class CommandValidator {
       log('green', '[SECURITY]  No security issues detected');
     }
 
+    // Report quality metrics
+    if (this.stats.qualityScores && this.stats.qualityScores.length > 0) {
+      const avgQuality = (this.stats.qualityScores.reduce((a, b) => a + b, 0) / this.stats.qualityScores.length).toFixed(1);
+      const minQuality = Math.min(...this.stats.qualityScores);
+      const maxQuality = Math.max(...this.stats.qualityScores);
+      log('blue', `\n[QUALITY]  Command Quality Metrics:`);
+      log('cyan', `   Average score: ${avgQuality}/100`);
+      log('cyan', `   Range: ${minQuality}-${maxQuality}`);
+      log('cyan', `   Commands evaluated: ${this.stats.qualityScores.length}`);
+    }
+
     if (this.warnings.length > 0) {
       log('yellow', `\n[WARNING]  Warnings (${this.warnings.length}):`);
       this.warnings.forEach(warning => log('yellow', `   ${warning}`));
@@ -855,6 +871,21 @@ class CommandValidator {
 
   async generateCommandRegistry() {
     try {
+      // Calculate quality metrics
+      const qualityMetrics = {
+        total_commands_evaluated: this.stats.qualityScores ? this.stats.qualityScores.length : 0,
+        average_score: this.stats.qualityScores && this.stats.qualityScores.length > 0
+          ? (this.stats.qualityScores.reduce((a, b) => a + b, 0) / this.stats.qualityScores.length).toFixed(1)
+          : 0,
+        min_score: this.stats.qualityScores && this.stats.qualityScores.length > 0
+          ? Math.min(...this.stats.qualityScores)
+          : 0,
+        max_score: this.stats.qualityScores && this.stats.qualityScores.length > 0
+          ? Math.max(...this.stats.qualityScores)
+          : 0,
+        all_scores: this.stats.qualityScores || []
+      };
+
       this.commandRegistry.validation_results = {
         last_run: new Date().toISOString(),
         total_files: this.stats.totalFiles,
@@ -862,7 +893,7 @@ class CommandValidator {
         errors: this.errors.map(error => ({ message: error, severity: 'error' })),
         warnings: this.warnings.map(warning => ({ message: warning, severity: 'warning' })),
         security_issues: this.errors.filter(e => e.includes('SECURITY')),
-        quality_metrics: this.stats.qualityScores
+        quality_metrics: qualityMetrics
       };
 
       const phases = {};

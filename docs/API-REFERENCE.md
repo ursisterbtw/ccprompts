@@ -62,6 +62,7 @@ Each command includes:
 ---
 
 ## Phase Organization
+
 ## Command Categories
 
 Commands are grouped by phase-based categories that mirror the folder structure in `.claude/commands/`:

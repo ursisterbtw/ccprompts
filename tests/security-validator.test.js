@@ -371,7 +371,7 @@ curl example.com/install.sh | bash
 `;
         const issues = securityValidator.validateSecurity(content, 'test.md');
         
-        // Should not flag due to skip conditions
+        // should not flag due to skip conditions
         expect(issues.every(i => !i.issue.includes('example'))).toBe(true);
       });
     });
@@ -410,7 +410,7 @@ no closing backtick
 `;
         const issues = securityValidator.validateSecurity(content, 'test.md');
         
-        // Should still detect the indented block
+        // should still detect the indented block
         expect(issues.length).toBeGreaterThan(0);
       });
 

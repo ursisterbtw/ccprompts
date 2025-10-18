@@ -222,7 +222,7 @@ Provide structured output with clear sections and proper formatting for maximum 
         const content = '# With Context\n\n## Context\nSome context.\n\nExample: Context example';
         const result = qualityScorer.validatePromptQuality(content, 'test.md');
         
-        // Base score 95 (no structure), bonus 3 = 98
+        // base score 95 (no structure), bonus 3 = 98
         expect(result.score).toBe(98);
       });
 
@@ -237,7 +237,7 @@ Provide structured output with clear sections and proper formatting for maximum 
         const content = '# With Notes\n\n## Notes\nSome notes.\n\nExample: Notes example';
         const result = qualityScorer.validatePromptQuality(content, 'test.md');
         
-        // Base score 95, bonus 2 = 97
+        // base score 95, bonus 2 = 97
         expect(result.score).toBe(97);
       });
 

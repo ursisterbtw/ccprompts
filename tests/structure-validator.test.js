@@ -634,7 +634,7 @@ Second instance.
       });
 
       test('should not warn for multiple matches when errors array not available', () => {
-        // Call extractMarkdownSection without context
+        // call extractMarkdownSection without context
         const result = StructureValidator.prototype.extractMarkdownSection.call(
           { errors: null },
           multipleMatchContent,

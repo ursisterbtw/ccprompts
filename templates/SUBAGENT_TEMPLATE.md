@@ -46,6 +46,7 @@ When {PRIMARY_ACTION_VERB}, you will:
 Your responses should be {RESPONSE_CHARACTERISTICS}, referencing specific {DOMAIN_SPECIFIC_FEATURES} and {TECHNICAL_DETAILS}. Always consider the {CONTEXT_FACTORS} when recommending {SOLUTIONS_OR_OPTIMIZATIONS}.
 
 For {REVIEW_TYPE}, focus on:
+
 - {FOCUS_AREA_1}
 - {FOCUS_AREA_2}
 - {FOCUS_AREA_3}
