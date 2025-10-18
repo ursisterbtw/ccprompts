@@ -6,11 +6,11 @@
 
 const path = require('path');
 
-// Import utility modules
+// import utility modules
 const { fileExists, isSymlink, readJSON, readFile, countFiles, readSymlinkTarget } = require('../lib/fsUtils');
 const { isGitRepo, getTrackedFiles, hasUntrackedFiles } = require('../lib/gitUtils');
 
-// Colors for output
+// colors for output
 const colors = {
   reset: '\x1b[0m',
   red: '\x1b[31m',
@@ -30,10 +30,10 @@ class PluginValidator {
 
   log(level, message) {
     const symbols = {
-      error: '✗',
-      warning: '⚠',
-      success: '✓',
-      info: 'ℹ'
+      error: 'x',
+      warning: '!',
+      success: '+',
+      info: 'i'
     };
 
     const colorMap = {
@@ -109,7 +109,7 @@ class PluginValidator {
     }
   }
 
-  // Validation checks
+  // validation checks
   validatePluginManifest() {
     this.info('Validating plugin manifest...');
 
@@ -168,7 +168,7 @@ class PluginValidator {
 
     let allValid = true;
 
-    // Check commands symlink
+    // check commands symlink
     if (!this.fileExists('commands')) {
       this.error('commands/ symlink not found at project root');
       allValid = false;
@@ -188,7 +188,7 @@ class PluginValidator {
       }
     }
 
-    // Check agents symlink
+    // check agents symlink
     if (!this.fileExists('agents')) {
       this.error('agents/ symlink not found at project root');
       allValid = false;
@@ -223,7 +223,7 @@ class PluginValidator {
 
     this.success(`Found ${commandsInClaudeDir} command files in .claude/commands/`);
 
-    // Validate phase directories
+    // validate phase directories
     const expectedPhases = [
       '00-initial-workflow',
       '01-project-setup',
@@ -294,14 +294,14 @@ class PluginValidator {
   validateGitStatus() {
     this.info('Checking git status...');
 
-    // Validate that the working directory is a git repository
+    // validate that the working directory is a git repository
     if (!isGitRepo(this.projectRoot)) {
       this.warning('Not inside a git repository. Skipping git status checks.');
       return true;
     }
 
     try {
-      // Check if symlinks are tracked
+      // check if symlinks are tracked
       const trackedFiles = getTrackedFiles('commands agents', this.projectRoot);
 
       if (!trackedFiles || !trackedFiles.includes('commands') || !trackedFiles.includes('agents')) {
@@ -310,7 +310,7 @@ class PluginValidator {
         this.success('Symlinks are tracked in git');
       }
 
-      // Check for untracked plugin files
+      // check for untracked plugin files
       if (hasUntrackedFiles('.claude-plugin/', this.projectRoot)) {
         this.warning('Plugin configuration files are untracked. Consider: git add .claude-plugin/');
       }
@@ -347,7 +347,7 @@ class PluginValidator {
       this.warning(`package.json name is "${pkg.name}", expected "ccprompts"`);
     }
 
-    // Check for plugin validation script
+    // check for plugin validation script
     if (!pkg.scripts || !pkg.scripts['validate:plugin']) {
       this.warning('package.json missing validate:plugin script');
     }
@@ -360,11 +360,11 @@ class PluginValidator {
   }
 
   run() {
-    console.log(`${colors.cyan}╔════════════════════════════════════════════╗${colors.reset}`);
-    console.log(`${colors.cyan}║   CC Prompts Plugin Structure Validator    ║${colors.reset}`);
-    console.log(`${colors.cyan}╚════════════════════════════════════════════╝${colors.reset}\n`);
+    console.log(`${colors.cyan}+--------------------------------------------+${colors.reset}`);
+    console.log(`${colors.cyan}|   CC Prompts Plugin Structure Validator    |${colors.reset}`);
+    console.log(`${colors.cyan}+--------------------------------------------+${colors.reset}\n`);
 
-    // Run all validations
+    // run all validations
     this.validatePackageJson();
     this.validatePluginManifest();
     this.validateMarketplaceConfig();
@@ -374,14 +374,14 @@ class PluginValidator {
     this.validateDocumentation();
     this.validateGitStatus();
 
-    // Summary
-    console.log(`\n${colors.cyan}════════════════ Summary ═══════════════${colors.reset}`);
-    console.log(`${colors.green}✓ Successes: ${this.successes.length}${colors.reset}`);
-    console.log(`${colors.yellow}⚠ Warnings:  ${this.warnings.length}${colors.reset}`);
-    console.log(`${colors.red}✗ Errors:    ${this.errors.length}${colors.reset}`);
+    // summary
+    console.log(`\n${colors.cyan}================ Summary ===============${colors.reset}`);
+    console.log(`${colors.green}+ Successes: ${this.successes.length}${colors.reset}`);
+    console.log(`${colors.yellow}! Warnings:  ${this.warnings.length}${colors.reset}`);
+    console.log(`${colors.red}x Errors:    ${this.errors.length}${colors.reset}`);
 
     if (this.errors.length === 0) {
-      console.log(`\n${colors.green}✓ Plugin structure is valid and ready for distribution!${colors.reset}`);
+      console.log(`\n${colors.green}+ Plugin structure is valid and ready for distribution!${colors.reset}`);
       console.log(`\nNext steps:`);
       console.log(`  1. Test locally: ./scripts/test-plugin-local.sh`);
       console.log(`  2. Commit changes: git add . && git commit -m "feat: configure as Claude Code plugin"`);
@@ -389,16 +389,16 @@ class PluginValidator {
       console.log(`  4. Install in other projects: /plugin marketplace add ursisterbtw/ccprompts`);
       return 0;
     } else {
-      console.log(`\n${colors.red}✗ Plugin structure has errors that need to be fixed${colors.reset}`);
+      console.log(`\n${colors.red}x Plugin structure has errors that need to be fixed${colors.reset}`);
       return 1;
     }
   }
 }
 
-// Export for testing
+// export for testing
 module.exports = PluginValidator;
 
-// Run validator only if executed directly
+// run validator only if executed directly
 if (require.main === module) {
   const validator = new PluginValidator();
   process.exit(validator.run());

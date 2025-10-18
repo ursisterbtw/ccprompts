@@ -151,7 +151,7 @@ echo "test"
 \`\`\`
 `;
       const findings = safetyValidator.analyzeDangerousPatterns(contentWithEmpty, 'test.md');
-      // Should not process empty block
+      // should not process empty block
       expect(findings).toBeDefined();
     });
   });

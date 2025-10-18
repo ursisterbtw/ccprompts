@@ -21,7 +21,7 @@ describe('MainValidator Module', () => {
   });
 
   afterEach(() => {
-    // Clean temp directory
+    // clean temp directory
     if (fs.existsSync(tempDir)) {
       fs.rmSync(tempDir, { recursive: true, force: true });
       fs.mkdirSync(tempDir, { recursive: true });
@@ -29,7 +29,7 @@ describe('MainValidator Module', () => {
   });
 
   afterAll(() => {
-    // Final cleanup
+    // final cleanup
     if (fs.existsSync(tempDir)) {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
@@ -72,7 +72,7 @@ describe('MainValidator Module', () => {
       expect(Array.isArray(mainValidator.validators)).toBe(true);
       expect(mainValidator.validators.length).toBeGreaterThan(0);
       
-      // Check that each validator has required properties
+      // check that each validator has required properties
       mainValidator.validators.forEach(validator => {
         expect(validator).toHaveProperty('name');
         expect(validator).toHaveProperty('when');
@@ -171,7 +171,7 @@ Example usage.
         
         const result = mainValidator.validateFile(filepath);
         
-        // Security validator always runs
+        // security validator always runs
         expect(mainValidator.stats.securityReport).toBeDefined();
       });
 
@@ -204,7 +204,7 @@ Example usage.
         const filepath = path.join(tempDir, '.claude', 'commands', 'invalid.md');
         fs.mkdirSync(path.dirname(filepath), { recursive: true });
         
-        // Create content that will fail multiple validations
+        // create content that will fail multiple validations
         const content = `
 # Invalid Command
 
@@ -325,7 +325,7 @@ Important notes.
 
   describe('validateDirectory', () => {
     test('should validate all markdown files in directory', () => {
-      // Create test files
+      // create test files
       fs.writeFileSync(path.join(tempDir, 'file1.md'), '# File 1');
       fs.writeFileSync(path.join(tempDir, 'file2.md'), '# File 2');
       fs.writeFileSync(path.join(tempDir, 'not-md.txt'), 'Not markdown');
@@ -362,7 +362,7 @@ Important notes.
     });
 
     test('should calculate average quality score', () => {
-      // Create files with different quality scores
+      // create files with different quality scores
       fs.writeFileSync(path.join(tempDir, 'high-quality.md'), '# ' + 'a'.repeat(2000));
       fs.writeFileSync(path.join(tempDir, 'low-quality.md'), '# Short');
       
@@ -382,7 +382,7 @@ Important notes.
 
   describe('getResults', () => {
     test('should return complete validation results', () => {
-      // Create a test file
+      // create a test file
       const filepath = path.join(tempDir, 'test.md');
       const content = '# Test\n\nContent.';
       fs.writeFileSync(filepath, content);
@@ -401,7 +401,7 @@ Important notes.
 
   describe('generateSummary', () => {
     test('should generate summary with all required fields', () => {
-      // Create test files
+      // create test files
       fs.writeFileSync(path.join(tempDir, 'command.md'), '# Command\n\n## Description\nTest');
       fs.writeFileSync(path.join(tempDir, 'prompt.md'), '<role>Test</role>\n<activation>Test</activation>');
       
@@ -426,7 +426,7 @@ Important notes.
     });
 
     test('should calculate fileTypeBreakdown correctly', () => {
-      // Create files of different types
+      // create files of different types
       fs.writeFileSync(path.join(tempDir, 'cmd.md'), '# Command\n\n## Description\nTest');
       fs.writeFileSync(path.join(tempDir, 'general.md'), '# General\n\nJust content.');
       
@@ -453,11 +453,11 @@ Important notes.
 
   describe('Integration scenarios', () => {
     test('should handle complex validation workflow', () => {
-      // Create a comprehensive test structure
+      // create a comprehensive test structure
       const commandsDir = path.join(tempDir, '.claude', 'commands');
       fs.mkdirSync(commandsDir, { recursive: true });
       
-      // Create a valid command file
+      // create a valid command file
       fs.writeFileSync(path.join(commandsDir, 'valid-cmd.md'), `
 # Valid Command
 
@@ -479,13 +479,13 @@ A properly structured command.
 Example usage.
 `);
 
-      // Create an invalid command file
+      // create an invalid command file
       fs.writeFileSync(path.join(commandsDir, 'invalid-cmd.md'), `
 # Invalid Command
 Missing sections.
 `);
 
-      // Create a prompt file
+      // create a prompt file
       fs.writeFileSync(path.join(tempDir, 'prompt.md'), `
 <role>Test role</role>
 <activation>Test activation</activation>
@@ -493,7 +493,7 @@ Missing sections.
 <output_format>Test format</output_format>
 `);
 
-      // Create a file with security issues
+      // create a file with security issues
       fs.writeFileSync(path.join(tempDir, 'insecure.md'), `
 # Insecure
 
@@ -503,17 +503,17 @@ rm -rf /
 \`\`\`
 `);
 
-      // Validate the directory
+      // validate the directory
       const stats = mainValidator.validateDirectory(tempDir);
       
-      // Check results
+      // check results
       expect(stats.totalFiles).toBe(4);
       expect(stats.validFiles).toBeLessThan(4);
       expect(stats.commandFiles).toBe(2);
       expect(stats.securityIssues).toBeGreaterThan(0);
       expect(stats.errors.length).toBeGreaterThan(0);
       
-      // Generate summary
+      // generate summary
       const summary = mainValidator.generateSummary();
       
       expect(summary.totalFiles).toBe(4);
@@ -523,13 +523,13 @@ rm -rf /
     });
 
     test('should reset stats between validation runs', () => {
-      // First validation
+      // first validation
       fs.writeFileSync(path.join(tempDir, 'file1.md'), '# File 1');
       mainValidator.validateDirectory(tempDir);
       
       const firstStats = { ...mainValidator.stats };
       
-      // Reset and second validation
+      // reset and second validation
       mainValidator = new MainValidator(['node_modules', '.git', 'test']);
       fs.writeFileSync(path.join(tempDir, 'file2.md'), '# File 2');
       mainValidator.validateDirectory(tempDir);
@@ -542,7 +542,7 @@ rm -rf /
 
   describe('Performance', () => {
     test('should validate multiple files efficiently', () => {
-      // Create many test files
+      // create many test files
       for (let i = 0; i < 50; i++) {
         fs.writeFileSync(path.join(tempDir, `file${i}.md`), `# File ${i}\n\nContent.`);
       }
@@ -561,7 +561,7 @@ rm -rf /
       const filepath = path.join(tempDir, 'unreadable.md');
       fs.writeFileSync(filepath, 'content');
       
-      // Make file unreadable (simulate permission error)
+      // make file unreadable (simulate permission error)
       const originalReadFileSync = fs.readFileSync;
       fs.readFileSync = jest.fn(() => {
         throw new Error('Permission denied');
@@ -572,7 +572,7 @@ rm -rf /
       expect(result.valid).toBe(false);
       expect(result.error).toContain('Permission denied');
       
-      // Restore original function
+      // restore original function
       fs.readFileSync = originalReadFileSync;
     });
 
@@ -580,7 +580,7 @@ rm -rf /
       const filepath = path.join(tempDir, 'error.md');
       fs.writeFileSync(filepath, '# Test');
 
-      // Mock a validator to throw an error
+      // mock a validator to throw an error
       const originalRun = mainValidator.validators[0].run;
       mainValidator.validators[0].run = jest.fn(() => {
         throw new Error('Validator error');
@@ -588,11 +588,11 @@ rm -rf /
 
       const result = mainValidator.validateFile(filepath);
 
-      // Improved error handling now catches exceptions gracefully
+      // improved error handling now catches exceptions gracefully
       expect(result).toBeDefined();
       expect(result).toHaveProperty('valid');
 
-      // Restore original function
+      // restore original function
       mainValidator.validators[0].run = originalRun;
     });
   });

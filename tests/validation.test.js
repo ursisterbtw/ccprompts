@@ -234,7 +234,7 @@ describe('ccprompts Validation System', () => {
     });
 
     test('should initialize qualityScores array when needed', () => {
-      // Create a new instance and call validateCommandQuality without manipulating internal state
+      // create a new instance and call validateCommandQuality without manipulating internal state
       const newValidator = new CommandValidator();
 
       const content = '# Test\n\n## Description\n\nDesc\n\n## Usage\n```bash\ntest\n```\n\n## Examples\nExample';

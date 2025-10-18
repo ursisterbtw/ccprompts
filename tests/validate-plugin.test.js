@@ -5,7 +5,7 @@
 
 const path = require('path');
 
-// Mock the lib utilities before requiring the validator
+// mock the lib utilities before requiring the validator
 const mockFsUtils = {
   fileExists: jest.fn(),
   isSymlink: jest.fn(),
@@ -24,7 +24,7 @@ const mockGitUtils = {
 jest.mock('../lib/fsUtils', () => mockFsUtils);
 jest.mock('../lib/gitUtils', () => mockGitUtils);
 
-// Import the validator class
+// import the validator class
 const PluginValidator = require('../scripts/validate-plugin');
 
 describe('Plugin Validator', () => {
@@ -32,13 +32,13 @@ describe('Plugin Validator', () => {
   let consoleLogSpy;
 
   beforeEach(() => {
-    // Reset all mocks
+    // reset all mocks
     jest.clearAllMocks();
 
-    // Spy on console.log
+    // spy on console.log
     consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
-    // Create new validator instance
+    // create new validator instance
     validator = new PluginValidator();
   });
 
@@ -506,7 +506,7 @@ describe('Plugin Validator', () => {
 
   describe('run()', () => {
     beforeEach(() => {
-      // Setup default mocks for successful validation
+      // setup default mocks for successful validation
       mockFsUtils.fileExists.mockReturnValue(true);
       mockFsUtils.isSymlink.mockReturnValue(true);
       mockFsUtils.readJSON.mockImplementation((file) => {

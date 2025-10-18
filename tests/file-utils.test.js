@@ -20,14 +20,14 @@ describe('FileUtils Module', () => {
 
   beforeEach(() => {
     fileUtils = new FileUtils(['node_modules', '.git', 'test']);
-    // Ensure temp directory exists for each test
+    // ensure temp directory exists for each test
     if (!fs.existsSync(tempDir)) {
       fs.mkdirSync(tempDir, { recursive: true });
     }
   });
 
   afterEach(() => {
-    // Clean temp directory
+    // clean temp directory
     if (fs.existsSync(tempDir)) {
       fs.rmSync(tempDir, { recursive: true, force: true });
       fs.mkdirSync(tempDir, { recursive: true });
@@ -35,7 +35,7 @@ describe('FileUtils Module', () => {
   });
 
   afterAll(() => {
-    // Final cleanup
+    // final cleanup
     if (fs.existsSync(tempDir)) {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
@@ -56,7 +56,7 @@ describe('FileUtils Module', () => {
 
   describe('findMarkdownFiles', () => {
     test('should find all markdown files in directory', () => {
-      // Create test files
+      // create test files
       fs.writeFileSync(path.join(tempDir, 'file1.md'), '# Test 1');
       fs.writeFileSync(path.join(tempDir, 'file2.md'), '# Test 2');
       fs.writeFileSync(path.join(tempDir, 'not-markdown.txt'), 'Not markdown');
@@ -70,7 +70,7 @@ describe('FileUtils Module', () => {
     });
 
     test('should search recursively in subdirectories', () => {
-      // Create directory structure
+      // create directory structure
       const subdir = path.join(tempDir, 'subdir');
       fs.mkdirSync(subdir);
       fs.writeFileSync(path.join(tempDir, 'root.md'), '# Root');
@@ -84,7 +84,7 @@ describe('FileUtils Module', () => {
     });
 
     test('should respect exclude patterns', () => {
-      // Create test structure
+      // create test structure
       const nodeModulesDir = path.join(tempDir, 'node_modules');
       fs.mkdirSync(nodeModulesDir);
       fs.writeFileSync(path.join(tempDir, 'included.md'), '# Included');
@@ -109,12 +109,12 @@ describe('FileUtils Module', () => {
     });
 
     test('should handle directory with read errors gracefully', () => {
-      // Create a directory and then make it inaccessible (simulate error)
+      // create a directory and then make it inaccessible (simulate error)
       const badDir = path.join(tempDir, 'bad-dir');
       fs.mkdirSync(badDir);
       fs.writeFileSync(path.join(badDir, 'test.md'), '# Test');
       
-      // Mock readdirSync to throw error
+      // mock readdirSync to throw error
       const originalReaddirSync = fs.readdirSync;
       fs.readdirSync = jest.fn(() => {
         throw new Error('Permission denied');
@@ -123,7 +123,7 @@ describe('FileUtils Module', () => {
       const files = fileUtils.findMarkdownFiles(tempDir);
       expect(files).toEqual([]);
       
-      // Restore original function
+      // restore original function
       fs.readdirSync = originalReaddirSync;
     });
   });
@@ -234,7 +234,7 @@ describe('FileUtils Module', () => {
       expect(files.length).toBeGreaterThan(0);
       expect(files.every(f => f.endsWith('.md'))).toBe(true);
       
-      // Should find commands directory
+      // should find commands directory
       const hasCommands = files.some(f => f.includes('.claude/commands'));
       expect(hasCommands).toBe(true);
     });
@@ -249,7 +249,7 @@ describe('FileUtils Module', () => {
 
   describe('Performance', () => {
     test('should complete file discovery within reasonable time', () => {
-      // Create many test files
+      // create many test files
       for (let i = 0; i < 100; i++) {
         fs.writeFileSync(path.join(tempDir, `file${i}.md`), `# File ${i}`);
       }
@@ -275,7 +275,7 @@ describe('FileUtils Module', () => {
     });
 
     test('should handle symbolic links (if supported)', () => {
-      // This test is platform-dependent and may be skipped in some environments
+      // this test is platform-dependent and may be skipped in some environments
       const sourceFile = path.join(tempDir, 'source.md');
       const linkFile = path.join(tempDir, 'linked.md');
       
@@ -285,10 +285,10 @@ describe('FileUtils Module', () => {
         fs.symlinkSync(sourceFile, linkFile);
         const files = fileUtils.findMarkdownFiles(tempDir);
         
-        // Should find both files
+        // should find both files
         expect(files.length).toBeGreaterThanOrEqual(1);
       } catch (error) {
-        // Skip if symlinks not supported
+        // skip if symlinks not supported
         console.warn('Symbolic links not supported, skipping test');
       }
     });
