@@ -189,6 +189,60 @@ describe('ccprompts Validation System', () => {
         });
       }
     });
+
+    test('should extract category from various path patterns', () => {
+      expect(validator.extractCategoryFromPath('.claude/commands/01-project-initialization/test.md')).toBe('project-setup');
+      expect(validator.extractCategoryFromPath('.claude/commands/02-code-analysis/test.md')).toBe('analysis');
+      expect(validator.extractCategoryFromPath('.claude/commands/03-refactoring/test.md')).toBe('development');
+      expect(validator.extractCategoryFromPath('.claude/commands/04-testing/test.md')).toBe('testing');
+      expect(validator.extractCategoryFromPath('.claude/commands/05-documentation/test.md')).toBe('documentation');
+      expect(validator.extractCategoryFromPath('.claude/commands/06-git-workflows/test.md')).toBe('git');
+      expect(validator.extractCategoryFromPath('.claude/commands/07-multi-file-operations/test.md')).toBe('operations');
+      expect(validator.extractCategoryFromPath('.claude/commands/08-mcp-integration/test.md')).toBe('integration');
+      expect(validator.extractCategoryFromPath('.claude/commands/09-build-deployment/test.md')).toBe('deployment');
+      expect(validator.extractCategoryFromPath('.claude/commands/10-security-compliance/test.md')).toBe('security');
+    });
+
+    test('should handle missing descriptions appropriately', () => {
+      const contentWithoutDesc = '# Test\n\nShort content only';
+      const metadata = validator.extractCommandMetadata(contentWithoutDesc, 'test.md');
+      expect(metadata.description).toContain('test command');
+    });
+
+    test('should validate command structure and update registry', () => {
+      const content = '# Test Command\n\n## Description\n\nTest description\n\n## Usage\n```bash\n/test\n```';
+      validator.validateCommandStructure(content, '.claude/commands/test.md');
+      expect(Object.keys(validator.commandRegistry.commands).length).toBeGreaterThan(0);
+    });
+
+    test('should warn about missing usage and examples sections', () => {
+      const contentNoSections = '# Command\n\n## Description\n\nSome description without usage or examples';
+      validator.validateCommandStructure(contentNoSections, 'test.md');
+      expect(validator.warnings.some(w => w.includes('Consider adding sections'))).toBe(true);
+    });
+
+    test('should warn when usage section lacks code examples', () => {
+      const contentNoCode = '# Command\n\n## Description\n\nDesc\n\n## Usage\n\nJust text, no code blocks';
+      validator.validateCommandStructure(contentNoCode, 'test.md');
+      expect(validator.warnings.some(w => w.includes('should include command format'))).toBe(true);
+    });
+
+    test('should error on missing description', () => {
+      const noDesc = '## Usage\n```bash\ntest\n```';
+      validator.validateCommandStructure(noDesc, 'test.md');
+      expect(validator.errors.some(e => e.includes('missing description'))).toBe(true);
+    });
+
+    test('should initialize qualityScores array when needed', () => {
+      // Create a new instance and call validateCommandQuality without manipulating internal state
+      const newValidator = new CommandValidator();
+
+      const content = '# Test\n\n## Description\n\nDesc\n\n## Usage\n```bash\ntest\n```\n\n## Examples\nExample';
+      const score = newValidator.validateCommandQuality(content, 'test.md');
+
+      expect(newValidator.stats.qualityScores).toBeDefined();
+      expect(Array.isArray(newValidator.stats.qualityScores)).toBe(true);
+    });
   });
 
   describe('XML Structure Validation', () => {
@@ -225,6 +279,65 @@ describe('ccprompts Validation System', () => {
       const isValid = validator.validateXMLStructure(mismatchedXML, 'test.md');
       expect(isValid).toBe(false);
       expect(validator.errors.length).toBeGreaterThan(0);
+    });
+
+    test('should detect unexpected closing tags', () => {
+      const unexpectedClose = `
+<role>Test role</role>
+</instructions>
+`;
+
+      const isValid = validator.validateXMLStructure(unexpectedClose, 'test.md');
+      expect(isValid).toBe(false);
+      expect(validator.errors.some(e => e.includes('Unexpected closing tag'))).toBe(true);
+    });
+
+    test('should detect unclosed XML tags', () => {
+      const unclosedTags = `
+<role>Test role</role>
+<activation>Test activation
+<instructions>Test instructions</instructions>
+`;
+
+      const isValid = validator.validateXMLStructure(unclosedTags, 'test.md');
+      expect(isValid).toBe(false);
+      expect(validator.errors.some(e => e.includes('Unclosed XML tags'))).toBe(true);
+    });
+
+    test('should handle self-closing tags', () => {
+      const selfClosing = `
+<role>Test role</role>
+<activation>Test activation</activation>
+<instructions>Test instructions</instructions>
+<br/>
+`;
+
+      const isValid = validator.validateXMLStructure(selfClosing, 'test.md');
+      expect(isValid).toBe(true);
+    });
+
+    test('should handle XML comments', () => {
+      const withComments = `
+<!-- This is a comment -->
+<role>Test role</role>
+<activation>Test activation</activation>
+<instructions>Test instructions</instructions>
+`;
+
+      const isValid = validator.validateXMLStructure(withComments, 'test.md');
+      expect(isValid).toBe(true);
+    });
+
+    test('should handle processing instructions', () => {
+      const withProcessingInstructions = `
+<?xml version="1.0"?>
+<role>Test role</role>
+<activation>Test activation</activation>
+<instructions>Test instructions</instructions>
+`;
+
+      const isValid = validator.validateXMLStructure(withProcessingInstructions, 'test.md');
+      expect(isValid).toBe(true);
     });
   });
 
@@ -287,6 +400,49 @@ token="example-token-placeholder"
 
       const score = validator.validateCommandQuality(lowQualityContent, 'test.md', 'command');
       expect(score).toBeLessThan(50);
+    });
+
+    test('should penalize TODO/FIXME markers', () => {
+      const contentWithTODO = `
+# Command with TODO
+## Usage
+\`\`\`bash
+/command
+\`\`\`
+
+TODO: Add more examples
+FIXME: Update documentation
+`;
+
+      const score = validator.validateCommandQuality(contentWithTODO, 'test.md');
+      expect(score).toBeLessThan(90);
+    });
+
+    test('should evaluate default quality checks', () => {
+      const shortContent = `# Short command`;
+
+      const score = validator.validateCommandQuality(shortContent, 'test.md');
+      expect(score).toBeLessThan(50);
+    });
+
+    test('should give bonus for security considerations', () => {
+      const secureContent = `
+# Secure Command
+
+## Usage
+\`\`\`bash
+/command
+\`\`\`
+
+## Security
+This command includes safety checks and security validations.
+
+## Examples
+Example usage here
+`;
+
+      const score = validator.validateCommandQuality(secureContent, 'test.md');
+      expect(score).toBeGreaterThan(60);
     });
   });
 

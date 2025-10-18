@@ -37,15 +37,18 @@ After installation, verify with:
 ### 70+ Commands Across 12 Development Phases
 
 #### Phase 00: Initial Workflow (2 commands)
+
 - `/analyze-project` - Intelligent project analysis with personalized recommendations
 - `/intelligent-chain` - Smart command sequencing based on project context
 
 #### Phase 01: Project Setup (3 commands)
+
 - `/document` - Comprehensive documentation generation
 - `/learn` - Interactive learning and onboarding
 - `/mcp` - Model Context Protocol setup and configuration
 
 #### Phase 02: Development (5 commands)
+
 - `/backup` - Version control and backup strategies
 - `/debug-session` - Advanced debugging workflows
 - `/migrate` - Database and framework migrations
@@ -53,28 +56,33 @@ After installation, verify with:
 - `/refactor` - Safe code refactoring with tests
 
 #### Phase 03: Security (4 commands)
+
 - `/audit-security` - Comprehensive security auditing
 - `/harden` - System and application hardening
 - `/compliance` - Compliance framework implementation
 - `/penetration-test` - Security testing workflows
 
 #### Phase 04: Testing (2 commands)
+
 - `/test` - Comprehensive testing strategies
 - `/troubleshoot` - Advanced troubleshooting workflows
 
 #### Phase 05: Deployment (4 commands)
+
 - `/setup-ci` - CI/CD pipeline configuration
 - `/deploy` - Deployment automation
 - `/rollback` - Safe rollback procedures
 - `/monitor` - Monitoring and observability setup
 
 #### Phase 06: Collaboration (4 commands)
+
 - `/code-review` - Intelligent code review automation
 - `/pair-program` - Pair programming assistance
 - `/knowledge-transfer` - Team knowledge sharing
 - `/handoff` - Project handoff documentation
 
 #### Phase 07: Utilities (7 commands)
+
 - `/scaffold` - Project scaffolding and templates
 - `/convert` - Format and code conversion
 - `/search` - Advanced codebase search
@@ -84,12 +92,14 @@ After installation, verify with:
 - `/tech-debt` - Technical debt tracking
 
 #### Phase 08: Extras (4 commands)
+
 - `/health-check` - System health monitoring
 - `/modernize` - Technology stack modernization
 - `/benchmark` - Performance benchmarking
 - `/accessibility` - Accessibility compliance
 
 #### Phase 09: Agentic Capabilities (12 commands)
+
 - `/agent-create` - Custom agent creation
 - `/agent-orchestrate` - Multi-agent coordination
 - `/mcp-integrate` - MCP server integration
@@ -97,6 +107,7 @@ After installation, verify with:
 - And 8 more advanced agentic commands...
 
 #### Phase 10: AI-Native Development (10 commands)
+
 - `/ai-pair` - AI pair programming
 - `/ai-review` - AI-powered code review
 - `/ai-suggest` - Intelligent suggestions
@@ -104,6 +115,7 @@ After installation, verify with:
 - And 6 more AI-native commands...
 
 #### Phase 11: Enterprise Scale (8 commands)
+
 - `/governance` - Enterprise governance
 - `/multi-repo` - Multi-repository management
 - `/compliance-audit` - Compliance auditing
@@ -322,6 +334,7 @@ bun run test:validate
 ### Contributing
 
 For contribution guidelines:
+
 - Check the repository documentation for command addition patterns
 - Follow existing agent templates in `.claude/agents/`
 - Maintain safety standards in validation scripts

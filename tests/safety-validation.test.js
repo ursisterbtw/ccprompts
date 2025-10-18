@@ -139,6 +139,21 @@ console.log("second block");
       const blocks = safetyValidator.extractCodeBlocks('Just some regular text without code.');
       expect(blocks).toHaveLength(0);
     });
+
+    test('should skip empty code blocks', () => {
+      const contentWithEmpty = `
+\`\`\`bash
+echo "test"
+\`\`\`
+
+\`\`\`bash
+
+\`\`\`
+`;
+      const findings = safetyValidator.analyzeDangerousPatterns(contentWithEmpty, 'test.md');
+      // Should not process empty block
+      expect(findings).toBeDefined();
+    });
   });
 
   describe('Safety Level Determination', () => {
@@ -176,6 +191,18 @@ console.log("second block");
       expect(recommendations.some(r => r.includes('temporary files'))).toBe(true);
     });
 
+    test('should provide recommendations for sudo commands', () => {
+      const recommendations = safetyValidator.generateSafetyRecommendations('sudo apt-get install package');
+      expect(recommendations.some(r => r.includes('rootless alternatives'))).toBe(true);
+      expect(recommendations.some(r => r.includes('elevated privileges'))).toBe(true);
+    });
+
+    test('should provide recommendations for docker privileged mode', () => {
+      const recommendations = safetyValidator.generateSafetyRecommendations('docker run --privileged container');
+      expect(recommendations.some(r => r.includes('privileged mode'))).toBe(true);
+      expect(recommendations.some(r => r.includes('specific capabilities'))).toBe(true);
+    });
+
     test('should provide default recommendation for safe commands', () => {
       const recommendations = safetyValidator.generateSafetyRecommendations('ls -la');
       expect(recommendations).toContain('Command appears safe for standard execution');
@@ -187,6 +214,29 @@ console.log("second block");
       const isAvailable = safetyValidator.checkDaggerAvailability();
       // this will be false in CI environments without Dagger
       expect(typeof isAvailable).toBe('boolean');
+    });
+
+    describe('CI environment variable isolation', () => {
+      let originalCI;
+
+      beforeEach(() => {
+        originalCI = process.env.CI;
+      });
+
+      afterEach(() => {
+        process.env.CI = originalCI;
+      });
+
+      test('should add CI-specific warning when Dagger unavailable in CI', () => {
+        process.env.CI = 'true';
+
+        const validator = new SafetyValidator();
+        validator.checkDaggerAvailability();
+
+        expect(validator.safetyResults.warnings.some(w =>
+          w.includes('CI environment')
+        )).toBe(true);
+      });
     });
 
     test('should handle container validation gracefully when Dagger unavailable', async () => {
@@ -252,6 +302,71 @@ console.log("second block");
 
       expect(report.summary.successRate).toBe('0%');
       expect(report.summary.dangerRate).toBe('0%');
+    });
+  });
+
+  describe('Safety Patterns Module', () => {
+    const safetyPatterns = require('../scripts/config/safety-patterns');
+
+    test('getPatternsBySeverity should return critical patterns', () => {
+      const patterns = safetyPatterns.getPatternsBySeverity('critical');
+      expect(Array.isArray(patterns)).toBe(true);
+      expect(patterns.length).toBeGreaterThan(0);
+      expect(patterns.every(p => p.severity === 'critical')).toBe(true);
+    });
+
+    test('getPatternsBySeverity should return high-risk patterns', () => {
+      const patterns = safetyPatterns.getPatternsBySeverity('high');
+      expect(Array.isArray(patterns)).toBe(true);
+      expect(patterns.length).toBeGreaterThan(0);
+      expect(patterns.every(p => p.severity === 'high')).toBe(true);
+    });
+
+    test('getPatternsBySeverity should return medium-risk patterns', () => {
+      const patterns = safetyPatterns.getPatternsBySeverity('medium');
+      expect(Array.isArray(patterns)).toBe(true);
+      expect(patterns.length).toBeGreaterThan(0);
+      expect(patterns.every(p => p.severity === 'medium')).toBe(true);
+    });
+
+    test('getPatternsBySeverity should return empty array for invalid severity', () => {
+      const patterns = safetyPatterns.getPatternsBySeverity('invalid');
+      expect(Array.isArray(patterns)).toBe(true);
+      expect(patterns.length).toBe(0);
+    });
+
+    test('getDangerousPatterns should return combined critical and high patterns', () => {
+      const patterns = safetyPatterns.getDangerousPatterns();
+      expect(Array.isArray(patterns)).toBe(true);
+      expect(patterns.length).toBeGreaterThan(0);
+      expect(patterns.every(p => p instanceof RegExp)).toBe(true);
+    });
+
+    test('getCautionPatterns should return medium-risk patterns', () => {
+      const patterns = safetyPatterns.getCautionPatterns();
+      expect(Array.isArray(patterns)).toBe(true);
+      expect(patterns.length).toBeGreaterThan(0);
+      expect(patterns.every(p => p instanceof RegExp)).toBe(true);
+    });
+
+    test('classifyCommand should return dangerous for high-risk patterns', () => {
+      const result = safetyPatterns.classifyCommand('chmod 777 /etc/passwd');
+      expect(result).toBe('dangerous');
+    });
+
+    test('classifyCommand should return dangerous for critical patterns', () => {
+      const result = safetyPatterns.classifyCommand('rm -rf /');
+      expect(result).toBe('dangerous');
+    });
+
+    test('classifyCommand should return caution for medium-risk patterns', () => {
+      const result = safetyPatterns.classifyCommand('npm install -g package');
+      expect(result).toBe('caution');
+    });
+
+    test('classifyCommand should return safe for safe commands', () => {
+      const result = safetyPatterns.classifyCommand('ls -la');
+      expect(result).toBe('safe');
     });
   });
 

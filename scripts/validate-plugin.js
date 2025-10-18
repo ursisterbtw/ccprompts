@@ -395,6 +395,11 @@ class PluginValidator {
   }
 }
 
-// Run validator
-const validator = new PluginValidator();
-process.exit(validator.run());
+// Export for testing
+module.exports = PluginValidator;
+
+// Run validator only if executed directly
+if (require.main === module) {
+  const validator = new PluginValidator();
+  process.exit(validator.run());
+}
