@@ -5,6 +5,17 @@
  * and their classifications across all validation systems.
  */
 
+/**
+ * clone a RegExp object with fresh state (resets lastIndex to 0)
+ * ensures no state pollution between pattern matches
+ */
+function cloneRegex(regex) {
+  if (!(regex instanceof RegExp)) {
+    throw new TypeError('Expected RegExp object');
+  }
+  return new RegExp(regex.source, regex.flags);
+}
+
 module.exports = {
   /**
    * critical danger patterns - immediate security threats
@@ -184,14 +195,14 @@ module.exports = {
     if (codeBlocksOnly) {
       // extract code blocks only
       const codeBlocks = [];
-      const codeBlockRegex = /```(?:[\w+-]*)\n([\s\S]*?)```/g;
+      const codeBlockRegex = cloneRegex(/```(?:[\w+-]*)\n([\s\S]*?)```/g);
       let match;
       while ((match = codeBlockRegex.exec(content)) !== null) {
         codeBlocks.push(match[1]);
       }
 
       // also extract indented code
-      const indentedCodeRegex = /^(?: {4}|\t)(.+)$/gm;
+      const indentedCodeRegex = cloneRegex(/^(?: {4}|\t)(.+)$/gm);
       let indentedMatch;
       while ((indentedMatch = indentedCodeRegex.exec(content)) !== null) {
         codeBlocks.push(indentedMatch[1]);
@@ -202,21 +213,27 @@ module.exports = {
 
     // check critical patterns first
     for (const pattern of this.CRITICAL_PATTERNS) {
-      if (pattern.pattern.test(textToCheck)) {
+      // clone regex to reset state before each test
+      const testRegex = cloneRegex(pattern.pattern);
+      if (testRegex.test(textToCheck)) {
         return 'dangerous';
       }
     }
 
     // check high-risk patterns
     for (const pattern of this.HIGH_RISK_PATTERNS) {
-      if (pattern.pattern.test(textToCheck)) {
+      // clone regex to reset state before each test
+      const testRegex = cloneRegex(pattern.pattern);
+      if (testRegex.test(textToCheck)) {
         return 'dangerous';
       }
     }
 
     // check medium-risk patterns
     for (const pattern of this.MEDIUM_RISK_PATTERNS) {
-      if (pattern.pattern.test(textToCheck)) {
+      // clone regex to reset state before each test
+      const testRegex = cloneRegex(pattern.pattern);
+      if (testRegex.test(textToCheck)) {
         return 'caution';
       }
     }

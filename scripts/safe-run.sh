@@ -112,12 +112,6 @@ if [ ! -d "$PROJECT_PATH" ]; then
     exit 1
 fi
 
-# Check if Dagger is available
-if ! command -v dagger &>/dev/null; then
-    log_error "Dagger is not installed. Please install it from https://dagger.io"
-    exit 1
-fi
-
 # Safety checks for dangerous commands
 check_command_safety() {
     local cmd="$1"
@@ -165,24 +159,41 @@ main() {
         log_info "Test Mode: $TEST_MODE"
     fi
 
-    # Safety check
-    if check_command_safety "$COMMAND"; then
-        log_warn "Command contains potentially dangerous patterns"
-        log_info "Running in isolated container for safety"
-    fi
-
-    # Test mode - show what would be executed
+    # Test mode - show what would be executed (does not require Dagger)
     if [ "$TEST_MODE" = true ]; then
         log_info "TEST MODE - Would execute:"
         echo "  Command: $COMMAND"
         echo "  Project Path: $PROJECT_PATH"
         echo "  Environment: $ENV_VARS"
         echo "  Container: Ubuntu 22.04 with basic tools"
+
+        # Safety check
+        if check_command_safety "$COMMAND"; then
+            log_warn "Command contains potentially dangerous patterns"
+            log_info "Would run in isolated container for safety"
+        fi
         exit 0
     fi
 
+    # For real execution, check if Dagger is available
+    if ! command -v dagger &>/dev/null; then
+        log_error "Dagger is required for actual command execution (not --test mode)"
+        log_error "Please install Dagger from https://dagger.io"
+        log_error "Or use --test flag to preview command without execution"
+        exit 1
+    fi
+
+    # Safety check
+    if check_command_safety "$COMMAND"; then
+        log_warn "Command contains potentially dangerous patterns"
+        log_info "Running in isolated container for safety"
+    fi
+
     # Change to Dagger module directory
-    cd "$DAGGER_MODULE_PATH"
+    cd "$DAGGER_MODULE_PATH" || {
+        log_error "Failed to change to Dagger module directory: $DAGGER_MODULE_PATH"
+        exit 1
+    }
 
     # Prepare environment variables for Dagger
     local env_args=""
@@ -197,11 +208,18 @@ main() {
         set -x
     fi
 
-    # Run the command through Dagger
-    if dagger call run-safe-command --command "$COMMAND" --project-path "$PROJECT_PATH" --environment "$ENV_VARS" 2>&1; then
-        log_success "Command executed successfully in container"
+    # Run the command through Dagger (if module exists)
+    if [ -f "dagger.json" ]; then
+        # Module exists, try to call it
+        if dagger call run-safe-command --command "$COMMAND" --project-path "$PROJECT_PATH" --environment "$ENV_VARS" 2>&1; then
+            log_success "Command executed successfully in container"
+        else
+            log_error "Command failed in container"
+            exit 1
+        fi
     else
-        log_error "Command failed in container"
+        log_error "Dagger module not found at $DAGGER_MODULE_PATH"
+        log_error "Expected dagger.json in current directory"
         exit 1
     fi
 }
