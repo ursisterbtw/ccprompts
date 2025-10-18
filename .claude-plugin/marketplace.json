@@ -10,27 +10,9 @@
   "plugins": [
     {
       "name": "ccprompts",
-      "displayName": "CC Prompts - Comprehensive Development Commands",
       "source": "./",
       "description": "70+ Claude Code slash commands across 12 development phases with Dagger-based safety system",
-      "version": "0.2.0",
-      "featured": true,
-      "categories": [
-        "Development",
-        "Security",
-        "Testing",
-        "Deployment",
-        "Collaboration",
-        "Enterprise"
-      ],
-      "highlights": [
-        "70+ production-ready slash commands",
-        "10 specialized AI agents",
-        "Dagger-based safety container system",
-        "Multi-dimensional validation engine",
-        "Enterprise governance workflows",
-        "MCP integration capabilities"
-      ]
+      "version": "0.2.0"
     }
   ],
   "metadata": {
