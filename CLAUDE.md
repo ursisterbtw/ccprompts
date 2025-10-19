@@ -115,6 +115,8 @@ The validation engine validates across four dimensions:
 3. **Quality** - Educational value, example completeness, clarity scoring
 4. **Performance** - Discovery <100ms, total validation <2s (currently 3ms + 28ms)
 
+Each command receives a numeric `_score` field (0-100) reflecting validation pass rate across these dimensions. Commands with lower scores may pass validation but flag areas for improvement.
+
 Validation expects exactly 70 command files. Count mismatch triggers CI failure.
 
 ### Safety Container System (Dagger-Based)
@@ -192,6 +194,16 @@ Creating new agents uses the wizard workflow:
 - Line length: 120 characters maximum (markdown and code)
 - Final newlines: Not included in files
 
+### Test Structure & Conventions
+
+Tests are located in `tests/` and organized by validator component:
+- `tests/validators/` - Jest test files for validation modules
+- Each test file mirrors its corresponding `scripts/validators/` module name
+- Tests validate markdown parsing, frontmatter extraction, and scoring logic
+- Run specific tests via: `bun run test:jest -- tests/validators/file-utils.test.js`
+
+The validation system itself (`scripts/validate-commands.js`) serves as the primary integration test, checking all 70 commands comprehensively.
+
 ## Plugin Architecture
 
 ### Plugin Manifest (`.claude-plugin/plugin.json`)
@@ -262,6 +274,42 @@ bun run ci
 2. **Security Validation** - Currently reports warnings requiring manual remediation
 3. **Quality Scoring** - Educational content scoring needs improvement across commands
 4. **Plugin Count Sync** - Manual update required when command count changes (update `plugin.json` phases)
+5. **Exact Command Count** - Validation requires exactly 70 commands; adding/removing requires updating both the command file count and `plugin.json` phase counts
+
+## Troubleshooting Common Development Issues
+
+### Validation fails with "Expected 70 commands, found X"
+
+This occurs when commands are added or removed. Fix by:
+1. Counting actual command files: `find .claude/commands -name "*.md" | wc -l`
+2. If count doesn't match 70, verify all files are properly placed in phase directories
+3. Update phase counts in `.claude-plugin/plugin.json` if adding new commands
+4. Run `bun run validate` to verify the fix
+
+### Jest tests fail on Node 24+
+
+The project pins Node <23.0.0 in `package.json` engines. Use Node 22.x LTS:
+```bash
+node --version  # Should be v22.x.x
+nvm use 22      # If using nvm
+mise use node@22  # If using mise
+```
+
+### Markdown linting errors
+
+Run `bun run lint:fix` to automatically fix formatting issues:
+```bash
+bun run lint:fix
+```
+
+### Plugin marketplace validation fails
+
+Check `.claude-plugin/plugin.json` is in sync:
+- Each phase count matches actual files in `.claude/commands/NN-phase-name/`
+- All 10 agents are listed and correspond to actual files in `.claude/agents/`
+- Version string follows semantic versioning
+
+Run `bun run validate:plugin` to validate the manifest structure.
 
 ## Quality Gates for Commits
 
