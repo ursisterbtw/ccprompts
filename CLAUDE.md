@@ -19,19 +19,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 # Validation and quality assurance
 bun run validate              # Validates all 70+ commands (expects exact count)
+bun run test                  # Run Jest tests + validate all commands
 bun run ci                    # Full pipeline: validate + lint + link-check
+
+# Single test runs (available due to Jest compatibility with Node <23)
+bun run test:jest -- tests/validators/file-utils.test.js
+bun run test:jest -- --testNamePattern="specific test name"
+
+# Linting
 bun run lint                  # Markdownlint on all documentation
 bun run lint:fix              # Auto-fix markdown formatting
 bun run check-links           # Validate all markdown links
 
 # Security and safety
 bun run security-scan         # Security-focused validation only
-bun run safety-validate       # Dagger container safety system
+bun run safety-validate       # Dagger container safety validation
 bun run precommit             # Pre-commit validation hooks
+```
 
-# Testing (Jest compatibility issues with Node 24+)
-bun run test:jest             # Jest test suite (may fail on newer Node.js)
-bun run test:validate         # Command validation only
+### Plugin Development
+
+```bash
+bun run validate:plugin       # Validates plugin.json and marketplace configuration
+./scripts/test-plugin-local.sh # Test local plugin installation in Claude Code
 ```
 
 ### Safety System Operations
@@ -40,7 +50,6 @@ bun run test:validate         # Command validation only
 # Execute dangerous commands safely in Dagger containers
 ./scripts/safe-run.sh "rm -rf dangerous-path" --test
 ./scripts/safe-run.sh "bun add untrusted-package" --project-path "/my/project"
-./scripts/safe-run.sh "bun install" --project-path "/my/project"
 
 # Quick safety shortcuts
 ./scripts/quick-safe.sh install    # Safe npm/bun install
@@ -61,97 +70,209 @@ bun run test:validate         # Command validation only
 ├── 04-testing/               # Testing & troubleshooting (2)
 ├── 05-deployment/            # CI/CD & deployment (4)
 ├── 06-collaboration/         # Code review & team workflows (4)
-├── 07-utilities/             # Development utilities & best practices (6+)
+├── 07-utilities/             # Development utilities & best practices (7)
 ├── 08-extras/                # Health checks & modernization (4)
 ├── 09-agentic-capabilities/  # MCP & agent orchestration (12)
 ├── 10-ai-native-development/ # AI-powered development tools (10)
 └── 11-enterprise-scale/      # Governance & multi-repo (8)
 ```
 
+Each phase folder contains markdown files following Claude Code slash command format.
+
+### Specialized Agents
+
+Located in `.claude/agents/`, these define domain-specific subagent capabilities:
+
+- **rust-expert** - Ownership, lifetimes, systems programming
+- **python-expert** - Modern Python, decorators, async patterns
+- **golang-pro** - Goroutines, channels, concurrent systems
+- **javascript-expert** - ES6+, async/await, DOM optimization
+- **bash-shell-scripting** - Shell automation, DevOps scripts
+- **fastapi-optimizer** - Async patterns, performance tuning
+- **documentation-writer** - Technical writing, API docs
+- **performance-optimizer** - System-wide performance analysis
+- **systems-architect** - Architecture patterns, scalability
+- **agent-template-wizard** - Creates new agents from SUBAGENT_TEMPLATE.md
+
 ### Core Infrastructure
 
-- **`scripts/validate-commands.js`** - Multi-dimensional validation engine
-- **`src/index.ts`** - Dagger TypeScript safety container system
+- **`scripts/validate-commands.js`** - Multi-dimensional validation engine with scoring
+- **`scripts/validate-plugin.js`** - Plugin manifest and marketplace validation
 - **`scripts/safety-validator.js`** - Command safety pattern detection
-- **`templates/SUBAGENT_TEMPLATE.md`** - Standardized agent creation template
+- **`scripts/config/safety-patterns.js`** - Dangerous command patterns definition
+- **`lib/fsUtils.js`**, **`lib/gitUtils.js`**, **`lib/pathUtils.js`** - Utility modules
+- **`templates/SUBAGENT_TEMPLATE.md`** - Standardized 7-step agent creation template
+- **`tests/`** - Jest test suite (Node.js <23 only)
 - **`.claude/settings.json`** - Claude Code permissions and environment config
+- **`.claude-plugin/plugin.json`** - Plugin manifest (version, agents, phases)
+
+### Validation System (Multi-Dimensional)
+
+The validation engine validates across four dimensions:
+
+1. **Structural** - Markdown format, frontmatter, section completeness (95%+ target)
+2. **Security** - Secret detection, dangerous pattern identification, safety compliance
+3. **Quality** - Educational value, example completeness, clarity scoring
+4. **Performance** - Discovery <100ms, total validation <2s (currently 3ms + 28ms)
+
+Validation expects exactly 70 command files. Count mismatch triggers CI failure.
 
 ### Safety Container System (Dagger-Based)
 
-The project uses a sophisticated 3-layer safety system:
+The project uses a 3-layer safety system for executing potentially dangerous commands:
 
-1. **Pattern Detection** - Identifies dangerous commands automatically
-2. **Container Isolation** - Ubuntu 22.04 containers with resource limits
-3. **Rollback Validation** - Comprehensive verification and cleanup
+1. **Pattern Detection** - Identifies dangerous commands automatically via regex patterns
+2. **Container Isolation** - Ubuntu 22.04 containers with resource limits, read-only project mounts
+3. **Rollback Validation** - Verifies execution safety before allowing persistence
 
-Key safety features:
+Key features:
 
-- Read-only project mounting protects source code
-- Automatic container cleanup after execution
-- Network restrictions and resource constraints
-- 65.7% safety rate across 517+ container validations
+- Commands marked as "dangerous" execute in isolated Dagger containers
+- Network restrictions and CPU/memory caps enforced
+- Automatic cleanup and comprehensive audit logging
+- 65.7% safety validation pass rate across 517+ test cases
 
 ## Key Development Patterns
 
-### Command Structure
+### Command File Structure
 
-All commands follow a consistent markdown structure:
+All commands are markdown files in `.claude/commands/NN-phase-name/` with consistent structure:
 
-- Clear usage examples with `/command-name` syntax
-- Comprehensive descriptions with auto-detection capabilities
-- Safety measures and verification steps included
-- Educational components for learning
+1. **Title** - Command name as H1 heading
+2. **Short description** - One-line summary of functionality
+3. **Usage section** - Exact `/command-name` syntax and examples
+4. **Description section** - Detailed explanation with capabilities
+5. **Example scenarios** - Real-world use cases
+6. **Safety considerations** - Warnings, prerequisites, validation steps
+7. **Related commands** - Cross-references to complementary commands
+
+Example: `/analyze-project` auto-detects project type, stack, architecture, and suggests relevant prompts.
+
+### Adding New Commands
+
+1. Create markdown file in appropriate phase directory (e.g., `.claude/commands/02-development/my-command.md`)
+2. Follow the command structure template (see existing commands)
+3. Include safety validation steps and examples
+4. Run `bun run validate` to ensure 70+ count is maintained and all checks pass
+5. Run `bun run lint:fix` to auto-format
+6. Commit with conventional message: `feat(commands): add my-command for phase 02`
 
 ### Agent Template System
 
-Creating new agents:
+Creating new agents uses the wizard workflow:
 
-1. Use the `agent-template-wizard` agent
-2. Provide domain expertise and capabilities
-3. Wizard fills `SUBAGENT_TEMPLATE.md` placeholders automatically
-4. Follows 7-step methodology with proper categorization
-5. Color-coded by category (blue=dev, green=ops, yellow=data/AI, etc.)
+1. Request `/agent-template-wizard` with domain expertise description
+2. Wizard prompts for: category (blue=dev/green=ops/yellow=data/red=security), capabilities, tools
+3. Fills `templates/SUBAGENT_TEMPLATE.md` with 7-step methodology
+4. Agent placed in `.claude/agents/domain-name.md`
+5. Color-coded frontmatter ensures consistent categorization
+6. Generated agents become available for use in Claude Code
 
-### Validation Requirements
-
-The system expects exactly 70 commands and validates:
-
-- **Structure**: XML/markdown format compliance
-- **Security**: Secret detection, dangerous pattern identification
-- **Quality**: Educational value, completeness, examples (scoring rubric)
-- **Performance**: <100ms discovery, <2s validation targets
-- **Safety**: Dagger container testing with rollback verification
-
-## Technology Stack
+## Technology Stack & Environment
 
 ### Runtime Requirements
 
-- **Node.js ≥18.0.0** (package.json engine requirement)
-- **Dagger ^18.12** for safety container orchestration
-- **Jest ^29.7.0** (known compatibility issues with Node 24+)
+- **Node.js >=18.0.0 <23.0.0** - Enforced in package.json engines; Jest fails on Node 24+
+- **Bun 1.1.34** - Package manager, version pinned in `.bun-version` and package.json
+- **Dagger >=0.18.16** - For safe container orchestration (optional but recommended)
 
 ### Development Tools
 
-- **markdownlint** for documentation quality
-- **markdown-link-check** for link validation
-- **Custom validators** in `scripts/validators/` directory
-- **TypeScript ^5.0.0** for Dagger module development
+- **Jest ^29.7.0** - Testing framework (compatibility issues with Node 24+)
+- **markdownlint 0.38.0** - Markdown linting
+- **markdown-link-check 3.13.7** - Link validation in markdown
+- **markdownlint-cli 0.45.0** - CLI for lint:fix
 
-## Current Quality Metrics
+### Development Workflow Notes
 
-Based on validation system output:
+- Bun used throughout (faster resolution, deterministic lockfiles)
+- All TypeScript/JavaScript follows 4-space indentation (EditorConfig)
+- Variable naming: camelCase; files: kebab-case; classes: PascalCase
+- JSDoc comments required for all public methods
+- Line length: 120 characters maximum (markdown and code)
+- Final newlines: Not included in files
 
-- [OK] **70/70 commands** discovered and validated
-- [OK] **95.0% structural** validation success rate
-- [ERROR] **Security score failing** (requires remediation)
-- [WARNING]  **Quality score 27.1/100** (needs improvement)
-- [OK] **Performance targets met** (3ms discovery, 28ms total validation)
+## Plugin Architecture
 
-## Known Issues & Limitations
+### Plugin Manifest (`.claude-plugin/plugin.json`)
 
-1. **Jest Compatibility**: Test suite has issues with Node.js v24+
-2. **Security Validation**: Currently failing security checks (19 errors, 41 warnings)
-3. **Quality Scoring**: Low educational value scores across commands
-4. **Documentation Sync**: Some outdated command counts in documentation
+Defines plugin metadata, 12 phases with command counts, 10 agents, permissions, and environment config. Updates when adding commands (ensure phase count matches actual file count).
+
+### Team Installation
+
+Add to project `.claude/settings.json` for automatic team-wide installation:
+
+```json
+{
+  "pluginMarketplaces": ["ursisterbtw/ccprompts"],
+  "plugins": ["ccprompts@ursisterbtw"]
+}
+```
+
+Permissions configured to allow development tools (git, npm, pip, cargo, file operations) while denying destructive operations (rm -rf, sudo).
+
+## Common Development Tasks
+
+### Running Validation
+
+```bash
+# Full validation with all dimensions
+bun run validate
+
+# Security checks only
+bun run security-scan
+
+# Plugin validation
+bun run validate:plugin
+
+# Lint check and fix
+bun run lint
+bun run lint:fix
+```
+
+### Testing Workflow
+
+```bash
+# Complete test suite (Jest + validation)
+bun run test
+
+# Jest tests only
+bun run test:jest
+
+# Specific test file
+bun run test:jest -- tests/validators/file-utils.test.js
+
+# Tests matching pattern
+bun run test:jest -- --testNamePattern="validation"
+```
+
+### Pre-Commit Workflow
+
+```bash
+# Validate before committing
+bun run precommit
+
+# Full CI simulation
+bun run ci
+```
+
+## Known Issues & Constraints
+
+1. **Node.js Compatibility** - Jest test suite incompatible with Node 24+ due to dependency issues
+2. **Security Validation** - Currently reports warnings requiring manual remediation
+3. **Quality Scoring** - Educational content scoring needs improvement across commands
+4. **Plugin Count Sync** - Manual update required when command count changes (update `plugin.json` phases)
+
+## Quality Gates for Commits
+
+Before committing changes:
+
+- [ ] `bun run validate` passes (70 commands found, no structural errors)
+- [ ] `bun run lint` passes (no markdown style violations)
+- [ ] `bun run check-links` passes (all links valid)
+- [ ] `bun run test` passes if test files modified (Jest tests + validation)
+- [ ] `bun run security-scan` checked for new security warnings
+- [ ] Conventional commit message used (`feat:`, `fix:`, `docs:`, etc.)
+- [ ] If adding/removing commands, `.claude-plugin/plugin.json` phases updated
 
 This repository represents a sophisticated, safety-first approach to AI-assisted development with comprehensive validation, containerized execution, and enterprise-grade security features.
