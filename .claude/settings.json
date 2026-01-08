@@ -17,8 +17,7 @@
     ],
     "deny": [
       "Bash(rm -rf:*)",
-      "Bash(sudo:*)",
-      "WebFetch(*sensitive*)"
+      "Bash(sudo:*)"
     ],
     "defaultMode": "acceptEdits"
   },
