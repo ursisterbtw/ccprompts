@@ -1,6 +1,6 @@
 ---
 name: {SKILL_NAME}
-description: This skill should be used when {PRIMARY_USE_CASE}. It provides {SPECIFIC_CAPABILITIES}. Examples: <example>Context: {EXAMPLE_CONTEXT_1} user: "{EXAMPLE_USER_REQUEST_1}" assistant: "{EXAMPLE_ASSISTANT_RESPONSE_1}" <commentary>{EXAMPLE_COMMENTARY_1}</commentary></example> <example>Context: {EXAMPLE_CONTEXT_2} user: "{EXAMPLE_USER_REQUEST_2}" assistant: "{EXAMPLE_ASSISTANT_RESPONSE_2}" <commentary>{EXAMPLE_COMMENTARY_2}</commentary></example>
+description: This skill should be used when {PRIMARY_USE_CASE}. It provides {SPECIFIC_CAPABILITIES}. Example contexts: {EXAMPLE_CONTEXT_1} with trigger "{EXAMPLE_USER_REQUEST_1}", {EXAMPLE_CONTEXT_2} with trigger "{EXAMPLE_USER_REQUEST_2}".
 license: {SKILL_LICENSE}
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: skill-creator-wizard
-description: Use this agent when you need to create new skills from the SKILL_TEMPLATE.md template. This includes filling placeholders, ensuring proper formatting, validating frontmatter, creating directory structures, and following naming conventions. Examples: <example>Context: User wants to create a skill for PDF manipulation. user: "Create a skill for rotating and merging PDFs" assistant: "I'll create a PDF manipulation skill using the template wizard to ensure proper structure, bundled resources, and all placeholders are correctly filled." <commentary>The wizard handles skill structure and resource organization</commentary></example> <example>Context: User needs a skill for database schema documentation. user: "Create a skill that helps document our BigQuery schemas" assistant: "I'll use the skill creator wizard to build a BigQuery documentation skill with proper references for schema information and workflow guidance." <commentary>Wizard creates skills with appropriate reference files</commentary></example>
+description: Use this agent when you need to create new skills from SKILL_TEMPLATE.md. Handles filling placeholders, ensuring proper formatting, validating frontmatter, creating directory structures, and following naming conventions. For example: creating a PDF manipulation skill with proper resource organization, or building a BigQuery schema documentation skill with reference files. The wizard ensures proper structure, bundled resources, and placeholder compliance.
 tools: Read, Write, Bash, Grep
 model: opus
 color: blue
@@ -43,7 +43,7 @@ Document the planned structure before creating files.
 
 Create the skill directory structure:
 
-```
+```text
 skill-name/
 ├── SKILL.md           # Required - main skill file
 ├── scripts/           # Optional - executable code
@@ -67,7 +67,7 @@ Fill the SKILL_TEMPLATE.md with skill-specific content:
 
 **Placeholder Replacement Checklist:**
 
-Frontmatter:
+**Frontmatter (8 placeholders):**
 - `{SKILL_NAME}`: kebab-case identifier matching directory name
 - `{PRIMARY_USE_CASE}`: Clear, specific trigger condition
 - `{SPECIFIC_CAPABILITIES}`: List 3-5 concrete capabilities
@@ -77,7 +77,7 @@ Frontmatter:
 - `{EXAMPLE_COMMENTARY_1/2}`: Why skill was selected
 - `{SKILL_LICENSE}`: MIT, Apache-2.0, GPL-3.0, or custom
 
-Content Sections:
+**Content Sections (8 placeholders):**
 - `{SKILL_TITLE}`: Human-readable title
 - `{SHORT_DESCRIPTION}`: One-line summary
 - `{SKILL_PURPOSE}`: Detailed purpose explanation
@@ -85,9 +85,37 @@ Content Sections:
 - `{FEATURE_1/2/3_NAME}`: Key feature names
 - `{FEATURE_1/2/3_DESCRIPTION}`: Feature explanations
 - `{QUICK_REFERENCE_CONTENT}`: Essential commands/patterns
+- `{PRIMARY_WORKFLOW_GOAL}`: Main workflow objective
+
+**Workflow (5 placeholders):**
 - `{WORKFLOW_STEP_1-4_NAME}`: Workflow step names
 - `{WORKFLOW_STEP_1-4_DESCRIPTION}`: Step descriptions
-- Fill all remaining placeholders with relevant content
+
+**Integration Examples (8 placeholders):**
+- `{INTEGRATION_DESCRIPTION}`: How skill integrates with Claude
+- `{EXAMPLE_SCENARIO_1/2}`: Usage scenarios
+- `{CODE_LANGUAGE_1/2}`: Programming languages for examples
+- `{EXAMPLE_CODE_1/2}`: Code snippets
+
+**Troubleshooting (6 placeholders):**
+- `{TROUBLESHOOTING_ISSUE_1/2/3}`: Common problems
+- `{TROUBLESHOOTING_SOLUTION_1/2/3}`: Resolutions
+
+**Bundled Resources (12 placeholders):**
+- `{SCRIPTS_DESCRIPTION}`: Overview of included scripts
+- `{SCRIPT_1/2_NAME}`: Script filenames
+- `{SCRIPT_1/2_PURPOSE}`: Script purposes
+- `{REFERENCES_DESCRIPTION}`: Overview of reference docs
+- `{REFERENCE_1/2_NAME}`: Reference filenames
+- `{REFERENCE_1/2_CONTENT}`: Reference descriptions
+- `{ASSETS_DESCRIPTION}`: Overview of included assets
+- `{ASSET_1/2_NAME}`: Asset filenames
+- `{ASSET_1/2_USAGE}`: Asset usage instructions
+
+**Best Practices & Related Skills (5 placeholders):**
+- `{BEST_PRACTICE_1/2/3}`: Best practice guidelines
+- `{RELATED_SKILL_1/2}`: Related skill names
+- `{RELATED_SKILL_1/2_RELATIONSHIP}`: How skills relate
 
 ## 5. Validation
 
@@ -96,7 +124,6 @@ Before finalizing, verify:
 - [ ] All `{PLACEHOLDER}` values replaced (no placeholders remaining)
 - [ ] Frontmatter properly formatted with required fields (name, description)
 - [ ] Description uses third-person ("This skill should be used when...")
-- [ ] Examples use correct XML tags (`<example>`, `<commentary>`)
 - [ ] Writing style is imperative/infinitive throughout
 - [ ] Directory name matches `name` field in frontmatter
 - [ ] Bundled resources exist if referenced

@@ -197,6 +197,7 @@ Creating new agents uses the wizard workflow:
 ### Test Structure & Conventions
 
 Tests are located in `tests/` and organized by validator component:
+
 - `tests/validators/` - Jest test files for validation modules
 - Each test file mirrors its corresponding `scripts/validators/` module name
 - Tests validate markdown parsing, frontmatter extraction, and scoring logic
@@ -281,6 +282,7 @@ bun run ci
 ### Validation fails with "Expected 70 commands, found X"
 
 This occurs when commands are added or removed. Fix by:
+
 1. Counting actual command files: `find .claude/commands -name "*.md" | wc -l`
 2. If count doesn't match 70, verify all files are properly placed in phase directories
 3. Update phase counts in `.claude-plugin/plugin.json` if adding new commands
@@ -289,6 +291,7 @@ This occurs when commands are added or removed. Fix by:
 ### Jest tests fail on Node 24+
 
 The project pins Node <23.0.0 in `package.json` engines. Use Node 22.x LTS:
+
 ```bash
 node --version  # Should be v22.x.x
 nvm use 22      # If using nvm
@@ -298,6 +301,7 @@ mise use node@22  # If using mise
 ### Markdown linting errors
 
 Run `bun run lint:fix` to automatically fix formatting issues:
+
 ```bash
 bun run lint:fix
 ```
@@ -305,6 +309,7 @@ bun run lint:fix
 ### Plugin marketplace validation fails
 
 Check `.claude-plugin/plugin.json` is in sync:
+
 - Each phase count matches actual files in `.claude/commands/NN-phase-name/`
 - All 10 agents are listed and correspond to actual files in `.claude/agents/`
 - Version string follows semantic versioning

@@ -15,7 +15,7 @@ Skills are modular, self-contained packages that transform Claude from a general
 
 Each skill is a directory containing:
 
-```
+```text
 skill-name/
 ├── SKILL.md           # Required - main skill file with instructions
 ├── scripts/           # Optional - executable code (Python/Bash)
@@ -27,7 +27,7 @@ skill-name/
 
 Use the skill-creator-wizard agent to create new skills:
 
-```
+```text
 "Create a skill for [your use case]"
 ```
 
@@ -35,7 +35,7 @@ The wizard will:
 1. Gather requirements and examples
 2. Plan skill structure and resources
 3. Create the directory and files
-4. Fill the SKILL_TEMPLATE.md
+4. Generate SKILL.md from SKILL_TEMPLATE.md
 5. Validate the result
 
 ## Progressive Disclosure
