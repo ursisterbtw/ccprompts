@@ -215,12 +215,15 @@ class SafetyValidator {
 
       const safeRunScript = path.join(this.projectRoot, 'scripts', 'safe-run.sh');
 
+      const commandStr = String(command);
+
       const result = execSync(
-        `"${safeRunScript}" "${command}" --test`,
+        [safeRunScript, commandStr, '--test'],
         {
           encoding: 'utf8',
           timeout: 10000,
-          cwd: this.projectRoot
+          cwd: this.projectRoot,
+          shell: false
         }
       );
 
