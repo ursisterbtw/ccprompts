@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 const logger = require('../lib/logger');
+const { loadFsConfig } = require('../lib/fsUtils');
 const CommandCache = require('../lib/cache');
 const SafetyValidator = require('./safety-validator');
 const safetyPatterns = require('./config/safety-patterns');
@@ -747,8 +748,10 @@ class CommandValidator {
         : null;
 
       if (fs.existsSync(commandDir)) {
+        const config = loadFsConfig();
+        const maxDepth = config.maxDepth;
+
         const countMarkdownFiles = (dir, depth = 0) => {
-          const maxDepth = 10; // Add depth limit
           if (depth > maxDepth) {
             log('yellow', `⚠ Maximum depth ${maxDepth} reached at ${dir}`);
             return 0;

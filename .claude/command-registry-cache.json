@@ -1,10 +1,10 @@
 {
   "version": "1.0.0",
-  "cacheKey": "9318a13ecb6ed420d31870bd6a1cd3e7",
-  "generated_at": "2026-04-14T16:08:48.780Z",
+  "cacheKey": "fb47afdd0245c49d3d3be30faa980181",
+  "generated_at": "2026-04-14T18:07:03.526Z",
   "commands": {
     "version": "1.0.0",
-    "last_updated": "2026-04-14T16:08:47.961Z",
+    "last_updated": "2026-04-14T18:07:03.457Z",
     "commands": {
       "analyze-project": {
         "id": "analyze-project",
@@ -19,7 +19,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/00-initial-workflow/analyze-project.md",
-        "last_modified": "2026-04-14T16:08:48.720Z"
+        "last_modified": "2026-04-14T18:07:03.471Z"
       },
       "intelligent-chain": {
         "id": "intelligent-chain",
@@ -34,7 +34,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/00-initial-workflow/intelligent-chain.md",
-        "last_modified": "2026-04-14T16:08:48.720Z"
+        "last_modified": "2026-04-14T18:07:03.472Z"
       },
       "document": {
         "id": "document",
@@ -56,7 +56,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/01-project-setup/document.md",
-        "last_modified": "2026-04-14T16:08:48.720Z"
+        "last_modified": "2026-04-14T18:07:03.472Z"
       },
       "learn": {
         "id": "learn",
@@ -78,7 +78,7 @@
         "safety_level": "caution",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/01-project-setup/learn.md",
-        "last_modified": "2026-04-14T16:08:48.721Z"
+        "last_modified": "2026-04-14T18:07:03.473Z"
       },
       "mcp": {
         "id": "mcp",
@@ -100,7 +100,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/01-project-setup/mcp.md",
-        "last_modified": "2026-04-14T16:08:48.721Z"
+        "last_modified": "2026-04-14T18:07:03.473Z"
       },
       "backup": {
         "id": "backup",
@@ -122,7 +122,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/02-development/backup.md",
-        "last_modified": "2026-04-14T16:08:48.722Z"
+        "last_modified": "2026-04-14T18:07:03.473Z"
       },
       "debug-session": {
         "id": "debug-session",
@@ -144,7 +144,7 @@
         "safety_level": "caution",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/02-development/debug-session.md",
-        "last_modified": "2026-04-14T16:08:48.722Z"
+        "last_modified": "2026-04-14T18:07:03.473Z"
       },
       "migrate": {
         "id": "migrate",
@@ -166,7 +166,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/02-development/migrate.md",
-        "last_modified": "2026-04-14T16:08:48.722Z"
+        "last_modified": "2026-04-14T18:07:03.473Z"
       },
       "optimize": {
         "id": "optimize",
@@ -188,7 +188,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/02-development/optimize.md",
-        "last_modified": "2026-04-14T16:08:48.723Z"
+        "last_modified": "2026-04-14T18:07:03.474Z"
       },
       "refactor": {
         "id": "refactor",
@@ -203,7 +203,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/02-development/refactor.md",
-        "last_modified": "2026-04-14T16:08:48.723Z"
+        "last_modified": "2026-04-14T18:07:03.474Z"
       },
       "audit-security": {
         "id": "audit-security",
@@ -225,7 +225,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/03-security/audit-security.md",
-        "last_modified": "2026-04-14T16:08:48.723Z"
+        "last_modified": "2026-04-14T18:07:03.474Z"
       },
       "comply": {
         "id": "comply",
@@ -247,7 +247,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/03-security/comply.md",
-        "last_modified": "2026-04-14T16:08:48.723Z"
+        "last_modified": "2026-04-14T18:07:03.474Z"
       },
       "harden": {
         "id": "harden",
@@ -269,7 +269,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/03-security/harden.md",
-        "last_modified": "2026-04-14T16:08:48.723Z"
+        "last_modified": "2026-04-14T18:07:03.474Z"
       },
       "incident-response": {
         "id": "incident-response",
@@ -291,7 +291,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/03-security/incident-response.md",
-        "last_modified": "2026-04-14T16:08:48.724Z"
+        "last_modified": "2026-04-14T18:07:03.475Z"
       },
       "test": {
         "id": "test",
@@ -306,7 +306,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/04-testing/test.md",
-        "last_modified": "2026-04-14T16:08:48.724Z"
+        "last_modified": "2026-04-14T18:07:03.475Z"
       },
       "troubleshoot": {
         "id": "troubleshoot",
@@ -328,7 +328,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/04-testing/troubleshoot.md",
-        "last_modified": "2026-04-14T16:08:48.725Z"
+        "last_modified": "2026-04-14T18:07:03.475Z"
       },
       "deploy": {
         "id": "deploy",
@@ -350,7 +350,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/05-deployment/deploy.md",
-        "last_modified": "2026-04-14T16:08:48.725Z"
+        "last_modified": "2026-04-14T18:07:03.475Z"
       },
       "git": {
         "id": "git",
@@ -372,7 +372,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/05-deployment/git.md",
-        "last_modified": "2026-04-14T16:08:48.725Z"
+        "last_modified": "2026-04-14T18:07:03.475Z"
       },
       "pre-commit": {
         "id": "pre-commit",
@@ -394,7 +394,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/05-deployment/pre-commit.md",
-        "last_modified": "2026-04-14T16:08:48.726Z"
+        "last_modified": "2026-04-14T18:07:03.476Z"
       },
       "setup-ci": {
         "id": "setup-ci",
@@ -409,7 +409,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/05-deployment/setup-ci.md",
-        "last_modified": "2026-04-14T16:08:48.726Z"
+        "last_modified": "2026-04-14T18:07:03.476Z"
       },
       "code-review": {
         "id": "code-review",
@@ -431,7 +431,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/06-collaboration/code-review.md",
-        "last_modified": "2026-04-14T16:08:48.727Z"
+        "last_modified": "2026-04-14T18:07:03.476Z"
       },
       "daily-standup": {
         "id": "daily-standup",
@@ -446,7 +446,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/06-collaboration/daily-standup.md",
-        "last_modified": "2026-04-14T16:08:48.727Z"
+        "last_modified": "2026-04-14T18:07:03.477Z"
       },
       "monitor": {
         "id": "monitor",
@@ -468,7 +468,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/06-collaboration/monitor.md",
-        "last_modified": "2026-04-14T16:08:48.731Z"
+        "last_modified": "2026-04-14T18:07:03.477Z"
       },
       "tech-debt": {
         "id": "tech-debt",
@@ -490,7 +490,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/06-collaboration/tech-debt.md",
-        "last_modified": "2026-04-14T16:08:48.733Z"
+        "last_modified": "2026-04-14T18:07:03.477Z"
       },
       "best-practices": {
         "id": "best-practices",
@@ -512,7 +512,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/07-utilities/best-practices.md",
-        "last_modified": "2026-04-14T16:08:48.735Z"
+        "last_modified": "2026-04-14T18:07:03.479Z"
       },
       "knowledge-base": {
         "id": "knowledge-base",
@@ -534,7 +534,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/07-utilities/knowledge-base.md",
-        "last_modified": "2026-04-14T16:08:48.735Z"
+        "last_modified": "2026-04-14T18:07:03.479Z"
       },
       "quick-fix": {
         "id": "quick-fix",
@@ -556,7 +556,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/07-utilities/quick-fix.md",
-        "last_modified": "2026-04-14T16:08:48.736Z"
+        "last_modified": "2026-04-14T18:07:03.480Z"
       },
       "release-notes": {
         "id": "release-notes",
@@ -578,7 +578,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/07-utilities/release-notes.md",
-        "last_modified": "2026-04-14T16:08:48.737Z"
+        "last_modified": "2026-04-14T18:07:03.481Z"
       },
       "smart-suggest": {
         "id": "smart-suggest",
@@ -593,7 +593,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/07-utilities/smart-suggest.md",
-        "last_modified": "2026-04-14T16:08:48.738Z"
+        "last_modified": "2026-04-14T18:07:03.481Z"
       },
       "sprint-planning": {
         "id": "sprint-planning",
@@ -615,7 +615,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/07-utilities/sprint-planning.md",
-        "last_modified": "2026-04-14T16:08:48.739Z"
+        "last_modified": "2026-04-14T18:07:03.482Z"
       },
       "validate-environment": {
         "id": "validate-environment",
@@ -630,7 +630,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/07-utilities/validate-environment.md",
-        "last_modified": "2026-04-14T16:08:48.739Z"
+        "last_modified": "2026-04-14T18:07:03.483Z"
       },
       "health-check": {
         "id": "health-check",
@@ -652,7 +652,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/08-extras/health-check.md",
-        "last_modified": "2026-04-14T16:08:48.739Z"
+        "last_modified": "2026-04-14T18:07:03.483Z"
       },
       "modernize": {
         "id": "modernize",
@@ -674,7 +674,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/08-extras/modernize.md",
-        "last_modified": "2026-04-14T16:08:48.739Z"
+        "last_modified": "2026-04-14T18:07:03.483Z"
       },
       "new-feature": {
         "id": "new-feature",
@@ -696,7 +696,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/08-extras/new-feature.md",
-        "last_modified": "2026-04-14T16:08:48.740Z"
+        "last_modified": "2026-04-14T18:07:03.483Z"
       },
       "workflow-builder": {
         "id": "workflow-builder",
@@ -718,7 +718,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/08-extras/workflow-builder.md",
-        "last_modified": "2026-04-14T16:08:48.741Z"
+        "last_modified": "2026-04-14T18:07:03.484Z"
       },
       "agent-communicate": {
         "id": "agent-communicate",
@@ -733,7 +733,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/agent-communicate.md",
-        "last_modified": "2026-04-14T16:08:48.742Z"
+        "last_modified": "2026-04-14T18:07:03.484Z"
       },
       "agent-learn": {
         "id": "agent-learn",
@@ -748,7 +748,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/agent-learn.md",
-        "last_modified": "2026-04-14T16:08:48.742Z"
+        "last_modified": "2026-04-14T18:07:03.485Z"
       },
       "agent-monitor": {
         "id": "agent-monitor",
@@ -763,7 +763,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/agent-monitor.md",
-        "last_modified": "2026-04-14T16:08:48.743Z"
+        "last_modified": "2026-04-14T18:07:03.486Z"
       },
       "agent-orchestrate": {
         "id": "agent-orchestrate",
@@ -778,7 +778,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/agent-orchestrate.md",
-        "last_modified": "2026-04-14T16:08:48.744Z"
+        "last_modified": "2026-04-14T18:07:03.486Z"
       },
       "agent-specialize": {
         "id": "agent-specialize",
@@ -793,7 +793,7 @@
         "safety_level": "caution",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/agent-specialize.md",
-        "last_modified": "2026-04-14T16:08:48.744Z"
+        "last_modified": "2026-04-14T18:07:03.486Z"
       },
       "context-manager": {
         "id": "context-manager",
@@ -808,7 +808,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/context-manager.md",
-        "last_modified": "2026-04-14T16:08:48.745Z"
+        "last_modified": "2026-04-14T18:07:03.486Z"
       },
       "context-persist": {
         "id": "context-persist",
@@ -823,7 +823,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/context-persist.md",
-        "last_modified": "2026-04-14T16:08:48.745Z"
+        "last_modified": "2026-04-14T18:07:03.487Z"
       },
       "mcp-configure": {
         "id": "mcp-configure",
@@ -838,7 +838,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/mcp-configure.md",
-        "last_modified": "2026-04-14T16:08:48.746Z"
+        "last_modified": "2026-04-14T18:07:03.487Z"
       },
       "mcp-discover": {
         "id": "mcp-discover",
@@ -853,7 +853,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/mcp-discover.md",
-        "last_modified": "2026-04-14T16:08:48.746Z"
+        "last_modified": "2026-04-14T18:07:03.488Z"
       },
       "mcp-extend": {
         "id": "mcp-extend",
@@ -868,7 +868,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/mcp-extend.md",
-        "last_modified": "2026-04-14T16:08:48.747Z"
+        "last_modified": "2026-04-14T18:07:03.488Z"
       },
       "workflow-automate": {
         "id": "workflow-automate",
@@ -883,7 +883,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/workflow-automate.md",
-        "last_modified": "2026-04-14T16:08:48.748Z"
+        "last_modified": "2026-04-14T18:07:03.489Z"
       },
       "workflow-visual": {
         "id": "workflow-visual",
@@ -898,7 +898,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/09-agentic-capabilities/workflow-visual.md",
-        "last_modified": "2026-04-14T16:08:48.748Z"
+        "last_modified": "2026-04-14T18:07:03.489Z"
       },
       "ai-debug": {
         "id": "ai-debug",
@@ -913,7 +913,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/10-ai-native-development/ai-debug.md",
-        "last_modified": "2026-04-14T16:08:48.749Z"
+        "last_modified": "2026-04-14T18:07:03.490Z"
       },
       "ai-mentor": {
         "id": "ai-mentor",
@@ -928,7 +928,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/10-ai-native-development/ai-mentor.md",
-        "last_modified": "2026-04-14T16:08:48.750Z"
+        "last_modified": "2026-04-14T18:07:03.491Z"
       },
       "ai-pair-program": {
         "id": "ai-pair-program",
@@ -943,7 +943,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/10-ai-native-development/ai-pair-program.md",
-        "last_modified": "2026-04-14T16:08:48.751Z"
+        "last_modified": "2026-04-14T18:07:03.491Z"
       },
       "code-explain": {
         "id": "code-explain",
@@ -958,7 +958,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/10-ai-native-development/code-explain.md",
-        "last_modified": "2026-04-14T16:08:48.752Z"
+        "last_modified": "2026-04-14T18:07:03.492Z"
       },
       "code-generate": {
         "id": "code-generate",
@@ -973,7 +973,7 @@
         "safety_level": "caution",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/10-ai-native-development/code-generate.md",
-        "last_modified": "2026-04-14T16:08:48.752Z"
+        "last_modified": "2026-04-14T18:07:03.493Z"
       },
       "pattern-detect": {
         "id": "pattern-detect",
@@ -988,7 +988,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/10-ai-native-development/pattern-detect.md",
-        "last_modified": "2026-04-14T16:08:48.753Z"
+        "last_modified": "2026-04-14T18:07:03.493Z"
       },
       "predictive-dev": {
         "id": "predictive-dev",
@@ -1003,7 +1003,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/10-ai-native-development/predictive-dev.md",
-        "last_modified": "2026-04-14T16:08:48.754Z"
+        "last_modified": "2026-04-14T18:07:03.494Z"
       },
       "refactor-semantic": {
         "id": "refactor-semantic",
@@ -1018,7 +1018,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/10-ai-native-development/refactor-semantic.md",
-        "last_modified": "2026-04-14T16:08:48.755Z"
+        "last_modified": "2026-04-14T18:07:03.495Z"
       },
       "semantic-understand": {
         "id": "semantic-understand",
@@ -1033,7 +1033,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/10-ai-native-development/semantic-understand.md",
-        "last_modified": "2026-04-14T16:08:48.756Z"
+        "last_modified": "2026-04-14T18:07:03.495Z"
       },
       "test-intelligent": {
         "id": "test-intelligent",
@@ -1048,7 +1048,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/10-ai-native-development/test-intelligent.md",
-        "last_modified": "2026-04-14T16:08:48.757Z"
+        "last_modified": "2026-04-14T18:07:03.496Z"
       },
       "analytics-advanced": {
         "id": "analytics-advanced",
@@ -1063,7 +1063,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/11-enterprise-scale/analytics-advanced.md",
-        "last_modified": "2026-04-14T16:08:48.757Z"
+        "last_modified": "2026-04-14T18:07:03.497Z"
       },
       "compliance-enterprise": {
         "id": "compliance-enterprise",
@@ -1078,7 +1078,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/11-enterprise-scale/compliance-enterprise.md",
-        "last_modified": "2026-04-14T16:08:48.758Z"
+        "last_modified": "2026-04-14T18:07:03.497Z"
       },
       "governance": {
         "id": "governance",
@@ -1093,7 +1093,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/11-enterprise-scale/governance.md",
-        "last_modified": "2026-04-14T16:08:48.759Z"
+        "last_modified": "2026-04-14T18:07:03.498Z"
       },
       "knowledge-org": {
         "id": "knowledge-org",
@@ -1108,7 +1108,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/11-enterprise-scale/knowledge-org.md",
-        "last_modified": "2026-04-14T16:08:48.760Z"
+        "last_modified": "2026-04-14T18:07:03.499Z"
       },
       "multi-repo": {
         "id": "multi-repo",
@@ -1123,7 +1123,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/11-enterprise-scale/multi-repo.md",
-        "last_modified": "2026-04-14T16:08:48.761Z"
+        "last_modified": "2026-04-14T18:07:03.500Z"
       },
       "resource-manage": {
         "id": "resource-manage",
@@ -1138,7 +1138,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/11-enterprise-scale/resource-manage.md",
-        "last_modified": "2026-04-14T16:08:48.762Z"
+        "last_modified": "2026-04-14T18:07:03.501Z"
       },
       "scale-optimize": {
         "id": "scale-optimize",
@@ -1153,7 +1153,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/11-enterprise-scale/scale-optimize.md",
-        "last_modified": "2026-04-14T16:08:48.763Z"
+        "last_modified": "2026-04-14T18:07:03.502Z"
       },
       "team-coordinate": {
         "id": "team-coordinate",
@@ -1168,7 +1168,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/11-enterprise-scale/team-coordinate.md",
-        "last_modified": "2026-04-14T16:08:48.764Z"
+        "last_modified": "2026-04-14T18:07:03.503Z"
       },
       "1_explore_plan_code": {
         "id": "1_explore_plan_code",
@@ -1183,7 +1183,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/tasks/1_explore_plan_code.md",
-        "last_modified": "2026-04-14T16:08:48.764Z"
+        "last_modified": "2026-04-14T18:07:03.503Z"
       },
       "2_continue_explore_plan_code": {
         "id": "2_continue_explore_plan_code",
@@ -1198,7 +1198,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/tasks/2_continue_explore_plan_code.md",
-        "last_modified": "2026-04-14T16:08:48.764Z"
+        "last_modified": "2026-04-14T18:07:03.503Z"
       },
       "3_sync_plan_tasks": {
         "id": "3_sync_plan_tasks",
@@ -1213,7 +1213,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/tasks/3_sync_plan_tasks.md",
-        "last_modified": "2026-04-14T16:08:48.765Z"
+        "last_modified": "2026-04-14T18:07:03.503Z"
       },
       "agent_init": {
         "id": "agent_init",
@@ -1228,7 +1228,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/tasks/agent_init.md",
-        "last_modified": "2026-04-14T16:08:48.765Z"
+        "last_modified": "2026-04-14T18:07:03.503Z"
       },
       "cursor_rules_generator": {
         "id": "cursor_rules_generator",
@@ -1243,7 +1243,7 @@
         "safety_level": "safe",
         "claude_code_version": ">=1.0.0",
         "file_path": ".claude/commands/tasks/cursor_rules_generator.md",
-        "last_modified": "2026-04-14T16:08:48.765Z"
+        "last_modified": "2026-04-14T18:07:03.504Z"
       }
     },
     "categories": {
@@ -1252,7 +1252,7 @@
         "name": "Command",
         "description": "command commands",
         "phase": 0,
-        "command_count": 136,
+        "command_count": 68,
         "completion_percentage": 0
       },
       "testing": {
@@ -1260,7 +1260,7 @@
         "name": "Testing",
         "description": "testing commands",
         "phase": 4,
-        "command_count": 4,
+        "command_count": 2,
         "completion_percentage": 0
       }
     },
@@ -1421,15 +1421,10 @@
       }
     ],
     "validation_results": {
-      "last_run": "2026-04-14T16:08:48.777Z",
-      "total_files": 180,
+      "last_run": "2026-04-14T18:07:03.523Z",
+      "total_files": 179,
       "valid_files": 70,
-      "errors": [
-        {
-          "message": "/non/existent/command.md: Failed to read file - ENOENT: no such file or directory, open '/non/existent/command.md'",
-          "severity": "error"
-        }
-      ],
+      "errors": [],
       "warnings": [
         {
           "message": ".claude/commands/10-ai-native-development/ai-mentor.md: Consider adding sections: ## Usage, ## Examples",

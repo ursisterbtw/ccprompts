@@ -187,11 +187,9 @@ Located in `.claude/agents/`, these define domain-specific subagent capabilities
 
 **Configuration:**
 - **`config/fs-operations.json`** - File operations safety limits (NEW)
+- **`config/safety-patterns.js`** - Dangerous command patterns definition
 - **`jest.config.js`** - Jest test configuration (UPDATED)
 - **`package.json`** - Dependencies and scripts (UPDATED)
-- **`scripts/safety-validator.js`** - Command safety pattern detection
-- **`scripts/config/safety-patterns.js`** - Dangerous command patterns definition
-- **`lib/fsUtils.js`**, **`lib/gitUtils.js`**, **`lib/pathUtils.js`** - Utility modules
 - **`templates/SUBAGENT_TEMPLATE.md`** - Standardized 7-step agent creation template
 - **`tests/`** - Jest test suite (Node.js <23 only)
 - **`.claude/settings.json`** - Claude Code permissions and environment config
