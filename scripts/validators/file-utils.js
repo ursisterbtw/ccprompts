@@ -50,8 +50,15 @@ class FileUtils {
     const results = [];
     const visited = new Set();
     const startPath = path.resolve(validatedPath);
+    const maxDepth = this.maxDepth || 10; // Add depth limit configuration
 
-    const walk = (dir) => {
+    const walk = (dir, depth = 0) => {
+      // Check depth limit
+      if (depth > maxDepth) {
+        console.warn(`⚠ Maximum depth ${maxDepth} reached at ${dir}`);
+        return;
+      }
+
       // prevent infinite loops and exclude unwanted directories
       if (this.shouldExclude(dir) || visited.has(dir)) {
         return;
@@ -83,11 +90,11 @@ class FileUtils {
             const stats = fs.lstatSync(fullPath);
 
             if (stats.isDirectory()) {
-              walk(fullPath);
+              walk(fullPath, depth + 1);
             } else if (stats.isSymbolicLink()) {
               const linkStats = fs.statSync(fullPath);
               if (linkStats.isDirectory()) {
-                walk(fullPath);
+                walk(fullPath, depth + 1);
               } else if (linkStats.isFile() && fullPath.toLowerCase().endsWith('.md')) {
                 results.push(fullPath);
               }

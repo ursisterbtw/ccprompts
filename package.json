@@ -14,7 +14,8 @@
     "check-links": "find . -name '*.md' -not -path './node_modules/*' | xargs markdown-link-check --config .github/markdown-link-check.json",
     "security-scan": "node scripts/validate-commands.js --security-only",
     "safety-validate": "node scripts/safety-validator.js",
-    "ci": "bun run validate:plugin && bun run validate && bun run lint && bun run check-links",
+    "audit": "bun audit > audit-results.txt 2>&1 || node scripts/parse-audit.js audit-results.txt",
+    "ci": "bun run validate:plugin && bun run validate && bun run lint && bun run check-links && bun run audit",
     "ci:plugin": "bun run validate:plugin && bun run validate && bun run lint",
     "precommit": "bun run validate"
   },
@@ -29,10 +30,10 @@
   "author": "Claude Code Community",
   "license": "MIT",
   "engines": {
-    "node": ">=18.0.0 <23.0.0"
+    "node": ">=18.0.0 <26.0.0"
   },
   "devDependencies": {
-    "jest": "^30.2.0",
+    "jest": "^29.7.0",
     "markdown-link-check": "3.14.2",
     "markdownlint": "0.40.0",
     "markdownlint-cli": "0.48.0"
@@ -47,7 +48,8 @@
   "homepage": "https://github.com/ursisterbtw/ccprompts#readme",
   "packageManager": "bun@1.1.34",
   "dependencies": {
-    "@dagger.io/dagger": "^0.20.0"
+    "@dagger.io/dagger": "^0.20.0",
+    "winston": "^3.19.0"
   },
   "overrides": {
     "minimatch": ">=10.2.4",

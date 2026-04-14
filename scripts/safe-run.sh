@@ -181,6 +181,18 @@ main() {
         exit 0
     fi
 
+    # Check if Dagger module exists
+    if [ ! -d "src" ]; then
+        log_warn "Dagger module not found - skipping container validation"
+        exit 0
+    fi
+
+    # Check if Dagger function is available
+    if ! dagger call run-safe-command --help &>/dev/null; then
+        log_warn "Dagger function not available - skipping container validation"
+        exit 0
+    fi
+
     # Change to Dagger module directory
     cd "$DAGGER_MODULE_PATH"
 

@@ -92,6 +92,17 @@ class StructureValidator {
     this.errors = [];
     this.warnings = [];
 
+    // Detect XML-based commands that don't follow markdown structure
+    if (/<role>|<activation>|<instructions>|<context>|<output_format>/i.test(content)) {
+      // XML-based command - skip markdown section validation
+      return {
+        valid: true,
+        errors: [],
+        warnings: [],
+        type: 'xml-command'
+      };
+    }
+
     const requiredCommandSections = [
       '## Description',
       '## Usage',

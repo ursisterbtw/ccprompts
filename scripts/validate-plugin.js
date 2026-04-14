@@ -5,6 +5,7 @@
  */
 
 const path = require('path');
+const logger = require('../lib/logger');
 
 // Import utility modules
 const { fileExists, isSymlink, readJSON, readFile, countFiles, readSymlinkTarget } = require('../lib/fsUtils');

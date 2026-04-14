@@ -8,6 +8,8 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
+const logger = require('../lib/logger');
+const CommandCache = require('../lib/cache');
 const SafetyValidator = require('./safety-validator');
 const safetyPatterns = require('./config/safety-patterns');
 
@@ -28,6 +30,7 @@ class CommandValidator {
   constructor() {
     this.errors = [];
     this.warnings = [];
+    this.clearCache = process.argv.includes('--clear-cache');
     this.commandRegistry = {
       version: '1.0.0',
       last_updated: new Date().toISOString(),
@@ -622,6 +625,14 @@ class CommandValidator {
 
   async validate() {
     const startTime = Date.now();
+
+    // Clear cache if requested
+    if (this.clearCache) {
+      const cache = new CommandCache(process.cwd());
+      cache.clear();
+      log('green', '[CACHE] Cache cleared');
+    }
+
     const performanceMetrics = {
       discovery_time: 0,
       validation_time: 0,
@@ -649,6 +660,21 @@ class CommandValidator {
 
       log('blue', `Found ${markdownFiles.length} markdown files to validate`);
       log('cyan', `[STATS] Discovery: ${performanceMetrics.discovery_time}ms`);
+
+      // Check cache for command registry
+      const cache = new CommandCache(projectRoot);
+      const cacheKey = cache.getCacheKey(markdownFiles);
+
+      if (cache.isValid(cacheKey) && !this.clearCache) {
+        log('green', '[CACHE] Using cached command registry');
+        const cachedData = cache.load();
+        if (cachedData && cachedData.commands) {
+          this.commandRegistry = cachedData.commands;
+          // Still run safety validation but skip full processing
+          await this.validateSecurityForCachedFiles(markdownFiles);
+          return 0;
+        }
+      }
 
       const validationStart = Date.now();
       for (const file of markdownFiles) {
@@ -721,7 +747,13 @@ class CommandValidator {
         : null;
 
       if (fs.existsSync(commandDir)) {
-        const countMarkdownFiles = (dir) => {
+        const countMarkdownFiles = (dir, depth = 0) => {
+          const maxDepth = 10; // Add depth limit
+          if (depth > maxDepth) {
+            log('yellow', `⚠ Maximum depth ${maxDepth} reached at ${dir}`);
+            return 0;
+          }
+
           let count = 0;
           const items = fs.readdirSync(dir);
 
@@ -730,7 +762,7 @@ class CommandValidator {
             const stat = fs.statSync(fullPath);
 
             if (stat.isDirectory()) {
-              count += countMarkdownFiles(fullPath);
+              count += countMarkdownFiles(fullPath, depth + 1);
             } else if (item.endsWith('.md')) {
               count++;
             }
@@ -787,11 +819,13 @@ class CommandValidator {
     }
 
     log('blue', '\n[METRICS] Quality Metrics:');
-    const successRate = ((this.stats.validFiles / this.stats.totalFiles) * 100).toFixed(1);
-    const errorRate = ((this.errors.length / this.stats.totalFiles) * 100).toFixed(1);
-    const warningRate = ((this.warnings.length / this.stats.totalFiles) * 100).toFixed(1);
+    // Fixed: Calculate success rate only for command files, not all markdown files
+    const commandFileCount = this.stats.commandFiles;
+    const successRate = ((this.stats.validFiles / commandFileCount) * 100).toFixed(1);
+    const errorRate = ((this.errors.length / commandFileCount) * 100).toFixed(1);
+    const warningRate = ((this.warnings.length / commandFileCount) * 100).toFixed(1);
 
-    log('cyan', `   Success rate: ${successRate}%`);
+    log('cyan', `   Success rate: ${successRate}% (${this.stats.validFiles}/${commandFileCount} command files)`);
     log('cyan', `   Error rate: ${errorRate}%`);
     log('cyan', `   Warning rate: ${warningRate}%`);
     log('cyan', `   Security score: ${this.stats.securityIssues === 0 ? '100%' : 'FAIL'}`);
@@ -853,6 +887,20 @@ class CommandValidator {
     }
   }
 
+  async validateSecurityForCachedFiles(markdownFiles) {
+    // Run basic security validation even when using cache
+    const projectRoot = process.cwd();
+    const SafetyValidator = require('./safety-validator');
+
+    const safetyValidator = new SafetyValidator(projectRoot);
+    await safetyValidator.validateAllCommands();
+
+    const safetyResults = safetyValidator.safetyResults;
+    if (safetyResults.errors > 0) {
+      this.stats.securityIssues = safetyResults.dangerousCommands;
+    }
+  }
+
   async generateCommandRegistry() {
     try {
       this.commandRegistry.validation_results = {
@@ -888,6 +936,13 @@ class CommandValidator {
       fs.writeFileSync(registryPath, JSON.stringify(this.commandRegistry, null, 2));
 
       log('green', `[OK] Command registry generated: ${registryPath}`);
+
+      // Save cache for next run
+      const cache = new CommandCache(process.cwd());
+      const markdownFiles = this.findMarkdownFiles(process.cwd());
+      const cacheKey = cache.getCacheKey(markdownFiles);
+      cache.save(cacheKey, this.commandRegistry);
+      log('green', `[CACHE] Command registry cached for next run`);
 
     } catch (error) {
       this.warnings.push(`Failed to generate command registry: ${error.message}`);
@@ -975,7 +1030,7 @@ if (require.main === module) {
   validator.validate().then(exitCode => {
     process.exit(exitCode);
   }).catch(error => {
-    console.error('Validation failed:', error);
+    logger.error('Validation failed:', error.message);
     process.exit(1);
   });
 }

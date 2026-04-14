@@ -8,6 +8,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync, spawn } = require('child_process');
+const logger = require('../lib/logger');
 const safetyPatterns = require('./config/safety-patterns');
 const { HEURISTIC_PATTERNS } = safetyPatterns;
 
@@ -213,17 +214,29 @@ class SafetyValidator {
     try {
       const startTime = Date.now();
 
+      // Handle different command types (Array, Object, String)
+      let commandStr;
+      if (Array.isArray(command)) {
+        commandStr = command.map(cmd =>
+          typeof cmd === 'object' ? cmd.content || cmd.command : String(cmd)
+        ).join(' && ');
+      } else if (typeof command === 'object') {
+        commandStr = command.content || command.command || String(command);
+      } else {
+        commandStr = String(command);
+      }
+
       const safeRunScript = path.join(this.projectRoot, 'scripts', 'safe-run.sh');
 
-      const commandStr = String(command);
-
+      // Fixed: Use string format with shell: true for proper command execution
       const result = execSync(
-        [safeRunScript, commandStr, '--test'],
+        `"${safeRunScript}" "${commandStr}" --test`,
         {
           encoding: 'utf8',
           timeout: 10000,
           cwd: this.projectRoot,
-          shell: false
+          shell: true,
+          stdio: ['ignore', 'pipe', 'pipe']
         }
       );
 
@@ -434,8 +447,14 @@ class SafetyValidator {
    */
   findCommandFiles(directory) {
     const files = [];
+    const maxDepth = 10; // Add depth limit
 
-    const scan = (dir) => {
+    const scan = (dir, depth = 0) => {
+      if (depth > maxDepth) {
+        this.log.warn(`Maximum depth ${maxDepth} reached at ${dir}`);
+        return;
+      }
+
       try {
         const entries = fs.readdirSync(dir, { withFileTypes: true });
 
@@ -443,7 +462,7 @@ class SafetyValidator {
           const fullPath = path.join(dir, entry.name);
 
           if (entry.isDirectory()) {
-            scan(fullPath);
+            scan(fullPath, depth + 1);
           } else if (entry.isFile() && entry.name.endsWith('.md')) {
             files.push(fullPath);
           }
@@ -454,7 +473,7 @@ class SafetyValidator {
     };
 
     if (fs.existsSync(directory)) {
-      scan(directory);
+      scan(directory, 0);
     }
 
     return files;
@@ -525,7 +544,7 @@ if (require.main === module) {
       }
     })
     .catch(error => {
-      console.error('Safety validation failed:', error);
+      logger.error('Safety validation failed:', error.message);
       process.exit(1);
     });
 }

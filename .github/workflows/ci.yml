@@ -35,10 +35,16 @@ jobs:
           # Run Jest tests (allow warnings but not failures)
           bun run test:jest || true
 
-      - name: Run CI pipeline (lint + link-check)
+      - name: Run CI pipeline (lint + link-check + audit)
         run: |
           # Run markdown linting (non-blocking - just warn on failures)
           bun run lint || echo "::warning::Markdown linting issues detected but continuing"
 
           # Run link checking (non-blocking - just warn on failures)
           bun run check-links || echo "::warning::Link checking issues detected but continuing"
+
+          # Run security audit (non-blocking - just warn on vulnerabilities)
+          bun audit > audit-results.txt 2>&1 || true
+          if [ -s "audit-results.txt" ]; then
+            node scripts/parse-audit.js audit-results.txt || echo "::warning::Security vulnerabilities detected but continuing"
+          fi

@@ -1,0 +1,7 @@
+{
+  "maxDepth": 10,
+  "maxFiles": 5000,
+  "excludePatterns": ["node_modules", ".git", "dist", "build"],
+  "enableCycleDetection": true,
+  "timeout": 30000
+}

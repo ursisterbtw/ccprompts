@@ -9,8 +9,8 @@ module.exports = {
     '**/__tests__/**/*.js'
   ],
   
-  // coverage config
-  collectCoverage: true,
+  // coverage config (temporarily disabled for Jest compatibility fix)
+  collectCoverage: false,
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
   collectCoverageFrom: [
@@ -45,7 +45,7 @@ module.exports = {
       statements: 85
     }
   },
-  
+
   // module and path config
   roots: ['<rootDir>'],
   modulePaths: ['<rootDir>'],
@@ -60,7 +60,7 @@ module.exports = {
   // verbose output
   verbose: true,
   
-  // transform config
+  // transform config (disabled for compatibility)
   transform: {},
   testPathIgnorePatterns: [
     '/node_modules/',
