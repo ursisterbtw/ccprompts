@@ -35,7 +35,7 @@
   "devDependencies": {
     "jest": "^29.7.0",
     "markdown-link-check": "3.14.2",
-    "markdownlint": "0.40.0",
+    "markdownlint": "0.41.0",
     "markdownlint-cli": "0.48.0"
   },
   "repository": {
