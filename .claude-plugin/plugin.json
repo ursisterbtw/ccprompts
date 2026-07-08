@@ -1,7 +1,7 @@
 {
   "name": "ccprompts",
-  "version": "0.2.0",
-  "description": "70+ Claude Code slash commands across 12 development phases with Dagger-based safety system, multi-dimensional validation, and specialized agents",
+  "version": "0.3.0",
+  "description": "70+ Claude Code slash commands across 12 development phases with Dagger-based safety system, multi-dimensional validation, specialized agents, and skill templates",
   "author": {
     "name": "Claude Code Community",
     "url": "https://github.com/ursisterbtw/ccprompts"
@@ -35,6 +35,12 @@
     "./.claude/agents/documentation-writer.md",
     "./.claude/agents/performance-optimizer.md",
     "./.claude/agents/systems-architect.md",
-    "./.claude/agents/agent-template-wizard.md"
+    "./.claude/agents/agent-template-wizard.md",
+    "./.claude/agents/skill-creator-wizard.md"
+  ],
+  "skills": [],
+  "templates": [
+    "./templates/SUBAGENT_TEMPLATE.md",
+    "./templates/SKILL_TEMPLATE.md"
   ]
 }
