@@ -9,6 +9,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync, spawn } = require('child_process');
 const logger = require('../lib/logger');
+const { loadFsConfig } = require('../lib/fsUtils');
 const safetyPatterns = require('./config/safety-patterns');
 const { HEURISTIC_PATTERNS } = safetyPatterns;
 
@@ -27,6 +28,44 @@ class SafetyValidator {
       validationTime: 0
     };
     this._daggerAvailable = undefined;
+  }
+
+  /**
+   * Sanitize command string for safe shell execution
+   * Detects and prevents command injection attempts
+   * @param {string} command - The command to sanitize
+   * @returns {Object} Sanitized command and safety status
+   */
+  sanitizeCommand(command) {
+    // Check for suspicious patterns that could indicate injection attempts
+    const suspiciousPatterns = [
+      /`\$*`/,                    // Command substitution with backticks
+      /\$\([^)]*\)/,              // Command substitution with $()
+      /;\s*(rm|chmod|chown|curl|wget|nc|netcat)/i,  // Command chaining with dangerous commands
+      /\|\s*(bash|sh|zsh|python|node|perl)/i,       // Piping to interpreters
+      /&&\s*(rm|chmod|chown|curl|wget|nc|netcat)/i, // AND chaining with dangerous commands
+      /\|\|?\s*(rm|chmod|chown)/i,  // OR chaining with dangerous commands
+      /eval\s+/i,                  // eval usage
+      /exec\s+/i,                  // exec usage
+    ];
+
+    for (const pattern of suspiciousPatterns) {
+      if (pattern.test(command)) {
+        return {
+          sanitized: false,
+          error: `Command contains suspicious pattern: ${pattern.toString()}`
+        };
+      }
+    }
+
+    // Escape the command for safe shell execution
+    // Replace single quotes with '\'' (end quote, escaped quote, start quote)
+    const escaped = command.replace(/'/g, "'\\''");
+
+    return {
+      sanitized: true,
+      escaped: escaped
+    };
   }
 
   /**
@@ -226,11 +265,22 @@ class SafetyValidator {
         commandStr = String(command);
       }
 
+      // Sanitize command to prevent injection
+      const sanitization = this.sanitizeCommand(commandStr);
+      if (!sanitization.sanitized) {
+        return {
+          success: false,
+          error: `Command sanitization failed: ${sanitization.error}`,
+          containerValidated: false,
+          blocked: true
+        };
+      }
+
       const safeRunScript = path.join(this.projectRoot, 'scripts', 'safe-run.sh');
 
-      // Fixed: Use string format with shell: true for proper command execution
+      // Use proper shell escaping to prevent command injection
       const result = execSync(
-        `"${safeRunScript}" "${commandStr}" --test`,
+        `'${safeRunScript}' '${sanitization.escaped}' --test`,
         {
           encoding: 'utf8',
           timeout: 10000,
@@ -447,11 +497,12 @@ class SafetyValidator {
    */
   findCommandFiles(directory) {
     const files = [];
-    const maxDepth = 10; // Add depth limit
+    const config = loadFsConfig();
+    const maxDepth = config.maxDepth;
 
     const scan = (dir, depth = 0) => {
       if (depth > maxDepth) {
-        this.log.warn(`Maximum depth ${maxDepth} reached at ${dir}`);
+        logger.warn(`Maximum depth ${maxDepth} reached at ${dir}`);
         return;
       }
 

@@ -84,13 +84,27 @@ class CommandProcessor {
   }
 
   /**
+   * Extract a markdown section by heading name
+   * @param {string} content - File content
+   * @param {string} heading - Section heading name
+   * @returns {string} Section content or empty string
+   */
+  getSection(content, heading) {
+    const sectionRegex = new RegExp(
+      `##\\s+${heading}\\s*\\n([\\s\\S]+?)(?=\\n##|$)`,
+      'i'
+    );
+    const match = content.match(sectionRegex);
+    return match ? match[1].trim() : '';
+  }
+
+  /**
    * Extract description from content
    * @param {string} content - File content
    * @returns {string} Extracted description
    */
   extractDescription(content) {
-    const descMatch = content.match(/##\s+Description\s*\n([\s\S]+?)(?=\n##|$)/i);
-    return descMatch ? descMatch[1].trim() : '';
+    return this.getSection(content, 'Description');
   }
 
   /**
@@ -122,11 +136,11 @@ class CommandProcessor {
    * @returns {Array} Array of parameters
    */
   extractParameters(content) {
-    const paramsMatch = content.match(/##\s+Parameters\s*\n([\s\S]+?)(?=\n##|$)/i);
-    if (!paramsMatch) return [];
+    const section = this.getSection(content, 'Parameters');
+    if (!section) return [];
 
     const params = [];
-    const lines = paramsMatch[1].split('\n');
+    const lines = section.split('\n');
     for (const line of lines) {
       const paramMatch = line.match(/^\*\s*\**([^*]+)\*\*:\s*(.+)$/);
       if (paramMatch) {
@@ -146,11 +160,11 @@ class CommandProcessor {
    * @returns {Array} Array of examples
    */
   extractExamples(content) {
-    const examplesMatch = content.match(/##\s+Examples\s*\n([\s\S]+?)(?=\n##|$)/i);
-    if (!examplesMatch) return [];
+    const section = this.getSection(content, 'Examples');
+    if (!section) return [];
 
     const examples = [];
-    const codeBlocks = examplesMatch[1].match(/```[\s\S]*?```/g) || [];
+    const codeBlocks = section.match(/```[\s\S]*?```/g) || [];
 
     for (const block of codeBlocks) {
       examples.push({
