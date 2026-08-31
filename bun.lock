@@ -5,7 +5,7 @@
     "": {
       "name": "ccprompts",
       "dependencies": {
-        "@dagger.io/dagger": "^0.21.7",
+        "@dagger.io/dagger": "^0.21.9",
         "winston": "^3.19.0",
       },
       "devDependencies": {
@@ -98,7 +98,7 @@
 
     "@dabh/diagnostics": ["@dabh/diagnostics@2.0.8", "", { "dependencies": { "@so-ric/colorspace": "^1.1.6", "enabled": "2.0.x", "kuler": "^2.0.0" } }, "sha512-R4MSXTVnuMzGD7bzHdW2ZhhdPC/igELENcq5IjEverBvq5hn1SXCWcsi6eSsdWP0/Ur+SItRRjAktmdoX/8R/Q=="],
 
-    "@dagger.io/dagger": ["@dagger.io/dagger@0.21.7", "", { "dependencies": { "@grpc/grpc-js": "^1.14.3", "@lifeomic/axios-fetch": "^3.1.0", "@opentelemetry/api": "^1.9.1", "@opentelemetry/core": "^2.7.1", "@opentelemetry/exporter-jaeger": "^2.7.1", "@opentelemetry/exporter-trace-otlp-http": "^0.218.0", "@opentelemetry/sdk-metrics": "^2.7.1", "@opentelemetry/sdk-node": "^0.218.0", "@opentelemetry/semantic-conventions": "^1.41.1", "adm-zip": "^0.5.17", "env-paths": "^4.0.0", "execa": "^9.6.1", "graphql": "^16.14.0", "graphql-request": "^7.4.0", "graphql-tag": "^2.12.6", "node-color-log": "^13.0.3", "node-fetch": "^3.3.2", "reflect-metadata": "^0.2.2", "tar": "^7.5.15", "typescript": "^6.0.3" } }, "sha512-MJBFgDo4E6uBefyKd7GnTfRt/PPYSlFRkY6C3lbHVHXNihpyz4jGit8blpGNJSr8UYMFdU/F0MUNoCY5ghhiZg=="],
+    "@dagger.io/dagger": ["@dagger.io/dagger@0.21.9", "", { "dependencies": { "@grpc/grpc-js": "^1.14.3", "@lifeomic/axios-fetch": "^3.1.0", "@opentelemetry/api": "^1.9.1", "@opentelemetry/core": "^2.7.1", "@opentelemetry/exporter-jaeger": "^2.7.1", "@opentelemetry/exporter-trace-otlp-http": "^0.218.0", "@opentelemetry/sdk-metrics": "^2.7.1", "@opentelemetry/sdk-node": "^0.218.0", "@opentelemetry/semantic-conventions": "^1.41.1", "adm-zip": "^0.5.17", "env-paths": "^4.0.0", "execa": "^9.6.1", "graphql": "^16.14.0", "graphql-request": "^7.4.0", "graphql-tag": "^2.12.6", "node-color-log": "^13.0.3", "node-fetch": "^3.3.2", "reflect-metadata": "^0.2.2", "tar": "^7.5.15", "typescript": "^6.0.3" } }, "sha512-SYWyQwKNmHS+WoFKPHVgi8urEJwrASjgEW5JtM9yiu5bo4oVUAdqnKfvtT6HGURYDtVz2DsDz0k7Zzfdm+Th7A=="],
 
     "@emnapi/core": ["@emnapi/core@1.10.0", "", { "dependencies": { "@emnapi/wasi-threads": "1.2.1", "tslib": "^2.4.0" } }, "sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw=="],
 
